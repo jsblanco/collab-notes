@@ -1,21 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {enableScreens} from "react-native-screens"
+import AppLoading from 'expo-app-loading';
+import {Provider} from 'react-redux';
+import React, {useState} from 'react';
+import {RootNavigation} from "./src/navigation/RootNavigation";
+import {ActionSheetProvider} from '@expo/react-native-action-sheet';
+import {connectActionSheet} from '@expo/react-native-action-sheet';
+import {store} from "./src/store/store";
+import * as Font from "expo-font";
 
-export default function App() {
+enableScreens();
+const fetchFonts = () => Font.loadAsync({
+  'openSans': require('./src/assets/fonts/OpenSans-Regular.ttf'),
+  'openSansBold': require('./src/assets/fonts/OpenSans-Bold.ttf')
+})
+
+const App = () => {
+  const [fontsLoaded, setFontsLoaded] = useState(false)
+  if (!fontsLoaded) {
+    return <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => setFontsLoaded(true)}
+        onError={(e: object) => console.error(e)}
+    />
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+      <Provider store={store}>
+        <RootNavigation/>
+      </Provider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const ConnectedApp = connectActionSheet(App)
+
+export default function AppContainer() {
+  return (
+      <ActionSheetProvider>
+        <ConnectedApp/>
+      </ActionSheetProvider>
+  );
+}
