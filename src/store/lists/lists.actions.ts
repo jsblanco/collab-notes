@@ -1,6 +1,6 @@
 import * as constants from './lists.constants';
 
-export const actionName = {
+export const fetchLists = {
     request: (payload: any) => {
         return {
             type: constants.CONSTANT_NAME_REQUEST,

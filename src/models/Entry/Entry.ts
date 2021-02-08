@@ -5,10 +5,10 @@ export class Entry {
     isCompleted: boolean
 
 
-    constructor(id: string, title: string, description: string) {
+    constructor(id: string, title: string, description: string, isCompleted = false) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.isCompleted = false
+        this.isCompleted = isCompleted
     }
 }

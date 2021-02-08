@@ -1,4 +1,3 @@
-// @ts-ignore
 import {axiosInstance} from '../api/axios';
 
 export const createUserInDb = async ({email, password}: { email: string, password: string, }) => {
