@@ -3,7 +3,7 @@ import * as constants from "./lists.constants";
 import * as actions from "./lists.actions";
 import * as queries from "./lists.queries";
 
-function* listsEffect({payload}: { type: string, payload: any }) {
+function* fetchListsEffect({payload}: { type: string, payload: any }) {
     try {
         const lists = yield call(queries.fetchLists)
         yield put(actions.fetchLists.success(lists))
@@ -14,7 +14,7 @@ function* listsEffect({payload}: { type: string, payload: any }) {
 }
 
 function* listsSagas() {
-    yield takeLatest(constants.CONSTANT_NAME_REQUEST, listsEffect);
+    yield takeLatest(constants.FETCH_LISTS_REQUEST, fetchListsEffect);
 }
 
 export default listsSagas;

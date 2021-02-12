@@ -1,21 +1,22 @@
 import * as constants from './entries.constants';
+import {Entry} from "../../models/Entry/Entry";
 
-export const actionName = {
-    request: (payload: any) => {
+export const fetchListEntries = {
+    request: (listId: string) => {
         return {
-            type: constants.CONSTANT_NAME_REQUEST,
-            payload: payload
+            type: constants.FETCH_ENTRIES_REQUEST,
+            payload: listId
         }
     },
-    success: (payload: any) => {
+    success: (payload: Entry[]) => {
         return {
-            type: constants.CONSTANT_NAME_SUCCESS,
+            type: constants.FETCH_ENTRIES_SUCCESS,
             payload: payload
         }
     },
     failure: (e: any) => {
         return {
-            type: constants.CONSTANT_NAME_FAILURE,
+            type: constants.FETCH_ENTRIES_FAILURE,
             payload: e
         }
     }

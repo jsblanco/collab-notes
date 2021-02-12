@@ -1,18 +1,20 @@
-import {takeLatest, put} from "redux-saga/effects";
+import {takeLatest, put, call} from "redux-saga/effects";
 import * as constants from "./entries.constants";
 import * as actions from "./entries.actions";
+import * as queries from "./entries.queries";
 
-function* entriesEffect({payload}: { type: string, payload: any }) {
+function* fetchListEntriesEffect({payload}: { type: string, payload: string }) {
     try {
-        yield put(actions.actionName.success(payload));
+        const entries = yield call(queries.fetchEntries, payload)
+        yield put(actions.fetchListEntries.success(entries));
     } catch (e) {
         console.error(e);
-        yield put(actions.actionName.failure(e));
+        yield put(actions.fetchListEntries.failure(e));
     }
 }
 
 function* entriesSagas() {
-    yield takeLatest(constants.CONSTANT_NAME_REQUEST, entriesEffect);
+    yield takeLatest(constants.CONSTANT_NAME_REQUEST, fetchListEntriesEffect);
 }
 
 export default entriesSagas;
