@@ -1,16 +1,16 @@
 import * as constants from './lists.constants';
+import {List} from "../../models/List/List";
 
 export const fetchLists = {
-    request: (payload: any) => {
+    request: () => {
         return {
-            type: constants.FETCH_LISTS_REQUEST,
-            payload: payload
+            type: constants.FETCH_LISTS_REQUEST
         }
     },
-    success: (payload: any) => {
+    success: (lists: List[]) => {
         return {
             type: constants.FETCH_LISTS_SUCCESS,
-            payload: payload
+            payload: lists
         }
     },
     failure: (e: any) => {

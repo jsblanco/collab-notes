@@ -10,7 +10,7 @@ const Drawer = createDrawerNavigator();
 export function DrawerNavigation() {
     return (
         <Drawer.Navigator
-            initialRouteName="Shopping"
+            initialRouteName="Lists"
             drawerContentOptions={{
                 activeTintColor: constants.brightAccent,
                 itemStyle: {width: '100%',}
@@ -18,7 +18,7 @@ export function DrawerNavigation() {
             drawerContent={props => <CustomDrawerContent {...props}/>}
         >
             <Drawer.Screen
-                name="Shopping"
+                name="Lists"
                 component={ListStack}
                 options={{
                     drawerLabel: "Shopping",

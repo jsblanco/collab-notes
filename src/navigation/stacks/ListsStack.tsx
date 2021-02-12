@@ -1,7 +1,8 @@
 import React from 'react';
 import {CardStyleInterpolators, createStackNavigator} from "@react-navigation/stack";
 import AuthScreen from "../../screens/Auth/AuthScreen/AuthScreen";
-import StartupScreen from "../../screens/Auth/StartupScreen/StartupScreen";
+import ListsScreen from "../../screens/Lists/ListsScreen/ListsScreen";
+import ListEntriesScreen from "../../screens/Lists/ListEntriesScreen/ListEntriesScreen";
 import styles from './styles/stack.styles'
 
 const Stack = createStackNavigator();
@@ -10,7 +11,7 @@ export function ListStack() {
 
     return (
         <Stack.Navigator
-            initialRouteName="Startup"
+            initialRouteName="ListsScreen"
             // @ts-ignore
             screenOptions={{
                 ...styles,
@@ -18,8 +19,12 @@ export function ListStack() {
             }}
         >
             <Stack.Screen
-                name="StartUp"
-                component={StartupScreen}
+                name="ListsScreen"
+                component={ListsScreen}
+            />
+            <Stack.Screen
+                name="ListEntriesScreen"
+                component={ListEntriesScreen}
             />
             <Stack.Screen
                 name="Auth"
