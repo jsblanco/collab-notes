@@ -14,7 +14,7 @@ function* fetchListEntriesEffect({payload}: { type: string, payload: string }) {
 }
 
 function* entriesSagas() {
-    yield takeLatest(constants.CONSTANT_NAME_REQUEST, fetchListEntriesEffect);
+    yield takeLatest(constants.FETCH_ENTRIES_REQUEST, fetchListEntriesEffect);
 }
 
 export default entriesSagas;

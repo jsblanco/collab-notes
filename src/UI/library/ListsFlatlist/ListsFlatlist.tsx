@@ -44,7 +44,7 @@ const ListsFlatlist = ({listAction}: {listAction: (e?: any)=>any}) => {
         <Text style={{color: constants.text.muted}}>You have created no products</Text>
     </View>
 
-    const renderList = (list: any) => <ListItem list={list.item} listAction={listAction}/>
+    const renderList = (list: any) => <ListItem list={list.item} listAction={()=>listAction(list.item)}/>
 
     return (
         <FlatList

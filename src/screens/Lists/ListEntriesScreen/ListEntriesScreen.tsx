@@ -9,6 +9,8 @@ type Props = StackScreenProps<ListStack, 'ListEntriesScreen'>;
 
 const ListEntriesScreen = ({route, navigation}: Props) => {
 
+    console.log(route.params)
+
     return (
         <View style={styles.screen}>
             <EntriesFlatlist listId={route.params.listId}/>
