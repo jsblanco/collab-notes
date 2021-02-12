@@ -8,6 +8,7 @@ import {RootState} from "../../../store/store";
 import {constants} from "../../constants/constants";
 import styles from './EntriesFlatlist.styles';
 import EntryItem from "../EntryItem/EntryItem";
+import {SwipeListView} from 'react-native-swipe-list-view';
 
 const EntriesFlatlist = ({listId}: { listId: string }) => {
     const dispatch = useDispatch()
@@ -44,18 +45,27 @@ const EntriesFlatlist = ({listId}: { listId: string }) => {
         <Text style={{color: constants.text.muted}}>You have created no products</Text>
     </View>
 
-    const renderList = (entry: any) =>  <EntryItem entry={entry.item} action={(e)=>console.log(e)}/>
+    const renderList = (entry: any) => <EntryItem entry={entry.item} action={(e) => console.log(e)}/>
 
     return (
-        <FlatList
+        <SwipeListView
             data={entries}
+            style={styles.screen}
+            renderItem={renderList}
+            renderHiddenItem={(data, rowMap) => (
+                <View style={{justifyContent: "space-between", flexDirection: 'row', flex: 1, alignItems: 'center'}}>
+                    <Text>Left</Text>
+                    <Text>Right</Text>
+                </View>
+            )}
+            leftOpenValue={50}
+            rightOpenValue={-50}
             refreshing={isRefreshing}
             onRefresh={loadCategories}
-            renderItem={renderList}
-            removeClippedSubviews={false}
-            keyExtractor={item => item.id}
         />
     )
+
+
 }
 
 export default EntriesFlatlist;

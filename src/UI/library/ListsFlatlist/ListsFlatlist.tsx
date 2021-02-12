@@ -49,6 +49,7 @@ const ListsFlatlist = ({listAction}: {listAction: (e?: any)=>any}) => {
     return (
         <FlatList
             data={lists}
+            style={styles.screen}
             refreshing={isRefreshing}
             onRefresh={loadCategories}
             renderItem={renderList}

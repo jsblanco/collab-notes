@@ -5,8 +5,8 @@ const listAdapter = new ListAdapter()
 const entryAdapter = new EntryAdapter()
 
 export const DummyLists = [
-    listAdapter.adapt({id: '1', name: 'Lista de la compra', entries: ['1001', '1002','1003','1004', '1005', '1006']}),
-    listAdapter.adapt({id: '2', name: 'Tareas del hogar'})
+    listAdapter.adapt({id: '1', title: 'Lista de la compra', entries: ['1001', '1002','1003','1004', '1005', '1006']}),
+    listAdapter.adapt({id: '2', title: 'Tareas del hogar'})
 ]
 
 export const DummyEntries = [

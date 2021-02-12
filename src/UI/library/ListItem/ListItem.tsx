@@ -8,7 +8,7 @@ const ListItem = ({list, listAction}: {list: List, listAction: (e?: any)=>any}) 
 
     return (
         <Pressable style={styles.screen} onPress={listAction}>
-            <Text>ListItem works!</Text>
+            <Text>{list.title}</Text>
         </Pressable>
     )
 }
