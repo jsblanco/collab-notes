@@ -54,12 +54,14 @@ const EntriesFlatlist = ({listId}: { listId: string }) => {
             renderItem={renderList}
             renderHiddenItem={(data, rowMap) => (
                 <View style={{justifyContent: "space-between", flexDirection: 'row', flex: 1, alignItems: 'center'}}>
-                    <Text>Left</Text>
-                    <Text>Right</Text>
+                    <View style={styles.button}>
+                        <Text style={styles.buttonText}>Left</Text></View>
+                    <View style={styles.button}>
+                        <Text style={styles.buttonText}>Right</Text></View>
                 </View>
             )}
-            leftOpenValue={50}
-            rightOpenValue={-50}
+            leftOpenValue={75}
+            rightOpenValue={-75}
             refreshing={isRefreshing}
             onRefresh={loadCategories}
         />
