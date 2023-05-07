@@ -1,21 +1,19 @@
 import React from 'react';
-import {View} from 'react-native';
+import { View } from 'react-native';
 import styles from './ListEntriesScreen.styles';
-import Text from "../../../UI/library/basics/Text/Text";
-import EntriesFlatlist from "../../../UI/library/EntriesFlatlist/EntriesFlatlist";
-import {StackScreenProps} from "@react-navigation/stack";
+
+import { StackScreenProps } from '@react-navigation/stack';
+import EntriesFlatlist from '../../../components/EntriesFlatlist/EntriesFlatlist';
 
 type Props = StackScreenProps<ListStack, 'ListEntriesScreen'>;
 
-const ListEntriesScreen = ({route, navigation}: Props) => {
+const ListEntriesScreen = ({ route, navigation }: Props) => {
 
-    console.log(route.params)
-
-    return (
-        <View style={styles.screen}>
-            <EntriesFlatlist listId={route.params.listId}/>
-        </View>
-    )
-}
+	return (
+		<View style={styles.screen}>
+			<EntriesFlatlist listId={route.params.listId} />
+		</View>
+	);
+};
 
 export default ListEntriesScreen;

@@ -1,9 +1,10 @@
 import React from 'react';
 import {createDrawerNavigator} from "@react-navigation/drawer";
-import {constants} from "../UI/constants/constants";
 import {Ionicons} from "@expo/vector-icons";
-import CustomDrawerContent from "../UI/library/basics/CustomDrawerContent/CustomDrawerContent";
+
 import {ListStack} from "./stacks/ListsStack";
+import { colors } from '../ui/libUi';
+import CustomDrawerContent from '../components/CustomDrawerContent/CustomDrawerContent';
 
 const Drawer = createDrawerNavigator();
 
@@ -30,7 +31,7 @@ export function DrawerNavigation() {
 }
 
 const tabBarOptions = {
-    activeTintColor: constants.brightAccent,
+    activeTintColor: colors.accent,
     style: {
         height: 75,
         paddingTop: 10

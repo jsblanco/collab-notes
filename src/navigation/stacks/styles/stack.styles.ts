@@ -1,13 +1,13 @@
-import {constants} from '../../../UI/constants/constants';
+import { colors } from '../../../ui/libUi';
 
 const styles = {
     headerStyle: {
         elevation: 10,
-        backgroundColor:  constants.background,
+        backgroundColor:  colors.background,
     },
-    headerTintColor: constants.primary,
+    headerTintColor: colors.primary,
     headerTitleStyle: {
-        color: constants.primary,
+        color: colors.primary,
         fontWeight: '900',
         fontFamily: 'openSansBold',
         alignSelf: 'center',
