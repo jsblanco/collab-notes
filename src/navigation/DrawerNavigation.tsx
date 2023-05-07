@@ -11,19 +11,16 @@ export function DrawerNavigation() {
     return (
         <Drawer.Navigator
             initialRouteName="Lists"
-            drawerContentOptions={{
-                activeTintColor: constants.brightAccent,
-                itemStyle: {width: '100%',}
-            }}
+            screenOptions={{}}
             drawerContent={props => <CustomDrawerContent {...props}/>}
         >
             <Drawer.Screen
                 name="Lists"
                 component={ListStack}
                 options={{
-                    drawerLabel: "Shopping",
+                    drawerLabel: "Lists",
                     drawerIcon: ({color, size}) => (
-                        <Ionicons name="cart-outline" color={color} size={size}/>
+                        <Ionicons name="document-text-outline" color={color} size={size}/>
                     ),
                 }}
             />
