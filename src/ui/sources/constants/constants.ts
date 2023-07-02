@@ -1,3 +1,5 @@
+import { Dimensions } from 'react-native';
+
 export const colors = {
     primary: '#3D55CC',
     accent: '#FF7C73',
@@ -29,6 +31,8 @@ export const colors = {
     }
 };
 
+const { width } = Dimensions.get("window");
+export const aspectRatio = width / 374;
 
 export const shadow = {
     shadowColor: "#000",

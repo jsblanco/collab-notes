@@ -11,7 +11,7 @@ export default StyleSheet.create({
         maxWidth: 250,
     },
     filterName: {
-        fontFamily: 'poppinsRegular',
+        fontFamily: 'openSans',
         fontSize: 16
     },
     buttonContainer: {
@@ -30,7 +30,7 @@ export default StyleSheet.create({
     buttonText: {
         color: colors.white,
         paddingBottom: 0,
-        fontFamily: 'poppinsSemiBold',
+        fontFamily: 'openSans-Bold',
         fontWeight: 'bold',
         textAlign: 'center'
     },
@@ -53,7 +53,7 @@ export default StyleSheet.create({
     bottomButtonText: {
         color: 'white',
         paddingBottom: 0,
-        fontFamily: 'poppinsRegular',
+        fontFamily: 'openSans',
         fontWeight: 'bold',
         textAlign: 'center'
     },
