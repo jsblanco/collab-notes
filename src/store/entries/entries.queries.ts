@@ -14,10 +14,8 @@ export const fetchEntries = (listId: string): Entry[] => {
 };
 
 export const removeListEntry = (listId: string, entryId: string): Entry[] => {
-console.log(listId, entryId)
 
 	const entryIndex = DummyEntries.findIndex((entry) => entry.id === entryId);
-    console.log(entryIndex)
 	DummyEntries.splice(entryIndex, 1);
 	// if (!entryIndex) throw new Error('Entry not found');
 	return fetchEntries(listId);

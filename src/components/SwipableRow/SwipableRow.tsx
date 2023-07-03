@@ -1,19 +1,7 @@
-import React, { useCallback, ReactNode } from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
-import { PanGestureHandler } from 'react-native-gesture-handler';
+import React, { ReactNode } from 'react';
+import { Animated, Dimensions, Pressable, View } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import Animated, {
-	useAnimatedGestureHandler,
-	useAnimatedStyle,
-	useSharedValue,
-	withSpring,
-	withTiming,
-} from 'react-native-reanimated';
-import { snapPoint } from 'react-native-redash';
-import { aspectRatio, colors, Text } from '../../ui/libUi';
-// import { LinearGradient } from "expo-linear-gradient";
-// import { Box, RoundIconButton, Text, useTheme } from "../../components";
-// import { aspectRatio } from "../../components/Theme";
+import { aspectRatio } from '../../ui/libUi';
 
 interface SwipeableRowProps {
 	children: ReactNode;
@@ -24,33 +12,96 @@ interface SwipeableRowProps {
 const { width } = Dimensions.get('window');
 const finalDestination = width;
 const editWidth = 85 * aspectRatio;
-const snapPoints = [-editWidth, 0, finalDestination];
 
 const SwipeableRow = ({
 	children,
 	onDelete,
 	height: defaultHeight,
 }: SwipeableRowProps) => {
-	// TODO - export to independent component
-	const LeftActions = () => {
+
+	// TODO - export actions to independent component
+	const LeftActions = (
+		_progress: Animated.AnimatedInterpolation<string | number>,
+		dragX: Animated.AnimatedInterpolation<string | number>
+	) => {
+		const scale = dragX.interpolate({
+			inputRange: [0, 100],
+			outputRange: [0, 1],
+			extrapolate: 'clamp',
+		});
+
 		return (
 			<View
-				style={{ flex: 1, backgroundColor: 'blue', justifyContent: 'center' }}
+				style={{
+					flex: 1,
+					backgroundColor: 'green',
+					justifyContent: 'center',
+				}}
 			>
-				<Text
+				<Animated.Text
+					style={{
+						color: 'white',
+						paddingHorizontal: 10,
+						fontWeight: '600',
+						transform: [{ scale }],
+					}}
+				>
+					Completar
+				</Animated.Text>
+			</View>
+		);
+	};
+
+	const RightActions = () => (
+		<>
+			<View
+				style={{
+					backgroundColor: 'red',
+					paddingHorizontal: 15,
+					justifyContent: 'center',
+				}}
+			>
+				<Pressable onPress={onDelete}>
+					<Animated.Text
+						style={{
+							color: 'white',
+							paddingHorizontal: 10,
+							fontWeight: '600',
+						}}
+					>
+						Eliminar
+					</Animated.Text>
+				</Pressable>
+			</View>
+			<View
+				style={{
+					backgroundColor: 'blue',
+					paddingHorizontal: 15,
+					justifyContent: 'center',
+				}}
+			>
+				<Animated.Text
 					style={{
 						color: 'white',
 						paddingHorizontal: 10,
 						fontWeight: '600',
 					}}
 				>
-					Left Action
-				</Text>
+					Editar
+				</Animated.Text>
 			</View>
-		);
-	};
+		</>
+	);
 
-	return <Swipeable renderLeftActions={LeftActions}>{children}</Swipeable>;
+	return (
+		<Swipeable
+			// onSwipeableWillOpen={(d) => d === 'left' && setTimeout(onDelete, 1000)}
+			renderLeftActions={LeftActions}
+			renderRightActions={RightActions}
+		>
+			{children}
+		</Swipeable>
+	);
 };
 
 export default SwipeableRow;
