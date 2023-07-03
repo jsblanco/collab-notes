@@ -32,6 +32,21 @@ const entriesReducer = (
 				...state,
 				error: payload,
 			};
+		case constants.ADD_ENTRY_REQUEST:
+			return {
+				...state,
+				error: '',
+			};
+		case constants.ADD_ENTRY_SUCCESS:
+			return {
+				...state,
+				entries: payload.entries,
+			};
+		case constants.ADD_ENTRY_FAILURE:
+			return {
+				...state,
+				error: payload,
+			};
 		case constants.REMOVE_ENTRY_REQUEST:
 			return {
 				...state,

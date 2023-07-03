@@ -1,22 +1,29 @@
 // @ts-ignore
-import Swipeable from 'react-native-swipeable-row';
 import React from 'react';
-import { TouchableHighlight, View } from 'react-native';
+import { View } from 'react-native';
 import styles from './EntryItem.styles';
 import { Entry } from '../../models/Entry/Entry';
 import { Text as Text } from '../../ui/libUi';
+import { Swipeable } from 'react-native-gesture-handler';
+import EntriesRightActions from '../Entries/EntriesRightActions';
+import EntryLeftActions from '../Entries/EntryLeftActions';
 
-const EntryItem = ({
-	entry,
-	action,
-}: {
+interface Props {
 	entry: Entry;
-	action: (e: any) => any;
-}) => {
+	onDelete: () => void;
+}
+
+const EntryItem = ({ entry, onDelete }: Props) => {
 	return (
-		<View style={styles.screen}>
-			<Text>{entry.title}</Text>
-		</View>
+		<Swipeable
+			// onSwipeableWillOpen={(d) => d === 'left' && setTimeout(onDelete, 1000)}
+			renderLeftActions={(p, d) => <EntryLeftActions progress={p} dragX={d} />}
+			renderRightActions={() => <EntriesRightActions onDelete={onDelete} />}
+		>
+			<View style={styles.screen}>
+				<Text>{entry.title}</Text>
+			</View>
+		</Swipeable>
 	);
 };
 

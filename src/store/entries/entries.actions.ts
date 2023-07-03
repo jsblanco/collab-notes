@@ -1,5 +1,6 @@
 import * as constants from './entries.constants';
 import { Entry } from '../../models/Entry/Entry';
+import { List } from '../../models/List/List';
 
 export const fetchListEntries = {
 	request: (listId: string) => {
@@ -23,10 +24,10 @@ export const fetchListEntries = {
 };
 
 export const addListEntry = {
-	request: (listId: string, entryId: string) => {
+	request: (listId: string, entry: Entry) => {
 		return {
 			type: constants.ADD_ENTRY_REQUEST,
-			payload: listId,
+			payload: {listId, entry},
 		};
 	},
 	success: (payload: Entry[]) => {

@@ -8,10 +8,9 @@ import {
 } from '../../store/entries/entries.actions';
 import { RootState } from '../../store/store';
 import styles from './EntriesFlatlist.styles';
-import EntryItem from '../EntryItem/EntryItem';
 import { Text, colors } from '../../ui/libUi';
 import { Entry } from '../../models/Entry/Entry';
-import SwipeableRow from '../SwipableRow/SwipableRow';
+import EntryItem from '../EntryItem/EntryItem';
 
 const EntriesFlatlist = ({ listId }: { listId: string }) => {
 	const dispatch = useDispatch();
@@ -60,16 +59,12 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 			</View>
 		);
 
-	const deleteEntry = (entryId: string) =>
-		dispatch(removeListEntry.request(listId, entryId));
 
 	const renderList = (entry: { item: Entry }) => (
-		<SwipeableRow
+		<EntryItem
 			onDelete={() => dispatch(removeListEntry.request(listId, entry.item.id))}
-			height={100}
-		>
-			<EntryItem entry={entry.item} action={(e) => console.log(e)} />
-		</SwipeableRow>
+			entry={entry.item}
+		/>
 	);
 
 	return (

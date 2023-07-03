@@ -20,3 +20,23 @@ export const fetchLists = {
         }
     }
 }
+
+export const modifyList = {
+    request: () => {
+        return {
+            type: constants.MODIFY_LIST_REQUEST
+        }
+    },
+    success: (updatedList: List) => {
+        return {
+            type: constants.MODIFY_LIST_SUCCESS,
+            payload: updatedList
+        }
+    },
+    failure: (e: any) => {
+        return {
+            type: constants.MODIFY_LIST_FAILURE,
+            payload: e
+        }
+    }
+}
