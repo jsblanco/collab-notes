@@ -3,14 +3,15 @@ import {CardStyleInterpolators, createStackNavigator} from "@react-navigation/st
 import AuthScreen from "../../screens/Auth/AuthScreen/AuthScreen";
 import StartupScreen from "../../screens/Auth/StartupScreen/StartupScreen";
 import styles from './styles/stack.styles'
+import { AuthStackProps, AuthStackRoutes } from '../NavigationTypes';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<AuthStackProps>();
 
 export function AuthStack() {
 
     return (
         <Stack.Navigator
-            initialRouteName="Startup"
+            initialRouteName={AuthStackRoutes.Startup}
             // @ts-ignore
             screenOptions={{
                 ...styles,
@@ -18,14 +19,14 @@ export function AuthStack() {
             }}
         >
             <Stack.Screen
-                name="StartUp"
+                name={AuthStackRoutes.Startup}
                 component={StartupScreen}
             />
             <Stack.Screen
-                name="Auth"
+                name={AuthStackRoutes.AuthsHome}
                 component={AuthScreen}
                 options={{
-                    headerTitle: "Welcome to Sense",
+                    headerTitle: "Welcome!",
                     //     headerLeft: () => (
                     //     <HeaderButtons HeaderButtonComponent={HeaderButton}>
                     //     <Item title={'Menu'} iconName={'ios-menu'}

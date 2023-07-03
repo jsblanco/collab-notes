@@ -5,18 +5,19 @@ import { Ionicons } from '@expo/vector-icons';
 import { ListStack } from './stacks/ListsStack';
 import { colors } from '../ui/libUi';
 import CustomDrawerContent from '../components/CustomDrawerContent/CustomDrawerContent';
+import { DrawerStackProps, DrawerStackRoutes } from './NavigationTypes';
 
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator<DrawerStackProps>();
 
 export function DrawerNavigation() {
 	return (
 		<Drawer.Navigator
-			initialRouteName='Lists'
+			initialRouteName={DrawerStackRoutes.Lists}
 			screenOptions={{}}
 			drawerContent={(props) => <CustomDrawerContent {...props} />}
 		>
 			<Drawer.Screen
-				name='Lists'
+				name={DrawerStackRoutes.Lists}
 				component={ListStack}
 				options={{
 					drawerLabel: 'Lists',

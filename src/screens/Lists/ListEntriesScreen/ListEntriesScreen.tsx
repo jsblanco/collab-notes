@@ -4,10 +4,11 @@ import styles from './ListEntriesScreen.styles';
 
 import { StackScreenProps } from '@react-navigation/stack';
 import EntriesFlatlist from '../../../components/EntriesFlatlist/EntriesFlatlist';
+import { ListStackProps, ListStackRoutes } from '../../../navigation/NavigationTypes';
 
-type Props = StackScreenProps<ListStack, 'ListEntriesScreen'>;
+type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListEntries>;
 
-const ListEntriesScreen = ({ route, navigation }: Props) => {
+const ListEntriesScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	return (
 		<View style={styles.screen}>
