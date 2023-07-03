@@ -14,7 +14,10 @@ export const fetchEntries = (listId: string): Entry[] => {
 	return entries;
 };
 
-export interface addEntryToListReturn { list: List; entries: Entry[] }
+export interface addEntryToListReturn {
+	list: List;
+	entries: Entry[];
+}
 
 export const addEntryToList = (
 	listId: string,
@@ -29,9 +32,17 @@ export const addEntryToList = (
 	return { list, entries: fetchEntries(listId) };
 };
 
-export const removeListEntry = (listId: string, entryId: string): Entry[] => {
+export const removeListEntry = (listId: string, entryId: string): boolean => {
 	const entryIndex = DummyEntries.findIndex((entry) => entry.id === entryId);
 	DummyEntries.splice(entryIndex, 1);
 	// if (!entryIndex) throw new Error('Entry not found');
-	return fetchEntries(listId);
+	return true;
+};
+
+export const toggleEntryCompletion = (entryId: string): Entry => {
+	const entry = DummyEntries.find((entry) => entry.id === entryId);
+	if (!entry) throw new Error('Entry not found!');
+	entry.isCompleted = !entry.isCompleted;
+	console.log(DummyEntries);
+	return entry;
 };

@@ -7,17 +7,25 @@ import { Text as Text } from '../../ui/libUi';
 import { Swipeable } from 'react-native-gesture-handler';
 import EntriesRightActions from '../Entries/EntriesRightActions';
 import EntryLeftActions from '../Entries/EntryLeftActions';
+import { useDispatch } from 'react-redux';
+import {
+	removeListEntry,
+	toggleEntryCompletion,
+} from '../../store/entries/entries.actions';
 
 interface Props {
 	entry: Entry;
-	onDelete: () => void;
+	listId: string;
 }
 
-const EntryItem = ({ entry, onDelete }: Props) => {
+const EntryItem = ({ entry, listId }: Props) => {
+	const dispatch = useDispatch();
+	const onDelete = () => dispatch(removeListEntry.request(listId, entry.id));
+	const onToggle = () => dispatch(toggleEntryCompletion.request(entry.id));
 	return (
 		<Swipeable
-			// onSwipeableWillOpen={(d) => d === 'left' && setTimeout(onDelete, 1000)}
-			renderLeftActions={(p, d) => <EntryLeftActions progress={p} dragX={d} />}
+			onSwipeableWillOpen={(d) => d === 'left' && setTimeout(onToggle, 300)}
+			renderLeftActions={(p, d) => <EntryLeftActions isCompleted={entry.isCompleted} progress={p} dragX={d} />}
 			renderRightActions={() => <EntriesRightActions onDelete={onDelete} />}
 		>
 			<View style={styles.screen}>

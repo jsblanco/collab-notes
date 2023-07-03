@@ -51,15 +51,36 @@ export const removeListEntry = {
 			payload: { listId, entryId },
 		};
 	},
-	success: (payload: Entry[]) => {
+	success: (entryId: string) => {
 		return {
 			type: constants.REMOVE_ENTRY_SUCCESS,
-			payload: payload,
+			payload: entryId,
 		};
 	},
 	failure: (e: any) => {
 		return {
 			type: constants.REMOVE_ENTRY_FAILURE,
+			payload: e,
+		};
+	},
+};
+
+export const toggleEntryCompletion = {
+	request: (entryId: string) => {
+		return {
+			type: constants.TOGGLE_ENTRY_COMPLETION_REQUEST,
+			payload: entryId,
+		};
+	},
+	success: (entry: Entry) => {
+		return {
+			type: constants.TOGGLE_ENTRY_COMPLETION_SUCCESS,
+			payload: entry,
+		};
+	},
+	failure: (e: any) => {
+		return {
+			type: constants.TOGGLE_ENTRY_COMPLETION_FAILURE,
 			payload: e,
 		};
 	},

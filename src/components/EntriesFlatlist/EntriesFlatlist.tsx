@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import {
 	fetchListEntries,
-	removeListEntry,
 } from '../../store/entries/entries.actions';
 import { RootState } from '../../store/store';
 import styles from './EntriesFlatlist.styles';
@@ -54,23 +53,30 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 		return (
 			<View style={styles.screen}>
 				<Text style={{ color: colors.text.muted }}>
-					You have created no products
+					You have created no entries
 				</Text>
 			</View>
 		);
 
-
 	const renderList = (entry: { item: Entry }) => (
-		<EntryItem
-			onDelete={() => dispatch(removeListEntry.request(listId, entry.item.id))}
-			entry={entry.item}
-		/>
+		<EntryItem entry={entry.item} listId={listId} />
 	);
 
 	return (
 		<View style={styles.screen}>
 			<FlatList
-				data={entries}
+				data={entries.filter(entry => !entry.isCompleted)}
+				style={{
+					flex: 1,
+					width: '100%',
+				}}
+				renderItem={renderList}
+				refreshing={isRefreshing}
+				onRefresh={loadCategories}
+			/>
+			<View style={{width:'100%',height: 5, backgroundColor: 'blue'}}/>
+			<FlatList
+				data={entries.filter(entry => entry.isCompleted)}
 				style={{
 					flex: 1,
 					width: '100%',
