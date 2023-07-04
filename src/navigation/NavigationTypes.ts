@@ -20,16 +20,15 @@ export type AuthStackProps = {
 	[AuthStackRoutes.Startup]: {};
 };
 
-export type DrawerListEntry = `${DrawerStackRoutes.List}${string}`
+export type DrawerListEntry = ` ${string} `
 
 export enum DrawerStackRoutes {
 	Lists = '[Drawer] - Lists',
-	List = '[Drawer] - List ',
 	Logout = '[Drawer] - Logout',
 }
 
 export type DrawerStackProps = {
+	[T: DrawerListEntry]: {listId: string};
 	[DrawerStackRoutes.Lists]: {};
 	[DrawerStackRoutes.Logout]: {};
-	[T: DrawerListEntry]: {listId: string};
 };

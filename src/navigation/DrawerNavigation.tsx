@@ -45,21 +45,17 @@ export function DrawerNavigation() {
 			screenOptions={{}}
 			drawerContent={(props) => <CustomDrawerContent {...props} />}
 		>
-				{children}
-				<Drawer.Screen
-					name={DrawerStackRoutes.Logout}
-					component={AuthStack}
-					options={{
-						drawerLabel: 'TODO: Change to Create List',
-						drawerIcon: ({ color, size }) => (
-							<Ionicons
-								name='document-text-outline'
-								color={color}
-								size={size}
-							/>
-						),
-					}}
-				/>
+			<Drawer.Screen
+				name={DrawerStackRoutes.Logout}
+				component={AuthStack}
+				options={{
+					drawerLabel: 'TODO: Change to Create List',
+					drawerIcon: ({ color, size }) => (
+						<Ionicons name='document-text-outline' color={color} size={size} />
+					),
+				}}
+			/>
+			{children}
 		</Drawer.Navigator>
 	);
 
@@ -71,18 +67,16 @@ export function DrawerNavigation() {
 			<Drawer.Group>
 				{lists?.map((list: List) => (
 					<Drawer.Screen
-						name={(DrawerStackRoutes.List + list.id) as DrawerListEntry}
+						key={list.id}
+						name={ ` ${list.title} `}
 						component={ListStack}
 						initialParams={{ listId: list.id }}
 						options={{
 							drawerLabel: list.title,
 							drawerItemStyle: { paddingLeft: 15, paddingRight: -5 },
 							drawerIcon: ({ color, size }) => (
-								<Ionicons
-									name='document-text-outline'
-									color={color}
-									size={size}
-								/>
+								//@ts-ignore
+								<Ionicons name={list.icon} color={color} size={size} />
 							),
 						}}
 					/>

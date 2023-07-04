@@ -2,7 +2,7 @@ export class Entry {
     id: string
     title: string
     description: string
-    isCompleted: boolean
+    isCompleted?: boolean
 
 
     constructor(id: string, title: string, description: string, isCompleted = false) {

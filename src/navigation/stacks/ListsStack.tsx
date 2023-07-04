@@ -4,7 +4,6 @@ import {
 	StackNavigationOptions,
 	createStackNavigator,
 } from '@react-navigation/stack';
-import ListsScreen from '../../screens/Lists/ListsScreen/ListsScreen';
 import ListEntriesScreen from '../../screens/Lists/ListEntriesScreen/ListEntriesScreen';
 import styles from './styles/stack.styles';
 import { ListStackProps, ListStackRoutes } from '../NavigationTypes';

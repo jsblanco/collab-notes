@@ -2,16 +2,16 @@
 import React from 'react';
 import { View } from 'react-native';
 import styles from './EntryItem.styles';
-import { Entry } from '../../models/Entry/Entry';
-import { Text as Text } from '../../ui/libUi';
+import { Entry } from '../../../models/Entry/Entry';
+import { Text as Text } from '../../../ui/libUi';
 import { Swipeable } from 'react-native-gesture-handler';
-import EntriesRightActions from '../Entries/EntriesRightActions';
-import EntryLeftActions from '../Entries/EntryLeftActions';
+import EntriesRightActions from '../EntryActions/EntriesRightActions';
+import EntryLeftActions from '../EntryActions/EntryLeftActions';
 import { useDispatch } from 'react-redux';
 import {
 	removeListEntry,
 	toggleEntryCompletion,
-} from '../../store/entries/entries.actions';
+} from '../../../store/lists/lists.actions';
 
 interface Props {
 	entry: Entry;
@@ -21,11 +21,17 @@ interface Props {
 const EntryItem = ({ entry, listId }: Props) => {
 	const dispatch = useDispatch();
 	const onDelete = () => dispatch(removeListEntry.request(listId, entry.id));
-	const onToggle = () => dispatch(toggleEntryCompletion.request(entry.id));
+	const onToggle = () => dispatch(toggleEntryCompletion.request(listId, entry.id));
 	return (
 		<Swipeable
-			onSwipeableWillOpen={(d) => d === 'left' && setTimeout(onToggle, 300)}
-			renderLeftActions={(p, d) => <EntryLeftActions isCompleted={entry.isCompleted} progress={p} dragX={d} />}
+			onSwipeableWillOpen={(d) => d === 'left' && setTimeout(onToggle, 100)}
+			renderLeftActions={(p, d) => (
+				<EntryLeftActions
+					isCompleted={!!entry.isCompleted}
+					progress={p}
+					dragX={d}
+				/>
+			)}
 			renderRightActions={() => <EntriesRightActions onDelete={onDelete} />}
 		>
 			<View style={styles.screen}>
