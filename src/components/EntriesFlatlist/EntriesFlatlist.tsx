@@ -1,11 +1,15 @@
-import React, { } from 'react';
-import { FlatList, View } from 'react-native';
+import React, { useCallback } from 'react';
+import { FlatList, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import styles from './EntriesFlatlist.styles';
 import { Text, colors } from '../../ui/libUi';
 import { Entry } from '../../models/Entry/Entry';
 import EntryItem from '../Entries/EntryItem/EntryItem';
+import DraggableFlatList, {
+	RenderItemParams,
+	ScaleDecorator,
+} from 'react-native-draggable-flatlist';
 
 const EntriesFlatlist = ({ listId }: { listId: string }) => {
 	// const dispatch = useDispatch();
@@ -14,7 +18,11 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 	// const [isLoading, setIsLoading] = useState(false);
 	// const [isRefreshing, setIsRefreshing] = useState(false);
 
-	const entries: Entry[] =useSelector((state: RootState) => state.lists.lists.find(list=>list.id===listId)?.entries) ?? [];
+	const entries: Entry[] =
+		useSelector(
+			(state: RootState) =>
+				state.lists.lists.find((list) => list.id === listId)?.entries
+		) ?? [];
 	const error = useSelector((state: RootState) => state.lists.error);
 
 	// const loadEntries = useCallback(async () => {
@@ -58,17 +66,33 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 		<EntryItem entry={entry.item} listId={listId} />
 	);
 
+	const renderItem = ({ item, drag, isActive }: RenderItemParams<Entry>) => {
+		return (
+			<ScaleDecorator>
+				<TouchableOpacity
+					activeOpacity={1}
+					onLongPress={drag}
+					disabled={isActive}
+					style={[
+						styles.rowItem,
+						{ borderWidth: 3, borderColor: isActive ? 'red' : 'white' },
+					]}
+				>
+					<EntryItem entry={item} listId={listId} />
+				</TouchableOpacity>
+			</ScaleDecorator>
+		);
+	};
+
 	return (
 		<View style={styles.screen}>
-			<FlatList
+			<DraggableFlatList
+				containerStyle={{ flex: 1 }}
+				style={{ flex: 1 }}
 				data={entries.filter((entry) => !entry.isCompleted)}
-				style={{
-					flex: 1,
-					width: '100%',
-				}}
-				renderItem={renderList}
-				// refreshing={isRefreshing}
-				// onRefresh={loadEntries}
+				onDragEnd={({ data }) => console.log(data)}
+				keyExtractor={(item) => item.id}
+				renderItem={renderItem}
 			/>
 			<View style={{ width: '100%', height: 5, backgroundColor: 'blue' }} />
 			<FlatList

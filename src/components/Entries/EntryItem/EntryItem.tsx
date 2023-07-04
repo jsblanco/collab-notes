@@ -21,7 +21,8 @@ interface Props {
 const EntryItem = ({ entry, listId }: Props) => {
 	const dispatch = useDispatch();
 	const onDelete = () => dispatch(removeListEntry.request(listId, entry.id));
-	const onToggle = () => dispatch(toggleEntryCompletion.request(listId, entry.id));
+	const onToggle = () =>
+		dispatch(toggleEntryCompletion.request(listId, entry.id));
 	return (
 		<Swipeable
 			onSwipeableWillOpen={(d) => d === 'left' && setTimeout(onToggle, 100)}
