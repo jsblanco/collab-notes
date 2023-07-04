@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { FlatList, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
@@ -10,6 +10,7 @@ import DraggableFlatList, {
 	RenderItemParams,
 	ScaleDecorator,
 } from 'react-native-draggable-flatlist';
+import { AlternativeEntryItem } from '../Entries/AlternativeEntryItem';
 
 const EntriesFlatlist = ({ listId }: { listId: string }) => {
 	// const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 				state.lists.lists.find((list) => list.id === listId)?.entries
 		) ?? [];
 	const error = useSelector((state: RootState) => state.lists.error);
+	const itemRefs = useRef(new Map());
 
 	// const loadEntries = useCallback(async () => {
 	// 	setIsRefreshing(true);
@@ -66,23 +68,38 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 		<EntryItem entry={entry.item} listId={listId} />
 	);
 
-	const renderItem = ({ item, drag, isActive }: RenderItemParams<Entry>) => {
+	// const renderItem = ({ item, drag, isActive }: RenderItemParams<Entry>) => {
+	// 	return (
+	// 		<ScaleDecorator>
+	// 			<TouchableOpacity
+	// 				activeOpacity={1}
+	// 				onLongPress={drag}
+	// 				disabled={isActive}
+	// 				style={[
+	// 					styles.rowItem,
+	// 					{ borderWidth: 3, borderColor: isActive ? 'red' : 'white' },
+	// 				]}
+	// 			>
+	// 				<EntryItem entry={item} listId={listId} />
+	// 			</TouchableOpacity>
+	// 		</ScaleDecorator>
+	// 	);
+	// };
+
+	const renderItem = useCallback((params: RenderItemParams<Entry>) => {
+		const onPressDelete = () => {
+			console.log(params);
+		};
+
 		return (
-			<ScaleDecorator>
-				<TouchableOpacity
-					activeOpacity={1}
-					onLongPress={drag}
-					disabled={isActive}
-					style={[
-						styles.rowItem,
-						{ borderWidth: 3, borderColor: isActive ? 'red' : 'white' },
-					]}
-				>
-					<EntryItem entry={item} listId={listId} />
-				</TouchableOpacity>
-			</ScaleDecorator>
+			<AlternativeEntryItem
+				{...params}
+				entry={params.item}
+				itemRefs={itemRefs}
+				onPressDelete={onPressDelete}
+			/>
 		);
-	};
+	}, []);
 
 	return (
 		<View style={styles.screen}>
@@ -92,18 +109,18 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 				data={entries.filter((entry) => !entry.isCompleted)}
 				onDragEnd={({ data }) => console.log(data)}
 				keyExtractor={(item) => item.id}
+				activationDistance={20}
 				renderItem={renderItem}
 			/>
 			<View style={{ width: '100%', height: 5, backgroundColor: 'blue' }} />
-			<FlatList
+			<DraggableFlatList
+				containerStyle={{ flex: 1 }}
+				style={{ flex: 1 }}
 				data={entries.filter((entry) => entry.isCompleted)}
-				style={{
-					flex: 1,
-					width: '100%',
-				}}
-				renderItem={renderList}
-				// refreshing={isRefreshing}
-				// onRefresh={loadEntries}
+				onDragEnd={({ data }) => console.log(data)}
+				keyExtractor={(item) => item.id}
+				activationDistance={20}
+				renderItem={renderItem}
 			/>
 		</View>
 	);
