@@ -50,7 +50,7 @@ const ListsFlatlist = ({listAction}: {listAction: (e?: any)=>any}) => {
             data={lists}
             style={styles.screen}
             refreshing={isRefreshing}
-            onRefresh={loadCategories}
+            onRefresh={loadLists}
             renderItem={renderList}
             removeClippedSubviews={false}
             keyExtractor={item => item.id}

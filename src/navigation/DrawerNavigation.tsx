@@ -1,5 +1,9 @@
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {
+	DrawerContentScrollView,
+	DrawerItem,
+	createDrawerNavigator,
+} from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 import { ListStack } from './stacks/ListsStack';
 import { colors } from '../ui/libUi';
@@ -41,17 +45,21 @@ export function DrawerNavigation() {
 			screenOptions={{}}
 			drawerContent={(props) => <CustomDrawerContent {...props} />}
 		>
-			{children}
-			<Drawer.Screen
-				name={DrawerStackRoutes.Logout}
-				component={AuthStack}
-				options={{
-					drawerLabel: 'TODO: Change to Create List',
-					drawerIcon: ({ color, size }) => (
-						<Ionicons name='document-text-outline' color={color} size={size} />
-					),
-				}}
-			/>
+				{children}
+				<Drawer.Screen
+					name={DrawerStackRoutes.Logout}
+					component={AuthStack}
+					options={{
+						drawerLabel: 'TODO: Change to Create List',
+						drawerIcon: ({ color, size }) => (
+							<Ionicons
+								name='document-text-outline'
+								color={color}
+								size={size}
+							/>
+						),
+					}}
+				/>
 		</Drawer.Navigator>
 	);
 

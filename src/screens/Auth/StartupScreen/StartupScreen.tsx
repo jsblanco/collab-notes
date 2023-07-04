@@ -10,7 +10,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 
 type Props = StackScreenProps<AuthStackProps, AuthStackRoutes.Startup>;
 
-const StartupScreen = (props: Props) => {
+const StartupScreen = () => {
 	return (
 		<View style={styles.screen}>
 			<Text>StartupScreen works!</Text>
