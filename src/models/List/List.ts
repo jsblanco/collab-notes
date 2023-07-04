@@ -4,7 +4,8 @@ export interface List {
     id: string
     icon: string
     title: string
-    entries: Entry[]
+    pendingEntries: Entry[]
+    completedEntries: Entry[]
 }
 
 export interface DbList {

@@ -5,7 +5,7 @@ import {
 	CallEffect,
 	PutEffect,
 } from 'redux-saga/effects';
-import * as constants from './lists.constants';
+import * as c from './lists.constants';
 import * as actions from './lists.actions';
 import * as queries from './lists.queries';
 import { ReduxAction } from '../store';
@@ -104,15 +104,37 @@ function* toggleEntryCompletionEffect({
 	}
 }
 
+function* changeEntryListIndexEffect({
+	payload,
+}: ReduxAction<{ entry: Entry; listId: string; index: number }>): Generator<
+	CallEffect<List> | PutEffect<any> | PutEffect<ReduxAction<List>>,
+	void,
+	List
+> {
+	try {
+		const list = yield call(
+			queries.changeEntryOrder,
+			payload.listId,
+			payload.entry,
+			payload.index
+		);
+		yield put(actions.toggleEntryCompletion.success(list));
+	} catch (e) {
+		console.error(e);
+		yield put(actions.toggleEntryCompletion.failure(e));
+	}
+}
+
 function* listsSagas() {
-	yield takeLatest(constants.FETCH_LISTS_REQUEST, fetchListsEffect);
-	yield takeLatest(constants.FETCH_LIST_REQUEST, fetchListEffect);
-	yield takeLatest(constants.ADD_ENTRY_REQUEST, addListEntryEffect);
-	yield takeLatest(constants.REMOVE_ENTRY_REQUEST, removeListEntryEffect);
+	yield takeLatest(c.FETCH_LISTS_REQUEST, fetchListsEffect);
+	yield takeLatest(c.FETCH_LIST_REQUEST, fetchListEffect);
+	yield takeLatest(c.ADD_ENTRY_REQUEST, addListEntryEffect);
+	yield takeLatest(c.REMOVE_ENTRY_REQUEST, removeListEntryEffect);
 	yield takeLatest(
-		constants.TOGGLE_ENTRY_COMPLETION_REQUEST,
+		c.TOGGLE_ENTRY_COMPLETION_REQUEST,
 		toggleEntryCompletionEffect
 	);
+	yield takeLatest(c.CHANGE_ENTRY_ORDER_REQUEST, changeEntryListIndexEffect);
 }
 
 export default listsSagas;

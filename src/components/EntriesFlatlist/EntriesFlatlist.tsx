@@ -1,31 +1,40 @@
-import React, { useCallback, useRef } from 'react';
-import { FlatList, TouchableOpacity, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import React, { useCallback } from 'react';
+import { View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import styles from './EntriesFlatlist.styles';
-import { Text, colors } from '../../ui/libUi';
+import { H2, Text } from '../../ui/libUi';
 import { Entry } from '../../models/Entry/Entry';
-import EntryItem from '../Entries/EntryItem/EntryItem';
 import DraggableFlatList, {
+	DragEndParams,
 	RenderItemParams,
-	ScaleDecorator,
 } from 'react-native-draggable-flatlist';
 import { AlternativeEntryItem } from '../Entries/AlternativeEntryItem';
+import { changeEntryListIndex } from '../../store/lists/lists.actions';
 
 const EntriesFlatlist = ({ listId }: { listId: string }) => {
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
 	// const navigation = useNavigation();
 
 	// const [isLoading, setIsLoading] = useState(false);
 	// const [isRefreshing, setIsRefreshing] = useState(false);
 
-	const entries: Entry[] =
-		useSelector(
-			(state: RootState) =>
-				state.lists.lists.find((list) => list.id === listId)?.entries
-		) ?? [];
+	// const completedEntries: Entry[] = useSelector((state: RootState) =>
+	// 	state.lists.lists.find((list) => list.id === listId)?.completedEntries ?? []
+	// );
+	// const pendingEntries: Entry[] = useSelector((state: RootState) =>
+	// 	state.lists.lists.find((list) => list.id === listId)?.pendingEntries ?? []
+	// );
+
+	const { completedEntries, pendingEntries } = useSelector(
+		(state: RootState) =>
+			state.lists.lists.find((list) => list.id === listId) ?? {
+				completedEntries: [],
+				pendingEntries: [],
+			}
+	);
+
 	const error = useSelector((state: RootState) => state.lists.error);
-	const itemRefs = useRef(new Map());
 
 	// const loadEntries = useCallback(async () => {
 	// 	setIsRefreshing(true);
@@ -49,6 +58,7 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 				<Text style={{ color: 'tomato' }}>{error}</Text>
 			</View>
 		);
+
 	// if (isLoading)
 	// 	return (
 	// 		<View style={styles.screen}>
@@ -64,60 +74,40 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 	// 		</View>
 	// 	);
 
-	const renderList = (entry: { item: Entry }) => (
-		<EntryItem entry={entry.item} listId={listId} />
-	);
-
-	// const renderItem = ({ item, drag, isActive }: RenderItemParams<Entry>) => {
-	// 	return (
-	// 		<ScaleDecorator>
-	// 			<TouchableOpacity
-	// 				activeOpacity={1}
-	// 				onLongPress={drag}
-	// 				disabled={isActive}
-	// 				style={[
-	// 					styles.rowItem,
-	// 					{ borderWidth: 3, borderColor: isActive ? 'red' : 'white' },
-	// 				]}
-	// 			>
-	// 				<EntryItem entry={item} listId={listId} />
-	// 			</TouchableOpacity>
-	// 		</ScaleDecorator>
-	// 	);
-	// };
-
 	const renderItem = useCallback((params: RenderItemParams<Entry>) => {
 		const onPressDelete = () => {
 			console.log(params);
 		};
 
 		return (
-			<AlternativeEntryItem
-				{...params}
-				entry={params.item}
-				itemRefs={itemRefs}
-				onPressDelete={onPressDelete}
-			/>
+			<AlternativeEntryItem {...params} listId={listId} entry={params.item} />
 		);
 	}, []);
 
+	const changeTaskOrder = ({ data, from, to }: DragEndParams<Entry>) => {
+
+		dispatch(changeEntryListIndex.request(listId, data[to], to));
+	};
+
 	return (
 		<View style={styles.screen}>
+			<H2 center>Pending tasks</H2>
 			<DraggableFlatList
 				containerStyle={{ flex: 1 }}
 				style={{ flex: 1 }}
-				data={entries.filter((entry) => !entry.isCompleted)}
-				onDragEnd={({ data }) => console.log(data)}
+				data={pendingEntries ?? []}
+				onDragEnd={changeTaskOrder}
 				keyExtractor={(item) => item.id}
-				activationDistance={20}
+				activationDistance={10}
 				renderItem={renderItem}
 			/>
 			<View style={{ width: '100%', height: 5, backgroundColor: 'blue' }} />
+			<H2 center>Completed tasks</H2>
 			<DraggableFlatList
 				containerStyle={{ flex: 1 }}
 				style={{ flex: 1 }}
-				data={entries.filter((entry) => entry.isCompleted)}
-				onDragEnd={({ data }) => console.log(data)}
+				data={completedEntries ?? []}
+				onDragEnd={changeTaskOrder}
 				keyExtractor={(item) => item.id}
 				activationDistance={20}
 				renderItem={renderItem}

@@ -38,6 +38,7 @@ const listsReducer = (
 		case constants.ADD_ENTRY_SUCCESS:
 		case constants.REMOVE_ENTRY_SUCCESS:
 		case constants.TOGGLE_ENTRY_COMPLETION_SUCCESS:
+		case constants.CHANGE_ENTRY_ORDER_SUCCESS:
 			listIndex = state.lists.findIndex((list) => list.id === payload.id);
 			if (listIndex === -1) return { ...state };
 			updatedLists = [...state.lists];
@@ -47,6 +48,7 @@ const listsReducer = (
 				...state,
 				lists: updatedLists,
 			};
+		case constants.CHANGE_ENTRY_ORDER_REQUEST:
 		case constants.TOGGLE_ENTRY_COMPLETION_REQUEST:
 		case constants.ADD_ENTRY_REQUEST:
 		case constants.REMOVE_ENTRY_REQUEST:
@@ -57,6 +59,7 @@ const listsReducer = (
 				...state,
 				error: '',
 			};
+		case constants.CHANGE_ENTRY_ORDER_FAILURE:
 		case constants.TOGGLE_ENTRY_COMPLETION_FAILURE:
 		case constants.ADD_ENTRY_FAILURE:
 		case constants.FETCH_ENTRIES_FAILURE:

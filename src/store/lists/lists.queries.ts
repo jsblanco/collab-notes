@@ -20,7 +20,7 @@ export const fetchList = (listId: string): List => {
 	return populateListEntries(list);
 };
 
-const populateListEntries = (list: DbList) => {
+const populateListEntries = (list: DbList): List => {
 	const entries: Entry[] = [];
 
 	list.entries.map((id) => {
@@ -31,7 +31,8 @@ const populateListEntries = (list: DbList) => {
 
 	return {
 		...list,
-		entries,
+		completedEntries: entries.filter((entry) => entry.isCompleted),
+		pendingEntries: entries.filter((entry) => !entry.isCompleted),
 	};
 };
 
@@ -39,17 +40,21 @@ export const addEntryToList = (listId: string, entry: Entry): List => {
 	const list = fetchList(listId);
 	const dbEntry = { ...entry, id: new Date().getTime().toString() };
 	DummyEntries.push(dbEntry);
-	list.entries.push(dbEntry);
+	list.pendingEntries.push(dbEntry);
 
 	return list;
 };
 
 export const removeListEntry = (listId: string, entryId: string): List => {
 	const list = fetchList(listId);
-	let entryIndex = list.entries.findIndex((entry) => entry.id === entryId);
+	const entries = [...list.completedEntries, ...list.pendingEntries];
+	let entryIndex = entries.findIndex((entry) => entry.id === entryId);
 	if (entryIndex === -1)
 		throw new Error('Task does not belong to selected list');
-	list.entries.splice(entryIndex, 1);
+
+	entries.splice(entryIndex, 1);
+	list.completedEntries = entries.filter((entry) => entry.isCompleted);
+	list.pendingEntries = entries.filter((entry) => !entry.isCompleted);
 
 	entryIndex = DummyEntries.findIndex((entry) => entry.id === entryId);
 	DummyEntries.splice(entryIndex, 1);
@@ -63,14 +68,46 @@ export const toggleEntryCompletion = (
 	entryId: string
 ): List => {
 	const list = fetchList(listId);
-	let entryIndex = list.entries.findIndex((entry) => entry.id === entryId);
+
+	const entries = [...list.completedEntries, ...list.pendingEntries];
+	let entryIndex = entries.findIndex((entry) => entry.id === entryId);
 	if (entryIndex === -1)
 		throw new Error('Task does not belong to selected list');
-	list.entries[entryIndex].isCompleted = !list.entries[entryIndex].isCompleted;
-	const updatedEntry = list.entries[entryIndex];
+	entries[entryIndex].isCompleted = !entries[entryIndex].isCompleted;
+
+	const updatedEntry = entries[entryIndex];
+	entries.splice(entryIndex, 1);
+	list.pendingEntries = entries.filter((entry) => !entry.isCompleted);
+	list.completedEntries = entries.filter((entry) => entry.isCompleted);
+	(updatedEntry.isCompleted ? list.completedEntries : list.pendingEntries).push(
+		updatedEntry
+	);
 
 	entryIndex = DummyEntries.findIndex((entry) => entry.id === entryId);
 	DummyEntries[entryIndex] = updatedEntry;
+	console.log(list);
+	return list;
+};
+
+export const changeEntryOrder = (
+	listId: string,
+	entry: Entry,
+	index: number
+): List => {
+	const list = fetchList(listId);
+	const entryList: Entry[] = entry.isCompleted
+		? list.completedEntries
+		: list.pendingEntries;
+
+	const oldIndex = entryList.findIndex(
+		(listEntry) => listEntry.id === entry.id
+	);
+
+	if (oldIndex === -1) throw new Error('Entry not found in this list');
+
+	entryList.splice(oldIndex, 1);
+	const pushedEntries = entryList.splice(index);
+	entryList.push(entry, ...pushedEntries);
 
 	return list;
 };

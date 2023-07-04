@@ -10,18 +10,22 @@ import { ListStackProps, ListStackRoutes } from '../NavigationTypes';
 
 const Stack = createStackNavigator<ListStackProps>();
 
-
-export function ListStack({route}) {
+export function ListStack({ route }: any) {
 	return (
 		<Stack.Navigator
 			initialRouteName={ListStackRoutes.ListEntries}
 			screenOptions={{
-				...styles as StackNavigationOptions,
+				...(styles as StackNavigationOptions),
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+				headerShown: false,
 			}}
 		>
 			{/* <Stack.Screen name={ListStackRoutes.ListsHome} component={ListsScreen} /> */}
-			<Stack.Screen name={ListStackRoutes.ListEntries} initialParams={{listId: route.params.listId}} component={ListEntriesScreen} />
-		</Stack.Navigator> 
-	); 
+			<Stack.Screen
+				name={ListStackRoutes.ListEntries}
+				initialParams={{ listId: route.params.listId }}
+				component={ListEntriesScreen}
+			/>
+		</Stack.Navigator>
+	);
 }

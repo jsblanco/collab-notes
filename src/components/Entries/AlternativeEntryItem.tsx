@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import SwipeableItem, {
@@ -7,44 +7,40 @@ import SwipeableItem, {
 } from 'react-native-swipeable-item';
 import { ScaleDecorator } from 'react-native-draggable-flatlist';
 import { Entry } from '../../models/Entry/Entry';
+import { useDispatch } from 'react-redux';
+import { toggleEntryCompletion } from '../../store/lists/lists.actions';
 
 export function AlternativeEntryItem({
 	entry,
-	itemRefs,
+	listId,
 	drag,
-	onPressDelete,
 }: {
 	entry: Entry;
+	listId: string;
 	drag: () => void;
-	onPressDelete: () => void;
-	itemRefs: React.MutableRefObject<Map<any, any>>;
 }) {
+	const dispatch = useDispatch();
 
 	return (
 		<ScaleDecorator>
 			<SwipeableItem
 				key={entry.id}
 				item={entry}
-				// ref={(ref) => {
-				// 	if (ref && !itemRefs.current.get(entry.id)) {
-				// 		itemRefs.current.set(entry.id, ref);
-				// 	}
-				// }}
-				// onChange={({ openDirection }) => {
-				// 	if (openDirection !== OpenDirection.NONE) {
-				// 		// Close all other open items
-				// 		[...itemRefs.current.entries()].forEach(([key, ref]) => {
-				// 			if (key !== entry.id && ref) ref.close();
-				// 		});
-				// 	}
-				// }}
+				onChange={({ openDirection }) => {
+					if (openDirection === 'right')
+						dispatch(toggleEntryCompletion.request(listId, entry.id));
+				}}
 				overSwipe={30}
-				renderUnderlayLeft={() => (
-					<UnderlayLeft drag={drag} onPressDelete={onPressDelete} />
-				)}
-				renderUnderlayRight={() => <UnderlayRight />}
-				snapPointsLeft={[100]}
-                snapPointsRight={[100]}
+				renderUnderlayLeft={() => <UnderlayLeft />}
+				renderUnderlayRight={() =>
+					entry.isCompleted ? (
+						<UnderlayCompletedTask />
+					) : (
+						<UnderlayPendingTask />
+					)
+				}
+				snapPointsLeft={[90, 180]}
+				snapPointsRight={[400]}
 			>
 				<TouchableOpacity
 					activeOpacity={1}
@@ -61,14 +57,8 @@ export function AlternativeEntryItem({
 	);
 }
 
-const UnderlayLeft = ({
-	drag,
-	onPressDelete,
-}: {
-	drag: () => void;
-	onPressDelete: () => void;
-}) => {
-	const { item, percentOpen } = useSwipeableItemParams<Entry>();
+const UnderlayLeft = () => {
+	const { percentOpen } = useSwipeableItemParams<Entry>();
 	const animStyle = useAnimatedStyle(
 		() => ({
 			opacity: percentOpen.value,
@@ -77,23 +67,62 @@ const UnderlayLeft = ({
 	);
 
 	return (
-		<Animated.View
-			style={[styles.row, styles.underlayLeft, animStyle]} // Fade in on open
-		>
-			<TouchableOpacity onPress={onPressDelete}>
-				<Text style={styles.text}>{`[delete]`}</Text>
+		<Animated.View style={styles.buttonRow}>
+			<TouchableOpacity style={[styles.underlay, styles.redBg,  animStyle]}>
+				<Text style={styles.text}>{`Delete`}</Text>
+			</TouchableOpacity>
+			<TouchableOpacity style={[styles.underlay, styles.tealBg, animStyle]}>
+				<Text style={styles.text}>{`Edit`}</Text>
 			</TouchableOpacity>
 		</Animated.View>
 	);
 };
 
-function UnderlayRight() {
-	const { close } = useSwipeableItemParams<Entry>();
+function UnderlayCompletedTask() {
+	const { close, percentOpen } = useSwipeableItemParams<Entry>();
+	const animStyle = useAnimatedStyle(
+		() => ({
+			opacity: percentOpen.value,
+		}),
+		[percentOpen]
+	);
 	return (
-		<Animated.View style={[styles.row, styles.underlayRight]}>
+		<Animated.View
+			style={[
+				styles.row,
+				styles.tealBg,
+				animStyle,
+				{ backgroundColor: 'yellow' },
+			]}
+		>
 			{/* @ts-ignore */}
 			<TouchableOpacity onPressOut={close}>
-				<Text style={styles.text}>CLOSE</Text>
+				<Text style={styles.text}>Reactivate</Text>
+			</TouchableOpacity>
+		</Animated.View>
+	);
+}
+
+function UnderlayPendingTask() {
+	const { percentOpen } = useSwipeableItemParams<Entry>();
+	const animStyle = useAnimatedStyle(
+		() => ({
+			opacity: percentOpen.value,
+		}),
+		[percentOpen]
+	);
+	return (
+		<Animated.View
+			style={[
+				styles.row,
+				styles.tealBg,
+				animStyle,
+				{ backgroundColor: 'green' },
+			]}
+		>
+			{/* @ts-ignore */}
+			<TouchableOpacity>
+				<Text style={[styles.text, { color: 'white' }]}>Complete</Text>
 			</TouchableOpacity>
 		</Animated.View>
 	);
@@ -110,19 +139,30 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		padding: 15,
 	},
+	buttonRow: {
+		width: '100%',
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'flex-end',
+	},
+	button: {
+    },
 	text: {
-		fontWeight: 'bold',
+        fontWeight: 'bold',
 		color: 'black',
 		fontSize: 14,
 	},
-	underlayRight: {
-		flex: 1,
-		backgroundColor: 'teal',
-		justifyContent: 'flex-start',
+	underlay: {
+        flex: 1,
+        height: '100%',
+        maxWidth: 90,
+        alignItems: 'center',
+        justifyContent: 'center',
 	},
-	underlayLeft: {
-		flex: 1,
+	tealBg: {
+		backgroundColor: 'teal',
+	},
+	redBg: {
 		backgroundColor: 'tomato',
-		justifyContent: 'flex-end',
 	},
 });
