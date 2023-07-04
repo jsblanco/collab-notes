@@ -9,7 +9,7 @@ import { ListStackProps, ListStackRoutes } from '../../../navigation/NavigationT
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListEntries>;
 
 const ListEntriesScreen = ({ route, navigation }: Props): JSX.Element => {
-
+console.log(route.params)
 	return (
 		<View style={styles.screen}>
 			<EntriesFlatlist listId={route.params.listId} />

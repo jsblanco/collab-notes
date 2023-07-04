@@ -12,17 +12,17 @@ import { ListStackProps, ListStackRoutes } from '../NavigationTypes';
 const Stack = createStackNavigator<ListStackProps>();
 
 
-export function ListStack() {
+export function ListStack({route}) {
 	return (
 		<Stack.Navigator
-			initialRouteName={ListStackRoutes.ListsHome}
+			initialRouteName={ListStackRoutes.ListEntries}
 			screenOptions={{
 				...styles as StackNavigationOptions,
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
 			}}
 		>
-			<Stack.Screen name={ListStackRoutes.ListsHome} component={ListsScreen} />
-			<Stack.Screen name={ListStackRoutes.ListEntries} component={ListEntriesScreen} />
-		</Stack.Navigator>
-	);
+			{/* <Stack.Screen name={ListStackRoutes.ListsHome} component={ListsScreen} /> */}
+			<Stack.Screen name={ListStackRoutes.ListEntries} initialParams={{listId: route.params.listId}} component={ListEntriesScreen} />
+		</Stack.Navigator> 
+	); 
 }

@@ -21,21 +21,21 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 	const entries = useSelector((state: RootState) => state.entries.entries);
 	const error = useSelector((state: RootState) => state.entries.error);
 
-	const loadCategories = useCallback(async () => {
+	const loadEntries = useCallback(async () => {
 		setIsRefreshing(true);
 		await dispatch(fetchListEntries.request(listId));
 		setIsRefreshing(false);
 	}, [dispatch]);
 
 	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', loadCategories);
+		const unsubscribe = navigation.addListener('focus', loadEntries);
 		return unsubscribe();
-	}, [loadCategories]);
+	}, [loadEntries]);
 
 	useEffect(() => {
 		setIsLoading(true);
-		loadCategories().then(() => setIsLoading(false));
-	}, [dispatch, loadCategories]);
+		loadEntries().then(() => setIsLoading(false));
+	}, [dispatch, loadEntries, listId]);
 
 	if (error)
 		return (
@@ -72,7 +72,7 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 				}}
 				renderItem={renderList}
 				refreshing={isRefreshing}
-				onRefresh={loadCategories}
+				onRefresh={loadEntries}
 			/>
 			<View style={{width:'100%',height: 5, backgroundColor: 'blue'}}/>
 			<FlatList
@@ -83,7 +83,7 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 				}}
 				renderItem={renderList}
 				refreshing={isRefreshing}
-				onRefresh={loadCategories}
+				onRefresh={loadEntries}
 			/>
 		</View>
 	);

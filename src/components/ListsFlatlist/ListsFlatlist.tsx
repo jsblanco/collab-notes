@@ -16,21 +16,21 @@ const ListsFlatlist = ({listAction}: {listAction: (e?: any)=>any}) => {
     const lists = useSelector((state: RootState) => state.lists.lists)
     const error = useSelector((state: RootState) => state.lists.error)
 
-    const loadCategories = useCallback(async () => {
+    const loadLists = useCallback(async () => {
         setIsRefreshing(true)
         await dispatch(fetchLists.request())
         setIsRefreshing(false)
     }, [dispatch])
 
     useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', loadCategories)
+        const unsubscribe = navigation.addListener('focus', loadLists)
         return unsubscribe();
-    }, [loadCategories])
+    }, [loadLists])
 
     useEffect(() => {
         setIsLoading(true)
-        loadCategories().then(() => setIsLoading(false))
-    }, [dispatch, loadCategories])
+        loadLists().then(() => setIsLoading(false))
+    }, [dispatch, loadLists])
 
 
     if (error) return <View style={styles.screen}>

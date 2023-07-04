@@ -15,7 +15,7 @@ export function RootNavigation() {
         <NavigationContainer>
             {isAuth && <DrawerNavigation/>}
             {!isAuth && didTryAutoLogin && <AuthStack/>}
-            {!isAuth && !didTryAutoLogin && <StartupScreen/>}
+            {!isAuth && !didTryAutoLogin && <StartupScreen />}
         </NavigationContainer>
     )
 }
