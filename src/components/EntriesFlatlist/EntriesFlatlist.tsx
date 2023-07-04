@@ -86,7 +86,7 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 
 	const changeTaskOrder = ({ data, from, to }: DragEndParams<Entry>) => {
 
-		dispatch(changeEntryListIndex.request(listId, data[to], to));
+		dispatch(changeEntryListIndex.request(listId, data.map(entry=>entry.id)));
 	};
 
 	return (
@@ -101,7 +101,6 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 				activationDistance={10}
 				renderItem={renderItem}
 			/>
-			<View style={{ width: '100%', height: 5, backgroundColor: 'blue' }} />
 			<H2 center>Completed tasks</H2>
 			<DraggableFlatList
 				containerStyle={{ flex: 1 }}

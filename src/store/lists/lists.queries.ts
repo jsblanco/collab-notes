@@ -91,23 +91,22 @@ export const toggleEntryCompletion = (
 
 export const changeEntryOrder = (
 	listId: string,
-	entry: Entry,
-	index: number
+	entryOrder: string[]
 ): List => {
 	const list = fetchList(listId);
-	const entryList: Entry[] = entry.isCompleted
-		? list.completedEntries
-		: list.pendingEntries;
 
-	const oldIndex = entryList.findIndex(
-		(listEntry) => listEntry.id === entry.id
-	);
+	const isCompleted = DummyEntries.find((entry) => entry.id === entryOrder[0]);
+	const newEntries = [];
 
-	if (oldIndex === -1) throw new Error('Entry not found in this list');
+	for (let i = 0; i < entryOrder.length; i++) {
+		newEntries[i] = DummyEntries.find((entry) => entry.id === entryOrder[i]);
+	}
 
-	entryList.splice(oldIndex, 1);
-	const pushedEntries = entryList.splice(index);
-	entryList.push(entry, ...pushedEntries);
+
+isCompleted
+	? list.completedEntries = newEntries as Entry[]
+	: list.pendingEntries = newEntries as Entry[];
+
 
 	return list;
 };

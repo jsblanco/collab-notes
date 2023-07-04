@@ -106,7 +106,7 @@ function* toggleEntryCompletionEffect({
 
 function* changeEntryListIndexEffect({
 	payload,
-}: ReduxAction<{ entry: Entry; listId: string; index: number }>): Generator<
+}: ReduxAction<{ entryOrder: string[]; listId: string }>): Generator<
 	CallEffect<List> | PutEffect<any> | PutEffect<ReduxAction<List>>,
 	void,
 	List
@@ -115,8 +115,7 @@ function* changeEntryListIndexEffect({
 		const list = yield call(
 			queries.changeEntryOrder,
 			payload.listId,
-			payload.entry,
-			payload.index
+			payload.entryOrder
 		);
 		yield put(actions.toggleEntryCompletion.success(list));
 	} catch (e) {

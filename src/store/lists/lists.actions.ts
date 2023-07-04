@@ -127,10 +127,10 @@ export const toggleEntryCompletion = {
 };
 
 export const changeEntryListIndex = {
-	request: (listId: string, entry: Entry, index: number) => {
+	request: (listId: string, entryOrder:  string[]) => {
 		return {
 			type: constants.CHANGE_ENTRY_ORDER_REQUEST,
-			payload: {listId, entry, index},
+			payload: {listId, entryOrder},
 		};
 	},
 	success: (list: List) => {
