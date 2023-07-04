@@ -1,11 +1,14 @@
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
-
 import { ListStack } from './stacks/ListsStack';
 import { colors } from '../ui/libUi';
 import CustomDrawerContent from '../components/CustomDrawerContent/CustomDrawerContent';
-import { DrawerListEntry, DrawerStackProps, DrawerStackRoutes } from './NavigationTypes';
+import {
+	DrawerListEntry,
+	DrawerStackProps,
+	DrawerStackRoutes,
+} from './NavigationTypes';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { List } from '../models/List/List';
@@ -32,7 +35,6 @@ export function DrawerNavigation() {
 		loadLists().then(() => setIsLoading(false));
 	}, [dispatch, loadLists]);
 
-
 	const DrawerContent = ({ children }: { children?: ReactNode }) => (
 		<Drawer.Navigator
 			initialRouteName={DrawerStackRoutes.Lists}
@@ -56,26 +58,28 @@ export function DrawerNavigation() {
 	if (!!error || isLoading || (!isLoading && lists.length === 0))
 		return <DrawerContent />;
 
-
 	return (
 		<DrawerContent>
-			{lists?.map((list: List) => (
-				<Drawer.Screen
-					name={DrawerStackRoutes.List+list.id as DrawerListEntry}
-					component={ListStack}
-					initialParams={{ listId: list.id }}
-					options={{
-						drawerLabel: list.title,
-						drawerIcon: ({ color, size }) => (
-							<Ionicons
-								name='document-text-outline'
-								color={color}
-								size={size}
-							/>
-						),
-					}}
-				/>
-			))}
+			<Drawer.Group>
+				{lists?.map((list: List) => (
+					<Drawer.Screen
+						name={(DrawerStackRoutes.List + list.id) as DrawerListEntry}
+						component={ListStack}
+						initialParams={{ listId: list.id }}
+						options={{
+							drawerLabel: list.title,
+							drawerItemStyle: { paddingLeft: 15, paddingRight: -5 },
+							drawerIcon: ({ color, size }) => (
+								<Ionicons
+									name='document-text-outline'
+									color={color}
+									size={size}
+								/>
+							),
+						}}
+					/>
+				))}
+			</Drawer.Group>
 		</DrawerContent>
 	);
 }
