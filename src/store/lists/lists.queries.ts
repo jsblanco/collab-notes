@@ -85,7 +85,7 @@ export const toggleEntryCompletion = (
 
 	entryIndex = DummyEntries.findIndex((entry) => entry.id === entryId);
 	DummyEntries[entryIndex] = updatedEntry;
-	console.log(list);
+
 	return list;
 };
 
@@ -95,7 +95,7 @@ export const changeEntryOrder = (
 ): List => {
 	const list = fetchList(listId);
 
-	const isCompleted = DummyEntries.find((entry) => entry.id === entryOrder[0]);
+	const isCompleted = !!DummyEntries.find((entry) => entry.id === entryOrder[0])?.isCompleted;
 	const newEntries = [];
 
 	for (let i = 0; i < entryOrder.length; i++) {
