@@ -14,6 +14,7 @@ import { changeEntryListIndex } from '../../store/lists/lists.actions';
 
 const EntriesFlatlist = ({ listId }: { listId: string }) => {
 	const dispatch = useDispatch();
+
 	// const navigation = useNavigation();
 
 	// const [isLoading, setIsLoading] = useState(false);
@@ -74,19 +75,21 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 	// 		</View>
 	// 	);
 
-	const renderItem = useCallback((params: RenderItemParams<Entry>) => {
-		const onPressDelete = () => {
-			console.log(params);
-		};
-
-		return (
-			<AlternativeEntryItem {...params} listId={listId} entry={params.item} />
-		);
-	}, []);
+	const renderItem = useCallback((params: RenderItemParams<Entry>) => (
+			<AlternativeEntryItem
+				{...params}
+				listId={listId}
+				entry={params.item}
+			/>
+		), []);
 
 	const changeTaskOrder = ({ data, from, to }: DragEndParams<Entry>) => {
-
-		dispatch(changeEntryListIndex.request(listId, data.map(entry=>entry.id)));
+		dispatch(
+			changeEntryListIndex.request(
+				listId,
+				data.map((entry) => entry.id)
+			)
+		);
 	};
 
 	return (
@@ -108,7 +111,7 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 				data={completedEntries ?? []}
 				onDragEnd={changeTaskOrder}
 				keyExtractor={(item) => item.id}
-				activationDistance={20}
+				activationDistance={10}
 				renderItem={renderItem}
 			/>
 		</View>

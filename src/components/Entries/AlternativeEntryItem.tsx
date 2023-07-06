@@ -1,14 +1,14 @@
-import React, { useState, useEffect, ReactNode } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import SwipeableItem, {
 	useSwipeableItemParams,
-	OpenDirection,
 } from 'react-native-swipeable-item';
 import { ScaleDecorator } from 'react-native-draggable-flatlist';
 import { Entry } from '../../models/Entry/Entry';
 import { useDispatch } from 'react-redux';
 import { toggleEntryCompletion } from '../../store/lists/lists.actions';
+import { H2, H3, Text } from '../../ui/libUi';
 
 export function AlternativeEntryItem({
 	entry,
@@ -20,6 +20,7 @@ export function AlternativeEntryItem({
 	drag: () => void;
 }) {
 	const dispatch = useDispatch();
+	const [detailedView, setDetailedView] = useState<Boolean>(false);
 
 	return (
 		<ScaleDecorator>
@@ -45,12 +46,17 @@ export function AlternativeEntryItem({
 				<TouchableOpacity
 					activeOpacity={1}
 					onLongPress={drag}
+					onPress={setDetailedView.bind(null, !detailedView)}
 					style={[
 						styles.row,
-						{ backgroundColor: 'white', height: 65, paddingVertical: 10 },
+						{ backgroundColor: 'white', flexDirection: 'column', paddingVertical: 20 },
 					]}
 				>
-					<Text style={styles.text}>{`${entry.title}`}</Text>
+					<H3 style={styles.text}>{`${entry.title}`}</H3>
+
+					{!!detailedView && (
+						<Text style={styles.text}>{`${entry.description}`}</Text>
+					)}
 				</TouchableOpacity>
 			</SwipeableItem>
 		</ScaleDecorator>
@@ -68,7 +74,7 @@ const UnderlayLeft = () => {
 
 	return (
 		<Animated.View style={styles.buttonRow}>
-			<TouchableOpacity style={[styles.underlay, styles.redBg,  animStyle]}>
+			<TouchableOpacity style={[styles.underlay, styles.redBg, animStyle]}>
 				<Text style={styles.text}>{`Delete`}</Text>
 			</TouchableOpacity>
 			<TouchableOpacity style={[styles.underlay, styles.tealBg, animStyle]}>
@@ -145,19 +151,17 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
 	},
-	button: {
-    },
 	text: {
-        fontWeight: 'bold',
+		fontWeight: 'bold',
 		color: 'black',
 		fontSize: 14,
 	},
 	underlay: {
-        flex: 1,
-        height: '100%',
-        maxWidth: 90,
-        alignItems: 'center',
-        justifyContent: 'center',
+		flex: 1,
+		height: '100%',
+		maxWidth: 90,
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	tealBg: {
 		backgroundColor: 'teal',
