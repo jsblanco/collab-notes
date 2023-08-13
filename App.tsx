@@ -7,12 +7,13 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 import { store } from './src/store/store';
 import * as Font from 'expo-font';
+import { fonts } from './src/ui/libUi';
 
 enableScreens();
 const fetchFonts = () =>
 	Font.loadAsync({
-		openSans: require('./src/assets/fonts/OpenSans-Regular.ttf'),
-		'openSans-Bold': require('./src/assets/fonts/OpenSans-Bold.ttf'),
+		[fonts.regular]: require('./src/assets/fonts/OpenSans-Regular.ttf'),
+		[fonts.regularBold]: require('./src/assets/fonts/OpenSans-Bold.ttf'),
 	});
 
 const App = () => {

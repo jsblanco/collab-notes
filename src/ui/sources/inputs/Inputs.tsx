@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, VoidFunctionComponent, useState } from 'react';
 import {
 	Platform,
 	View,
@@ -25,6 +25,7 @@ type SwitchPairing = {
 };
 type ButtonPropsType = {
 	children: ReactNode;
+	disabled?: boolean;
 	position?: ViewStyle;
 	textStyle?: TextStyle;
 	buttonStyle?: ViewStyle;
@@ -106,11 +107,18 @@ export const Button = ({
 	buttonStyle,
 	textStyle,
 	children,
+	disabled,
 }: ButtonPropsType) => {
 	return (
 		<View style={{ ...styles.buttonContainer, ...position }}>
-			<ButtonType activeOpacity={0.6} onPress={onPress}>
-				<View style={{ ...styles.buttonView, ...buttonStyle }}>
+			<ButtonType activeOpacity={0.6} onPress={onPress} disabled={!!disabled}>
+				<View
+					style={[
+						styles.buttonView,
+						buttonStyle,
+						!!disabled && styles.disabledButton,
+					]}
+				>
 					<Text style={{ ...styles.buttonText, ...textStyle }}>{children}</Text>
 				</View>
 			</ButtonType>
@@ -118,7 +126,7 @@ export const Button = ({
 	);
 };
 
-export const BottomRightButton = ({
+export const FloatingButton = ({
 	position,
 	onPress,
 	buttonStyle,
@@ -126,13 +134,20 @@ export const BottomRightButton = ({
 	children,
 }: ButtonPropsType) => {
 	return (
-		<View style={{ ...styles.bottomButtonContainer, ...position }}>
-			<ButtonType activeOpacity={0.6} onPress={onPress}>
-				<View style={{ ...styles.bottomButtonView, ...buttonStyle }}>
-					<Text style={{ ...styles.bottomButtonText, ...textStyle }}>
-						{children}
-					</Text>
-				</View>
+		<View
+			style={{
+				...styles.bottomButtonContainer,
+				...(position ?? styles.bottomButtonContainerDefaultPosition),
+			}}
+		>
+			<ButtonType
+				activeOpacity={0.6}
+				onPress={onPress}
+				style={{ ...styles.bottomButtonView, ...buttonStyle }}
+			>
+				<Text style={{ ...styles.bottomButtonText, ...textStyle }}>
+					{children}
+				</Text>
 			</ButtonType>
 		</View>
 	);
@@ -203,7 +218,13 @@ export const RoundButton = ({
 	);
 };
 
-export const Input = (props: any) => (
+interface InputProps {
+	style?: StyleSheet;
+	placeholder: string;
+	onSubmitEditing: (e: string) => void;
+}
+
+export const Input = (props: InputProps) => (
 	<TextInput
 		{...props}
 		disableFullscreenUI={true}

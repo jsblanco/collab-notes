@@ -1,4 +1,4 @@
-import { colors } from '../../../ui/libUi';
+import { colors, fonts } from '../../../ui/libUi';
 
 const styles = {
 	headerStyle: {
@@ -9,11 +9,11 @@ const styles = {
 	headerTitleStyle: {
 		color: colors.primary,
 		fontWeight: '900',
-		fontFamily: 'openSans-Bold',
+		fontFamily: fonts.regularBold,
 		alignSelf: 'center',
 	},
 	headerBackTitleStyle: {
-		fontFamily: 'openSans',
+		fontFamily: fonts.regular,
 	},
 };
 

@@ -1,5 +1,10 @@
 import { Dimensions } from 'react-native';
 
+export const fonts = {
+    regular: 'openSans',
+    regularBold: 'openSans-Bold',
+}
+
 export const colors = {
     primary: '#3D55CC',
     accent: '#FF7C73',
@@ -26,7 +31,7 @@ export const colors = {
         1: '#303133',
         2: '#727377',
         3: '#A5A6AA',
-        4: '#C8C9CC',
+        4: '#D8D9DC',
         5: '#ECECEE',
     }
 };

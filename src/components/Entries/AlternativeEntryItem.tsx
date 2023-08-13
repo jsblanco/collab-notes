@@ -8,7 +8,12 @@ import { ScaleDecorator } from 'react-native-draggable-flatlist';
 import { Entry } from '../../models/Entry/Entry';
 import { useDispatch } from 'react-redux';
 import { toggleEntryCompletion } from '../../store/lists/lists.actions';
-import { H2, H3, Text } from '../../ui/libUi';
+import { H3, Text } from '../../ui/libUi';
+import { useNavigation } from '@react-navigation/native';
+import {
+	ListStackRoutes,
+	getDrawerListLink,
+} from '../../navigation/NavigationTypes';
 
 export function AlternativeEntryItem({
 	entry,
@@ -32,7 +37,9 @@ export function AlternativeEntryItem({
 						dispatch(toggleEntryCompletion.request(listId, entry.id));
 				}}
 				overSwipe={30}
-				renderUnderlayLeft={() => <UnderlayLeft />}
+				renderUnderlayLeft={() => (
+					<UnderlayLeft listId={listId} entry={entry} />
+				)}
 				renderUnderlayRight={() =>
 					entry.isCompleted ? (
 						<UnderlayCompletedTask />
@@ -49,7 +56,11 @@ export function AlternativeEntryItem({
 					onPress={setDetailedView.bind(null, !detailedView)}
 					style={[
 						styles.row,
-						{ backgroundColor: 'white', flexDirection: 'column', paddingVertical: 20 },
+						{
+							backgroundColor: 'white',
+							flexDirection: 'column',
+							paddingVertical: 20,
+						},
 					]}
 				>
 					<H3 style={styles.text}>{`${entry.title}`}</H3>
@@ -63,8 +74,9 @@ export function AlternativeEntryItem({
 	);
 }
 
-const UnderlayLeft = () => {
+const UnderlayLeft = ({ listId, entry }: { listId: string; entry: Entry }) => {
 	const { percentOpen } = useSwipeableItemParams<Entry>();
+	const navigation = useNavigation();
 	const animStyle = useAnimatedStyle(
 		() => ({
 			opacity: percentOpen.value,
@@ -72,12 +84,22 @@ const UnderlayLeft = () => {
 		[percentOpen]
 	);
 
+	const onEdit = () =>
+	//@ts-ignore
+		navigation.navigate(getDrawerListLink(listId), {
+			screen: ListStackRoutes.EntryForm,
+			params: { listId: listId, entry: entry },
+		});
+
 	return (
 		<Animated.View style={styles.buttonRow}>
 			<TouchableOpacity style={[styles.underlay, styles.redBg, animStyle]}>
 				<Text style={styles.text}>{`Delete`}</Text>
 			</TouchableOpacity>
-			<TouchableOpacity style={[styles.underlay, styles.tealBg, animStyle]}>
+			<TouchableOpacity
+				style={[styles.underlay, styles.tealBg, animStyle]}
+				onPress={onEdit}
+			>
 				<Text style={styles.text}>{`Edit`}</Text>
 			</TouchableOpacity>
 		</Animated.View>
@@ -128,7 +150,7 @@ function UnderlayPendingTask() {
 		>
 			{/* @ts-ignore */}
 			<TouchableOpacity>
-				<Text style={[styles.text, { color: 'white' }]}>Complete</Text>
+				<Text style={{ ...styles.text, color: 'white' }}>Complete</Text>
 			</TouchableOpacity>
 		</Animated.View>
 	);

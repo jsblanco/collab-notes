@@ -5,13 +5,14 @@ import {
 	createDrawerNavigator,
 } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
-import { ListStack } from './stacks/ListsStack';
-import { colors } from '../ui/libUi';
+import { ListStack } from './stacks/ListStack';
+import { colors, fonts } from '../ui/libUi';
 import CustomDrawerContent from '../components/CustomDrawerContent/CustomDrawerContent';
 import {
 	DrawerListEntry,
 	DrawerStackProps,
 	DrawerStackRoutes,
+	getDrawerListLink,
 } from './NavigationTypes';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
@@ -42,7 +43,9 @@ export function DrawerNavigation() {
 	const DrawerContent = ({ children }: { children?: ReactNode }) => (
 		<Drawer.Navigator
 			initialRouteName={DrawerStackRoutes.Lists}
-			screenOptions={{}}
+			screenOptions={{
+				// headerShown: false,
+			}}
 			drawerContent={(props) => <CustomDrawerContent {...props} />}
 		>
 			<Drawer.Screen
@@ -68,10 +71,11 @@ export function DrawerNavigation() {
 				{lists?.map((list: List) => (
 					<Drawer.Screen
 						key={list.id}
-						name={ ` ${list.title} `}
 						component={ListStack}
+						name={getDrawerListLink(list.id)}
 						initialParams={{ listId: list.id }}
 						options={{
+							title: list.title,
 							drawerLabel: list.title,
 							drawerItemStyle: { paddingLeft: 15, paddingRight: -5 },
 							drawerIcon: ({ color, size }) => (
@@ -93,7 +97,7 @@ const tabBarOptions = {
 		paddingTop: 10,
 	},
 	labelStyle: {
-		fontFamily: 'openSans-Bold',
+		fontFamily: fonts.regularBold,
 		fontSize: 14,
 		paddingBottom: 10,
 	},

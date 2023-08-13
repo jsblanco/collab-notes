@@ -1,35 +1,35 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../constants/constants';
+import { colors, fonts } from '../constants/constants';
 
 export default StyleSheet.create({
 	H1: {
-		fontFamily: 'openSans-Bold',
+		fontFamily: fonts.regularBold,
 		marginBottom: 32,
 		lineHeight: 32,
 		fontSize: 28,
 		width: '100%',
 	},
 	H2: {
-		fontFamily: 'openSans-Bold',
+		fontFamily: fonts.regularBold,
 		lineHeight: 30,
 		fontSize: 22,
 	},
 	H3: {
-		fontFamily: 'openSans-Bold',
+		fontFamily: fonts.regularBold,
 		lineHeight: 24,
 		fontSize: 16,
 	},
 	P: {
-		fontFamily: 'openSans',
+		fontFamily: fonts.regular,
 		color: colors.text.regular,
 		lineHeight: 20,
 		fontSize: 14,
 	},
 	B: {
-		fontFamily: 'openSans-Bold',
+		fontFamily: fonts.regularBold,
 	},
 	label: {
-		fontFamily: 'openSans',
+		fontFamily: fonts.regular,
 		marginTop: 10,
 	},
 	Error: {
@@ -42,12 +42,12 @@ export default StyleSheet.create({
 		paddingHorizontal: 8,
 		color: colors.danger,
 		backgroundColor: '#DD363608',
-		fontFamily: 'openSans-Bold',
+		fontFamily: fonts.regularBold,
 	},
 	Placeholder: {
 		fontSize: 20,
 		lineHeight: 28,
 		color: colors.grey['3'],
-		fontFamily: 'openSans-Bold',
+		fontFamily: fonts.regularBold,
 	},
 });

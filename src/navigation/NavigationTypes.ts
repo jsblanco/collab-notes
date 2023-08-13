@@ -1,12 +1,19 @@
+import { Entry } from '../models/Entry/Entry';
+
 export enum ListStackRoutes {
-	ListsHome = 'ListsHome',
+	ListHome = 'ListsHome',
 	ListEntries = 'ListEntries',
+	EntryForm = 'EntryForm',
 }
 
 export type ListStackProps = {
-	[ListStackRoutes.ListsHome]: undefined;
+	[ListStackRoutes.ListHome]: undefined;
 	[ListStackRoutes.ListEntries]: {
 		listId: string;
+	};
+	[ListStackRoutes.EntryForm]: {
+		listId: string;
+		entry?: Entry;
 	};
 };
 
@@ -20,7 +27,10 @@ export type AuthStackProps = {
 	[AuthStackRoutes.Startup]: {};
 };
 
-export type DrawerListEntry = ` ${string} `
+export type DrawerListEntry = `[List] ${string}`;
+
+export const getDrawerListLink = (listId: string): DrawerListEntry =>
+	`[List] ${listId}`;
 
 export enum DrawerStackRoutes {
 	Lists = '[Drawer] - Lists',
@@ -28,7 +38,7 @@ export enum DrawerStackRoutes {
 }
 
 export type DrawerStackProps = {
-	[T: DrawerListEntry]: {listId: string};
+	[T: DrawerListEntry]: { listId: string };
 	[DrawerStackRoutes.Lists]: {};
 	[DrawerStackRoutes.Logout]: {};
 };

@@ -1,5 +1,5 @@
 import {StyleSheet} from "react-native";
-import {colors} from "../constants/constants";
+import {colors, fonts} from "../constants/constants";
 
 export default StyleSheet.create({
     filterPairing: {
@@ -11,7 +11,7 @@ export default StyleSheet.create({
         maxWidth: 250,
     },
     filterName: {
-        fontFamily: 'openSans',
+        fontFamily: fonts.regular,
         fontSize: 16
     },
     buttonContainer: {
@@ -30,7 +30,7 @@ export default StyleSheet.create({
     buttonText: {
         color: colors.white,
         paddingBottom: 0,
-        fontFamily: 'openSans-Bold',
+        fontFamily: fonts.regularBold,
         fontWeight: 'bold',
         textAlign: 'center'
     },
@@ -40,6 +40,8 @@ export default StyleSheet.create({
         backgroundColor: colors.background,
         position: 'absolute',
         zIndex: 99,
+    },
+    bottomButtonContainerDefaultPosition: {
         bottom: 20,
         right: 10,
     },
@@ -53,9 +55,12 @@ export default StyleSheet.create({
     bottomButtonText: {
         color: 'white',
         paddingBottom: 0,
-        fontFamily: 'openSans',
+        fontFamily: fonts.regular,
         fontWeight: 'bold',
         textAlign: 'center'
+    },
+    disabledButton: {
+        backgroundColor: colors.grey[4],
     },
     roundButtonContainer: {
         overflow: "hidden",
