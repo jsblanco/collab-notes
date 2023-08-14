@@ -117,10 +117,10 @@ function* changeEntryListIndexEffect({
 			payload.listId,
 			payload.entryOrder
 		);
-		yield put(actions.toggleEntryCompletion.success(list));
+		yield put(actions.changeEntryListIndex.success(list));
 	} catch (e) {
 		console.error(e);
-		yield put(actions.toggleEntryCompletion.failure(e));
+		yield put(actions.changeEntryListIndex.failure(e));
 	}
 }
 

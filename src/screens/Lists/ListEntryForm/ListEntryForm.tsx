@@ -68,13 +68,13 @@ const ListEntryForm = ({ route, navigation }: Props): JSX.Element => {
 
 	return (
 		<Container style={styles.screen}>
-			<FloatingButton
+			{/* <FloatingButton
 				onPress={navigation.goBack}
 				position={{top: 20, left: 20 }}
 				// buttonStyle={{ position: 'absolute',       zIndex: 99, bottom: 400, left: 20 }}
 				>
 				Go back
-			</FloatingButton>
+			</FloatingButton> */}
 				<H1>{entry ? `Edit task "${entry.title}"` : 'Create new task'}</H1>
 			<Container style={{ flex: 1 }}>
 				<FormControl

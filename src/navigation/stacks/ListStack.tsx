@@ -14,7 +14,6 @@ import { Button } from 'react-native';
 const Stack = createStackNavigator<ListStackProps>();
 
 export function ListStack({ route }: any) {
-
 	const navigation = useNavigation();
 
 	return (
@@ -22,7 +21,7 @@ export function ListStack({ route }: any) {
 			initialRouteName={ListStackRoutes.ListEntries}
 			screenOptions={{
 				...(styles as StackNavigationOptions),
-				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,				
+				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
 				// headerShown: false,
 			}}
 		>
@@ -33,10 +32,11 @@ export function ListStack({ route }: any) {
 				options={{
 					headerLeft: () => (
 						<Button
-						  onPress={navigation.toggleDrawer}
-						  title="Info"
+							//@ts-ignore
+							onPress={navigation.toggleDrawer}
+							title='Info'
 						/>
-					  ),
+					),
 				}}
 			/>
 			<Stack.Screen
