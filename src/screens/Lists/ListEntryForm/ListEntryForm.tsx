@@ -4,7 +4,6 @@ import { StackScreenProps } from '@react-navigation/stack';
 import {
 	ListStackProps,
 	ListStackRoutes,
-	getDrawerListLink,
 } from '../../../navigation/NavigationTypes';
 import { FloatingButton, Button, Container, H1, Row } from '../../../ui/libUi';
 import { Actions, formReducer } from './ListEntryForm.reducer';
@@ -42,9 +41,7 @@ const ListEntryForm = ({ route, navigation }: Props): JSX.Element => {
 				})
 			);
 		//@ts-ignore
-		navigation.navigate(getDrawerListLink(listId), {
-			screen: ListStackRoutes.ListEntries,
-		});
+		navigation.goBack();
 	};
 
 	const inputHandler = useCallback(

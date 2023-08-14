@@ -4,7 +4,11 @@ import {
 	StackNavigationOptions,
 	createStackNavigator,
 } from '@react-navigation/stack';
-import { ListStackProps, ListStackRoutes } from '../NavigationTypes';
+import {
+	ListStackProps,
+	ListStackRoutes,
+	DrawerStackRoutes,
+} from '../NavigationTypes';
 import ListEntriesScreen from '../../screens/Lists/ListEntriesScreen';
 import ListEntryForm from '../../screens/Lists/ListEntryForm/ListEntryForm';
 import styles from './styles/stack.styles';
@@ -34,7 +38,7 @@ export function ListStack({ route }: any) {
 						<Button
 							//@ts-ignore
 							onPress={navigation.toggleDrawer}
-							title='Info'
+							title='Lists'
 						/>
 					),
 				}}
@@ -43,6 +47,19 @@ export function ListStack({ route }: any) {
 				name={ListStackRoutes.EntryForm}
 				initialParams={{ listId: route.params.listId }}
 				component={ListEntryForm}
+				// options={{
+				// 	headerLeft: () => (
+				// 		<Button
+				// 			//@ts-ignore
+				// 			onPress={() =>
+				// 				navigation.navigate(DrawerStackRoutes.List, {
+				// 					screen: ListStackRoutes.ListEntries,
+				// 				})
+				// 			}
+				// 			title='Return'
+				// 		/>
+				// 	),
+				// }}
 			/>
 		</Stack.Navigator>
 	);

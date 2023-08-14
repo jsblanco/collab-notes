@@ -27,18 +27,12 @@ export type AuthStackProps = {
 	[AuthStackRoutes.Startup]: {};
 };
 
-export type DrawerListEntry = `[List] ${string}`;
-
-export const getDrawerListLink = (listId: string): DrawerListEntry =>
-	`[List] ${listId}`;
-
 export enum DrawerStackRoutes {
-	Lists = '[Drawer] - Lists',
-	Logout = '[Drawer] - Logout',
+	NewList = 'New Lists',
+	List = 'List',
 }
 
 export type DrawerStackProps = {
-	[T: DrawerListEntry]: { listId: string };
-	[DrawerStackRoutes.Lists]: {};
-	[DrawerStackRoutes.Logout]: {};
+	[DrawerStackRoutes.List]: {listId: string};
+	[DrawerStackRoutes.NewList]: {};
 };

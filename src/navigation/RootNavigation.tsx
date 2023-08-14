@@ -5,7 +5,7 @@ import { RootState } from '../store/store';
 import { useSelector } from 'react-redux';
 import { AuthStack } from './stacks/AuthStack';
 import StartupScreen from '../screens/Auth/StartupScreen';
-import { DrawerNavigation } from './DrawerNavigation';
+import { DrawerNavigation } from './drawer/DrawerNavigation';
 
 export function RootNavigation() {
 	const isAuth = true; //useSelector((state: RootState) => !!state.auth.token);

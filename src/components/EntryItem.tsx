@@ -11,8 +11,8 @@ import { toggleEntryCompletion } from '../store/lists/lists.actions';
 import { H3, Text } from '../ui/libUi';
 import { useNavigation } from '@react-navigation/native';
 import {
+	DrawerStackRoutes,
 	ListStackRoutes,
-	getDrawerListLink,
 } from '../navigation/NavigationTypes';
 
 export function EntryItem({
@@ -89,9 +89,9 @@ const UnderlayLeft = ({ listId, entry }: { listId: string; entry: Entry }) => {
 
 	const onEdit = () =>
 		//@ts-ignore
-		navigation.navigate(getDrawerListLink(listId), {
-			screen: ListStackRoutes.EntryForm,
-			params: { listId: listId, entry: entry },
+		navigation.navigate(ListStackRoutes.EntryForm, {
+			listId: listId,
+			entry: entry,
 		});
 
 	return (

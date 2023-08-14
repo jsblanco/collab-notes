@@ -5,23 +5,23 @@ import EntriesFlatlist from '../../components/EntriesFlatlist';
 import {
 	ListStackProps,
 	ListStackRoutes,
-	getDrawerListLink,
+	DrawerStackRoutes,
 } from '../../navigation/NavigationTypes';
-import { FloatingButton } from '../../ui/libUi';
+import { H1, FloatingButton } from '../../ui/libUi';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListEntries>;
 
 const ListEntriesScreen = ({ route, navigation }: Props): JSX.Element => {
 	const { listId } = route.params;
+
 	return (
 		<View style={styles.screen}>
 			<EntriesFlatlist listId={listId} />
 			<FloatingButton
 				onPress={() =>
 					//@ts-ignore
-					navigation.navigate(getDrawerListLink(listId), {
-						screen: ListStackRoutes.EntryForm,
-						params: { listId: listId },
+					navigation.navigate(ListStackRoutes.EntryForm, {
+						listId,
 					})
 				}
 			>

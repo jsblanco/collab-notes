@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
 	View,
 	Text,
@@ -11,22 +11,45 @@ import {
 	DrawerItemList,
 } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { List } from '../../models/List/List';
+import { fetchLists } from '../../store/lists/lists.actions';
+import { useNavigation } from '@react-navigation/native';
+import { DrawerStackRoutes, ListStackRoutes } from '../NavigationTypes';
+import { Button } from '../../ui/libUi';
 
 const CustomDrawerContent = (props: any) => {
-	return (
+	const dispatch = useDispatch();
+	const navigation = useNavigation();
+	const [isLoading, setIsLoading] = useState(false);
+	const lists = useSelector((state: RootState) => state.lists.lists);
+	const error = useSelector((state: RootState) => state.lists.error);
+
+	const loadLists = useCallback(
+		async () => await dispatch(fetchLists.request()),
+		[dispatch]
+	);
+
+	useEffect(() => {
+		setIsLoading(true);
+		loadLists().then(() => setIsLoading(false));
+	}, [dispatch, loadLists]);
+
+	const DrawerContent = ({ children }: { children: React.ReactNode }) => (
 		<View style={{ flex: 1 }}>
 			<DrawerContentScrollView
 				{...props}
 				contentContainerStyle={{
-					backgroundColor: '#8200d6'
-				 }}
+					backgroundColor: '#8200d6',
+				}}
 			>
 				<ImageBackground
-					source={require('../assets/images/bg.png')}
+					source={require('../../assets/images/bg.png')}
 					style={{ padding: 20, paddingTop: 100, marginTop: -80 }}
 				>
 					<Image
-						source={require('../assets/images/profile.png')}
+						source={require('../../assets/images/profile.png')}
 						style={{
 							height: 80,
 							width: 80,
@@ -48,6 +71,7 @@ const CustomDrawerContent = (props: any) => {
 
 				<View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 10 }}>
 					<DrawerItemList {...props} />
+					{children}
 				</View>
 			</DrawerContentScrollView>
 			<View style={{ padding: 20, borderTopWidth: 1, borderTopColor: '#ccc' }}>
@@ -81,6 +105,33 @@ const CustomDrawerContent = (props: any) => {
 				</TouchableOpacity>
 			</View>
 		</View>
+	);
+
+	if (!!error || isLoading || (!isLoading && lists.length === 0))
+		return (
+			<DrawerContent>
+				<Text>Loading lists...</Text>
+			</DrawerContent>
+		);
+
+	return (
+		<DrawerContent>
+			{lists?.map((list: List) => (
+				<Button
+					key={list.id}
+					onPress={() =>
+						//@ts-ignore
+						navigation.navigate(DrawerStackRoutes.List, {
+							screen: ListStackRoutes.ListEntries,
+							params: { listId: list.id },
+						})
+					}
+				>
+					{/* <Ionicons name={list.icon} color={'ccc'} size={12} /> */}
+					{list.title} {list.id}
+				</Button>
+			))}
+		</DrawerContent>
 	);
 };
 
