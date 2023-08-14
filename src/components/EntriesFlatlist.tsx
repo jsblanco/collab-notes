@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
@@ -10,10 +10,11 @@ import DraggableFlatList, {
 } from 'react-native-draggable-flatlist';
 import { EntryItem } from './EntryItem';
 import { changeEntryListIndex } from '../store/lists/lists.actions';
+import { useNavigation } from '@react-navigation/native';
 
 const EntriesFlatlist = ({ listId }: { listId: string }) => {
 	const dispatch = useDispatch();
-
+	const navigation = useNavigation();
 	// const navigation = useNavigation();
 
 	// const [isLoading, setIsLoading] = useState(false);
@@ -26,13 +27,16 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 	// 	state.lists.lists.find((list) => list.id === listId)?.pendingEntries ?? []
 	// );
 
-	const { completedEntries, pendingEntries } = useSelector(
+	const { completedEntries, pendingEntries, title } = useSelector(
 		(state: RootState) =>
 			state.lists.lists.find((list) => list.id === listId) ?? {
 				completedEntries: [],
 				pendingEntries: [],
+				title: 'Missing table',
 			}
 	);
+
+	useEffect(() => navigation.setOptions({ title }), []);
 
 	const error = useSelector((state: RootState) => state.lists.error);
 

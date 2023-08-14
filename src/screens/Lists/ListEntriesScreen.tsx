@@ -1,13 +1,12 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import EntriesFlatlist from '../../components/EntriesFlatlist';
 import {
 	ListStackProps,
 	ListStackRoutes,
-	DrawerStackRoutes,
 } from '../../navigation/NavigationTypes';
-import { H1, FloatingButton } from '../../ui/libUi';
+import { FloatingButton, Container } from '../../ui/libUi';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListEntries>;
 
@@ -15,7 +14,7 @@ const ListEntriesScreen = ({ route, navigation }: Props): JSX.Element => {
 	const { listId } = route.params;
 
 	return (
-		<View style={styles.screen}>
+		<Container style={styles.screen}>
 			<EntriesFlatlist listId={listId} />
 			<FloatingButton
 				onPress={() =>
@@ -27,7 +26,7 @@ const ListEntriesScreen = ({ route, navigation }: Props): JSX.Element => {
 			>
 				Add entry
 			</FloatingButton>
-		</View>
+		</Container>
 	);
 };
 
@@ -39,5 +38,6 @@ const styles = StyleSheet.create({
 		width: '100%',
 		justifyContent: 'center',
 		alignItems: 'center',
+		paddingTop: 20,
 	},
 });

@@ -1,11 +1,11 @@
-import React, { useCallback, useReducer } from 'react';
+import React, { useCallback, useEffect, useReducer } from 'react';
 import { StyleSheet } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import {
 	ListStackProps,
 	ListStackRoutes,
 } from '../../../navigation/NavigationTypes';
-import { FloatingButton, Button, Container, H1, Row } from '../../../ui/libUi';
+import { FloatingButton, Container } from '../../../ui/libUi';
 import { Actions, formReducer } from './ListEntryForm.reducer';
 import FormControl from '../../../components/FormControl/FormControl';
 import { useDispatch } from 'react-redux';
@@ -30,6 +30,14 @@ const ListEntryForm = ({ route, navigation }: Props): JSX.Element => {
 
 	const dispatch = useDispatch();
 	const [formState, formDispatch] = useReducer(formReducer, initialFormState);
+
+	useEffect(
+		() =>
+			navigation.setOptions({
+				title: entry ? `Edit task "${entry.title}"` : 'Create new task',
+			}),
+		[entry]
+	);
 
 	const onSubmit = () => {
 		if (!!formState.formIsValid)
@@ -65,42 +73,29 @@ const ListEntryForm = ({ route, navigation }: Props): JSX.Element => {
 
 	return (
 		<Container style={styles.screen}>
-			{/* <FloatingButton
-				onPress={navigation.goBack}
-				position={{top: 20, left: 20 }}
-				// buttonStyle={{ position: 'absolute',       zIndex: 99, bottom: 400, left: 20 }}
-				>
-				Go back
-			</FloatingButton> */}
-				<H1>{entry ? `Edit task "${entry.title}"` : 'Create new task'}</H1>
-			<Container style={{ flex: 1 }}>
-				<FormControl
-					label={'Name'}
-					value={formState.inputValues.title}
-					isValid={formState.inputValidities.title}
-					inputName={'title'}
-					placeholder={'Task name'}
-					inputHandler={inputHandler}
-					minLength={3}
-					required
-				/>
-				<FormControl
-					label={'Description'}
-					inputName={'description'}
-					placeholder={'Task description'}
-					value={formState.inputValues.description}
-					isValid={formState.inputValidities.description}
-					inputHandler={inputHandler}
-					multiline
-					required
-				/>
-			</Container>
-			<Row centerX>
-				<Button onPress={onReset}>Reset form</Button>
-				<Button onPress={onSubmit} disabled={!formState.formIsValid}>
-					Submit
-				</Button>
-			</Row>
+			<FormControl
+				label={'Name'}
+				value={formState.inputValues.title}
+				isValid={formState.inputValidities.title}
+				inputName={'title'}
+				placeholder={'Task name'}
+				inputHandler={inputHandler}
+				minLength={3}
+				required
+			/>
+			<FormControl
+				label={'Description'}
+				inputName={'description'}
+				placeholder={'Task description'}
+				value={formState.inputValues.description}
+				isValid={formState.inputValidities.description}
+				inputHandler={inputHandler}
+				multiline
+				required
+			/>
+			<FloatingButton onPress={onSubmit}>
+				{entry ? 'Update task' : 'Create new task'}
+			</FloatingButton>
 		</Container>
 	);
 };
@@ -113,6 +108,5 @@ const styles = StyleSheet.create({
 		width: '100%',
 		position: 'relative',
 		padding: 20,
-		paddingTop: 90,
 	},
 });
