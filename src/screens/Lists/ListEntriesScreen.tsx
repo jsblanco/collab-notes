@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
-import EntriesFlatlist from '../../components/EntriesFlatlist/EntriesFlatlist';
+import EntriesFlatlist from '../../components/EntriesFlatlist';
 import {
 	ListStackProps,
 	ListStackRoutes,

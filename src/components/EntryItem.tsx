@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import SwipeableItem, {
 	useSwipeableItemParams,
 } from 'react-native-swipeable-item';
 import { ScaleDecorator } from 'react-native-draggable-flatlist';
-import { Entry } from '../../models/Entry/Entry';
+import { Entry } from '../models/Entry/Entry';
 import { useDispatch } from 'react-redux';
-import { toggleEntryCompletion } from '../../store/lists/lists.actions';
-import { H3, Text } from '../../ui/libUi';
+import { toggleEntryCompletion } from '../store/lists/lists.actions';
+import { H3, Text } from '../ui/libUi';
 import { useNavigation } from '@react-navigation/native';
 import {
 	ListStackRoutes,
 	getDrawerListLink,
-} from '../../navigation/NavigationTypes';
+} from '../navigation/NavigationTypes';
 
-export function AlternativeEntryItem({
+export function EntryItem({
 	entry,
 	listId,
 	drag,
@@ -62,15 +62,15 @@ export function AlternativeEntryItem({
 							borderWidth: 1,
 							borderColor: '#eee',
 							paddingVertical: 20,
-							marginBottom:-1,
-						}
+							marginBottom: -1,
+						},
 					]}
 				>
-						<H3 style={styles.text}>{`${entry.title}`}</H3>
+					<H3 style={styles.text}>{`${entry.title}`}</H3>
 
-						{!!detailedView && (
-							<Text style={styles.text}>{`${entry.description}`}</Text>
-							)}
+					{!!detailedView && (
+						<Text style={styles.text}>{`${entry.description}`}</Text>
+					)}
 				</TouchableOpacity>
 			</SwipeableItem>
 		</ScaleDecorator>
@@ -88,7 +88,7 @@ const UnderlayLeft = ({ listId, entry }: { listId: string; entry: Entry }) => {
 	);
 
 	const onEdit = () =>
-	//@ts-ignore
+		//@ts-ignore
 		navigation.navigate(getDrawerListLink(listId), {
 			screen: ListStackRoutes.EntryForm,
 			params: { listId: listId, entry: entry },

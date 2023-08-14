@@ -1,16 +1,15 @@
 import React, { useCallback } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import styles from './EntriesFlatlist.styles';
-import { H2, Text } from '../../ui/libUi';
-import { Entry } from '../../models/Entry/Entry';
+import { RootState } from '../store/store';
+import { H2, Text } from '../ui/libUi';
+import { Entry } from '../models/Entry/Entry';
 import DraggableFlatList, {
 	DragEndParams,
 	RenderItemParams,
 } from 'react-native-draggable-flatlist';
-import { AlternativeEntryItem } from '../Entries/AlternativeEntryItem';
-import { changeEntryListIndex } from '../../store/lists/lists.actions';
+import { EntryItem } from './EntryItem';
+import { changeEntryListIndex } from '../store/lists/lists.actions';
 
 const EntriesFlatlist = ({ listId }: { listId: string }) => {
 	const dispatch = useDispatch();
@@ -75,13 +74,12 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 	// 		</View>
 	// 	);
 
-	const renderItem = useCallback((params: RenderItemParams<Entry>) => (
-			<AlternativeEntryItem
-				{...params}
-				listId={listId}
-				entry={params.item}
-			/>
-		), []);
+	const renderItem = useCallback(
+		(params: RenderItemParams<Entry>) => (
+			<EntryItem {...params} listId={listId} entry={params.item} />
+		),
+		[]
+	);
 
 	const changeTaskOrder = ({ data, from, to }: DragEndParams<Entry>) => {
 		dispatch(
@@ -119,3 +117,34 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 };
 
 export default EntriesFlatlist;
+
+const styles = StyleSheet.create({
+	screen: {
+		flex: 1,
+		width: '100%',
+	},
+	button: {
+		width: 75,
+		height: '100%',
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: 'green',
+	},
+	buttonText: {
+		padding: 0,
+		color: '#fff',
+	},
+
+	// Draggable flatlist
+	rowItem: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	// Draggable flatlist
+	text: {
+		color: 'black',
+		fontWeight: 'bold',
+		textAlign: 'center',
+	},
+});

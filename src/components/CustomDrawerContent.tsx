@@ -22,11 +22,11 @@ const CustomDrawerContent = (props: any) => {
 				 }}
 			>
 				<ImageBackground
-					source={require('../../assets/images/bg.png')}
+					source={require('../assets/images/bg.png')}
 					style={{ padding: 20, paddingTop: 100, marginTop: -80 }}
 				>
 					<Image
-						source={require('../../assets/images/profile.png')}
+						source={require('../assets/images/profile.png')}
 						style={{
 							height: 80,
 							width: 80,

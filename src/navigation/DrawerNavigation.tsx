@@ -3,9 +3,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 import { ListStack } from './stacks/ListStack';
 import { colors, fonts } from '../ui/libUi';
-import CustomDrawerContent from '../components/CustomDrawerContent/CustomDrawerContent';
+import CustomDrawerContent from '../components/CustomDrawerContent';
 import {
-	DrawerListEntry,
 	DrawerStackProps,
 	DrawerStackRoutes,
 	getDrawerListLink,
@@ -76,6 +75,7 @@ export function DrawerNavigation() {
 						name={getDrawerListLink(list.id)}
 						initialParams={{ listId: list.id }}
 						options={{
+							headerShown: false,
 							title: list.title,
 							drawerLabel: list.title,
 							drawerItemStyle: { paddingLeft: 15, paddingRight: -5 },
@@ -90,16 +90,3 @@ export function DrawerNavigation() {
 		</DrawerContent>
 	);
 }
-
-const tabBarOptions = {
-	activeTintColor: colors.accent,
-	style: {
-		height: 75,
-		paddingTop: 10,
-	},
-	labelStyle: {
-		fontFamily: fonts.regularBold,
-		fontSize: 14,
-		paddingBottom: 10,
-	},
-};

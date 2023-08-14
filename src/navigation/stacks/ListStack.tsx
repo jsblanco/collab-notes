@@ -15,19 +15,29 @@ const Stack = createStackNavigator<ListStackProps>();
 
 export function ListStack({ route }: any) {
 
+	const navigation = useNavigation();
+
 	return (
 		<Stack.Navigator
 			initialRouteName={ListStackRoutes.ListEntries}
 			screenOptions={{
 				...(styles as StackNavigationOptions),
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,				
-				headerShown: false,
+				// headerShown: false,
 			}}
 		>
 			<Stack.Screen
 				name={ListStackRoutes.ListEntries}
 				initialParams={{ listId: route.params.listId }}
 				component={ListEntriesScreen}
+				options={{
+					headerLeft: () => (
+						<Button
+						  onPress={navigation.toggleDrawer}
+						  title="Info"
+						/>
+					  ),
+				}}
 			/>
 			<Stack.Screen
 				name={ListStackRoutes.EntryForm}
