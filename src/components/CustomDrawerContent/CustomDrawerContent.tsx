@@ -1,44 +1,86 @@
 import React from 'react';
 import {
+	View,
+	Text,
+	ImageBackground,
+	Image,
+	TouchableOpacity,
+} from 'react-native';
+import {
 	DrawerContentScrollView,
-	DrawerItem,
 	DrawerItemList,
 } from '@react-navigation/drawer';
-import { Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
-import { logout } from '../../store/auth/auth.actions';
 
 const CustomDrawerContent = (props: any) => {
-	const dispatch = useDispatch();
-	const logOut = () => {
-		dispatch(logout.request());
-	};
-
 	return (
-		<DrawerContentScrollView {...props}>
-			<DrawerItemList {...props} />
-			<DrawerItem
+		<View style={{ flex: 1 }}>
+			<DrawerContentScrollView
 				{...props}
-				label='Logout'
-				icon={({ color, size }) => (
-					<Ionicons name='log-out-outline' color={color} size={size} />
-				)}
-				onPress={logOut}
-			/>
-			<DrawerItem
-				{...props}
-				label='App creator'
-				icon={({ color, size }) => (
-					<Ionicons
-						name='information-circle-outline'
-						color={color}
-						size={size}
+				contentContainerStyle={{
+					backgroundColor: '#8200d6'
+				 }}
+			>
+				<ImageBackground
+					source={require('../../assets/images/bg.png')}
+					style={{ padding: 20, paddingTop: 100, marginTop: -80 }}
+				>
+					<Image
+						source={require('../../assets/images/profile.png')}
+						style={{
+							height: 80,
+							width: 80,
+							borderRadius: 40,
+							marginBottom: 10,
+						}}
 					/>
-				)}
-				onPress={() => Linking.openURL('https://github.com/jsblanco')}
-			/>
-		</DrawerContentScrollView>
+					<Text
+						style={{
+							color: '#fff',
+							fontSize: 18,
+							fontFamily: 'openSans',
+							marginBottom: 5,
+						}}
+					>
+						Jorgito
+					</Text>
+				</ImageBackground>
+
+				<View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 10 }}>
+					<DrawerItemList {...props} />
+				</View>
+			</DrawerContentScrollView>
+			<View style={{ padding: 20, borderTopWidth: 1, borderTopColor: '#ccc' }}>
+				<TouchableOpacity onPress={() => {}} style={{ paddingVertical: 15 }}>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Ionicons name='share-social-outline' size={22} />
+						<Text
+							style={{
+								fontSize: 15,
+								fontFamily: 'openSans',
+								marginLeft: 5,
+							}}
+						>
+							Tell a Friend
+						</Text>
+					</View>
+				</TouchableOpacity>
+				<TouchableOpacity onPress={() => {}} style={{ paddingVertical: 15 }}>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Ionicons name='exit-outline' size={22} />
+						<Text
+							style={{
+								fontSize: 15,
+								fontFamily: 'openSans',
+								marginLeft: 5,
+							}}
+						>
+							Sign Out
+						</Text>
+					</View>
+				</TouchableOpacity>
+			</View>
+		</View>
 	);
 };
 

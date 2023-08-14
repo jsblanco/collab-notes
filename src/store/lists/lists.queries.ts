@@ -21,18 +21,28 @@ export const fetchList = (listId: string): List => {
 };
 
 const populateListEntries = (list: DbList): List => {
+	const listIndex = DummyLists.findIndex((l) => l.id === list.id);
+	if (listIndex === -1) throw Error('No such list exists');
+
 	const entries: Entry[] = [];
 
-	list.entries.map((id) => {
+	DummyLists[listIndex].entries.map((id) => {
 		DummyEntries.map((entry) => {
 			if (entry?.id === id) entries.push(entry);
 		});
 	});
+	const completedEntries = entries.filter((entry) => entry.isCompleted);
+	const pendingEntries = entries.filter((entry) => !entry.isCompleted);
+
+	DummyLists[listIndex].entries = [
+		...pendingEntries.map((entry) => entry.id),
+		...completedEntries.map((entry) => entry.id),
+	];
 
 	return {
 		...list,
-		completedEntries: entries.filter((entry) => entry.isCompleted),
-		pendingEntries: entries.filter((entry) => !entry.isCompleted),
+		completedEntries,
+		pendingEntries,
 	};
 };
 
@@ -69,7 +79,7 @@ export const toggleEntryCompletion = (
 ): List => {
 	const list = fetchList(listId);
 
-	const entries = [...list.completedEntries, ...list.pendingEntries];
+	const entries = [...list.pendingEntries, ...list.completedEntries];
 	let entryIndex = entries.findIndex((entry) => entry.id === entryId);
 	if (entryIndex === -1)
 		throw new Error('Task does not belong to selected list');
@@ -94,19 +104,24 @@ export const changeEntryOrder = (
 	entryOrder: string[]
 ): List => {
 	const list = fetchList(listId);
+	const listIndex = DummyLists.findIndex((l) => l.id === listId);
 
-	const isCompleted = !!DummyEntries.find((entry) => entry.id === entryOrder[0])?.isCompleted;
+	const isCompleted = !!DummyEntries.find((entry) => entry.id === entryOrder[0])
+		?.isCompleted;
 	const newEntries = [];
 
 	for (let i = 0; i < entryOrder.length; i++) {
 		newEntries[i] = DummyEntries.find((entry) => entry.id === entryOrder[i]);
 	}
 
+	isCompleted
+		? (list.completedEntries = newEntries as Entry[])
+		: (list.pendingEntries = newEntries as Entry[]);
 
-isCompleted
-	? list.completedEntries = newEntries as Entry[]
-	: list.pendingEntries = newEntries as Entry[];
-
+	DummyLists[listIndex].entries = [
+		...list.pendingEntries.map((e) => e.id),
+		...list.completedEntries.map((e) => e.id),
+	];
 
 	return list;
 };

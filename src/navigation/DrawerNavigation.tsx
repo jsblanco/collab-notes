@@ -1,9 +1,5 @@
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
-import {
-	DrawerContentScrollView,
-	DrawerItem,
-	createDrawerNavigator,
-} from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 import { ListStack } from './stacks/ListStack';
 import { colors, fonts } from '../ui/libUi';
@@ -25,15 +21,13 @@ const Drawer = createDrawerNavigator<DrawerStackProps>();
 export function DrawerNavigation() {
 	const dispatch = useDispatch();
 	const [isLoading, setIsLoading] = useState(false);
-	// const [isRefreshing, setIsRefreshing] = useState(false);
 	const lists = useSelector((state: RootState) => state.lists.lists);
 	const error = useSelector((state: RootState) => state.lists.error);
 
-	const loadLists = useCallback(async () => {
-		// setIsRefreshing(true);
-		await dispatch(fetchLists.request());
-		// setIsRefreshing(false);
-	}, [dispatch]);
+	const loadLists = useCallback(
+		async () => await dispatch(fetchLists.request()),
+		[dispatch]
+	);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -44,7 +38,14 @@ export function DrawerNavigation() {
 		<Drawer.Navigator
 			initialRouteName={DrawerStackRoutes.Lists}
 			screenOptions={{
-				// headerShown: false,
+				drawerActiveBackgroundColor: colors.primary,
+				drawerActiveTintColor: '#fff',
+				drawerInactiveTintColor: '#333',
+				drawerLabelStyle: {
+					marginLeft: -25,
+					fontFamily: 'openSans',
+					fontSize: 15,
+				},
 			}}
 			drawerContent={(props) => <CustomDrawerContent {...props} />}
 		>

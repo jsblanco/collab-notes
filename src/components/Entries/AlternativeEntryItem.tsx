@@ -59,15 +59,18 @@ export function AlternativeEntryItem({
 						{
 							backgroundColor: 'white',
 							flexDirection: 'column',
+							borderWidth: 1,
+							borderColor: '#eee',
 							paddingVertical: 20,
-						},
+							marginBottom:-1,
+						}
 					]}
 				>
-					<H3 style={styles.text}>{`${entry.title}`}</H3>
+						<H3 style={styles.text}>{`${entry.title}`}</H3>
 
-					{!!detailedView && (
-						<Text style={styles.text}>{`${entry.description}`}</Text>
-					)}
+						{!!detailedView && (
+							<Text style={styles.text}>{`${entry.description}`}</Text>
+							)}
 				</TouchableOpacity>
 			</SwipeableItem>
 		</ScaleDecorator>
