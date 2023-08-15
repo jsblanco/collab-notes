@@ -134,22 +134,22 @@ export const FloatingButton = ({
 	children,
 }: ButtonPropsType) => {
 	return (
-		<View
-			style={{
-				...styles.bottomButtonContainer,
-				...(position ?? styles.bottomButtonContainerDefaultPosition),
-			}}
-		>
-			<ButtonType
-				activeOpacity={0.6}
-				onPress={onPress}
-				style={{ ...styles.bottomButtonView, ...buttonStyle }}
+			<View
+				style={{
+					...styles.bottomButtonContainer,
+					...(position ?? styles.bottomButtonContainerDefaultPosition),
+				}}
 			>
-				<Text style={{ ...styles.bottomButtonText, ...textStyle }}>
-					{children}
-				</Text>
-			</ButtonType>
-		</View>
+				<ButtonType
+					activeOpacity={0.6}
+					onPress={onPress}
+					style={{ ...styles.bottomButtonView, ...buttonStyle }}
+				>
+					<Text style={{ ...styles.bottomButtonText, ...textStyle }}>
+						{children}
+					</Text>
+				</ButtonType>
+			</View>
 	);
 };
 

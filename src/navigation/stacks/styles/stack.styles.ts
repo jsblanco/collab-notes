@@ -2,7 +2,9 @@ import { colors, fonts } from '../../../ui/libUi';
 
 const styles = {
 	headerStyle: {
-		elevation: 10,
+		elevation: 0,
+		shadowOpacity: 0,
+		borderBottomWidth: 0,
 		backgroundColor: colors.background,
 	},
 	headerTintColor: colors.primary,

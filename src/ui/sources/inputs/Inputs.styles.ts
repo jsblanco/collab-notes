@@ -39,14 +39,10 @@ export default StyleSheet.create({
 		// overflow: 'hidden',
 		position: 'absolute',
 		zIndex: 99,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowOpacity: 0.30,
-        shadowRadius: 4.65,
-        elevation: 8,
+        borderWidth: 1,
+        borderBottomWidth: 3,
+        borderTopWidth:0,
+        borderColor: '#dedede'
 	},
 	bottomButtonContainerDefaultPosition: {
 		bottom: 35,

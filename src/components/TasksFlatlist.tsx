@@ -56,13 +56,6 @@ const TasksFlatlist = ({ listId }: { listId: string }) => {
 	// 	loadETasks().then(() => setIsLoading(false));
 	// }, [dispatch, loadETasks, listId]);
 
-	if (error)
-		return (
-			<View style={styles.screen}>
-				<Text style={{ color: 'tomato' }}>{error}</Text>
-			</View>
-		);
-
 	// if (isLoading)
 	// 	return (
 	// 		<View style={styles.screen}>
@@ -85,14 +78,21 @@ const TasksFlatlist = ({ listId }: { listId: string }) => {
 		[]
 	);
 
-	const changeTaskOrder = ({ data, from, to }: DragEndParams<Task>) => {
+	const changeTaskOrder = useCallback(({ data, from, to }: DragEndParams<Task>) => {
 		dispatch(
 			changeTaskListIndex.request(
 				listId,
 				data.map((task) => task.id)
 			)
 		);
-	};
+	},[dispatch, listId]);
+
+	if (error)
+	return (
+		<View style={styles.screen}>
+			<Text style={{ color: 'tomato' }}>{error}</Text>
+		</View>
+	);
 
 	return (
 		<View style={styles.screen}>
