@@ -1,24 +1,18 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import {
 	CardStyleInterpolators,
 	StackNavigationOptions,
 	createStackNavigator,
 } from '@react-navigation/stack';
-import {
-	ListStackProps,
-	ListStackRoutes,
-	DrawerRoutes,
-} from '../NavigationTypes';
+import { ListStackProps, ListStackRoutes } from '../NavigationTypes';
 import ListTaksScreen from '../../screens/Lists/ListTasksScreen';
 import TaskFormScreen from '../../screens/Lists/TaskFormScreen/TaskFormScreen';
 import styles from './styles/stack.styles';
-import { useNavigation } from '@react-navigation/native';
-import { Button } from 'react-native';
+import OpenDrawerButton from '../../components/OpenDrawerButton';
 
 const Stack = createStackNavigator<ListStackProps>();
 
 export function ListStack({ route }: any) {
-	const navigation = useNavigation();
 
 	return (
 		<Stack.Navigator
@@ -34,13 +28,7 @@ export function ListStack({ route }: any) {
 				initialParams={{ listId: route.params.listId }}
 				component={ListTaksScreen}
 				options={{
-					headerLeft: () => (
-						<Button
-							//@ts-ignore
-							onPress={navigation.toggleDrawer}
-							title='Lists'
-						/>
-					),
+					headerLeft: OpenDrawerButton,
 				}}
 			/>
 			<Stack.Screen

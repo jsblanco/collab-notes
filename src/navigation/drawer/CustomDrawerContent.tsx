@@ -132,7 +132,7 @@ const CustomDrawerContent = (props: any) => {
 					}
 				>
 					{/* @ts-ignore */}
-					<Ionicons name={list.icon} color={'ccc'} size={12} />
+					<Ionicons name={list.icon} color={'#ccc'} size={12} />
 					{list.title} {list.id}
 				</Button>
 			))}

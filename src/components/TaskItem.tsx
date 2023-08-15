@@ -10,9 +10,7 @@ import { useDispatch } from 'react-redux';
 import { toggleTaskCompletion } from '../store/lists/lists.actions';
 import { H3, Text } from '../ui/libUi';
 import { useNavigation } from '@react-navigation/native';
-import {
-	ListStackRoutes,
-} from '../navigation/NavigationTypes';
+import { ListStackRoutes } from '../navigation/NavigationTypes';
 
 export function TaskItem({
 	task,
@@ -36,15 +34,9 @@ export function TaskItem({
 						dispatch(toggleTaskCompletion.request(listId, task.id));
 				}}
 				overSwipe={30}
-				renderUnderlayLeft={() => (
-					<UnderlayLeft listId={listId} task={task} />
-				)}
+				renderUnderlayLeft={() => <UnderlayLeft listId={listId} task={task} />}
 				renderUnderlayRight={() =>
-					task.isCompleted ? (
-						<UnderlayCompletedTask />
-					) : (
-						<UnderlayPendingTask />
-					)
+					task.isCompleted ? <UnderlayCompletedTask /> : <UnderlayPendingTask />
 				}
 				snapPointsLeft={[90, 180]}
 				snapPointsRight={[400]}
@@ -53,17 +45,7 @@ export function TaskItem({
 					activeOpacity={1}
 					onLongPress={drag}
 					onPress={setDetailedView.bind(null, !detailedView)}
-					style={[
-						styles.row,
-						{
-							backgroundColor: 'white',
-							flexDirection: 'column',
-							borderWidth: 1,
-							borderColor: '#eee',
-							paddingVertical: 20,
-							marginBottom: -1,
-						},
-					]}
+					style={[styles.row, styles.item]}
 				>
 					<H3 style={styles.text}>{`${task.title}`}</H3>
 
@@ -169,6 +151,14 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		padding: 15,
 	},
+	item: {
+		backgroundColor: 'white',
+		flexDirection: 'column',
+		borderWidth: 1,
+		borderColor: '#eee',
+		paddingVertical: 20,
+		marginBottom: -1,
+	},
 	buttonRow: {
 		width: '100%',
 		flex: 1,
@@ -179,6 +169,7 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		color: 'black',
 		fontSize: 14,
+		paddingBottom: 0,
 	},
 	underlay: {
 		flex: 1,

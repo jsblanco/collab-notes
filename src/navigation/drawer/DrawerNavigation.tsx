@@ -1,11 +1,13 @@
 import React, { ReactNode } from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { DrawerNavigationOptions, createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 import { ListStack } from '../stacks/ListStack';
 import { colors } from '../../ui/libUi';
 import CustomDrawerContent from './CustomDrawerContent';
 import { DrawerProps, DrawerRoutes } from '../NavigationTypes';
 import { AuthStack } from '../stacks/AuthStack';
+import OpenDrawerButton from '../../components/OpenDrawerButton';
+import styles from '../stacks/styles/stack.styles';
 
 const Drawer = createDrawerNavigator<DrawerProps>();
 
@@ -14,14 +16,11 @@ export function DrawerNavigation() {
 		<Drawer.Navigator
 			initialRouteName={DrawerRoutes.NewList}
 			screenOptions={{
+				...(styles as DrawerNavigationOptions),
 				drawerActiveBackgroundColor: colors.primary,
 				drawerActiveTintColor: '#fff',
 				drawerInactiveTintColor: '#333',
-				drawerLabelStyle: {
-					marginLeft: -25,
-					fontFamily: 'openSans',
-					fontSize: 15,
-				},
+				headerLeft: OpenDrawerButton,
 			}}
 			drawerContent={(props) => <CustomDrawerContent {...props} />}
 		>

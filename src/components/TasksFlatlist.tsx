@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import { H2, Text } from '../ui/libUi';
+import { H3, Text } from '../ui/libUi';
 import { Task } from '../models/Task/Task';
 import DraggableFlatList, {
 	DragEndParams,
@@ -78,25 +78,28 @@ const TasksFlatlist = ({ listId }: { listId: string }) => {
 		[]
 	);
 
-	const changeTaskOrder = useCallback(({ data, from, to }: DragEndParams<Task>) => {
-		dispatch(
-			changeTaskListIndex.request(
-				listId,
-				data.map((task) => task.id)
-			)
-		);
-	},[dispatch, listId]);
-
-	if (error)
-	return (
-		<View style={styles.screen}>
-			<Text style={{ color: 'tomato' }}>{error}</Text>
-		</View>
+	const changeTaskOrder = useCallback(
+		({ data, from, to }: DragEndParams<Task>) => {
+			dispatch(
+				changeTaskListIndex.request(
+					listId,
+					data.map((task) => task.id)
+				)
+			);
+		},
+		[dispatch, listId]
 	);
 
+	if (error)
+		return (
+			<View style={styles.screen}>
+				<Text style={{ color: 'tomato' }}>{error}</Text>
+			</View>
+		);
+
 	return (
 		<View style={styles.screen}>
-			<H2 center>Pending tasks</H2>
+			<H3 style={styles.titles}>Pending tasks</H3>
 			<DraggableFlatList
 				// containerStyle={{ flex: 1 }}
 				style={{ paddingBottom: 60 }}
@@ -106,7 +109,7 @@ const TasksFlatlist = ({ listId }: { listId: string }) => {
 				activationDistance={10}
 				renderItem={renderItem}
 			/>
-			<H2 center>Completed tasks</H2>
+			<H3 style={styles.titles}>Completed tasks</H3>
 			<DraggableFlatList
 				// containerStyle={{ flex: 1 }}
 				// style={{ flex: 1 }}
@@ -127,6 +130,9 @@ const styles = StyleSheet.create({
 		flex: 1,
 		width: '100%',
 		minHeight: '100%',
+	},
+	titles: {
+		paddingHorizontal: 20,
 	},
 	button: {
 		width: 75,

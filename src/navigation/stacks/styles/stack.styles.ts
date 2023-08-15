@@ -4,8 +4,7 @@ const styles = {
 	headerStyle: {
 		elevation: 0,
 		shadowOpacity: 0,
-		borderBottomWidth: 0,
-		backgroundColor: colors.background,
+		backgroundColor: colors.background
 	},
 	headerTintColor: colors.primary,
 	headerTitleStyle: {
