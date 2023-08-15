@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
 	View,
-	Text,
 	ImageBackground,
+	Text,
 	Image,
 	TouchableOpacity,
+	StyleSheet,
 } from 'react-native';
 import {
 	DrawerContentScrollView,
@@ -14,9 +15,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { List } from '../../models/List/List';
-import { fetchLists } from '../../store/lists/lists.actions';
-import { useNavigation } from '@react-navigation/native';
-import { DrawerStackRoutes, ListStackRoutes } from '../NavigationTypes';
+import { fetchAllLists } from '../../store/lists/lists.actions';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { DrawerRoutes, ListStackRoutes } from '../NavigationTypes';
 import { Button } from '../../ui/libUi';
 
 const CustomDrawerContent = (props: any) => {
@@ -27,7 +28,7 @@ const CustomDrawerContent = (props: any) => {
 	const error = useSelector((state: RootState) => state.lists.error);
 
 	const loadLists = useCallback(
-		async () => await dispatch(fetchLists.request()),
+		async () => await dispatch(fetchAllLists.request()),
 		[dispatch]
 	);
 
@@ -119,15 +120,19 @@ const CustomDrawerContent = (props: any) => {
 			{lists?.map((list: List) => (
 				<Button
 					key={list.id}
+					buttonStyle={{
+						...styles.navButton,
+					}}
 					onPress={() =>
 						//@ts-ignore
-						navigation.navigate(DrawerStackRoutes.List, {
-							screen: ListStackRoutes.ListEntries,
+						navigation.navigate(DrawerRoutes.List, {
+							screen: ListStackRoutes.ListTasks,
 							params: { listId: list.id },
 						})
 					}
 				>
-					{/* <Ionicons name={list.icon} color={'ccc'} size={12} /> */}
+					{/* @ts-ignore */}
+					<Ionicons name={list.icon} color={'ccc'} size={12} />
 					{list.title} {list.id}
 				</Button>
 			))}
@@ -136,3 +141,13 @@ const CustomDrawerContent = (props: any) => {
 };
 
 export default CustomDrawerContent;
+
+const styles = StyleSheet.create({
+	navButton: {
+		alignItems: 'flex-start',
+	},
+	navButtonIdle: {
+		backgroundColor: 'white',
+		color: 'black',
+	},
+});

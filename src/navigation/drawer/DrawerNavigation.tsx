@@ -4,15 +4,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { ListStack } from '../stacks/ListStack';
 import { colors } from '../../ui/libUi';
 import CustomDrawerContent from './CustomDrawerContent';
-import { DrawerStackProps, DrawerStackRoutes } from '../NavigationTypes';
+import { DrawerProps, DrawerRoutes } from '../NavigationTypes';
 import { AuthStack } from '../stacks/AuthStack';
 
-const Drawer = createDrawerNavigator<DrawerStackProps>();
+const Drawer = createDrawerNavigator<DrawerProps>();
 
 export function DrawerNavigation() {
 	const DrawerContent = ({ children }: { children?: ReactNode }) => (
 		<Drawer.Navigator
-			initialRouteName={DrawerStackRoutes.NewList}
+			initialRouteName={DrawerRoutes.NewList}
 			screenOptions={{
 				drawerActiveBackgroundColor: colors.primary,
 				drawerActiveTintColor: '#fff',
@@ -26,7 +26,7 @@ export function DrawerNavigation() {
 			drawerContent={(props) => <CustomDrawerContent {...props} />}
 		>
 			<Drawer.Screen
-				name={DrawerStackRoutes.NewList}
+				name={DrawerRoutes.NewList}
 				component={AuthStack}
 				options={{
 					drawerLabel: 'TODO: Change to Create List',
@@ -37,7 +37,7 @@ export function DrawerNavigation() {
 			/>
 			<Drawer.Screen
 				component={ListStack}
-				name={DrawerStackRoutes.List}
+				name={DrawerRoutes.List}
 				initialParams={{ listId: '0' }}
 				getId={({ params }) => params.listId}
 				options={{

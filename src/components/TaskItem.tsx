@@ -5,22 +5,21 @@ import SwipeableItem, {
 	useSwipeableItemParams,
 } from 'react-native-swipeable-item';
 import { ScaleDecorator } from 'react-native-draggable-flatlist';
-import { Entry } from '../models/Entry/Entry';
+import { Task } from '../models/Task/Task';
 import { useDispatch } from 'react-redux';
-import { toggleEntryCompletion } from '../store/lists/lists.actions';
+import { toggleTaskCompletion } from '../store/lists/lists.actions';
 import { H3, Text } from '../ui/libUi';
 import { useNavigation } from '@react-navigation/native';
 import {
-	DrawerStackRoutes,
 	ListStackRoutes,
 } from '../navigation/NavigationTypes';
 
-export function EntryItem({
-	entry,
+export function TaskItem({
+	task,
 	listId,
 	drag,
 }: {
-	entry: Entry;
+	task: Task;
 	listId: string;
 	drag: () => void;
 }) {
@@ -30,18 +29,18 @@ export function EntryItem({
 	return (
 		<ScaleDecorator>
 			<SwipeableItem
-				key={entry.id}
-				item={entry}
+				key={task.id}
+				item={task}
 				onChange={({ openDirection }) => {
 					if (openDirection === 'right')
-						dispatch(toggleEntryCompletion.request(listId, entry.id));
+						dispatch(toggleTaskCompletion.request(listId, task.id));
 				}}
 				overSwipe={30}
 				renderUnderlayLeft={() => (
-					<UnderlayLeft listId={listId} entry={entry} />
+					<UnderlayLeft listId={listId} task={task} />
 				)}
 				renderUnderlayRight={() =>
-					entry.isCompleted ? (
+					task.isCompleted ? (
 						<UnderlayCompletedTask />
 					) : (
 						<UnderlayPendingTask />
@@ -66,10 +65,10 @@ export function EntryItem({
 						},
 					]}
 				>
-					<H3 style={styles.text}>{`${entry.title}`}</H3>
+					<H3 style={styles.text}>{`${task.title}`}</H3>
 
 					{!!detailedView && (
-						<Text style={styles.text}>{`${entry.description}`}</Text>
+						<Text style={styles.text}>{`${task.description}`}</Text>
 					)}
 				</TouchableOpacity>
 			</SwipeableItem>
@@ -77,8 +76,8 @@ export function EntryItem({
 	);
 }
 
-const UnderlayLeft = ({ listId, entry }: { listId: string; entry: Entry }) => {
-	const { percentOpen } = useSwipeableItemParams<Entry>();
+const UnderlayLeft = ({ listId, task }: { listId: string; task: Task }) => {
+	const { percentOpen } = useSwipeableItemParams<Task>();
 	const navigation = useNavigation();
 	const animStyle = useAnimatedStyle(
 		() => ({
@@ -89,9 +88,9 @@ const UnderlayLeft = ({ listId, entry }: { listId: string; entry: Entry }) => {
 
 	const onEdit = () =>
 		//@ts-ignore
-		navigation.navigate(ListStackRoutes.EntryForm, {
+		navigation.navigate(ListStackRoutes.TaskForm, {
 			listId: listId,
-			entry: entry,
+			task: task,
 		});
 
 	return (
@@ -110,7 +109,7 @@ const UnderlayLeft = ({ listId, entry }: { listId: string; entry: Entry }) => {
 };
 
 function UnderlayCompletedTask() {
-	const { close, percentOpen } = useSwipeableItemParams<Entry>();
+	const { close, percentOpen } = useSwipeableItemParams<Task>();
 	const animStyle = useAnimatedStyle(
 		() => ({
 			opacity: percentOpen.value,
@@ -135,7 +134,7 @@ function UnderlayCompletedTask() {
 }
 
 function UnderlayPendingTask() {
-	const { percentOpen } = useSwipeableItemParams<Entry>();
+	const { percentOpen } = useSwipeableItemParams<Task>();
 	const animStyle = useAnimatedStyle(
 		() => ({
 			opacity: percentOpen.value,

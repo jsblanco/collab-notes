@@ -3,16 +3,16 @@ import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { H2, Text } from '../ui/libUi';
-import { Entry } from '../models/Entry/Entry';
+import { Task } from '../models/Task/Task';
 import DraggableFlatList, {
 	DragEndParams,
 	RenderItemParams,
 } from 'react-native-draggable-flatlist';
-import { EntryItem } from './EntryItem';
-import { changeEntryListIndex } from '../store/lists/lists.actions';
+import { TaskItem } from './TaskItem';
+import { changeTaskListIndex } from '../store/lists/lists.actions';
 import { useNavigation } from '@react-navigation/native';
 
-const EntriesFlatlist = ({ listId }: { listId: string }) => {
+const TasksFlatlist = ({ listId }: { listId: string }) => {
 	const dispatch = useDispatch();
 	const navigation = useNavigation();
 	// const navigation = useNavigation();
@@ -20,18 +20,18 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 	// const [isLoading, setIsLoading] = useState(false);
 	// const [isRefreshing, setIsRefreshing] = useState(false);
 
-	// const completedEntries: Entry[] = useSelector((state: RootState) =>
-	// 	state.lists.lists.find((list) => list.id === listId)?.completedEntries ?? []
+	// const completedETasks: task[] = useSelector((state: RootState) =>
+	// 	state.lists.lists.find((list) => list.id === listId)?.completedETasks ?? []
 	// );
-	// const pendingEntries: Entry[] = useSelector((state: RootState) =>
-	// 	state.lists.lists.find((list) => list.id === listId)?.pendingEntries ?? []
+	// const pendingETasks: task[] = useSelector((state: RootState) =>
+	// 	state.lists.lists.find((list) => list.id === listId)?.pendingETasks ?? []
 	// );
 
-	const { completedEntries, pendingEntries, title } = useSelector(
+	const { completedTasks, pendingTasks, title } = useSelector(
 		(state: RootState) =>
 			state.lists.lists.find((list) => list.id === listId) ?? {
-				completedEntries: [],
-				pendingEntries: [],
+				completedTasks: [],
+				pendingTasks: [],
 				title: 'Missing table',
 			}
 	);
@@ -40,21 +40,21 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 
 	const error = useSelector((state: RootState) => state.lists.error);
 
-	// const loadEntries = useCallback(async () => {
+	// const loadETasks = useCallback(async () => {
 	// 	setIsRefreshing(true);
-	// 	await dispatch(fetchListEntries.request(listId));
+	// 	await dispatch(fetchListETasks.request(listId));
 	// 	setIsRefreshing(false);
 	// }, [dispatch]);
 
 	// useEffect(() => {
-	// 	const unsubscribe = navigation.addListener('focus', loadEntries);
+	// 	const unsubscribe = navigation.addListener('focus', loadETasks);
 	// 	return unsubscribe();
-	// }, [loadEntries]);
+	// }, [loadETasks]);
 
 	// useEffect(() => {
 	// 	setIsLoading(true);
-	// 	loadEntries().then(() => setIsLoading(false));
-	// }, [dispatch, loadEntries, listId]);
+	// 	loadETasks().then(() => setIsLoading(false));
+	// }, [dispatch, loadETasks, listId]);
 
 	if (error)
 		return (
@@ -69,27 +69,27 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 	// 			<ActivityIndicator size={'large'} color={colors.accent} />
 	// 		</View>
 	// 	);
-	// if (!isLoading && entries.length === 0)
+	// if (!isLoading && eTasks.length === 0)
 	// 	return (
 	// 		<View style={styles.screen}>
 	// 			<Text style={{ color: colors.text.muted }}>
-	// 				You have created no entries
+	// 				You have created no eTasks
 	// 			</Text>
 	// 		</View>
 	// 	);
 
 	const renderItem = useCallback(
-		(params: RenderItemParams<Entry>) => (
-			<EntryItem {...params} listId={listId} entry={params.item} />
+		(params: RenderItemParams<Task>) => (
+			<TaskItem {...params} listId={listId} task={params.item} />
 		),
 		[]
 	);
 
-	const changeTaskOrder = ({ data, from, to }: DragEndParams<Entry>) => {
+	const changeTaskOrder = ({ data, from, to }: DragEndParams<Task>) => {
 		dispatch(
-			changeEntryListIndex.request(
+			changeTaskListIndex.request(
 				listId,
-				data.map((entry) => entry.id)
+				data.map((task) => task.id)
 			)
 		);
 	};
@@ -98,9 +98,9 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 		<View style={styles.screen}>
 			<H2 center>Pending tasks</H2>
 			<DraggableFlatList
-				containerStyle={{ flex: 1 }}
-				style={{ flex: 1 }}
-				data={pendingEntries ?? []}
+				// containerStyle={{ flex: 1 }}
+				style={{ paddingBottom: 60 }}
+				data={pendingTasks ?? []}
 				onDragEnd={changeTaskOrder}
 				keyExtractor={(item) => item.id}
 				activationDistance={10}
@@ -108,9 +108,9 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 			/>
 			<H2 center>Completed tasks</H2>
 			<DraggableFlatList
-				containerStyle={{ flex: 1 }}
-				style={{ flex: 1 }}
-				data={completedEntries ?? []}
+				// containerStyle={{ flex: 1 }}
+				// style={{ flex: 1 }}
+				data={completedTasks ?? []}
 				onDragEnd={changeTaskOrder}
 				keyExtractor={(item) => item.id}
 				activationDistance={10}
@@ -120,12 +120,13 @@ const EntriesFlatlist = ({ listId }: { listId: string }) => {
 	);
 };
 
-export default EntriesFlatlist;
+export default TasksFlatlist;
 
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
 		width: '100%',
+		minHeight: '100%',
 	},
 	button: {
 		width: 75,

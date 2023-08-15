@@ -1,19 +1,19 @@
-import { Entry } from '../models/Entry/Entry';
+import { Task } from '../models/Task/Task';
 
 export enum ListStackRoutes {
 	ListHome = 'ListsHome',
-	ListEntries = 'ListEntries',
-	EntryForm = 'EntryForm',
+	ListTasks = 'ListTasks',
+	TaskForm = 'TaskForm',
 }
 
 export type ListStackProps = {
 	[ListStackRoutes.ListHome]: undefined;
-	[ListStackRoutes.ListEntries]: {
+	[ListStackRoutes.ListTasks]: {
 		listId: string;
 	};
-	[ListStackRoutes.EntryForm]: {
+	[ListStackRoutes.TaskForm]: {
 		listId: string;
-		entry?: Entry;
+		task?: Task;
 	};
 };
 
@@ -27,12 +27,12 @@ export type AuthStackProps = {
 	[AuthStackRoutes.Startup]: {};
 };
 
-export enum DrawerStackRoutes {
+export enum DrawerRoutes {
 	NewList = 'New Lists',
 	List = 'List',
 }
 
-export type DrawerStackProps = {
-	[DrawerStackRoutes.List]: {listId: string};
-	[DrawerStackRoutes.NewList]: {};
+export type DrawerProps = {
+	[DrawerRoutes.List]: { listId: string };
+	[DrawerRoutes.NewList]: {};
 };

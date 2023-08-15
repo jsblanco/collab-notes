@@ -1,4 +1,4 @@
-export const DummyEntries = [
+export const DummyTasks = [
 	{
 		id: '1001',
 		title: 'Tomates',
@@ -54,12 +54,12 @@ export const DummyLists = [
 		id: '1',
 		icon: 'cart-outline',
 		title: 'Lista de la compra',
-		entries: ['1001', '1002', '1003', '1004', '1005', '1006'],
+		tasks: ['1001', '1002', '1003', '1004', '1005', '1006'],
 	},
 	{
 		id: '2',
 		icon: 'home-outline',
 		title: 'Tareas del hogar',
-		entries: ['2001', '2002', '2003'],
+		tasks: ['2001', '2002', '2003'],
 	},
 ];

@@ -6,26 +6,26 @@ import {
 	ListStackRoutes,
 } from '../../../navigation/NavigationTypes';
 import { FloatingButton, Container } from '../../../ui/libUi';
-import { Actions, formReducer } from './ListEntryForm.reducer';
+import { Actions, formReducer } from './TaskFormScreen.reducer';
 import FormControl from '../../../components/FormControl/FormControl';
 import { useDispatch } from 'react-redux';
-import { addListEntry } from '../../../store/lists/lists.actions';
+import { addListTask } from '../../../store/lists/lists.actions';
 
-type Props = StackScreenProps<ListStackProps, ListStackRoutes.EntryForm>;
+type Props = StackScreenProps<ListStackProps, ListStackRoutes.TaskForm>;
 
-const ListEntryForm = ({ route, navigation }: Props): JSX.Element => {
-	const { listId, entry } = route.params;
+const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
+	const { listId, task } = route.params;
 
 	const initialFormState = {
 		inputValues: {
-			title: entry?.title ?? '',
-			description: entry?.description ?? '',
+			title: task?.title ?? '',
+			description: task?.description ?? '',
 		},
 		inputValidities: {
-			title: !!entry,
-			description: !!entry,
+			title: !!task,
+			description: !!task,
 		},
-		formIsValid: !!entry,
+		formIsValid: !!task,
 	};
 
 	const dispatch = useDispatch();
@@ -34,17 +34,17 @@ const ListEntryForm = ({ route, navigation }: Props): JSX.Element => {
 	useEffect(
 		() =>
 			navigation.setOptions({
-				title: entry ? `Edit task "${entry.title}"` : 'Create new task',
+				title: task ? `Edit task "${task.title}"` : 'Create new task',
 			}),
-		[entry]
+		[task]
 	);
 
 	const onSubmit = () => {
 		if (!!formState.formIsValid)
 			dispatch(
-				addListEntry.request(listId, {
+				addListTask.request(listId, {
 					id: '',
-					...entry,
+					...task,
 					...formState.inputValues,
 				})
 			);
@@ -64,12 +64,12 @@ const ListEntryForm = ({ route, navigation }: Props): JSX.Element => {
 		[formDispatch]
 	);
 
-	const onReset = useCallback(() => {
-		formDispatch({
-			type: Actions.FORM_RESET,
-			value: initialFormState,
-		});
-	}, [initialFormState]);
+	// const onReset = useCallback(() => {
+	// 	formDispatch({
+	// 		type: Actions.FORM_RESET,
+	// 		value: initialFormState,
+	// 	});
+	// }, [initialFormState]);
 
 	return (
 		<Container style={styles.screen}>
@@ -94,13 +94,13 @@ const ListEntryForm = ({ route, navigation }: Props): JSX.Element => {
 				required
 			/>
 			<FloatingButton onPress={onSubmit}>
-				{entry ? 'Update task' : 'Create new task'}
+				{task ? 'Update task' : 'Create new task'}
 			</FloatingButton>
 		</Container>
 	);
 };
 
-export default ListEntryForm;
+export default TaskFormScreen;
 
 const styles = StyleSheet.create({
 	screen: {

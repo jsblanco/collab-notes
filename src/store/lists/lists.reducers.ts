@@ -16,12 +16,10 @@ const listsReducer = (
 	{ type, payload }: { type: string; payload: any }
 ) => {
 	let listIndex: number = -1;
-	let entryIndex: number = -1;
 	let updatedLists: List[] = [];
-	let updatedList: List;
 
 	switch (type) {
-		case constants.FETCH_LISTS_SUCCESS:
+		case constants.FETCH_ALL_LISTS_SUCCESS:
 			return {
 				...state,
 				lists: payload as List[],
@@ -35,10 +33,10 @@ const listsReducer = (
 				],
 			};
 
-		case constants.ADD_ENTRY_SUCCESS:
-		case constants.REMOVE_ENTRY_SUCCESS:
-		case constants.TOGGLE_ENTRY_COMPLETION_SUCCESS:
-		case constants.CHANGE_ENTRY_ORDER_SUCCESS:
+		case constants.ADD_TASK_SUCCESS:
+		case constants.REMOVE_TASK_SUCCESS:
+		case constants.TOGGLE_TASK_COMPL_SUCCESS:
+		case constants.CHANGE_TASK_ORDER_SUCCESS:
 			listIndex = state.lists.findIndex((list) => list.id === payload.id);
 			if (listIndex === -1) return { ...state };
 			updatedLists = [...state.lists];
@@ -48,23 +46,23 @@ const listsReducer = (
 				...state,
 				lists: updatedLists,
 			};
-		case constants.CHANGE_ENTRY_ORDER_REQUEST:
-		case constants.TOGGLE_ENTRY_COMPLETION_REQUEST:
-		case constants.ADD_ENTRY_REQUEST:
-		case constants.REMOVE_ENTRY_REQUEST:
-		case constants.FETCH_ENTRIES_REQUEST:
-		case constants.FETCH_LISTS_REQUEST:
+		case constants.CHANGE_TASK_ORDER_REQUEST:
+		case constants.TOGGLE_TASK_COMPL_REQUEST:
+		case constants.ADD_TASK_REQUEST:
+		case constants.REMOVE_TASK_REQUEST:
+		case constants.FETCH_TASKS_REQUEST:
+		case constants.FETCH_ALL_LISTS_REQUEST:
 		case constants.MODIFY_LIST_REQUEST:
 			return {
 				...state,
 				error: '',
 			};
-		case constants.CHANGE_ENTRY_ORDER_FAILURE:
-		case constants.TOGGLE_ENTRY_COMPLETION_FAILURE:
-		case constants.ADD_ENTRY_FAILURE:
-		case constants.FETCH_ENTRIES_FAILURE:
-		case constants.REMOVE_ENTRY_FAILURE:
-		case constants.FETCH_LISTS_FAILURE:
+		case constants.CHANGE_TASK_ORDER_FAILURE:
+		case constants.TOGGLE_TASK_COMPL_FAILURE:
+		case constants.ADD_TASK_FAILURE:
+		case constants.FETCH_TASKS_FAILURE:
+		case constants.REMOVE_TASK_FAILURE:
+		case constants.FETCH_ALL_LISTS_FAILURE:
 		case constants.MODIFY_LIST_FAILURE:
 			return {
 				...state,

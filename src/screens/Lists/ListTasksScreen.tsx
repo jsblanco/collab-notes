@@ -1,36 +1,36 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
-import EntriesFlatlist from '../../components/EntriesFlatlist';
+import TasksFlatlist from '../../components/TasksFlatlist';
 import {
 	ListStackProps,
 	ListStackRoutes,
 } from '../../navigation/NavigationTypes';
 import { FloatingButton, Container } from '../../ui/libUi';
 
-type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListEntries>;
+type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListTasks>;
 
-const ListEntriesScreen = ({ route, navigation }: Props): JSX.Element => {
+const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 	const { listId } = route.params;
 
 	return (
 		<Container style={styles.screen}>
-			<EntriesFlatlist listId={listId} />
+			<TasksFlatlist listId={listId} />
 			<FloatingButton
 				onPress={() =>
 					//@ts-ignore
-					navigation.navigate(ListStackRoutes.EntryForm, {
+					navigation.navigate(ListStackRoutes.TaskForm, {
 						listId,
 					})
 				}
 			>
-				Add entry
+				New task
 			</FloatingButton>
 		</Container>
 	);
 };
 
-export default ListEntriesScreen;
+export default ListTaksScreen;
 
 const styles = StyleSheet.create({
 	screen: {

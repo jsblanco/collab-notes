@@ -1,13 +1,13 @@
 import { axiosInstance } from '../api/axios';
-import { DummyEntries, DummyLists } from '../../../data/DummyData';
+import { DummyTasks, DummyLists } from '../../../data/DummyData';
 import { DbList, List } from '../../models/List/List';
-import { Entry } from '../../models/Entry/Entry';
+import { Task } from '../../models/Task/Task';
 
 export const fetchLists = (): List[] => {
 	const preparedLists: List[] = [];
 
 	DummyLists.forEach((list: DbList) =>
-		preparedLists.push(populateListEntries(list))
+		preparedLists.push(populateListTasks(list))
 	);
 
 	return preparedLists;
@@ -17,110 +17,104 @@ export const fetchList = (listId: string): List => {
 	const list = DummyLists.find((list) => list.id === listId);
 	if (!list) throw new Error('No such list exists');
 
-	return populateListEntries(list);
+	return populateListTasks(list);
 };
 
-const populateListEntries = (list: DbList): List => {
+const populateListTasks = (list: DbList): List => {
 	const listIndex = DummyLists.findIndex((l) => l.id === list.id);
 	if (listIndex === -1) throw Error('No such list exists');
 
-	const entries: Entry[] = [];
+	const tasks: Task[] = [];
 
-	DummyLists[listIndex].entries.map((id) => {
-		DummyEntries.map((entry) => {
-			if (entry?.id === id) entries.push(entry);
+	DummyLists[listIndex].tasks.map((id) => {
+		DummyTasks.map((task) => {
+			if (task?.id === id) tasks.push(task);
 		});
 	});
-	const completedEntries = entries.filter((entry) => entry.isCompleted);
-	const pendingEntries = entries.filter((entry) => !entry.isCompleted);
+	const completedTasks = tasks.filter((task) => task.isCompleted);
+	const pendingTasks = tasks.filter((task) => !task.isCompleted);
 
-	DummyLists[listIndex].entries = [
-		...pendingEntries.map((entry) => entry.id),
-		...completedEntries.map((entry) => entry.id),
+	DummyLists[listIndex].tasks = [
+		...pendingTasks.map((task) => task.id),
+		...completedTasks.map((task) => task.id),
 	];
 
 	return {
 		...list,
-		completedEntries,
-		pendingEntries,
+		completedTasks,
+		pendingTasks,
 	};
 };
 
-export const addEntryToList = (listId: string, entry: Entry): List => {
+export const addTaskToList = (listId: string, task: Task): List => {
 	const list = fetchList(listId);
-	const dbEntry = { ...entry, id: new Date().getTime().toString() };
-	DummyEntries.push(dbEntry);
-	list.pendingEntries.push(dbEntry);
+	const dbTask = { ...task, id: new Date().getTime().toString() };
+	DummyTasks.push(dbTask);
+	list.pendingTasks.push(dbTask);
 
 	return list;
 };
 
-export const removeListEntry = (listId: string, entryId: string): List => {
+export const removeListTask = (listId: string, taskId: string): List => {
 	const list = fetchList(listId);
-	const entries = [...list.completedEntries, ...list.pendingEntries];
-	let entryIndex = entries.findIndex((entry) => entry.id === entryId);
-	if (entryIndex === -1)
+	const tasks = [...list.completedTasks, ...list.pendingTasks];
+	let taskIndex = tasks.findIndex((task) => task.id === taskId);
+	if (taskIndex === -1)
 		throw new Error('Task does not belong to selected list');
 
-	entries.splice(entryIndex, 1);
-	list.completedEntries = entries.filter((entry) => entry.isCompleted);
-	list.pendingEntries = entries.filter((entry) => !entry.isCompleted);
+	tasks.splice(taskIndex, 1);
+	list.completedTasks = tasks.filter((task) => task.isCompleted);
+	list.pendingTasks = tasks.filter((task) => !task.isCompleted);
 
-	entryIndex = DummyEntries.findIndex((entry) => entry.id === entryId);
-	DummyEntries.splice(entryIndex, 1);
+	taskIndex = DummyTasks.findIndex((task) => task.id === taskId);
+	DummyTasks.splice(taskIndex, 1);
 
-	// if (!entryIndex) throw new Error('Entry not found');
+	// if (!taskIndex) throw new Error('task not found');
 	return list;
 };
 
-export const toggleEntryCompletion = (
-	listId: string,
-	entryId: string
-): List => {
+export const toggleTaskCompletion = (listId: string, taskId: string): List => {
 	const list = fetchList(listId);
 
-	const entries = [...list.pendingEntries, ...list.completedEntries];
-	let entryIndex = entries.findIndex((entry) => entry.id === entryId);
-	if (entryIndex === -1)
+	const tasks = [...list.pendingTasks, ...list.completedTasks];
+	let taskIndex = tasks.findIndex((task) => task.id === taskId);
+	if (taskIndex === -1)
 		throw new Error('Task does not belong to selected list');
-	entries[entryIndex].isCompleted = !entries[entryIndex].isCompleted;
+	tasks[taskIndex].isCompleted = !tasks[taskIndex].isCompleted;
 
-	const updatedEntry = entries[entryIndex];
-	entries.splice(entryIndex, 1);
-	list.pendingEntries = entries.filter((entry) => !entry.isCompleted);
-	list.completedEntries = entries.filter((entry) => entry.isCompleted);
-	(updatedEntry.isCompleted ? list.completedEntries : list.pendingEntries).push(
-		updatedEntry
+	const updatedtask = tasks[taskIndex];
+	tasks.splice(taskIndex, 1);
+	list.pendingTasks = tasks.filter((task) => !task.isCompleted);
+	list.completedTasks = tasks.filter((task) => task.isCompleted);
+	(updatedtask.isCompleted ? list.completedTasks : list.pendingTasks).push(
+		updatedtask
 	);
 
-	entryIndex = DummyEntries.findIndex((entry) => entry.id === entryId);
-	DummyEntries[entryIndex] = updatedEntry;
+	taskIndex = DummyTasks.findIndex((task) => task.id === taskId);
+	DummyTasks[taskIndex] = updatedtask;
 
 	return list;
 };
 
-export const changeEntryOrder = (
-	listId: string,
-	entryOrder: string[]
-): List => {
+export const changeTaskOrder = (listId: string, taskOrder: string[]): List => {
 	const list = fetchList(listId);
 	const listIndex = DummyLists.findIndex((l) => l.id === listId);
 
-	const isCompleted = !!DummyEntries.find((entry) => entry.id === entryOrder[0])
+	const isCompleted = !!DummyTasks.find((task) => task.id === taskOrder[0])
 		?.isCompleted;
-	const newEntries = [];
+	const newtasks = [];
 
-	for (let i = 0; i < entryOrder.length; i++) {
-		newEntries[i] = DummyEntries.find((entry) => entry.id === entryOrder[i]);
+	for (let i = 0; i < taskOrder.length; i++) {
+		newtasks[i] = DummyTasks.find((task) => task.id === taskOrder[i]);
 	}
 
 	isCompleted
-		? (list.completedEntries = newEntries as Entry[])
-		: (list.pendingEntries = newEntries as Entry[]);
+		? (list.completedTasks = newtasks as Task[])
+		: (list.pendingTasks = newtasks as Task[]);
 
-	DummyLists[listIndex].entries = [
-		...list.pendingEntries.map((e) => e.id),
-		...list.completedEntries.map((e) => e.id),
+	DummyLists[listIndex].tasks = [
+		...list.pendingTasks.map((e) => e.id),
+		...list.completedTasks.map((e) => e.id),
 	];
 
 	return list;

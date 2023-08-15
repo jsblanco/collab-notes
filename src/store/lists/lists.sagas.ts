@@ -10,7 +10,7 @@ import * as actions from './lists.actions';
 import * as queries from './lists.queries';
 import { ReduxAction } from '../store';
 import { List } from '../../models/List/List';
-import { Entry } from '../../models/Entry/Entry';
+import { Task } from '../../models/Task/Task';
 
 function* fetchListsEffect(): Generator<
 	CallEffect | PutEffect<ReduxAction<List[]>>,
@@ -19,10 +19,10 @@ function* fetchListsEffect(): Generator<
 > {
 	try {
 		const lists = yield call(queries.fetchLists);
-		yield put(actions.fetchLists.success(lists));
+		yield put(actions.fetchAllLists.success(lists));
 	} catch (e) {
 		console.error(e);
-		yield put(actions.fetchLists.failure(e));
+		yield put(actions.fetchAllLists.failure(e));
 	}
 }
 
@@ -35,105 +35,102 @@ function* fetchListEffect({
 > {
 	try {
 		const list = yield call(queries.fetchList, payload);
-		yield put(actions.fetchList.success(list));
+		yield put(actions.fetchSingleList.success(list));
 	} catch (e) {
 		console.error(e);
-		yield put(actions.fetchLists.failure(e));
+		yield put(actions.fetchAllLists.failure(e));
 	}
 }
 
-function* addListEntryEffect({
+function* addListTaskEffect({
 	payload,
-}: ReduxAction<{ listId: string; entry: Entry }>): Generator<
+}: ReduxAction<{ listId: string; task: Task }>): Generator<
 	| CallEffect<List>
 	| PutEffect<ReduxAction<List>>
-	| PutEffect<ReduxAction<Entry[]>>,
+	| PutEffect<ReduxAction<Task[]>>,
 	void,
 	List
 > {
 	try {
 		const updatedData = yield call(
-			queries.addEntryToList,
+			queries.addTaskToList,
 			payload.listId,
-			payload.entry
+			payload.task
 		);
-		yield put(actions.addListEntry.success(updatedData));
+		yield put(actions.addListTask.success(updatedData));
 	} catch (e) {
 		console.error(e);
-		yield put(actions.addListEntry.failure(e));
+		yield put(actions.addListTask.failure(e));
 	}
 }
 
-function* removeListEntryEffect({
+function* removeListTaskEffect({
 	payload,
-}: ReduxAction<{ listId: string; entryId: string }>): Generator<
+}: ReduxAction<{ listId: string; taskId: string }>): Generator<
 	CallEffect<List> | PutEffect<ReduxAction<List>>,
 	void,
 	List
 > {
 	try {
 		const list = yield call(
-			queries.removeListEntry,
+			queries.removeListTask,
 			payload.listId,
-			payload.entryId
+			payload.taskId
 		);
-		yield put(actions.removeListEntry.success(list));
+		yield put(actions.removeListTask.success(list));
 	} catch (e) {
 		console.error(e);
-		yield put(actions.removeListEntry.failure(e));
+		yield put(actions.removeListTask.failure(e));
 	}
 }
 
-function* toggleEntryCompletionEffect({
+function* toggleTaskCompletionEffect({
 	payload,
-}: ReduxAction<{ entryId: string; listId: string }>): Generator<
+}: ReduxAction<{ taskId: string; listId: string }>): Generator<
 	CallEffect<List> | PutEffect<any> | PutEffect<ReduxAction<List>>,
 	void,
 	List
 > {
 	try {
 		const list = yield call(
-			queries.toggleEntryCompletion,
+			queries.toggleTaskCompletion,
 			payload.listId,
-			payload.entryId
+			payload.taskId
 		);
-		yield put(actions.toggleEntryCompletion.success(list));
+		yield put(actions.toggleTaskCompletion.success(list));
 	} catch (e) {
 		console.error(e);
-		yield put(actions.toggleEntryCompletion.failure(e));
+		yield put(actions.toggleTaskCompletion.failure(e));
 	}
 }
 
-function* changeEntryListIndexEffect({
+function* changeTaskListIndexEffect({
 	payload,
-}: ReduxAction<{ entryOrder: string[]; listId: string }>): Generator<
+}: ReduxAction<{ TaskOrder: string[]; listId: string }>): Generator<
 	CallEffect<List> | PutEffect<any> | PutEffect<ReduxAction<List>>,
 	void,
 	List
 > {
 	try {
 		const list = yield call(
-			queries.changeEntryOrder,
+			queries.changeTaskOrder,
 			payload.listId,
-			payload.entryOrder
+			payload.TaskOrder
 		);
-		yield put(actions.changeEntryListIndex.success(list));
+		yield put(actions.changeTaskListIndex.success(list));
 	} catch (e) {
 		console.error(e);
-		yield put(actions.changeEntryListIndex.failure(e));
+		yield put(actions.changeTaskListIndex.failure(e));
 	}
 }
 
 function* listsSagas() {
-	yield takeLatest(c.FETCH_LISTS_REQUEST, fetchListsEffect);
-	yield takeLatest(c.FETCH_LIST_REQUEST, fetchListEffect);
-	yield takeLatest(c.ADD_ENTRY_REQUEST, addListEntryEffect);
-	yield takeLatest(c.REMOVE_ENTRY_REQUEST, removeListEntryEffect);
-	yield takeLatest(
-		c.TOGGLE_ENTRY_COMPLETION_REQUEST,
-		toggleEntryCompletionEffect
-	);
-	yield takeLatest(c.CHANGE_ENTRY_ORDER_REQUEST, changeEntryListIndexEffect);
+	yield takeLatest(c.FETCH_ALL_LISTS_REQUEST, fetchListsEffect);
+	yield takeLatest(c.FETCH_SINGLE_LIST_REQUEST, fetchListEffect);
+	yield takeLatest(c.ADD_TASK_REQUEST, addListTaskEffect);
+	yield takeLatest(c.REMOVE_TASK_REQUEST, removeListTaskEffect);
+	yield takeLatest(c.TOGGLE_TASK_COMPL_REQUEST, toggleTaskCompletionEffect);
+	yield takeLatest(c.CHANGE_TASK_ORDER_REQUEST, changeTaskListIndexEffect);
 }
 
 export default listsSagas;

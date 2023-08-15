@@ -7,10 +7,10 @@ import {
 import {
 	ListStackProps,
 	ListStackRoutes,
-	DrawerStackRoutes,
+	DrawerRoutes,
 } from '../NavigationTypes';
-import ListEntriesScreen from '../../screens/Lists/ListEntriesScreen';
-import ListEntryForm from '../../screens/Lists/ListEntryForm/ListEntryForm';
+import ListTaksScreen from '../../screens/Lists/ListTasksScreen';
+import TaskFormScreen from '../../screens/Lists/TaskFormScreen/TaskFormScreen';
 import styles from './styles/stack.styles';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from 'react-native';
@@ -22,7 +22,7 @@ export function ListStack({ route }: any) {
 
 	return (
 		<Stack.Navigator
-			initialRouteName={ListStackRoutes.ListEntries}
+			initialRouteName={ListStackRoutes.ListTasks}
 			screenOptions={{
 				...(styles as StackNavigationOptions),
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
@@ -30,9 +30,9 @@ export function ListStack({ route }: any) {
 			}}
 		>
 			<Stack.Screen
-				name={ListStackRoutes.ListEntries}
+				name={ListStackRoutes.ListTasks}
 				initialParams={{ listId: route.params.listId }}
-				component={ListEntriesScreen}
+				component={ListTaksScreen}
 				options={{
 					headerLeft: () => (
 						<Button
@@ -44,9 +44,9 @@ export function ListStack({ route }: any) {
 				}}
 			/>
 			<Stack.Screen
-				name={ListStackRoutes.EntryForm}
+				name={ListStackRoutes.TaskForm}
 				initialParams={{ listId: route.params.listId }}
-				component={ListEntryForm}
+				component={TaskFormScreen}
 				// options={{
 				// 	headerLeft: () => (
 				// 		<Button
