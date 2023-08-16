@@ -1,8 +1,10 @@
 import { Task } from '../Task/Task';
+import { Ionicons } from '@expo/vector-icons';
+
 
 export interface List {
 	id: string;
-	icon: string;
+	icon: keyof typeof Ionicons.glyphMap;
 	title: string;
 	pendingTasks: Task[];
 	completedTasks: Task[];
@@ -10,7 +12,7 @@ export interface List {
 
 export interface DbList {
 	id: string;
-	icon: string;
+	icon: keyof typeof Ionicons.glyphMap;
 	title: string;
 	tasks: string[];
 }
