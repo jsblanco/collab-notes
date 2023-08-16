@@ -8,6 +8,7 @@ import {
 	StyleSheet,
 } from 'react-native';
 import {
+	DrawerContentComponentProps,
 	DrawerContentScrollView,
 	DrawerItemList,
 } from '@react-navigation/drawer';
@@ -16,16 +17,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { List } from '../../models/List/List';
 import { fetchAllLists } from '../../store/lists/lists.actions';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { DrawerRoutes, ListStackRoutes } from '../NavigationTypes';
 import { Button } from '../../ui/libUi';
 
-const CustomDrawerContent = (props: any) => {
+const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 	const dispatch = useDispatch();
 	const navigation = useNavigation();
 	const [isLoading, setIsLoading] = useState(false);
-	const lists = useSelector((state: RootState) => state.lists.lists);
-	const error = useSelector((state: RootState) => state.lists.error);
+	const { lists, error } = useSelector(
+		(state: RootState) => state.lists
+	);
+
+	const [currentRoute, setCurrentRoute] = useState<any>();
+
+	useEffect(() => {
+		setCurrentRoute(props.state.routes[props.state.index]);
+	}, [props.state.routes, props.state.index]);
 
 	const loadLists = useCallback(
 		async () => await dispatch(fetchAllLists.request()),
@@ -122,6 +130,15 @@ const CustomDrawerContent = (props: any) => {
 					key={list.id}
 					buttonStyle={{
 						...styles.navButton,
+						...((currentRoute.name !== DrawerRoutes.List ||
+							list.id !== currentRoute.params?.params?.listId) &&
+							styles.navButtonIdle),
+					}}
+					textStyle={{
+						...styles.navButton,
+						...((currentRoute.name !== DrawerRoutes.List ||
+							list.id !== currentRoute.params?.params?.listId) &&
+							styles.navButtonIdle),
 					}}
 					onPress={() =>
 						//@ts-ignore

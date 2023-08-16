@@ -2,6 +2,7 @@ import * as constants from './lists.constants';
 import { List } from '../../models/List/List';
 
 type StateType = {
+	selectedList?: string;
 	lists: List[];
 	error: string;
 };

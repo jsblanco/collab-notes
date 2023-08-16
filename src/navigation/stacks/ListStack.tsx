@@ -14,6 +14,9 @@ const Stack = createStackNavigator<ListStackProps>();
 
 export function ListStack({ route }: any) {
 
+
+
+	
 	return (
 		<Stack.Navigator
 			initialRouteName={ListStackRoutes.ListTasks}

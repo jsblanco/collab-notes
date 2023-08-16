@@ -1,5 +1,8 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import React, { useState } from 'react';
+import {
+	NavigationContainer,
+	createNavigationContainerRef,
+} from '@react-navigation/native';
 
 import { RootState } from '../store/store';
 import { useSelector } from 'react-redux';

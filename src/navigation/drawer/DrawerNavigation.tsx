@@ -1,5 +1,8 @@
 import React, { ReactNode } from 'react';
-import { DrawerNavigationOptions, createDrawerNavigator } from '@react-navigation/drawer';
+import {
+	DrawerNavigationOptions,
+	createDrawerNavigator,
+} from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 import { ListStack } from '../stacks/ListStack';
 import { colors } from '../../ui/libUi';
@@ -14,6 +17,7 @@ const Drawer = createDrawerNavigator<DrawerProps>();
 export function DrawerNavigation() {
 	const DrawerContent = ({ children }: { children?: ReactNode }) => (
 		<Drawer.Navigator
+			drawerContent={CustomDrawerContent}
 			initialRouteName={DrawerRoutes.NewList}
 			screenOptions={{
 				...(styles as DrawerNavigationOptions),
@@ -22,7 +26,6 @@ export function DrawerNavigation() {
 				drawerInactiveTintColor: '#333',
 				headerLeft: OpenDrawerButton,
 			}}
-			drawerContent={(props) => <CustomDrawerContent {...props} />}
 		>
 			<Drawer.Screen
 				name={DrawerRoutes.NewList}
