@@ -7,12 +7,10 @@ import {
 	ListStackRoutes,
 } from '../../navigation/NavigationTypes';
 import { FloatingButton, Container } from '../../ui/libUi';
-import { useDispatch } from 'react-redux';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListTasks>;
 
 const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
-	const dispatch = useDispatch();
 	const { listId } = route.params;
 
 	return (

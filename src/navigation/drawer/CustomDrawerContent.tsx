@@ -25,9 +25,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 	const dispatch = useDispatch();
 	const navigation = useNavigation();
 	const [isLoading, setIsLoading] = useState(false);
-	const { lists, error } = useSelector(
-		(state: RootState) => state.lists
-	);
+	const { lists, error } = useSelector((state: RootState) => state.lists);
 
 	const [currentRoute, setCurrentRoute] = useState<any>();
 
@@ -125,34 +123,35 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 
 	return (
 		<DrawerContent>
-			{lists?.map((list: List) => (
-				<Button
-					key={list.id}
-					buttonStyle={{
-						...styles.navButton,
-						...((currentRoute.name !== DrawerRoutes.List ||
-							list.id !== currentRoute.params?.params?.listId) &&
-							styles.navButtonIdle),
-					}}
-					textStyle={{
-						...styles.navButton,
-						...((currentRoute.name !== DrawerRoutes.List ||
-							list.id !== currentRoute.params?.params?.listId) &&
-							styles.navButtonIdle),
-					}}
-					onPress={() =>
-						//@ts-ignore
-						navigation.navigate(DrawerRoutes.List, {
-							screen: ListStackRoutes.ListTasks,
-							params: { listId: list.id },
-						})
-					}
-				>
-					{/* @ts-ignore */}
-					<Ionicons name={list.icon} color={'#ccc'} size={12} />
-					{list.title} {list.id}
-				</Button>
-			))}
+			{lists?.map((list: List) => {
+				const isSelectedListRoute =
+					currentRoute.name !== DrawerRoutes.List ||
+					list.id !== currentRoute.params?.params?.listId;
+
+				return (
+					<Button
+						key={list.id}
+						buttonStyle={{
+							...styles.navButton,
+							...(isSelectedListRoute && styles.navButtonIdle),
+						}}
+						textStyle={{
+							...(isSelectedListRoute && styles.navButtonIdle),
+						}}
+						onPress={() =>
+							//@ts-ignore
+							navigation.navigate(DrawerRoutes.List, {
+								screen: ListStackRoutes.ListTasks,
+								params: { listId: list.id },
+							})
+						}
+					>
+						{/* @ts-ignore */}
+						<Ionicons name={list.icon} color={'#ccc'} size={12} />
+						{list.title} {list.id}
+					</Button>
+				);
+			})}
 		</DrawerContent>
 	);
 };
