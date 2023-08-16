@@ -1,7 +1,6 @@
 import { Task } from '../Task/Task';
 import { Ionicons } from '@expo/vector-icons';
 
-
 export interface List {
 	id: string;
 	icon: keyof typeof Ionicons.glyphMap;

@@ -5,27 +5,42 @@ import {
 	DrawerRoutes,
 	ListStackRoutes,
 } from '../../navigation/NavigationTypes';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { Ionicons } from '@expo/vector-icons';
 import { Container, H2, H3 } from '../../ui/libUi';
 import DraggableFlatList, {
+	DragEndParams,
 	RenderItemParams,
 } from 'react-native-draggable-flatlist';
 import { TaskItem } from '../../components/TaskItem';
 import { Task } from '../../models/Task/Task';
 import { List } from '../../models/List/List';
 import { DrawerScreenProps } from '@react-navigation/drawer';
+import { changeTaskListIndex } from '../../store/lists/lists.actions';
 
 type Props = DrawerScreenProps<DrawerProps, DrawerRoutes.Home>;
 const ListsHomeScreen = ({ route, navigation }: Props) => {
 	const { lists } = useSelector((state: RootState) => state.lists);
+	const dispatch = useDispatch();
 
 	const renderItem = useCallback(
 		(listId: string, params: RenderItemParams<Task>) => (
 			<TaskItem {...params} listId={listId} task={params.item} />
 		),
 		[]
+	);
+
+	const changeTaskOrder = useCallback(
+		(listId: string, { data, from, to }: DragEndParams<Task>) => {
+			dispatch(
+				changeTaskListIndex.request(
+					listId,
+					data.map((task) => task.id)
+				)
+			);
+		},
+		[dispatch]
 	);
 
 	return (
@@ -60,6 +75,7 @@ const ListsHomeScreen = ({ route, navigation }: Props) => {
 						containerStyle={{ width: '100%' }}
 						data={list.pendingTasks ?? []}
 						keyExtractor={(item) => item.id}
+						onDragEnd={changeTaskOrder.bind(this, list.id)}
 						activationDistance={10}
 						renderItem={renderItem.bind(null, list.id)}
 					/>

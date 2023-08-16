@@ -49,6 +49,11 @@ const populateListTasks = (list: DbList): List => {
 export const addTaskToList = (listId: string, task: Task): List => {
 	const list = fetchList(listId);
 	const dbTask = { ...task, id: new Date().getTime().toString() };
+	const dbList = DummyLists.find((list) => list.id === listId);
+	
+	if (!dbList) throw new Error('List not found');
+
+	dbList.tasks.push(dbTask.id);
 	DummyTasks.push(dbTask);
 	list.pendingTasks.push(dbTask);
 
