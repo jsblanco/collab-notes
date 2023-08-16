@@ -18,7 +18,6 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 			<TasksFlatlist listId={listId} />
 			<FloatingButton
 				onPress={() =>
-					//@ts-ignore
 					navigation.navigate(ListStackRoutes.TaskForm, {
 						listId,
 					})

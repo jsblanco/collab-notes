@@ -8,7 +8,6 @@ import { ListStack } from '../stacks/ListStack';
 import { colors } from '../../ui/libUi';
 import CustomDrawerContent from './CustomDrawerContent';
 import { DrawerProps, DrawerRoutes } from '../NavigationTypes';
-import { AuthStack } from '../stacks/AuthStack';
 import OpenDrawerButton from '../../components/OpenDrawerButton';
 import styles from '../stacks/styles/stack.styles';
 import ListsHomeScreen from '../../screens/Lists/ListsHomeScreen';

@@ -47,8 +47,7 @@ export const formReducer: Reducer<ReducerStateType, ActionsType> = (
 				[a.input]: a.isValid,
 			};
 			for (let key in updatedValidities) {
-				// @ts-ignore
-				updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
+				updatedFormIsValid = !!(updatedFormIsValid && updatedValidities[key]);
 			}
 			return {
 				...state,

@@ -146,7 +146,6 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 							})
 						}
 					>
-						{/* @ts-ignore */}
 						<Ionicons name={list.icon} color={'#ccc'} size={12} />
 						{list.title} {list.id}
 					</Button>
