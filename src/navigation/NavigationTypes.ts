@@ -1,13 +1,13 @@
 import { Task } from '../models/Task/Task';
 
 export enum ListStackRoutes {
-	ListHome = 'ListsHome',
+	ListsHome = 'ListsHome',
 	ListTasks = 'ListTasks',
 	TaskForm = 'TaskForm',
 }
 
 export type ListStackProps = {
-	[ListStackRoutes.ListHome]: undefined;
+	[ListStackRoutes.ListsHome]: undefined;
 	[ListStackRoutes.ListTasks]: {
 		listId: string;
 	};
@@ -30,9 +30,11 @@ export type AuthStackProps = {
 export enum DrawerRoutes {
 	NewList = 'New Lists',
 	List = 'List',
+	Home = 'Home',
 }
 
 export type DrawerProps = {
 	[DrawerRoutes.List]: { listId: string };
 	[DrawerRoutes.NewList]: {};
+	[DrawerRoutes.Home]: {};
 };

@@ -24,19 +24,18 @@ import { Button } from '../../ui/libUi';
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 	const dispatch = useDispatch();
 	const navigation = useNavigation();
-	const [isLoading, setIsLoading] = useState(false);
 	const { lists, error } = useSelector((state: RootState) => state.lists);
-
+	const [isLoading, setIsLoading] = useState(false);
 	const [currentRoute, setCurrentRoute] = useState<any>();
-
-	useEffect(() => {
-		setCurrentRoute(props.state.routes[props.state.index]);
-	}, [props.state.routes, props.state.index]);
 
 	const loadLists = useCallback(
 		async () => await dispatch(fetchAllLists.request()),
 		[dispatch]
 	);
+
+	useEffect(() => {
+		setCurrentRoute(props.state.routes[props.state.index]);
+	}, [props.state.routes, props.state.index]);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -125,8 +124,9 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 		<DrawerContent>
 			{lists?.map((list: List) => {
 				const isSelectedListRoute =
-					currentRoute.name !== DrawerRoutes.List ||
-					list.id !== currentRoute.params?.params?.listId;
+					currentRoute &&
+					(currentRoute?.name !== DrawerRoutes.List ||
+						list.id !== currentRoute?.params?.params?.listId);
 
 				return (
 					<Button

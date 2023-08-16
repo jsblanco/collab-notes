@@ -11,6 +11,7 @@ import { DrawerProps, DrawerRoutes } from '../NavigationTypes';
 import { AuthStack } from '../stacks/AuthStack';
 import OpenDrawerButton from '../../components/OpenDrawerButton';
 import styles from '../stacks/styles/stack.styles';
+import ListsHomeScreen from '../../screens/Lists/ListsHomeScreen';
 
 const Drawer = createDrawerNavigator<DrawerProps>();
 
@@ -28,10 +29,10 @@ export function DrawerNavigation() {
 			}}
 		>
 			<Drawer.Screen
-				name={DrawerRoutes.NewList}
-				component={AuthStack}
+				name={DrawerRoutes.Home}
+				component={ListsHomeScreen}
 				options={{
-					drawerLabel: 'TODO: Change to Create List',
+					drawerLabel: 'Home',
 					drawerIcon: ({ color, size }) => (
 						<Ionicons name='document-text-outline' color={color} size={size} />
 					),

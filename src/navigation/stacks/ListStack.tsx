@@ -14,16 +14,12 @@ const Stack = createStackNavigator<ListStackProps>();
 
 export function ListStack({ route }: any) {
 
-
-
-	
 	return (
 		<Stack.Navigator
 			initialRouteName={ListStackRoutes.ListTasks}
 			screenOptions={{
 				...(styles as StackNavigationOptions),
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-				// headerShown: false,
 			}}
 		>
 			<Stack.Screen
@@ -38,19 +34,6 @@ export function ListStack({ route }: any) {
 				name={ListStackRoutes.TaskForm}
 				initialParams={{ listId: route.params.listId }}
 				component={TaskFormScreen}
-				// options={{
-				// 	headerLeft: () => (
-				// 		<Button
-				// 			//@ts-ignore
-				// 			onPress={() =>
-				// 				navigation.navigate(DrawerStackRoutes.List, {
-				// 					screen: ListStackRoutes.ListEntries,
-				// 				})
-				// 			}
-				// 			title='Return'
-				// 		/>
-				// 	),
-				// }}
 			/>
 		</Stack.Navigator>
 	);
