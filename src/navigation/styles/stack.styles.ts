@@ -1,10 +1,10 @@
-import { colors, fonts } from '../../../ui/libUi';
+import { colors, fonts } from '../../ui/libUi';
 
 const styles = {
 	headerStyle: {
 		elevation: 0,
 		shadowOpacity: 0,
-		backgroundColor: colors.background
+		backgroundColor: colors.background,
 	},
 	headerTintColor: colors.primary,
 	headerTitleStyle: {

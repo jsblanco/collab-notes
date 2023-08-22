@@ -5,7 +5,7 @@ import {
 } from '@react-navigation/stack';
 import AuthScreen from '../../screens/Auth/AuthScreen';
 import StartupScreen from '../../screens/Auth/StartupScreen';
-import styles from './styles/stack.styles';
+import styles from '../styles/stack.styles';
 import { AuthStackProps, AuthStackRoutes } from '../NavigationTypes';
 
 const Stack = createStackNavigator<AuthStackProps>();

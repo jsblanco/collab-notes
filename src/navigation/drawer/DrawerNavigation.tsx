@@ -7,9 +7,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { ListStack } from '../stacks/ListStack';
 import { colors } from '../../ui/libUi';
 import CustomDrawerContent from './CustomDrawerContent';
-import { DrawerProps, DrawerRoutes } from '../NavigationTypes';
+import { DrawerProps, DrawerRoutes, ListStackRoutes } from '../NavigationTypes';
 import OpenDrawerButton from '../../components/OpenDrawerButton';
-import styles from '../stacks/styles/stack.styles';
+import styles from '../styles/stack.styles';
 import ListsHomeScreen from '../../screens/Lists/ListsHomeScreen';
 
 const Drawer = createDrawerNavigator<DrawerProps>();
@@ -25,11 +25,13 @@ export function DrawerNavigation() {
 				drawerActiveTintColor: '#fff',
 				drawerInactiveTintColor: '#333',
 				headerLeft: OpenDrawerButton,
+				headerShown: false,
 			}}
 		>
 			<Drawer.Screen
 				name={DrawerRoutes.Home}
-				component={ListsHomeScreen}
+				component={ListStack}
+				initialParams={{ screen: ListStackRoutes.ListsHome }}
 				options={{
 					drawerLabel: 'Home',
 					drawerIcon: ({ color, size }) => (
@@ -40,7 +42,7 @@ export function DrawerNavigation() {
 			<Drawer.Screen
 				component={ListStack}
 				name={DrawerRoutes.List}
-				initialParams={{ listId: '0' }}
+				initialParams={{ listId: '0', screen: ListStackRoutes.ListTasks, params: {listId: '0'} }}
 				getId={({ params }) => params.listId}
 				options={{
 					headerShown: false,

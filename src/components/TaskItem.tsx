@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import SwipeableItem, {
@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { toggleTaskCompletion } from '../store/lists/lists.actions';
 import { H3, Text } from '../ui/libUi';
 import { useNavigation } from '@react-navigation/native';
-import { ListStackRoutes } from '../navigation/NavigationTypes';
+import { DrawerRoutes, ListStackRoutes } from '../navigation/NavigationTypes';
 
 export function TaskItem({
 	task,
@@ -22,7 +22,7 @@ export function TaskItem({
 	drag: () => void;
 }) {
 	const dispatch = useDispatch();
-	const [detailedView, setDetailedView] = useState<Boolean>(false);
+	const navigation = useNavigation();
 
 	return (
 		<ScaleDecorator>
@@ -44,14 +44,15 @@ export function TaskItem({
 				<TouchableOpacity
 					activeOpacity={1}
 					onLongPress={drag}
-					onPress={setDetailedView.bind(null, !detailedView)}
+					onPress={() =>
+						navigation.navigate(ListStackRoutes.TaskDetails, {
+							listId: listId,
+							taskId: task.id,
+						})
+					}
 					style={[styles.row, styles.item]}
 				>
 					<H3 style={styles.text}>{`${task.title}`}</H3>
-
-					{!!detailedView && (
-						<Text style={styles.text}>{`${task.description}`}</Text>
-					)}
 				</TouchableOpacity>
 			</SwipeableItem>
 		</ScaleDecorator>

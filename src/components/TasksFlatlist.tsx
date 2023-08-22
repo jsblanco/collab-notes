@@ -15,18 +15,8 @@ import { useNavigation } from '@react-navigation/native';
 const TasksFlatlist = ({ listId }: { listId: string }) => {
 	const dispatch = useDispatch();
 	const navigation = useNavigation();
-	// const navigation = useNavigation();
 
-	// const [isLoading, setIsLoading] = useState(false);
-	// const [isRefreshing, setIsRefreshing] = useState(false);
-
-	// const completedETasks: task[] = useSelector((state: RootState) =>
-	// 	state.lists.lists.find((list) => list.id === listId)?.completedETasks ?? []
-	// );
-	// const pendingETasks: task[] = useSelector((state: RootState) =>
-	// 	state.lists.lists.find((list) => list.id === listId)?.pendingETasks ?? []
-	// );
-
+	const error = useSelector((state: RootState) => state.lists.error);
 	const { completedTasks, pendingTasks, title } = useSelector(
 		(state: RootState) =>
 			state.lists.lists.find((list) => list.id === listId) ?? {
@@ -37,39 +27,6 @@ const TasksFlatlist = ({ listId }: { listId: string }) => {
 	);
 
 	useEffect(() => navigation.setOptions({ title }), []);
-
-	const error = useSelector((state: RootState) => state.lists.error);
-
-	// const loadETasks = useCallback(async () => {
-	// 	setIsRefreshing(true);
-	// 	await dispatch(fetchListETasks.request(listId));
-	// 	setIsRefreshing(false);
-	// }, [dispatch]);
-
-	// useEffect(() => {
-	// 	const unsubscribe = navigation.addListener('focus', loadETasks);
-	// 	return unsubscribe();
-	// }, [loadETasks]);
-
-	// useEffect(() => {
-	// 	setIsLoading(true);
-	// 	loadETasks().then(() => setIsLoading(false));
-	// }, [dispatch, loadETasks, listId]);
-
-	// if (isLoading)
-	// 	return (
-	// 		<View style={styles.screen}>
-	// 			<ActivityIndicator size={'large'} color={colors.accent} />
-	// 		</View>
-	// 	);
-	// if (!isLoading && eTasks.length === 0)
-	// 	return (
-	// 		<View style={styles.screen}>
-	// 			<Text style={{ color: colors.text.muted }}>
-	// 				You have created no eTasks
-	// 			</Text>
-	// 		</View>
-	// 	);
 
 	const renderItem = useCallback(
 		(params: RenderItemParams<Task>) => (
@@ -89,6 +46,36 @@ const TasksFlatlist = ({ listId }: { listId: string }) => {
 		},
 		[dispatch, listId]
 	);
+
+	// const [isLoading, setIsLoading] = useState(false);
+	// const [isRefreshing, setIsRefreshing] = useState(false);
+	// const loadTasks = useCallback(async () => {
+	// 	setIsRefreshing(true);
+	// 	await dispatch(fetchListTasks.request(listId));
+	// 	setIsRefreshing(false);
+	// }, [dispatch]);
+	// useEffect(() => {
+	// 	const unsubscribe = navigation.addListener('focus', loadTasks);
+	// 	return unsubscribe();
+	// }, [loadTasks]);
+	// useEffect(() => {
+	// 	setIsLoading(true);
+	// 	loadTasks().then(() => setIsLoading(false));
+	// }, [dispatch, loadTasks, listId]);
+	// if (isLoading)
+	// 	return (
+	// 		<View style={styles.screen}>
+	// 			<ActivityIndicator size={'large'} color={colors.accent} />
+	// 		</View>
+	// 	);
+	// if (!isLoading && completedTasks.length === 0 && pendingTasks.length === 0)
+	// 	return (
+	// 		<View style={styles.screen}>
+	// 			<Text style={{ color: colors.text.muted }}>
+	// 				You have created no Tasks
+	// 			</Text>
+	// 		</View>
+	// 	);
 
 	if (error)
 		return (

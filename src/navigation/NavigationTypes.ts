@@ -4,6 +4,7 @@ export enum ListStackRoutes {
 	ListsHome = 'ListsHome',
 	ListTasks = 'ListTasks',
 	TaskForm = 'TaskForm',
+	TaskDetails = 'TaskDetails',
 }
 
 export type ListStackProps = {
@@ -14,6 +15,10 @@ export type ListStackProps = {
 	[ListStackRoutes.TaskForm]: {
 		listId: string;
 		task?: Task;
+	};
+	[ListStackRoutes.TaskDetails]: {
+		listId: string;
+		taskId: string;
 	};
 };
 
