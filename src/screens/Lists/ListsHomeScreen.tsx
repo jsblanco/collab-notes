@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import {
-	DrawerProps,
 	DrawerRoutes,
+	ListStackProps,
 	ListStackRoutes,
+	getDrawerListLink,
 } from '../../navigation/NavigationTypes';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
@@ -16,10 +17,10 @@ import DraggableFlatList, {
 import { TaskItem } from '../../components/TaskItem';
 import { Task } from '../../models/Task/Task';
 import { List } from '../../models/List/List';
-import { DrawerScreenProps } from '@react-navigation/drawer';
 import { changeTaskListIndex } from '../../store/lists/lists.actions';
+import { StackScreenProps } from '@react-navigation/stack';
 
-type Props = DrawerScreenProps<DrawerProps, DrawerRoutes.Home>;
+type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListsHome>;
 const ListsHomeScreen = ({ route, navigation }: Props) => {
 	const { lists } = useSelector((state: RootState) => state.lists);
 	const dispatch = useDispatch();
@@ -62,9 +63,12 @@ const ListsHomeScreen = ({ route, navigation }: Props) => {
 							paddingHorizontal: 20,
 						}}
 						onPress={() => {
-							navigation.navigate(DrawerRoutes.List, {
+							//@ts-ignore
+							navigation.navigate(getDrawerListLink(list.id), {
 								screen: ListStackRoutes.ListTasks,
-								params: { listId: list.id },
+								params: {
+									listId: list.id,
+								},
 							});
 						}}
 					>

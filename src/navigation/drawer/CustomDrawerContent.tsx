@@ -42,7 +42,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 		loadLists().then(() => setIsLoading(false));
 	}, [dispatch, loadLists]);
 
-	const DrawerContent = ({ children }: { children: React.ReactNode }) => (
+	const DrawerContent = ({ children }: { children?: React.ReactNode }) => (
 		<View style={{ flex: 1 }}>
 			<DrawerContentScrollView
 				{...props}
@@ -121,37 +121,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 		);
 
 	return (
-		<DrawerContent>
-			{lists?.map((list: List) => {
-				const isSelectedListRoute =
-					currentRoute &&
-					(currentRoute?.name !== DrawerRoutes.List ||
-						list.id !== currentRoute?.params?.params?.listId);
-
-				return (
-					<Button
-						key={list.id}
-						buttonStyle={{
-							...styles.navButton,
-							...(isSelectedListRoute && styles.navButtonIdle),
-						}}
-						textStyle={{
-							...(isSelectedListRoute && styles.navButtonIdle),
-						}}
-						onPress={() =>
-							//@ts-ignore
-							navigation.navigate(DrawerRoutes.List, {
-								screen: ListStackRoutes.ListTasks,
-								params: { listId: list.id },
-							})
-						}
-					>
-						<Ionicons name={list.icon} color={'#ccc'} size={12} />
-						{list.title} {list.id}
-					</Button>
-				);
-			})}
-		</DrawerContent>
+		<DrawerContent/>
 	);
 };
 

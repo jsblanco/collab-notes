@@ -7,15 +7,23 @@ import { Ionicons } from '@expo/vector-icons';
 import { ListStack } from '../stacks/ListStack';
 import { colors } from '../../ui/libUi';
 import CustomDrawerContent from './CustomDrawerContent';
-import { DrawerProps, DrawerRoutes, ListStackRoutes } from '../NavigationTypes';
+import {
+	DrawerProps,
+	DrawerRoutes,
+	ListStackRoutes,
+	getDrawerListLink,
+} from '../NavigationTypes';
 import OpenDrawerButton from '../../components/OpenDrawerButton';
 import styles from '../styles/stack.styles';
 import ListsHomeScreen from '../../screens/Lists/ListsHomeScreen';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 const Drawer = createDrawerNavigator<DrawerProps>();
 
 export function DrawerNavigation() {
-	const DrawerContent = ({ children }: { children?: ReactNode }) => (
+	const { lists, error } = useSelector((state: RootState) => state.lists);
+	return (
 		<Drawer.Navigator
 			drawerContent={CustomDrawerContent}
 			initialRouteName={DrawerRoutes.NewList}
@@ -39,19 +47,22 @@ export function DrawerNavigation() {
 					),
 				}}
 			/>
-			<Drawer.Screen
-				component={ListStack}
-				name={DrawerRoutes.List}
-				initialParams={{ listId: '0', screen: ListStackRoutes.ListTasks, params: {listId: '0'} }}
-				getId={({ params }) => params.listId}
-				options={{
-					headerShown: false,
-					drawerItemStyle: { height: 0 },
-				}}
-			/>
-			{children}
+
+			{lists?.map((list) => (
+				<Drawer.Screen
+					key={list.id}
+					component={ListStack}
+					name={getDrawerListLink(list.id)}
+					initialParams={{
+						screen: ListStackRoutes.ListTasks,
+						params: { listId: list.id },
+					}}
+					options={{
+						headerShown: false,
+						title: list.title,
+					}}
+				/>
+			))}
 		</Drawer.Navigator>
 	);
-
-	return <DrawerContent></DrawerContent>;
 }
