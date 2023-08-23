@@ -19,6 +19,7 @@ import { Task } from '../../models/Task/Task';
 import { List } from '../../models/List/List';
 import { changeTaskListIndex } from '../../store/lists/lists.actions';
 import { StackScreenProps } from '@react-navigation/stack';
+import TasksFlatlist from '../../components/TasksFlatlist';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListsHome>;
 const ListsHomeScreen = ({ route, navigation }: Props) => {
@@ -75,14 +76,7 @@ const ListsHomeScreen = ({ route, navigation }: Props) => {
 						<Ionicons name={list.icon} color={'#000'} size={24} />
 						<H3 style={styles.titles}>{list.title}</H3>
 					</Pressable>
-					<DraggableFlatList
-						containerStyle={{ width: '100%' }}
-						data={list.pendingTasks ?? []}
-						keyExtractor={(item) => item.id}
-						onDragEnd={changeTaskOrder.bind(this, list.id)}
-						activationDistance={10}
-						renderItem={renderItem.bind(null, list.id)}
-					/>
+					<TasksFlatlist listId={list.id} tasks={list.pendingTasks}/>
 				</View>
 			))}
 		</Container>
