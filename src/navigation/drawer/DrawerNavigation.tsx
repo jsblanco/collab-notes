@@ -48,28 +48,27 @@ export function DrawerNavigation() {
 				}}
 			/>
 
-			{lists?.map((list) => (
-				<Drawer.Screen
-					key={list.id}
-					component={ListStack}
-					name={getDrawerListLink(list.id)}
-					initialParams={{
-						screen: ListStackRoutes.ListTasks,
-						params: { listId: list.id },
-					}}
-					options={{
-						headerShown: false,
-						title: list.title,
-						drawerLabel: ({ color }) => (
-							<Text style={{ color, paddingHorizontal: 5, fontSize: 14, margin: 0 }}>
-								<Ionicons name={list.icon} size={14} />
-								{'   '}
-								{list.title}
-							</Text>
-						),
-					}}
-				/>
-			))}
+			<Drawer.Group>
+				{lists?.map((list) => (
+					<Drawer.Screen
+						key={list.id}
+						component={ListStack}
+						name={getDrawerListLink(list.id)}
+						initialParams={{
+							screen: ListStackRoutes.ListTasks,
+							params: { listId: list.id },
+						}}
+						options={{
+							headerShown: false,
+							title: list.title,
+							drawerItemStyle: { paddingLeft: 15, paddingRight: -5 },
+							drawerIcon: ({ color, size }) => (
+								<Ionicons name={list.icon} color={color} size={size} />
+							),
+						}}
+					/>
+				))}
+			</Drawer.Group>
 		</Drawer.Navigator>
 	);
 }

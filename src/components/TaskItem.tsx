@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import Animated, { useAnimatedStyle } from 'react-native-reanimated';
+import Animated, { color, useAnimatedStyle } from 'react-native-reanimated';
 import SwipeableItem, {
 	useSwipeableItemParams,
 } from 'react-native-swipeable-item';
@@ -8,9 +8,10 @@ import { ScaleDecorator } from 'react-native-draggable-flatlist';
 import { Task } from '../models/Task/Task';
 import { useDispatch } from 'react-redux';
 import { toggleTaskCompletion } from '../store/lists/lists.actions';
-import { H3, Text, fonts } from '../ui/libUi';
+import { H3, Text, colors, fonts } from '../ui/libUi';
 import { useNavigation } from '@react-navigation/native';
-import { DrawerRoutes, ListStackRoutes } from '../navigation/NavigationTypes';
+import { ListStackRoutes } from '../navigation/NavigationTypes';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export function TaskItem({
 	task,
@@ -53,7 +54,7 @@ export function TaskItem({
 					}
 					style={[styles.row, styles.item]}
 				>
-					<H3 style={styles.text}>{`${task.title}`}</H3>
+					<H3 style={styles.title}>{`${task.title}`}</H3>
 				</TouchableOpacity>
 			</SwipeableItem>
 		</ScaleDecorator>
@@ -79,11 +80,18 @@ const UnderlayLeft = ({ listId, task }: { listId: string; task: Task }) => {
 
 	return (
 		<Animated.View style={styles.buttonRow}>
-			<TouchableOpacity style={[styles.underlay, styles.redBg, animStyle]}>
+			<TouchableOpacity
+				style={[styles.underlay, styles.redBg, styles.buttonPadding, animStyle]}
+			>
 				<Text style={styles.text}>{`Delete`}</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
-				style={[styles.underlay, styles.tealBg, animStyle]}
+				style={[
+					styles.underlay,
+					styles.blueBg,
+					styles.buttonPadding,
+					animStyle,
+				]}
 				onPress={onEdit}
 			>
 				<Text style={styles.text}>{`Edit`}</Text>
@@ -96,24 +104,24 @@ function UnderlayCompletedTask() {
 	const { close, percentOpen } = useSwipeableItemParams<Task>();
 	const animStyle = useAnimatedStyle(
 		() => ({
-			opacity: percentOpen.value,
+			opacity: percentOpen.value * 3,
 		}),
 		[percentOpen]
 	);
 	return (
-		<Animated.View
-			style={[
-				styles.row,
-				styles.tealBg,
-				animStyle,
-				{ backgroundColor: 'yellow' },
-			]}
+		<LinearGradient
+			colors={[colors.general.mustard, colors.background]}
+			style={[styles.row]}
+			start={[0, 0]}
+			end={[1, 0]}
 		>
-			{/* @ts-ignore */}
-			<TouchableOpacity onPressOut={close}>
-				<Text style={styles.text}>Reactivate</Text>
-			</TouchableOpacity>
-		</Animated.View>
+			<Animated.View style={animStyle}>
+				{/* @ts-ignore */}
+				<TouchableOpacity onPressOut={close}>
+					<Text style={styles.text}>Reactivate</Text>
+				</TouchableOpacity>
+			</Animated.View>
+		</LinearGradient>
 	);
 }
 
@@ -121,24 +129,24 @@ function UnderlayPendingTask() {
 	const { percentOpen } = useSwipeableItemParams<Task>();
 	const animStyle = useAnimatedStyle(
 		() => ({
-			opacity: percentOpen.value,
+			opacity: percentOpen.value * 3,
 		}),
 		[percentOpen]
 	);
 	return (
-		<Animated.View
-			style={[
-				styles.row,
-				styles.tealBg,
-				animStyle,
-				{ backgroundColor: 'green' },
-			]}
+		<LinearGradient
+			colors={[colors.general.green, colors.background]}
+			style={[styles.row]}
+			start={[0, 0]}
+			end={[1, 0]}
 		>
-			{/* @ts-ignore */}
-			<TouchableOpacity>
-				<Text style={{ ...styles.text, color: 'white' }}>Complete</Text>
-			</TouchableOpacity>
-		</Animated.View>
+			<Animated.View style={animStyle}>
+				{/* @ts-ignore */}
+				<TouchableOpacity>
+					<Text style={{ ...styles.text, color: 'white' }}>Complete</Text>
+				</TouchableOpacity>
+			</Animated.View>
+		</LinearGradient>
 	);
 }
 
@@ -168,13 +176,19 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-end',
 	},
 	text: {
-		// fontWeight: 'bold',
-		color: 'black',
 		fontSize: 16,
 		paddingBottom: 0,
 		fontFamily: fonts.regular,
 		paddingLeft: 5,
-		width: '100%'
+		width: '100%',
+		color: 'white',
+	},
+	title: {
+		fontSize: 16,
+		paddingBottom: 0,
+		fontFamily: fonts.regular,
+		paddingLeft: 5,
+		width: '100%',
 	},
 	underlay: {
 		flex: 1,
@@ -183,10 +197,13 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
-	tealBg: {
-		backgroundColor: 'teal',
+	blueBg: {
+		backgroundColor: colors.general.blue,
 	},
 	redBg: {
-		backgroundColor: 'tomato',
+		backgroundColor: colors.general.red,
+	},
+	buttonPadding: {
+		paddingHorizontal: 10,
 	},
 });
