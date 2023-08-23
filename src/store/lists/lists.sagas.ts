@@ -106,7 +106,7 @@ function* toggleTaskCompletionEffect({
 
 function* changeTaskListIndexEffect({
 	payload,
-}: ReduxAction<{ TaskOrder: string[]; listId: string }>): Generator<
+}: ReduxAction<{ taskOrder: string[]; listId: string }>): Generator<
 	CallEffect<List> | PutEffect<any> | PutEffect<ReduxAction<List>>,
 	void,
 	List
@@ -115,7 +115,7 @@ function* changeTaskListIndexEffect({
 		const list = yield call(
 			queries.changeTaskOrder,
 			payload.listId,
-			payload.TaskOrder
+			payload.taskOrder
 		);
 		yield put(actions.changeTaskListIndex.success(list));
 	} catch (e) {

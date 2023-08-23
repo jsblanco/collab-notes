@@ -76,7 +76,7 @@ const ListsHomeScreen = ({ route, navigation }: Props) => {
 						<Ionicons name={list.icon} color={'#000'} size={24} />
 						<H3 style={styles.titles}>{list.title}</H3>
 					</Pressable>
-					<TasksFlatlist listId={list.id} tasks={list.pendingTasks}/>
+					<TasksFlatlist listId={list.id} tasks={list.pendingTasks} reorderTasks/>
 				</View>
 			))}
 		</Container>

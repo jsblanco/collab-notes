@@ -62,8 +62,8 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	if (error)
 		return (
-			<Container style={styles.screen}>
-				<Text style={{ color: 'tomato' }}>{error}</Text>
+	<Container style={styles.screen}>
+				<Text style={{ color: 'tomato' }}>{error.message}</Text>
 			</Container>
 		);
 
