@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import Animated, { color, useAnimatedStyle } from 'react-native-reanimated';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import SwipeableItem, {
+	OpenDirection,
 	useSwipeableItemParams,
 } from 'react-native-swipeable-item';
 import { ScaleDecorator } from 'react-native-draggable-flatlist';
@@ -13,15 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ListStackRoutes } from '../navigation/NavigationTypes';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export function TaskItem({
-	task,
-	listId,
-	drag,
-}: {
-	task: Task;
-	listId: string;
-	drag: () => void;
-}) {
+export function TaskItem({ task, drag }: { task: Task; drag: () => void }) {
 	const dispatch = useDispatch();
 	const navigation = useNavigation();
 
@@ -31,13 +24,13 @@ export function TaskItem({
 				key={task.id}
 				item={task}
 				onChange={({ openDirection }) => {
-					if (openDirection === 'right')
-						dispatch(toggleTaskCompletion.request(listId, task.id));
+					if (openDirection === OpenDirection.RIGHT)
+						dispatch(toggleTaskCompletion.request(task.listId, task.id));
 				}}
 				overSwipe={30}
-				renderUnderlayLeft={() => <UnderlayLeft listId={listId} task={task} />}
+				renderUnderlayLeft={() => <UnderlayLeft task={task} />}
 				renderUnderlayRight={() =>
-					task.isCompleted ? <UnderlayCompletedTask /> : <UnderlayPendingTask />
+					!!task.isCompleted ? <UnderlayCompletedTask /> : <UnderlayPendingTask />
 				}
 				snapPointsLeft={[90, 180]}
 				snapPointsRight={[400]}
@@ -48,20 +41,20 @@ export function TaskItem({
 					onPress={() =>
 						//@ts-ignore
 						navigation.navigate(ListStackRoutes.TaskDetails, {
-							listId: listId,
+							listId: task.listId,
 							taskId: task.id,
 						})
 					}
 					style={[styles.row, styles.item]}
 				>
-					<H3 style={styles.title}>{`${task.title}`}</H3>
+					<H3 style={styles.title}>{task.title}</H3>
 				</TouchableOpacity>
 			</SwipeableItem>
 		</ScaleDecorator>
 	);
 }
 
-const UnderlayLeft = ({ listId, task }: { listId: string; task: Task }) => {
+const UnderlayLeft = ({ task }: { task: Task }) => {
 	const { percentOpen } = useSwipeableItemParams<Task>();
 	const navigation = useNavigation();
 	const animStyle = useAnimatedStyle(
@@ -74,7 +67,7 @@ const UnderlayLeft = ({ listId, task }: { listId: string; task: Task }) => {
 	const onEdit = () =>
 		//@ts-ignore
 		navigation.navigate(ListStackRoutes.TaskForm, {
-			listId: listId,
+			listId: task.listId,
 			task: task,
 		});
 
@@ -101,7 +94,7 @@ const UnderlayLeft = ({ listId, task }: { listId: string; task: Task }) => {
 };
 
 function UnderlayCompletedTask() {
-	const { close, percentOpen } = useSwipeableItemParams<Task>();
+	const { percentOpen } = useSwipeableItemParams<Task>();
 	const animStyle = useAnimatedStyle(
 		() => ({
 			opacity: percentOpen.value * 3,
@@ -117,8 +110,8 @@ function UnderlayCompletedTask() {
 		>
 			<Animated.View style={animStyle}>
 				{/* @ts-ignore */}
-				<TouchableOpacity onPressOut={close}>
-					<Text style={styles.text}>Reactivate</Text>
+				<TouchableOpacity>
+					<Text style={{ ...styles.text, color: 'white' }}>Reactivate</Text>
 				</TouchableOpacity>
 			</Animated.View>
 		</LinearGradient>

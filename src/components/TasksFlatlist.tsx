@@ -7,6 +7,7 @@ import DraggableFlatList, {
 import { TaskItem } from './TaskItem';
 import { useDispatch } from 'react-redux';
 import { changeTaskListIndex } from '../store/lists/lists.actions';
+import { Text } from '../ui/libUi';
 
 interface Props {
 	listId: string;
@@ -14,11 +15,15 @@ interface Props {
 	reorderTasks?: boolean;
 }
 
-const TasksFlatlist = ({ listId, tasks, reorderTasks: reorderTasks }: Props) => {
+const TasksFlatlist = ({
+	listId,
+	tasks,
+	reorderTasks: reorderTasks,
+}: Props) => {
 	const dispatch = useDispatch();
 	const renderItem = useCallback(
 		(params: RenderItemParams<Task>) => (
-			<TaskItem {...params} listId={listId} task={params.item} />
+			<TaskItem {...params} task={params.item} />
 		),
 		[]
 	);
@@ -35,15 +40,18 @@ const TasksFlatlist = ({ listId, tasks, reorderTasks: reorderTasks }: Props) => 
 		[dispatch, listId]
 	);
 
+	if (!tasks.length) return <Text center>No tasks in this list</Text>;
+
 	return (
 		<DraggableFlatList
 			containerStyle={{ width: '100%' }}
 			keyExtractor={(item) => item.id}
-			style={{ marginBottom: 40 }}
+			style={{ marginBottom: 50 }}
 			onDragEnd={reorderTasks ? changeTaskOrder : undefined}
-			data={tasks ?? []}
+			data={tasks}
 			activationDistance={10}
 			renderItem={renderItem}
+			// ListFooterComponent={<Text>TODO: Add a new  task</Text>}
 		/>
 	);
 };

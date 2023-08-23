@@ -82,6 +82,7 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 				placeholder={'Task name'}
 				inputHandler={inputHandler}
 				minLength={3}
+				maxLength={30}
 				required
 			/>
 			<FormControl

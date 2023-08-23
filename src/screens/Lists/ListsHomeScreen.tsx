@@ -24,26 +24,6 @@ import TasksFlatlist from '../../components/TasksFlatlist';
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListsHome>;
 const ListsHomeScreen = ({ route, navigation }: Props) => {
 	const { lists } = useSelector((state: RootState) => state.lists);
-	const dispatch = useDispatch();
-
-	const renderItem = useCallback(
-		(listId: string, params: RenderItemParams<Task>) => (
-			<TaskItem {...params} listId={listId} task={params.item} />
-		),
-		[]
-	);
-
-	const changeTaskOrder = useCallback(
-		(listId: string, { data, from, to }: DragEndParams<Task>) => {
-			dispatch(
-				changeTaskListIndex.request(
-					listId,
-					data.map((task) => task.id)
-				)
-			);
-		},
-		[dispatch]
-	);
 
 	return (
 		<Container style={styles.screen}>
@@ -100,6 +80,6 @@ const styles = StyleSheet.create({
 	},
 	listView: {
 		width: '100%',
-		paddingBottom: 60,
+		// paddingBottom: 60,
 	},
 });

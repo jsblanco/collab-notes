@@ -21,7 +21,7 @@ export const colors = {
 	general: {
 		green: '#06D6A0',
 		blue: '#118AB2',
-		mustard: '#EE055',
+		mustard: '#EEC055',
 		red: '#EF476F',
 		darkBlue: '#073B4C',
 	},

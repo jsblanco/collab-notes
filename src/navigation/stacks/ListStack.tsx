@@ -28,6 +28,7 @@ export function ListStack({ route }: any) {
 				component={ListsHomeScreen}
 				options={{
 					headerLeft: OpenDrawerButton,
+					title: '',
 				}}
 			/>
 			<Stack.Screen
@@ -47,6 +48,9 @@ export function ListStack({ route }: any) {
 				name={ListStackRoutes.TaskDetails}
 				initialParams={{ listId: route.listId, taskId: route.taskId }}
 				component={TaskDetailsScreen}
+				options={{
+					title: '',
+				}}
 			/>
 		</Stack.Navigator>
 	);
