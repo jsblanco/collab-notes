@@ -8,7 +8,7 @@ import { ScaleDecorator } from 'react-native-draggable-flatlist';
 import { Task } from '../models/Task/Task';
 import { useDispatch } from 'react-redux';
 import { toggleTaskCompletion } from '../store/lists/lists.actions';
-import { H3, Text } from '../ui/libUi';
+import { H3, Text, fonts } from '../ui/libUi';
 import { useNavigation } from '@react-navigation/native';
 import { DrawerRoutes, ListStackRoutes } from '../navigation/NavigationTypes';
 
@@ -45,6 +45,7 @@ export function TaskItem({
 					activeOpacity={1}
 					onLongPress={drag}
 					onPress={() =>
+						//@ts-ignore
 						navigation.navigate(ListStackRoutes.TaskDetails, {
 							listId: listId,
 							taskId: task.id,
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		flex: 1,
 		alignItems: 'center',
-		justifyContent: 'center',
+		// justifyContent: 'center',
 		padding: 15,
 	},
 	item: {
@@ -167,10 +168,13 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-end',
 	},
 	text: {
-		fontWeight: 'bold',
+		// fontWeight: 'bold',
 		color: 'black',
-		fontSize: 14,
+		fontSize: 16,
 		paddingBottom: 0,
+		fontFamily: fonts.regular,
+		paddingLeft: 5,
+		width: '100%'
 	},
 	underlay: {
 		flex: 1,

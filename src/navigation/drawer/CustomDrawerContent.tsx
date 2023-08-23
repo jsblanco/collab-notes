@@ -15,27 +15,17 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
-import { List } from '../../models/List/List';
 import { fetchAllLists } from '../../store/lists/lists.actions';
-import { useNavigation } from '@react-navigation/native';
-import { DrawerRoutes, ListStackRoutes } from '../NavigationTypes';
-import { Button } from '../../ui/libUi';
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 	const dispatch = useDispatch();
-	const navigation = useNavigation();
 	const { lists, error } = useSelector((state: RootState) => state.lists);
 	const [isLoading, setIsLoading] = useState(false);
-	const [currentRoute, setCurrentRoute] = useState<any>();
 
 	const loadLists = useCallback(
 		async () => await dispatch(fetchAllLists.request()),
 		[dispatch]
 	);
-
-	useEffect(() => {
-		setCurrentRoute(props.state.routes[props.state.index]);
-	}, [props.state.routes, props.state.index]);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -50,30 +40,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 					backgroundColor: '#8200d6',
 				}}
 			>
-				<ImageBackground
-					source={require('../../assets/images/bg.png')}
-					style={{ padding: 20, paddingTop: 100, marginTop: -80 }}
-				>
-					<Image
-						source={require('../../assets/images/profile.png')}
-						style={{
-							height: 80,
-							width: 80,
-							borderRadius: 40,
-							marginBottom: 10,
-						}}
-					/>
-					<Text
-						style={{
-							color: '#fff',
-							fontSize: 18,
-							fontFamily: 'openSans',
-							marginBottom: 5,
-						}}
-					>
-						Jorgito
-					</Text>
-				</ImageBackground>
+				<UserHeader />
 
 				<View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 10 }}>
 					<DrawerItemList {...props} />
@@ -120,10 +87,35 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 			</DrawerContent>
 		);
 
-	return (
-		<DrawerContent/>
-	);
+	return <DrawerContent />;
 };
+
+const UserHeader = () => (
+	<ImageBackground
+		source={require('../../assets/images/bg.png')}
+		style={{ padding: 20, paddingTop: 100, marginTop: -80 }}
+	>
+		<Image
+			source={require('../../assets/images/profile.png')}
+			style={{
+				height: 80,
+				width: 80,
+				borderRadius: 40,
+				marginBottom: 10,
+			}}
+		/>
+		<Text
+			style={{
+				color: '#fff',
+				fontSize: 18,
+				fontFamily: 'openSans',
+				marginBottom: 5,
+			}}
+		>
+			Jorgito
+		</Text>
+	</ImageBackground>
+);
 
 export default CustomDrawerContent;
 

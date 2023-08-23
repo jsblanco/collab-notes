@@ -1,4 +1,5 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
+import { Text } from 'react-native';
 import {
 	DrawerNavigationOptions,
 	createDrawerNavigator,
@@ -15,7 +16,6 @@ import {
 } from '../NavigationTypes';
 import OpenDrawerButton from '../../components/OpenDrawerButton';
 import styles from '../styles/stack.styles';
-import ListsHomeScreen from '../../screens/Lists/ListsHomeScreen';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 
@@ -60,6 +60,13 @@ export function DrawerNavigation() {
 					options={{
 						headerShown: false,
 						title: list.title,
+						drawerLabel: ({ color }) => (
+							<Text style={{ color, paddingHorizontal: 5, fontSize: 14, margin: 0 }}>
+								<Ionicons name={list.icon} size={14} />
+								{'   '}
+								{list.title}
+							</Text>
+						),
 					}}
 				/>
 			))}
