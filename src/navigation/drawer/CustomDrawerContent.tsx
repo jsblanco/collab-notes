@@ -16,6 +16,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { fetchAllLists } from '../../store/lists/lists.actions';
+import { fonts } from '../../ui/libUi';
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 	const dispatch = useDispatch();
@@ -54,7 +55,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 						<Text
 							style={{
 								fontSize: 15,
-								fontFamily: 'openSans',
+								fontFamily: fonts.regular,
 								marginLeft: 5,
 							}}
 						>
@@ -68,7 +69,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 						<Text
 							style={{
 								fontSize: 15,
-								fontFamily: 'openSans',
+								fontFamily: fonts.regular,
 								marginLeft: 5,
 							}}
 						>
@@ -108,7 +109,7 @@ const UserHeader = () => (
 			style={{
 				color: '#fff',
 				fontSize: 18,
-				fontFamily: 'openSans',
+				fontFamily: fonts.regular,
 				marginBottom: 5,
 			}}
 		>

@@ -12,8 +12,8 @@ import { fonts } from './src/ui/libUi';
 enableScreens();
 const fetchFonts = () =>
 	Font.loadAsync({
-		[fonts.regular]: require('./src/assets/fonts/OpenSans-Regular.ttf'),
-		[fonts.regularBold]: require('./src/assets/fonts/OpenSans-Bold.ttf'),
+		[fonts.regular]: require('./src/assets/fonts/Poppins-Regular.ttf'),
+		[fonts.regularBold]: require('./src/assets/fonts/Poppins-SemiBold.ttf'),
 	});
 
 const App = () => {

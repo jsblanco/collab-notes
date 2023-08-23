@@ -6,7 +6,7 @@ import { Task } from '../../models/Task/Task';
 export const fetchLists = (): List[] => {
 	const preparedLists: List[] = [];
 
-	DummyLists.forEach((list: DbList) =>
+	DummyLists.forEach((list) =>
 		preparedLists.push(populateListTasks(list))
 	);
 

@@ -1,8 +1,8 @@
 import { Dimensions } from 'react-native';
 
 export const fonts = {
-	regular: 'openSans',
-	regularBold: 'openSans-Bold',
+	regular: 'regular',
+	regularBold: 'regular-Bold',
 };
 
 export const colors = {
@@ -21,7 +21,7 @@ export const colors = {
 	general: {
 		green: '#06D6A0',
 		blue: '#118AB2',
-		mustard: '#EEC055',
+		mustard: '#EE055',
 		red: '#EF476F',
 		darkBlue: '#073B4C',
 	},
