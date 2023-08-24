@@ -62,13 +62,14 @@ export const addTaskToList = (
 	const list = fetchList(listId);
 	const dbTask = {
 		...task,
-		id: new Date().getTime().toString(),
+		id: task.id ?? new Date().getTime().toString(),
 		history: [
 			{
 				userId,
 				completed: !!task.isCompleted,
 				timestamp: new Date(),
 			},
+			...task.history
 		],
 	};
 

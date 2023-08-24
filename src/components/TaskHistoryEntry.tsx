@@ -16,8 +16,8 @@ const TaskHistoryEntry = ({
 	return (
 		<Row style={styles.entry}>
 			<UserAvatar user={user} i={index} />
-			<View>
-				<Text noPadding style={styles.text}>
+			<View style={styles.textView}>
+				<Text noPadding>
 					{user.name} marked this task as{' '}
 					{toggleEvent.completed ? (
 						<Text noPadding style={styles.completed}>
@@ -51,9 +51,10 @@ const styles = StyleSheet.create({
 		paddingVertical: 10,
 		paddingRight: 30,
 	},
-	text: {
-		paddingTop: 3,
-	},
+    textView: {
+        paddingLeft: 10,
+        paddingTop: 3,
+    },
 	timestamp: {
 		fontSize: 10,
 		color: colors.grey[3],

@@ -14,7 +14,7 @@ export type ListStackProps = {
 	};
 	[ListStackRoutes.TaskForm]: {
 		listId: string;
-		task?: Task;
+		taskId?: string;
 	};
 	[ListStackRoutes.TaskDetails]: {
 		listId: string;

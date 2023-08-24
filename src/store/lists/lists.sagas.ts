@@ -62,7 +62,7 @@ function* addListTaskEffect({
 			queries.addTaskToList,
 			payload.listId,
 			payload.task,
-			userId
+			userId as string
 		);
 		yield put(actions.addListTask.success(updatedData as List));
 	} catch (e) {

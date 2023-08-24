@@ -35,6 +35,13 @@ export const DummyUsers: User[] = [
 		name: 'Irano',
 		friends: ['a'],
 	},
+	{
+		id: 'd',
+		lists: ['1'],
+		email: 'Anita@email.com',
+		name: 'Anita',
+		friends: ['a'],
+	},
 ];
 
 export const DummyTasks: Task[] = [
@@ -48,7 +55,7 @@ export const DummyTasks: Task[] = [
 			createFakeTaskToggleEvent('a', false, 3),
 			createFakeTaskToggleEvent('c', true, 8),
 			createFakeTaskToggleEvent('b', false, 16),
-			createFakeTaskToggleEvent('a', true, 18),
+			createFakeTaskToggleEvent('d', true, 18),
 		],
 	},
 	{
@@ -59,7 +66,7 @@ export const DummyTasks: Task[] = [
 		isCompleted: false,
 		history: [
 			createFakeTaskToggleEvent('a', false, 2),
-			createFakeTaskToggleEvent('b', true, 4),
+			createFakeTaskToggleEvent('d', true, 4),
 			createFakeTaskToggleEvent('b', false, 6),
 			createFakeTaskToggleEvent('c', true, 8),
 		],
@@ -82,8 +89,8 @@ export const DummyTasks: Task[] = [
 		description: 'De cocinar, no italiano',
 		isCompleted: true,
 		history: [
-			createFakeTaskToggleEvent('b', false, 1),
-			createFakeTaskToggleEvent('c', false, 3),
+			createFakeTaskToggleEvent('b', true, 1),
+			createFakeTaskToggleEvent('d', false, 3),
 			createFakeTaskToggleEvent('c', true, 8),
 			createFakeTaskToggleEvent('b', false, 16),
 			createFakeTaskToggleEvent('a', true, 18),
@@ -98,7 +105,7 @@ export const DummyTasks: Task[] = [
 		history: [
 			createFakeTaskToggleEvent('b', false, 2),
 			createFakeTaskToggleEvent('c', true, 6),
-			createFakeTaskToggleEvent('a', false, 7),
+			createFakeTaskToggleEvent('d', false, 7),
 			createFakeTaskToggleEvent('a', true, 9),
 		],
 	},
@@ -110,7 +117,7 @@ export const DummyTasks: Task[] = [
 		isCompleted: true,
 		history: [
 			createFakeTaskToggleEvent('a', true, 1),
-			createFakeTaskToggleEvent('c', false, 3),
+			createFakeTaskToggleEvent('d', false, 3),
 			createFakeTaskToggleEvent('c', true, 8),
 		],
 	},
@@ -158,7 +165,7 @@ export const DummyLists: DbList[] = [
 		icon: 'cart-outline',
 		title: 'Lista de la compra',
 		tasks: ['1001', '1002', '1003', '1004', '1005', '1006'],
-		users: ['a', 'b', 'c'],
+		users: ['a', 'b', 'c', 'd'],
 	},
 	{
 		id: '2',

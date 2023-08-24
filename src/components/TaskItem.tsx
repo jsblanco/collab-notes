@@ -72,7 +72,7 @@ const UnderlayLeft = ({ task }: { task: Task }) => {
 		//@ts-ignore
 		navigation.navigate(ListStackRoutes.TaskForm, {
 			listId: task.listId,
-			task: task,
+			taskId: task.id,
 		});
 
 	return (

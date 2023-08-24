@@ -8,13 +8,21 @@ import {
 import { FloatingButton, Container } from '../../../ui/libUi';
 import { Actions, formReducer } from './TaskFormScreen.reducer';
 import FormControl from '../../../components/FormControl/FormControl';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addListTask } from '../../../store/lists/lists.actions';
+import { RootState } from '../../../store/store';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.TaskForm>;
 
 const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
-	const { listId, task } = route.params;
+	const { listId, taskId } = route.params;
+	const list = useSelector((state: RootState) =>
+		state.lists.lists.find((list) => listId === list.id)
+	) ?? { pendingTasks: [], completedTasks: [] };
+	
+	const task = [...list?.pendingTasks, ...list?.completedTasks].find(
+		(task) => task.id === taskId
+	);
 
 	const initialFormState = {
 		inputValues: {
