@@ -15,8 +15,8 @@ import DraggableFlatList, {
 	RenderItemParams,
 } from 'react-native-draggable-flatlist';
 import { TaskItem } from '../../components/TaskItem';
-import { Task } from '../../models/Task/Task';
-import { List } from '../../models/List/List';
+import { Task } from '../../models/Task.models';
+import { List } from '../../models/List.models';
 import { changeTaskListIndex } from '../../store/lists/lists.actions';
 import { StackScreenProps } from '@react-navigation/stack';
 import TasksFlatlist from '../../components/TasksFlatlist';
@@ -56,7 +56,11 @@ const ListsHomeScreen = ({ route, navigation }: Props) => {
 						<Ionicons name={list.icon} color={'#000'} size={24} />
 						<H3 style={styles.titles}>{list.title}</H3>
 					</Pressable>
-					<TasksFlatlist listId={list.id} tasks={list.pendingTasks} reorderTasks/>
+					<TasksFlatlist
+						listId={list.id}
+						tasks={list.pendingTasks}
+						reorderTasks
+					/>
 				</View>
 			))}
 		</Container>

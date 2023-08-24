@@ -10,7 +10,7 @@ import { DragEndParams } from 'react-native-draggable-flatlist';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { changeTaskListIndex } from '../../store/lists/lists.actions';
-import { Task } from '../../models/Task/Task';
+import { Task } from '../../models/Task.models';
 import TasksFlatlist from '../../components/TasksFlatlist';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListTasks>;
@@ -62,7 +62,7 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	if (error)
 		return (
-	<Container style={styles.screen}>
+			<Container style={styles.screen}>
 				<Text style={{ color: 'tomato' }}>{error.message}</Text>
 			</Container>
 		);
@@ -70,17 +70,9 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 	return (
 		<Container style={styles.screen}>
 			<H3 style={styles.titles}>Pending tasks tetas</H3>
-			<TasksFlatlist
-				listId={listId}
-				tasks={pendingTasks}
-				reorderTasks
-			/>
+			<TasksFlatlist listId={listId} tasks={pendingTasks} reorderTasks />
 			<H3 style={styles.titles}>Completed tasks</H3>
-			<TasksFlatlist
-				listId={listId}
-				tasks={completedTasks}
-				reorderTasks
-			/>
+			<TasksFlatlist listId={listId} tasks={completedTasks} reorderTasks />
 			<FloatingButton
 				onPress={() =>
 					navigation.navigate(ListStackRoutes.TaskForm, {

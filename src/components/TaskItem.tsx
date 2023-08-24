@@ -6,7 +6,7 @@ import SwipeableItem, {
 	useSwipeableItemParams,
 } from 'react-native-swipeable-item';
 import { ScaleDecorator } from 'react-native-draggable-flatlist';
-import { Task } from '../models/Task/Task';
+import { Task } from '../models/Task.models';
 import { useDispatch } from 'react-redux';
 import { toggleTaskCompletion } from '../store/lists/lists.actions';
 import { H3, Text, colors, fonts } from '../ui/libUi';
@@ -30,7 +30,11 @@ export function TaskItem({ task, drag }: { task: Task; drag: () => void }) {
 				overSwipe={30}
 				renderUnderlayLeft={() => <UnderlayLeft task={task} />}
 				renderUnderlayRight={() =>
-					!!task.isCompleted ? <UnderlayCompletedTask /> : <UnderlayPendingTask />
+					!!task.isCompleted ? (
+						<UnderlayCompletedTask />
+					) : (
+						<UnderlayPendingTask />
+					)
 				}
 				snapPointsLeft={[90, 180]}
 				snapPointsRight={[400]}

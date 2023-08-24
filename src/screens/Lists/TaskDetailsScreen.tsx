@@ -8,7 +8,7 @@ import {
 import { Container, H1, Text } from '../../ui/libUi';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
-import { List } from '../../models/List/List';
+import { List } from '../../models/List.models';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.TaskDetails>;
 

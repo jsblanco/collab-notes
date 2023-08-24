@@ -1,5 +1,5 @@
-import { DbList } from '../src/models/List/List';
-import { Task } from '../src/models/Task/Task';
+import { DbList } from '../src/models/List.models';
+import { Task } from '../src/models/Task.models';
 
 export const DummyTasks: Task[] = [
 	{

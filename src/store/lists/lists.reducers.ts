@@ -1,5 +1,5 @@
 import * as constants from './lists.constants';
-import { List } from '../../models/List/List';
+import { List } from '../../models/List.models';
 
 type StateType = {
 	selectedList?: string;

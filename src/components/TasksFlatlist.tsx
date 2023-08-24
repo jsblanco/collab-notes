@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Task } from '../models/Task/Task';
+import { Task } from '../models/Task.models';
 import DraggableFlatList, {
 	DragEndParams,
 	RenderItemParams,

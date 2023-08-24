@@ -9,8 +9,8 @@ import * as c from './lists.constants';
 import * as actions from './lists.actions';
 import * as queries from './lists.queries';
 import { ReduxAction } from '../store';
-import { List } from '../../models/List/List';
-import { Task } from '../../models/Task/Task';
+import { List } from '../../models/List.models';
+import { Task } from '../../models/Task.models';
 
 function* fetchListsEffect(): Generator<
 	CallEffect | PutEffect<ReduxAction<List[]>>,

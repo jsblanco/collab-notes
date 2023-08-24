@@ -1,4 +1,4 @@
-import { Task } from '../Task/Task';
+import { Task } from './Task.models';
 import { Ionicons } from '@expo/vector-icons';
 
 export interface List {

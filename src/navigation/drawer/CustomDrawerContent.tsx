@@ -5,7 +5,6 @@ import {
 	Text,
 	Image,
 	TouchableOpacity,
-	StyleSheet,
 } from 'react-native';
 import {
 	DrawerContentComponentProps,
@@ -91,13 +90,16 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 	return <DrawerContent />;
 };
 
-const UserHeader = () => (
+const UserHeader = () => {
+	const { user } = useSelector((state: RootState) => state.auth);
+	
+	return (
 	<ImageBackground
 		source={require('../../assets/images/bg.png')}
 		style={{ padding: 20, paddingTop: 100, marginTop: -80 }}
 	>
 		<Image
-			source={require('../../assets/images/profile.png')}
+			source={user.image}
 			style={{
 				height: 80,
 				width: 80,
@@ -113,19 +115,9 @@ const UserHeader = () => (
 				marginBottom: 5,
 			}}
 		>
-			Jorgito
+			{user.name}
 		</Text>
 	</ImageBackground>
-);
+)};
 
 export default CustomDrawerContent;
-
-const styles = StyleSheet.create({
-	navButton: {
-		alignItems: 'flex-start',
-	},
-	navButtonIdle: {
-		backgroundColor: 'white',
-		color: 'black',
-	},
-});

@@ -1,3 +1,4 @@
+import { User } from '../../models/User.models';
 import * as constants from './auth.constants';
 
 export const signup = {
@@ -7,7 +8,7 @@ export const signup = {
             payload: {email: email, password: password}
         }
     },
-    success: (payload: { userId: string, token: string }) => {
+    success: (payload: { user: User, token: string }) => {
         return {
             type: constants.SIGNUP_SUCCESS,
             payload: payload
@@ -28,7 +29,7 @@ export const login = {
             payload: {email: email, password: password}
         }
     },
-    success: (payload: { userId: string, token: string }) => {
+    success: (payload: { user: User, token: string }) => {
         return {
             type: constants.LOGIN_SUCCESS,
             payload: payload

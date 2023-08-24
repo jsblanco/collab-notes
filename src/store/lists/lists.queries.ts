@@ -1,14 +1,12 @@
 import { axiosInstance } from '../api/axios';
 import { DummyTasks, DummyLists } from '../../../data/DummyData';
-import { DbList, List } from '../../models/List/List';
-import { Task } from '../../models/Task/Task';
+import { DbList, List } from '../../models/List.models';
+import { Task } from '../../models/Task.models';
 
 export const fetchLists = (): List[] => {
 	const preparedLists: List[] = [];
 
-	DummyLists.forEach((list) =>
-		preparedLists.push(populateListTasks(list))
-	);
+	DummyLists.forEach((list) => preparedLists.push(populateListTasks(list)));
 
 	return preparedLists;
 };
@@ -50,7 +48,7 @@ export const addTaskToList = (listId: string, task: Task): List => {
 	const list = fetchList(listId);
 	const dbTask = { ...task, id: new Date().getTime().toString() };
 	const dbList = DummyLists.find((list) => list.id === listId);
-	
+
 	if (!dbList) throw new Error('List not found');
 
 	dbList.tasks.push(dbTask.id);
