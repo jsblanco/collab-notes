@@ -1,5 +1,6 @@
 import { Task } from './Task.models';
 import { Ionicons } from '@expo/vector-icons';
+import { User } from './User.models';
 
 export interface List {
 	id: string;
@@ -7,6 +8,7 @@ export interface List {
 	title: string;
 	pendingTasks: Task[];
 	completedTasks: Task[];
+	users: User[];
 }
 
 export interface DbList {
@@ -14,4 +16,5 @@ export interface DbList {
 	icon: keyof typeof Ionicons.glyphMap;
 	title: string;
 	tasks: string[];
+	users: string[];
 }

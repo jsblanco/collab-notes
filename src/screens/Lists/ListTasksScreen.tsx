@@ -1,17 +1,15 @@
-import React, { useCallback, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, Image, View } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import {
 	ListStackProps,
 	ListStackRoutes,
 } from '../../navigation/NavigationTypes';
-import { FloatingButton, Container, H3, Text } from '../../ui/libUi';
-import { DragEndParams } from 'react-native-draggable-flatlist';
-import { useDispatch, useSelector } from 'react-redux';
+import { FloatingButton, Container, H3, Text, Row } from '../../ui/libUi';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
-import { changeTaskListIndex } from '../../store/lists/lists.actions';
-import { Task } from '../../models/Task.models';
 import TasksFlatlist from '../../components/TasksFlatlist';
+import UserAvatar from '../../components/UserAvatar';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListTasks>;
 
@@ -19,16 +17,14 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 	const { listId } = route.params;
 
 	const error = useSelector((state: RootState) => state.lists.error);
-	const { completedTasks, pendingTasks, title } = useSelector(
-		(state: RootState) =>
-			state.lists.lists.find((list) => list.id === listId) ?? {
-				completedTasks: [],
-				pendingTasks: [],
-				title: 'Missing table',
-			}
+	const list = useSelector((state: RootState) =>
+		state.lists.lists.find((list) => list.id === listId)
 	);
 
-	useEffect(() => navigation.setOptions({ title }), []);
+	useEffect(
+		() => navigation.setOptions({ title: list?.title ?? 'Missing list' }),
+		[]
+	);
 
 	// const [isLoading, setIsLoading] = useState(false);
 	// const [isRefreshing, setIsRefreshing] = useState(false);
@@ -59,8 +55,7 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 	// 			</Text>
 	// 		</View>
 	// 	);
-
-	if (error)
+	if (!list || error)
 		return (
 			<Container style={styles.screen}>
 				<Text style={{ color: 'tomato' }}>{error.message}</Text>
@@ -69,10 +64,21 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	return (
 		<Container style={styles.screen}>
-			<H3 style={styles.titles}>Pending tasks tetas</H3>
-			<TasksFlatlist listId={listId} tasks={pendingTasks} reorderTasks />
+			<Row style={styles.usersRow}>
+				<Text noPadding>{list.users.length} participants</Text>
+				<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+					{list.users.slice(0, 4).map((user, i) => (
+						<UserAvatar user={user} i={i} />
+					))}
+					{list.users.length > 5 && (
+						<Text noPadding>+{list.users.length - 5}</Text>
+					)}
+				</View>
+			</Row>
+			<H3 style={styles.titles}>Pending tasks</H3>
+			<TasksFlatlist listId={listId} tasks={list.pendingTasks} reorderTasks />
 			<H3 style={styles.titles}>Completed tasks</H3>
-			<TasksFlatlist listId={listId} tasks={completedTasks} reorderTasks />
+			<TasksFlatlist listId={listId} tasks={list.completedTasks} reorderTasks />
 			<FloatingButton
 				onPress={() =>
 					navigation.navigate(ListStackRoutes.TaskForm, {
@@ -93,10 +99,28 @@ const styles = StyleSheet.create({
 		flex: 1,
 		width: '100%',
 		minHeight: '100%',
-		// justifyContent: 'center',
-		// alignItems: 'center',
 		paddingTop: 20,
-		// backgroundColor: 'blue',
+	},
+	usersRow: {
+		paddingHorizontal: 20,
+		marginBottom: 20,
+		alignItems: 'center',
+		justifyContent: 'space-between',
+	},
+	userAvatar: {
+		height: 40,
+		width: 40,
+		borderRadius: 20,
+		marginRight: 5,
+		overflow: 'hidden',
+	},
+	avatarPlaceholder: {
+		marginBottom: 0,
+		paddingBottom: 0,
+		paddingTop: 20,
+		fontSize: 30,
+		fontWeight: 'bold',
+		color: 'white',
 	},
 	titles: {
 		paddingHorizontal: 20,

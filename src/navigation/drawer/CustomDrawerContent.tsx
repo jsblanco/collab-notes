@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { fetchAllLists } from '../../store/lists/lists.actions';
 import { fonts } from '../../ui/libUi';
+import UserAvatar from '../../components/UserAvatar';
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 	const dispatch = useDispatch();
@@ -92,32 +93,25 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 
 const UserHeader = () => {
 	const { user } = useSelector((state: RootState) => state.auth);
-	
+
 	return (
-	<ImageBackground
-		source={require('../../assets/images/bg.png')}
-		style={{ padding: 20, paddingTop: 100, marginTop: -80 }}
-	>
-		<Image
-			source={user.image}
-			style={{
-				height: 80,
-				width: 80,
-				borderRadius: 40,
-				marginBottom: 10,
-			}}
-		/>
-		<Text
-			style={{
-				color: '#fff',
-				fontSize: 18,
-				fontFamily: fonts.regular,
-				marginBottom: 5,
-			}}
+		<ImageBackground
+			source={require('../../assets/images/bg.png')}
+			style={{ padding: 20, paddingTop: 100, marginTop: -80 }}
 		>
-			{user.name}
-		</Text>
-	</ImageBackground>
-)};
+			<UserAvatar user={user} big />
+			<Text
+				style={{
+					color: '#fff',
+					fontSize: 18,
+					fontFamily: fonts.regular,
+					marginBottom: 5,
+				}}
+			>
+				{user.name}
+			</Text>
+		</ImageBackground>
+	);
+};
 
 export default CustomDrawerContent;

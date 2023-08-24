@@ -22,7 +22,6 @@ export default StyleSheet.create({
 	P: {
 		fontFamily: fonts.regular,
 		color: colors.text.regular,
-		lineHeight: 20,
 		fontSize: 14,
 	},
 	B: {

@@ -25,7 +25,6 @@ export const DummyUsers: User[] = [
 		id: 'b',
 		lists: ['1'],
 		email: 'titola@email.com',
-		image: require('../src/assets/images/profile.png'),
 		name: 'Titola',
 		friends: ['a'],
 	},
@@ -129,7 +128,8 @@ export const DummyTasks: Task[] = [
 			createFakeTaskToggleEvent('a', false, 1),
 			createFakeTaskToggleEvent('a', true, 2),
 			createFakeTaskToggleEvent('a', false, 3),
-			createFakeTaskToggleEvent('a', true, 4),],
+			createFakeTaskToggleEvent('a', true, 4),
+		],
 	},
 	{
 		id: '2003',
@@ -151,11 +151,13 @@ export const DummyLists: DbList[] = [
 		icon: 'cart-outline',
 		title: 'Lista de la compra',
 		tasks: ['1001', '1002', '1003', '1004', '1005', '1006'],
+		users: ['a', 'b'],
 	},
 	{
 		id: '2',
 		icon: 'home-outline',
 		title: 'Tareas del hogar',
 		tasks: ['2001', '2002', '2003'],
+		users: ['a'],
 	},
 ];

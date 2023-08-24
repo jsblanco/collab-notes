@@ -1,12 +1,13 @@
 import { axiosInstance } from '../api/axios';
-import { DummyTasks, DummyLists } from '../../../data/DummyData';
+import { DummyTasks, DummyLists, DummyUsers } from '../../../data/DummyData';
 import { DbList, List } from '../../models/List.models';
 import { Task } from '../../models/Task.models';
+import { User } from '../../models/User.models';
 
 export const fetchLists = (): List[] => {
 	const preparedLists: List[] = [];
 
-	DummyLists.forEach((list) => preparedLists.push(populateListTasks(list)));
+	DummyLists.forEach((list) => preparedLists.push(populateListData(list)));
 
 	return preparedLists;
 };
@@ -15,10 +16,10 @@ export const fetchList = (listId: string): List => {
 	const list = DummyLists.find((list) => list.id === listId);
 	if (!list) throw new Error('No such list exists');
 
-	return populateListTasks(list);
+	return populateListData(list);
 };
 
-const populateListTasks = (list: DbList): List => {
+const populateListData = (list: DbList): List => {
 	const listIndex = DummyLists.findIndex((l) => l.id === list.id);
 	if (listIndex === -1) throw Error('No such list exists');
 
@@ -37,10 +38,19 @@ const populateListTasks = (list: DbList): List => {
 		...completedTasks.map((task) => task.id),
 	];
 
+	const users: User[] = [];
+
+	DummyLists[listIndex].users.map((id) => {
+		DummyUsers.forEach((user) => {
+			if (user?.id === id) users.push(user);
+		});
+	});
+console.log(users)
 	return {
 		...list,
 		completedTasks,
 		pendingTasks,
+		users,
 	};
 };
 
