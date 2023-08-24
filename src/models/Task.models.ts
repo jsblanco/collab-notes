@@ -3,5 +3,12 @@ export interface Task {
 	title: string;
 	listId: string;
 	description: string;
+	history: TaskToggleEvent[];
 	isCompleted?: boolean;
+}
+
+export interface TaskToggleEvent {
+	userId: string;
+	completed: boolean;
+	timestamp: Date;
 }

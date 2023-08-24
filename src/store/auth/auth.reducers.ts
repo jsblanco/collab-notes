@@ -1,3 +1,4 @@
+import { DummyUsers } from '../../../data/DummyData';
 import { User } from '../../models/User.models';
 import * as constants from './auth.constants'
 
@@ -12,14 +13,7 @@ const initialState: StateType = {
     isLoggedIn: false,
     didTryAutoLogin: false,
     token: '',
-    user: {
-        id: 'a',
-        lists: ['1', '2'],
-        email: 'email@email.com',
-        image: require('../../assets/images/profile.png'),
-        name: 'Jorgito',
-        friends: [],
-    }
+    user: DummyUsers[0]
 }
 
 const authReducer = (state: StateType = initialState, {type, payload}: { type: string, payload: any }) => {
