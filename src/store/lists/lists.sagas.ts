@@ -4,13 +4,17 @@ import {
 	call,
 	CallEffect,
 	PutEffect,
+	select,
+	SelectEffect,
 } from 'redux-saga/effects';
 import * as c from './lists.constants';
 import * as actions from './lists.actions';
 import * as queries from './lists.queries';
-import { ReduxAction } from '../store';
+import { ReduxAction, RootState } from '../store';
 import { List } from '../../models/List.models';
 import { Task } from '../../models/Task.models';
+
+const getUserId = (state: RootState): string => state.auth.user.id;
 
 function* fetchListsEffect(): Generator<
 	CallEffect | PutEffect<ReduxAction<List[]>>,
@@ -45,19 +49,22 @@ function* fetchListEffect({
 function* addListTaskEffect({
 	payload,
 }: ReduxAction<{ listId: string; task: Task }>): Generator<
+	| SelectEffect
 	| CallEffect<List>
 	| PutEffect<ReduxAction<List>>
 	| PutEffect<ReduxAction<Task[]>>,
 	void,
-	List
+	string | List
 > {
 	try {
+		const userId = yield select(getUserId);
 		const updatedData = yield call(
 			queries.addTaskToList,
 			payload.listId,
-			payload.task
+			payload.task,
+			userId
 		);
-		yield put(actions.addListTask.success(updatedData));
+		yield put(actions.addListTask.success(updatedData as List));
 	} catch (e) {
 		console.error(e);
 		yield put(actions.addListTask.failure(e));
@@ -87,17 +94,22 @@ function* removeListTaskEffect({
 function* toggleTaskCompletionEffect({
 	payload,
 }: ReduxAction<{ taskId: string; listId: string }>): Generator<
-	CallEffect<List> | PutEffect<any> | PutEffect<ReduxAction<List>>,
+	| SelectEffect
+	| CallEffect<List>
+	| PutEffect<any>
+	| PutEffect<ReduxAction<List>>,
 	void,
-	List
+	string | List
 > {
 	try {
+		const userId = yield select(getUserId);
 		const list = yield call(
 			queries.toggleTaskCompletion,
 			payload.listId,
-			payload.taskId
+			payload.taskId,
+			userId as string
 		);
-		yield put(actions.toggleTaskCompletion.success(list));
+		yield put(actions.toggleTaskCompletion.success(list as List));
 	} catch (e) {
 		console.error(e);
 		yield put(actions.toggleTaskCompletion.failure(e));

@@ -45,6 +45,7 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 				addListTask.request(listId, {
 					id: '',
 					listId,
+					history: [],
 					...task,
 					...formState.inputValues,
 				})
@@ -92,6 +93,8 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 				value={formState.inputValues.description}
 				isValid={formState.inputValidities.description}
 				inputHandler={inputHandler}
+				numberOfLines={4}
+				maxLength={300}
 				multiline
 				required
 			/>

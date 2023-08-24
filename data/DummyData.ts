@@ -28,6 +28,13 @@ export const DummyUsers: User[] = [
 		name: 'Titola',
 		friends: ['a'],
 	},
+	{
+		id: 'c',
+		lists: ['1'],
+		email: 'irano@email.com',
+		name: 'Irano',
+		friends: ['a'],
+	},
 ];
 
 export const DummyTasks: Task[] = [
@@ -39,7 +46,7 @@ export const DummyTasks: Task[] = [
 		isCompleted: false,
 		history: [
 			createFakeTaskToggleEvent('a', false, 3),
-			createFakeTaskToggleEvent('a', true, 8),
+			createFakeTaskToggleEvent('c', true, 8),
 			createFakeTaskToggleEvent('b', false, 16),
 			createFakeTaskToggleEvent('a', true, 18),
 		],
@@ -54,7 +61,7 @@ export const DummyTasks: Task[] = [
 			createFakeTaskToggleEvent('a', false, 2),
 			createFakeTaskToggleEvent('b', true, 4),
 			createFakeTaskToggleEvent('b', false, 6),
-			createFakeTaskToggleEvent('a', true, 8),
+			createFakeTaskToggleEvent('c', true, 8),
 		],
 	},
 	{
@@ -65,7 +72,7 @@ export const DummyTasks: Task[] = [
 		isCompleted: false,
 		history: [
 			createFakeTaskToggleEvent('b', false, 5),
-			createFakeTaskToggleEvent('a', true, 9),
+			createFakeTaskToggleEvent('c', true, 9),
 		],
 	},
 	{
@@ -76,8 +83,8 @@ export const DummyTasks: Task[] = [
 		isCompleted: true,
 		history: [
 			createFakeTaskToggleEvent('b', false, 1),
-			createFakeTaskToggleEvent('a', false, 3),
-			createFakeTaskToggleEvent('a', true, 8),
+			createFakeTaskToggleEvent('c', false, 3),
+			createFakeTaskToggleEvent('c', true, 8),
 			createFakeTaskToggleEvent('b', false, 16),
 			createFakeTaskToggleEvent('a', true, 18),
 		],
@@ -90,7 +97,7 @@ export const DummyTasks: Task[] = [
 		isCompleted: false,
 		history: [
 			createFakeTaskToggleEvent('b', false, 2),
-			createFakeTaskToggleEvent('b', true, 6),
+			createFakeTaskToggleEvent('c', true, 6),
 			createFakeTaskToggleEvent('a', false, 7),
 			createFakeTaskToggleEvent('a', true, 9),
 		],
@@ -103,8 +110,8 @@ export const DummyTasks: Task[] = [
 		isCompleted: true,
 		history: [
 			createFakeTaskToggleEvent('a', true, 1),
-			createFakeTaskToggleEvent('a', false, 3),
-			createFakeTaskToggleEvent('a', true, 8),
+			createFakeTaskToggleEvent('c', false, 3),
+			createFakeTaskToggleEvent('c', true, 8),
 		],
 	},
 	{
@@ -151,7 +158,7 @@ export const DummyLists: DbList[] = [
 		icon: 'cart-outline',
 		title: 'Lista de la compra',
 		tasks: ['1001', '1002', '1003', '1004', '1005', '1006'],
-		users: ['a', 'b'],
+		users: ['a', 'b', 'c'],
 	},
 	{
 		id: '2',

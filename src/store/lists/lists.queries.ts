@@ -45,7 +45,7 @@ const populateListData = (list: DbList): List => {
 			if (user?.id === id) users.push(user);
 		});
 	});
-console.log(users)
+	console.log(users);
 	return {
 		...list,
 		completedTasks,
@@ -54,9 +54,24 @@ console.log(users)
 	};
 };
 
-export const addTaskToList = (listId: string, task: Task): List => {
+export const addTaskToList = (
+	listId: string,
+	task: Task,
+	userId: string
+	): List => {
 	const list = fetchList(listId);
-	const dbTask = { ...task, id: new Date().getTime().toString() };
+	const dbTask = {
+		...task,
+		id: new Date().getTime().toString(),
+		history: [
+			{
+				userId,
+				completed: !!task.isCompleted,
+				timestamp: new Date(),
+			},
+		],
+	};
+
 	const dbList = DummyLists.find((list) => list.id === listId);
 
 	if (!dbList) throw new Error('List not found');
@@ -86,7 +101,11 @@ export const removeListTask = (listId: string, taskId: string): List => {
 	return list;
 };
 
-export const toggleTaskCompletion = (listId: string, taskId: string): List => {
+export const toggleTaskCompletion = (
+	listId: string,
+	taskId: string,
+	userId: string
+): List => {
 	const list = fetchList(listId);
 
 	const tasks = [...list.pendingTasks, ...list.completedTasks];
@@ -102,6 +121,20 @@ export const toggleTaskCompletion = (listId: string, taskId: string): List => {
 	(updatedtask.isCompleted ? list.completedTasks : list.pendingTasks).push(
 		updatedtask
 	);
+
+	const toggleDate = new Date();
+	const latestToggle = updatedtask.history[0];
+	if (
+		userId === latestToggle.userId &&
+		toggleDate.getTime() - new Date(latestToggle.timestamp).getTime() < 600000
+	)
+		updatedtask.history.shift();
+	else
+		updatedtask.history.unshift({
+			userId,
+			timestamp: toggleDate,
+			completed: !!updatedtask.isCompleted,
+		});
 
 	taskIndex = DummyTasks.findIndex((task) => task.id === taskId);
 	DummyTasks[taskIndex] = updatedtask;

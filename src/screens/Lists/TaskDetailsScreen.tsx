@@ -11,6 +11,8 @@ import { RootState } from '../../store/store';
 import { List } from '../../models/List.models';
 import UserAvatar from '../../components/UserAvatar';
 import TaskHistoryEntry from '../../components/TaskHistoryEntry';
+import { FlatList } from 'react-native-gesture-handler';
+import { TaskToggleEvent } from '../../models/Task.models';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.TaskDetails>;
 
@@ -31,6 +33,17 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 		(task) => task.id === taskId
 	);
 
+	const renderTaskHistoryItem = ({item}: {item: TaskToggleEvent}) => {
+		const index = list.users.findIndex((user) => user.id === item.userId);
+		return (
+			<TaskHistoryEntry
+				toggleEvent={item}
+				user={list.users[index]}
+				index={index}
+			/>
+		);
+	}
+
 	if (!task)
 		return (
 			<Container>
@@ -42,18 +55,8 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 		<Container style={styles.screen}>
 			<H1>{task.title}</H1>
 			<Text style={styles.description}>{task.description}</Text>
-
 			<H3>Task history</H3>
-			{task.history.map((entry) => {
-				const index = list.users.findIndex((user) => user.id === entry.userId);
-				return (
-					<TaskHistoryEntry
-						toggleEvent={entry}
-						user={list.users[index]}
-						index={index}
-					/>
-				);
-			})}
+			<FlatList data={task.history} renderItem={renderTaskHistoryItem} />
 		</Container>
 	);
 };
