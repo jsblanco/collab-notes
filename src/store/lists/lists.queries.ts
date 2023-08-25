@@ -45,7 +45,7 @@ const populateListData = (list: DbList): List => {
 			if (user?.id === id) users.push(user);
 		});
 	});
-	console.log(users);
+
 	return {
 		...list,
 		completedTasks,
@@ -58,7 +58,7 @@ export const addTaskToList = (
 	listId: string,
 	task: Task,
 	userId: string
-	): List => {
+): List => {
 	const list = fetchList(listId);
 	const dbTask = {
 		...task,
@@ -69,7 +69,7 @@ export const addTaskToList = (
 				completed: !!task.isCompleted,
 				timestamp: new Date(),
 			},
-			...task.history
+			...task.history,
 		],
 	};
 
@@ -78,8 +78,23 @@ export const addTaskToList = (
 	if (!dbList) throw new Error('List not found');
 
 	dbList.tasks.push(dbTask.id);
+
+	const oldTaskDbIndex = DummyTasks.findIndex(
+		(dbTask) => dbTask.id === task.id
+	);
+	if (oldTaskDbIndex >= 0) DummyTasks.splice(oldTaskDbIndex, 1);
 	DummyTasks.push(dbTask);
-	list.pendingTasks.push(dbTask);
+
+	const listTaskArray = dbTask.isCompleted
+		? list.completedTasks
+		: list.pendingTasks;
+
+	const oldTaskListIndex = listTaskArray.findIndex(
+		(dbTask) => dbTask.id === task.id
+	);
+	if (oldTaskListIndex >= 0) listTaskArray.splice(oldTaskListIndex, 1);
+
+	listTaskArray.push(dbTask);
 
 	return list;
 };

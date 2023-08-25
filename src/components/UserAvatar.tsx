@@ -28,11 +28,11 @@ const UserAvatar = ({
 			style={{
 				...styles.userAvatar,
 				...styles.avatarPlaceholder,
-				...(big && styles.big),
+				...(big ? { ...styles.big, ...styles.bigText } : styles.text),
 				backgroundColor:
 					placeholderAvatarColors[i % placeholderAvatarColors.length],
 			}}
-            noPadding
+			noPadding
 			center
 		>
 			{user?.name.slice(0, 1) ?? '?'}
@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	avatarPlaceholder: {
-		fontSize: 30,
 		fontWeight: 'bold',
 		color: 'white',
 	},
@@ -72,6 +71,11 @@ const styles = StyleSheet.create({
 		height: 80,
 		width: 80,
 		borderRadius: 40,
-		fontSize: 60,
+	},
+	text: {
+		fontSize: 28,
+	},
+	bigText: {
+		fontSize: 56,
 	},
 });
