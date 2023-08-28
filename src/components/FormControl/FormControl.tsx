@@ -1,11 +1,8 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { TextInput, StyleSheet, View } from 'react-native';
-import { FormControlType } from './FormControl.types';
+import { FormControlActions, FormControlType } from './FormControl.types';
 import {
 	formControlReducer,
-	INPUT_CHANGE,
-	FORM_RESET,
-	IS_TOUCHED,
 } from './FormControl.reducer';
 import { colors, Error, fonts, Label } from '../../ui/libUi';
 
@@ -33,13 +30,10 @@ const FormControl = (props: FormControlType) => {
 		onInputCheck,
 	} = props;
 
-	const [error, setError] = useState(
-		`Please input a valid ${label ?? inputName}`
-	);
-
+	const [error, setError] = useState<string>('');
 	const [state, dispatch] = useReducer(formControlReducer, {
 		value: value ?? '',
-		isValid: isValid,
+		isValid: !!isValid,
 		isTouched: false,
 	});
 
@@ -47,8 +41,8 @@ const FormControl = (props: FormControlType) => {
 		const emailRegex =
 			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		const numberRegex = /^-?\d*(\.\d+)?$/;
-
 		let isValid = true;
+
 		if (
 			(required && input.trim().length === 0) ||
 			(email && !emailRegex.test(input.toLowerCase())) ||
@@ -63,18 +57,19 @@ const FormControl = (props: FormControlType) => {
 		)
 			isValid = false;
 
-		if (!isValid) setError(`Please input a valid ${label ? label : inputName}`);
+		if (!isValid)
+			setError(`Please input a valid ${(label ?? inputName).toLowerCase()}`);
 
-		dispatch({ type: INPUT_CHANGE, value: input, isValid: isValid });
+		dispatch({ type: FormControlActions.INPUT_CHANGE, value: input, isValid: isValid });
 	};
 
 	const lostFocusHandler = async () => {
-		dispatch({ type: IS_TOUCHED });
+		dispatch({ type: FormControlActions.IS_TOUCHED });
 		if (onInputCheck && state.isValid) {
 			const externalCheck = await onInputCheck(value);
 			setError(externalCheck.errorMessage);
 			dispatch({
-				type: INPUT_CHANGE,
+				type:FormControlActions.INPUT_CHANGE,
 				value: state.value,
 				isValid: externalCheck.isValid,
 			});
@@ -86,7 +81,7 @@ const FormControl = (props: FormControlType) => {
 	}, [inputHandler, state, value, error]);
 
 	useEffect(() => {
-		if (state.value !== '' && value === '') dispatch({ type: FORM_RESET });
+		if (state.value !== '' && value === '') dispatch({ type: FormControlActions.FORM_RESET });
 	}, [value]);
 
 	return (
