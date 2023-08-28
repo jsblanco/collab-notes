@@ -3,6 +3,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import SwipeableItem, {
 	OpenDirection,
+	SwipeableItemImperativeRef,
 	useSwipeableItemParams,
 } from 'react-native-swipeable-item';
 import { ScaleDecorator } from 'react-native-draggable-flatlist';
@@ -14,7 +15,15 @@ import { useNavigation } from '@react-navigation/native';
 import { ListStackRoutes } from '../navigation/NavigationTypes';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export function TaskItem({ task, drag }: { task: Task; drag: () => void }) {
+export function TaskItem({
+	task,
+	drag,
+	itemRef: ref,
+}: {
+	task: Task;
+	drag: () => void;
+	itemRef?: React.ForwardedRef<SwipeableItemImperativeRef>;
+}) {
 	const dispatch = useDispatch();
 	const navigation = useNavigation();
 
@@ -22,6 +31,7 @@ export function TaskItem({ task, drag }: { task: Task; drag: () => void }) {
 		<ScaleDecorator>
 			<SwipeableItem
 				key={task.id}
+				ref={ref}
 				item={task}
 				onChange={({ openDirection }) => {
 					if (openDirection === OpenDirection.RIGHT)
