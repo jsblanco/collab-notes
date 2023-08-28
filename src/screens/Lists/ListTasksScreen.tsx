@@ -1,11 +1,18 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Image, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import {
 	ListStackProps,
 	ListStackRoutes,
 } from '../../navigation/NavigationTypes';
-import { FloatingButton, Container, H3, Text, Row } from '../../ui/libUi';
+import {
+	FloatingButton,
+	Container,
+	H3,
+	Text,
+	Row,
+	colors,
+} from '../../ui/libUi';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import TasksFlatlist from '../../components/TasksFlatlist';
@@ -58,7 +65,7 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 	if (!list || error)
 		return (
 			<Container style={styles.screen}>
-				<Text style={{ color: 'tomato' }}>{error.message}</Text>
+				<Text style={styles.error}>{error.message}</Text>
 			</Container>
 		);
 
@@ -68,7 +75,7 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 				<Text noPadding>{list.users.length} participants</Text>
 				<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 					{list.users.slice(0, 4).map((user, i) => (
-						<UserAvatar user={user} i={i} />
+						<UserAvatar user={user} i={i} key={user?.id} />
 					))}
 					{list.users.length > 5 && (
 						<Text noPadding>+{list.users.length - 5}</Text>
@@ -101,6 +108,7 @@ const styles = StyleSheet.create({
 		minHeight: '100%',
 		paddingTop: 20,
 	},
+	error: { color: colors.danger },
 	usersRow: {
 		paddingHorizontal: 20,
 		marginBottom: 20,
