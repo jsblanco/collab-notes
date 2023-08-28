@@ -106,7 +106,7 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 				multiline
 				required
 			/>
-			<FloatingButton onPress={onSubmit}>
+			<FloatingButton disabled={!formState.formIsValid} onPress={onSubmit}>
 				{task ? 'Update task' : 'Create new task'}
 			</FloatingButton>
 		</Container>

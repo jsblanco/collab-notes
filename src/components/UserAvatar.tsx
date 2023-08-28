@@ -2,35 +2,38 @@ import React from 'react';
 import { StyleSheet, Image } from 'react-native';
 import { User } from '../models/User.models';
 import { Text, colors } from '../ui/libUi';
-import { color } from 'react-native-reanimated';
+
+const placeholderColors = [
+	colors.accent,
+	colors.general.green,
+	colors.general.blue,
+	colors.general.red,
+	colors.general.mustard,
+];
 
 const UserAvatar = ({
 	user,
 	i = 0,
 	big,
 }: {
-	user?: User;
+	user: User;
 	i?: number;
 	big?: boolean;
 }) => {
-	const placeholderAvatarColors = [
-		colors.accent,
-		colors.general.green,
-		colors.general.blue,
-		colors.general.red,
-		colors.general.mustard,
-	];
 
-	return user && user.image ? (
-		<Image style={[styles.userAvatar, big && styles.big]} source={user.image} />
+
+	return user.image ? (
+		<Image
+			style={[styles.userAvatar, big && styles.big]}
+			source={user.image}
+		/>
 	) : (
 		<Text
 			style={{
 				...styles.userAvatar,
 				...styles.avatarPlaceholder,
 				...(big ? { ...styles.big, ...styles.bigText } : styles.text),
-				backgroundColor:
-					placeholderAvatarColors[i % placeholderAvatarColors.length],
+				backgroundColor: placeholderColors[i % placeholderColors.length],
 			}}
 			noPadding
 			center

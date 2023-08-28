@@ -131,6 +131,7 @@ export const FloatingButton = ({
 	onPress,
 	buttonStyle,
 	textStyle,
+	disabled,
 	children,
 }: ButtonPropsType) => {
 	return (
@@ -143,7 +144,8 @@ export const FloatingButton = ({
 				<ButtonType
 					activeOpacity={0.6}
 					onPress={onPress}
-					style={{ ...styles.bottomButtonView, ...buttonStyle }}
+					disabled={disabled}
+					style={{ ...styles.bottomButtonView, ...buttonStyle, ...disabled && styles.disabledButton }}
 				>
 					<Text style={{ ...styles.bottomButtonText, ...textStyle }}>
 						{children}
