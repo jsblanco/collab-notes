@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { colors } from '../ui';
+import { colors } from '@app/ui';
 
 const OpenDrawerButton = () => {
 	const navigation = useNavigation();

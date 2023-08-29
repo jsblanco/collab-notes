@@ -1,4 +1,4 @@
-import { List } from '../../models';
+import { List } from '@app/models';
 import * as constants from './lists.constants';
 
 type StateType = {

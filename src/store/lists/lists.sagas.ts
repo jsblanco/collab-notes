@@ -7,7 +7,7 @@ import {
 	SelectEffect,
 	takeLatest,
 } from 'redux-saga/effects';
-import { List, Task } from '../../models';
+import { List, Task } from '@app/models';
 import { ReduxAction, RootState } from '../store';
 import * as actions from './lists.actions';
 import * as c from './lists.constants';

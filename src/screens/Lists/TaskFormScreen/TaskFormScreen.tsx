@@ -2,14 +2,14 @@ import React, { useCallback, useEffect, useReducer } from 'react';
 import { StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { StackScreenProps } from '@react-navigation/stack';
-import FormControl from '../../../components/FormControl/FormControl';
+import FormControl from '@app/components/FormControl/FormControl';
 import {
 	ListStackProps,
 	ListStackRoutes,
-} from '../../../navigation/NavigationTypes';
-import { addListTask } from '../../../store/lists/lists.actions';
-import { RootState } from '../../../store/store';
-import { Container, FloatingButton } from '../../../ui';
+} from '@app/navigation/NavigationTypes';
+import { addListTask } from '@app/store/lists/lists.actions';
+import { RootState } from '@app/store/store';
+import { Container, FloatingButton } from '@app/ui';
 import { Actions, formReducer } from './TaskFormScreen.reducer';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.TaskForm>;

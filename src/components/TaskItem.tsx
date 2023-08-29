@@ -10,10 +10,10 @@ import SwipeableItem, {
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Task } from '../models';
-import { ListStackRoutes } from '../navigation/NavigationTypes';
-import { toggleTaskCompletion } from '../store/lists/lists.actions';
-import { colors, fonts, H3, Text } from '../ui';
+import { Task } from '@app/models';
+import { ListStackRoutes } from '@app/navigation/NavigationTypes';
+import { toggleTaskCompletion } from '@app/store/lists/lists.actions';
+import { colors, fonts, H3, Text } from '@app/ui';
 
 export function TaskItem({
 	task,

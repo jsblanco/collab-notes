@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { StackScreenProps } from '@react-navigation/stack';
-import TasksFlatlist from '../../components/TasksFlatlist';
-import UserAvatar from '../../components/UserAvatar';
+import TasksFlatlist from '@app/components/TasksFlatlist';
+import UserAvatar from '@app/components/UserAvatar';
 import {
 	ListStackProps,
 	ListStackRoutes,
-} from '../../navigation/NavigationTypes';
-import { RootState } from '../../store/store';
-import { colors, Container, FloatingButton, H3, Row, Text } from '../../ui';
+} from '@app/navigation/NavigationTypes';
+import { RootState } from '@app/store/store';
+import { colors, Container, FloatingButton, H3, Row, Text } from '@app/ui';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListTasks>;
 

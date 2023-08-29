@@ -1,16 +1,23 @@
 {
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "jsx": "react-native",
-    "lib": [
-      "dom",
-      "esnext"
-    ],
-    "moduleResolution": "node",
-    "noEmit": true,
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "strict": true
-  },
-  "extends": "expo/tsconfig.base"
+  "extends": "expo/tsconfig.base",
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"jsx": "react-native",
+		"lib": ["dom", "esnext"],
+		"moduleResolution": "node",
+		"noEmit": true,
+		"skipLibCheck": true,
+		"resolveJsonModule": true,
+		"strict": true,
+		"baseUrl": ".",
+		"paths": {
+			"@app/components/*": ["src/components/*"],
+			"@app/screens/*": ["src/screens/*"],
+			"@app/navigation/*": ["src/navigation/*"],
+			"@app/models": ["src/models"],
+			"@app/store/*": ["src/store/*"],
+			"@app/ui": ["src/ui"]
+		}
+	},
+  "exclude": ["node_modules"]
 }

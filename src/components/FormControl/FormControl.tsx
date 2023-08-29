@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
-import { colors, Error, fonts, Label } from '../../ui';
+import { colors, Error, fonts, Label } from '@app/ui';
 import { formControlReducer } from './FormControl.reducer';
 import { FormControlActions, FormControlType } from './FormControl.types';
 

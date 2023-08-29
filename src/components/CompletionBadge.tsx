@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, IconNames } from '../ui';
+import { colors, IconNames } from '@app/ui';
 
 const CompletionBadge = ({ isCompleted }: { isCompleted: boolean }) =>
 	isCompleted ? (

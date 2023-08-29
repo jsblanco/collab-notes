@@ -5,9 +5,9 @@ import DraggableFlatList, {
 } from 'react-native-draggable-flatlist';
 import { SwipeableItemImperativeRef } from 'react-native-swipeable-item';
 import { useDispatch } from 'react-redux';
-import { Task } from '../models';
-import { changeTaskListIndex } from '../store/lists/lists.actions';
-import { Text } from '../ui';
+import { Task } from '@app/models';
+import { changeTaskListIndex } from '@app/store/lists/lists.actions';
+import { Text } from '@app/ui';
 import { TaskItem } from './TaskItem';
 
 interface Props {

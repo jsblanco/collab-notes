@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
-import { TaskToggleEvent, User } from '../models';
-import { B, colors, fonts, Row, Text } from '../ui';
-import UserAvatar from './UserAvatar';
+import { TaskToggleEvent, User } from '@app/models';
+import { B, colors, fonts, Row, Text } from '@app/ui';
+import UserAvatar from '@app/components/UserAvatar';
 
 const TaskHistoryEntry = ({
 	toggleEvent,

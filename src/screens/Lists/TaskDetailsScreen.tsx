@@ -3,16 +3,16 @@ import { StyleSheet, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { StackScreenProps } from '@react-navigation/stack';
-import CompletionBadge from '../../components/CompletionBadge';
-import TaskHistoryEntry from '../../components/TaskHistoryEntry';
-import { List, TaskToggleEvent } from '../../models';
+import CompletionBadge from '@app/components/CompletionBadge';
+import TaskHistoryEntry from '@app/components/TaskHistoryEntry';
+import { List, TaskToggleEvent } from '@app/models';
 import {
 	ListStackProps,
 	ListStackRoutes,
-} from '../../navigation/NavigationTypes';
-import { toggleTaskCompletion } from '../../store/lists/lists.actions';
-import { RootState } from '../../store/store';
-import { Button, colors, Container, H1, H3, Row, Text } from '../../ui';
+} from '@app/navigation/NavigationTypes';
+import { toggleTaskCompletion } from '@app/store/lists/lists.actions';
+import { RootState } from '@app/store/store';
+import { Button, colors, Container, H1, H3, Row, Text } from '@app/ui';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.TaskDetails>;
 

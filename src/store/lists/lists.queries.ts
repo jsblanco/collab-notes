@@ -1,5 +1,5 @@
 import { DummyLists, DummyTasks, DummyUsers } from '../../../data/DummyData';
-import { DbList, List, Task, User } from '../../models';
+import { DbList, List, Task, User } from '@app/models';
 
 export const fetchLists = (): List[] => {
 	const preparedLists: List[] = [];

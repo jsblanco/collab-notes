@@ -4,8 +4,8 @@ import { StackScreenProps } from '@react-navigation/stack';
 import {
 	AuthStackProps,
 	AuthStackRoutes,
-} from '../../navigation/NavigationTypes';
-import { Text } from '../../ui';
+} from '@app/navigation/NavigationTypes';
+import { Text } from '@app/ui';
 
 type Props = StackScreenProps<AuthStackProps, AuthStackRoutes.Startup>;
 

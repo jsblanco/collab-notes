@@ -1,4 +1,4 @@
-import { List, Task } from '../../models';
+import { List, Task } from '@app/models';
 import * as constants from './lists.constants';
 
 export const fetchSingleList = {

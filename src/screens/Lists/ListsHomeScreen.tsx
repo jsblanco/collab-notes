@@ -3,15 +3,15 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { StackScreenProps } from '@react-navigation/stack';
-import TasksFlatlist from '../../components/TasksFlatlist';
-import { List } from '../../models';
+import TasksFlatlist from '@app/components/TasksFlatlist';
+import { List } from '@app/models';
 import {
 	getDrawerListLink,
 	ListStackProps,
 	ListStackRoutes,
-} from '../../navigation/NavigationTypes';
-import { RootState } from '../../store/store';
-import { Container, H2, H3 } from '../../ui';
+} from '@app/navigation/NavigationTypes';
+import { RootState } from '@app/store/store';
+import { Container, H2, H3 } from '@app/ui';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListsHome>;
 const ListsHomeScreen = ({ route, navigation }: Props) => {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
-import StartupScreen from '../screens/Auth/StartupScreen';
-import { RootState } from '../store/store';
+import StartupScreen from '@app/screens/Auth/StartupScreen';
+import { RootState } from '@app/store/store';
 import { DrawerNavigation } from './drawer/DrawerNavigation';
 import { AuthStack } from './stacks/AuthStack';
 
