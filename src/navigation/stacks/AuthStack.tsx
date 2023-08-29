@@ -5,8 +5,8 @@ import {
 } from '@react-navigation/stack';
 import AuthScreen from '../../screens/Auth/AuthScreen';
 import StartupScreen from '../../screens/Auth/StartupScreen';
-import styles from '../styles/stack.styles';
 import { AuthStackProps, AuthStackRoutes } from '../NavigationTypes';
+import styles from '../styles/stack.styles';
 
 const Stack = createStackNavigator<AuthStackProps>();
 
@@ -18,8 +18,7 @@ export function AuthStack() {
 			screenOptions={{
 				...styles,
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-			}}
-		>
+			}}>
 			<Stack.Screen name={AuthStackRoutes.Startup} component={StartupScreen} />
 			<Stack.Screen
 				name={AuthStackRoutes.AuthsHome}

@@ -1,6 +1,5 @@
+import { List, Task } from '../../models';
 import * as constants from './lists.constants';
-import { List } from '../../models/List.models';
-import { Task } from '../../models/Task.models';
 
 export const fetchSingleList = {
 	request: (listId: string) => {

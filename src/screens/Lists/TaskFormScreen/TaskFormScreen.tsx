@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useReducer } from 'react';
 import { StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { StackScreenProps } from '@react-navigation/stack';
+import FormControl from '../../../components/FormControl/FormControl';
 import {
 	ListStackProps,
 	ListStackRoutes,
 } from '../../../navigation/NavigationTypes';
-import { FloatingButton, Container } from '../../../ui/libUi';
-import { Actions, formReducer } from './TaskFormScreen.reducer';
-import FormControl from '../../../components/FormControl/FormControl';
-import { useDispatch, useSelector } from 'react-redux';
 import { addListTask } from '../../../store/lists/lists.actions';
 import { RootState } from '../../../store/store';
+import { Container, FloatingButton } from '../../../ui';
+import { Actions, formReducer } from './TaskFormScreen.reducer';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.TaskForm>;
 
@@ -19,7 +19,7 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 	const list = useSelector((state: RootState) =>
 		state.lists.lists.find((list) => listId === list.id)
 	) ?? { pendingTasks: [], completedTasks: [] };
-	
+
 	const task = [...list?.pendingTasks, ...list?.completedTasks].find(
 		(task) => task.id === taskId
 	);

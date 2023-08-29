@@ -1,22 +1,15 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import { StackScreenProps } from '@react-navigation/stack';
+import TasksFlatlist from '../../components/TasksFlatlist';
+import UserAvatar from '../../components/UserAvatar';
 import {
 	ListStackProps,
 	ListStackRoutes,
 } from '../../navigation/NavigationTypes';
-import {
-	FloatingButton,
-	Container,
-	H3,
-	Text,
-	Row,
-	colors,
-} from '../../ui/libUi';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
-import TasksFlatlist from '../../components/TasksFlatlist';
-import UserAvatar from '../../components/UserAvatar';
+import { colors, Container, FloatingButton, H3, Row, Text } from '../../ui';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListTasks>;
 
@@ -77,9 +70,7 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 					{list.users.slice(0, 4).map((user, i) => (
 						<UserAvatar user={user} i={i} key={user?.id} />
 					))}
-					{list.users.length > 5 && (
-						<Text noPadding>+{list.users.length - 5}</Text>
-					)}
+					{list.users.length > 5 && <Text noPadding>+{list.users.length - 5}</Text>}
 				</View>
 			</Row>
 			<H3 style={styles.titles}>Pending tasks</H3>
@@ -91,8 +82,7 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 					navigation.navigate(ListStackRoutes.TaskForm, {
 						listId,
 					})
-				}
-			>
+				}>
 				New task
 			</FloatingButton>
 		</Container>

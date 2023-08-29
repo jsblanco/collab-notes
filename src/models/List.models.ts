@@ -1,6 +1,5 @@
-import { Task } from './Task.models';
 import { Ionicons } from '@expo/vector-icons';
-import { User } from './User.models';
+import { Task, User } from './';
 
 export interface List {
 	id: string;

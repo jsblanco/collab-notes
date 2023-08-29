@@ -1,8 +1,5 @@
-import { axiosInstance } from '../api/axios';
-import { DummyTasks, DummyLists, DummyUsers } from '../../../data/DummyData';
-import { DbList, List } from '../../models/List.models';
-import { Task } from '../../models/Task.models';
-import { User } from '../../models/User.models';
+import { DummyLists, DummyTasks, DummyUsers } from '../../../data/DummyData';
+import { DbList, List, Task, User } from '../../models';
 
 export const fetchLists = (): List[] => {
 	const preparedLists: List[] = [];
@@ -79,9 +76,7 @@ export const addTaskToList = (
 
 	dbList.tasks.push(dbTask.id);
 
-	const oldTaskDbIndex = DummyTasks.findIndex(
-		(dbTask) => dbTask.id === task.id
-	);
+	const oldTaskDbIndex = DummyTasks.findIndex((dbTask) => dbTask.id === task.id);
 	if (oldTaskDbIndex >= 0) DummyTasks.splice(oldTaskDbIndex, 1);
 	DummyTasks.push(dbTask);
 
@@ -103,8 +98,7 @@ export const removeListTask = (listId: string, taskId: string): List => {
 	const list = fetchList(listId);
 	const tasks = [...list.completedTasks, ...list.pendingTasks];
 	let taskIndex = tasks.findIndex((task) => task.id === taskId);
-	if (taskIndex === -1)
-		throw new Error('Task does not belong to selected list');
+	if (taskIndex === -1) throw new Error('Task does not belong to selected list');
 
 	tasks.splice(taskIndex, 1);
 	list.completedTasks = tasks.filter((task) => task.isCompleted);
@@ -126,8 +120,7 @@ export const toggleTaskCompletion = (
 
 	const tasks = [...list.pendingTasks, ...list.completedTasks];
 	let taskIndex = tasks.findIndex((task) => task.id === taskId);
-	if (taskIndex === -1)
-		throw new Error('Task does not belong to selected list');
+	if (taskIndex === -1) throw new Error('Task does not belong to selected list');
 	tasks[taskIndex].isCompleted = !tasks[taskIndex].isCompleted;
 
 	const updatedtask = tasks[taskIndex];

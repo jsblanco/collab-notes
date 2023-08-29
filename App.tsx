@@ -7,7 +7,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 import { store } from './src/store/store';
 import * as Font from 'expo-font';
-import { fonts } from './src/ui/libUi';
+import { fonts } from './src/ui';
 
 enableScreens();
 const fetchFonts = () =>

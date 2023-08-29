@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Text } from '../../ui/libUi';
+import { StyleSheet, View } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
 import {
 	AuthStackProps,
 	AuthStackRoutes,
 } from '../../navigation/NavigationTypes';
-import { StackScreenProps } from '@react-navigation/stack';
+import { Text } from '../../ui';
 
 type Props = StackScreenProps<AuthStackProps, AuthStackRoutes.Startup>;
 
@@ -20,10 +20,10 @@ const StartupScreen = () => {
 export default StartupScreen;
 
 const styles = StyleSheet.create({
-    screen: {
-        flex: 1,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-})
+	screen: {
+		flex: 1,
+		width: '100%',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+});

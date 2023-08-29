@@ -1,16 +1,16 @@
 import React from 'react';
 import {
 	CardStyleInterpolators,
-	StackNavigationOptions,
 	createStackNavigator,
+	StackNavigationOptions,
 } from '@react-navigation/stack';
-import { ListStackProps, ListStackRoutes } from '../NavigationTypes';
-import ListTaksScreen from '../../screens/Lists/ListTasksScreen';
-import TaskFormScreen from '../../screens/Lists/TaskFormScreen/TaskFormScreen';
-import styles from '../styles/stack.styles';
 import OpenDrawerButton from '../../components/OpenDrawerButton';
-import TaskDetailsScreen from '../../screens/Lists/TaskDetailsScreen';
 import ListsHomeScreen from '../../screens/Lists/ListsHomeScreen';
+import ListTaksScreen from '../../screens/Lists/ListTasksScreen';
+import TaskDetailsScreen from '../../screens/Lists/TaskDetailsScreen';
+import TaskFormScreen from '../../screens/Lists/TaskFormScreen/TaskFormScreen';
+import { ListStackProps, ListStackRoutes } from '../NavigationTypes';
+import styles from '../styles/stack.styles';
 
 const Stack = createStackNavigator<ListStackProps>();
 
@@ -21,8 +21,7 @@ export function ListStack({ route }: any) {
 			screenOptions={{
 				...(styles as StackNavigationOptions),
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-			}}
-		>
+			}}>
 			<Stack.Screen
 				name={ListStackRoutes.ListsHome}
 				component={ListsHomeScreen}

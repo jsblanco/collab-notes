@@ -1,19 +1,18 @@
 import React, { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
+import { useDispatch, useSelector } from 'react-redux';
 import { StackScreenProps } from '@react-navigation/stack';
+import CompletionBadge from '../../components/CompletionBadge';
+import TaskHistoryEntry from '../../components/TaskHistoryEntry';
+import { List, TaskToggleEvent } from '../../models';
 import {
 	ListStackProps,
 	ListStackRoutes,
 } from '../../navigation/NavigationTypes';
-import { Button, Container, H1, H3, Row, Text, colors } from '../../ui/libUi';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { List } from '../../models/List.models';
-import TaskHistoryEntry from '../../components/TaskHistoryEntry';
-import { FlatList } from 'react-native-gesture-handler';
-import { TaskToggleEvent } from '../../models/Task.models';
-import CompletionBadge from '../../components/CompletionBadge';
 import { toggleTaskCompletion } from '../../store/lists/lists.actions';
+import { RootState } from '../../store/store';
+import { Button, colors, Container, H1, H3, Row, Text } from '../../ui';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.TaskDetails>;
 

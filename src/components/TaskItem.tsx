@@ -1,19 +1,19 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
+import { ScaleDecorator } from 'react-native-draggable-flatlist';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import SwipeableItem, {
 	OpenDirection,
 	SwipeableItemImperativeRef,
 	useSwipeableItemParams,
 } from 'react-native-swipeable-item';
-import { ScaleDecorator } from 'react-native-draggable-flatlist';
-import { Task } from '../models/Task.models';
 import { useDispatch } from 'react-redux';
-import { toggleTaskCompletion } from '../store/lists/lists.actions';
-import { H3, Text, colors, fonts } from '../ui/libUi';
 import { useNavigation } from '@react-navigation/native';
-import { ListStackRoutes } from '../navigation/NavigationTypes';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Task } from '../models';
+import { ListStackRoutes } from '../navigation/NavigationTypes';
+import { toggleTaskCompletion } from '../store/lists/lists.actions';
+import { colors, fonts, H3, Text } from '../ui';
 
 export function TaskItem({
 	task,
@@ -40,15 +40,10 @@ export function TaskItem({
 				overSwipe={30}
 				renderUnderlayLeft={() => <UnderlayLeft task={task} />}
 				renderUnderlayRight={() =>
-					!!task.isCompleted ? (
-						<UnderlayCompletedTask />
-					) : (
-						<UnderlayPendingTask />
-					)
+					!!task.isCompleted ? <UnderlayCompletedTask /> : <UnderlayPendingTask />
 				}
 				snapPointsLeft={[90, 180]}
-				snapPointsRight={[400]}
-			>
+				snapPointsRight={[400]}>
 				<TouchableOpacity
 					activeOpacity={1}
 					onLongPress={drag}
@@ -59,8 +54,7 @@ export function TaskItem({
 							taskId: task.id,
 						})
 					}
-					style={[styles.row, styles.item]}
-				>
+					style={[styles.row, styles.item]}>
 					<H3 style={styles.title}>{task.title}</H3>
 				</TouchableOpacity>
 			</SwipeableItem>
@@ -88,19 +82,12 @@ const UnderlayLeft = ({ task }: { task: Task }) => {
 	return (
 		<Animated.View style={styles.buttonRow}>
 			<TouchableOpacity
-				style={[styles.underlay, styles.redBg, styles.buttonPadding, animStyle]}
-			>
+				style={[styles.underlay, styles.redBg, styles.buttonPadding, animStyle]}>
 				<Text style={styles.text}>{`Delete`}</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
-				style={[
-					styles.underlay,
-					styles.blueBg,
-					styles.buttonPadding,
-					animStyle,
-				]}
-				onPress={onEdit}
-			>
+				style={[styles.underlay, styles.blueBg, styles.buttonPadding, animStyle]}
+				onPress={onEdit}>
 				<Text style={styles.text}>{`Edit`}</Text>
 			</TouchableOpacity>
 		</Animated.View>
@@ -120,8 +107,7 @@ function UnderlayCompletedTask() {
 			colors={[colors.general.mustard, colors.background]}
 			style={[styles.row]}
 			start={[0, 0]}
-			end={[1, 0]}
-		>
+			end={[1, 0]}>
 			<Animated.View style={animStyle}>
 				{/* @ts-ignore */}
 				<TouchableOpacity>
@@ -145,8 +131,7 @@ function UnderlayPendingTask() {
 			colors={[colors.general.green, colors.background]}
 			style={[styles.row]}
 			start={[0, 0]}
-			end={[1, 0]}
-		>
+			end={[1, 0]}>
 			<Animated.View style={animStyle}>
 				{/* @ts-ignore */}
 				<TouchableOpacity>

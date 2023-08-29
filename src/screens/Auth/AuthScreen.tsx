@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Text } from '../../ui/libUi';
+import { StyleSheet, View } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import {
 	AuthStackProps,
 	AuthStackRoutes,
 } from '../../navigation/NavigationTypes';
+import { Text } from '../../ui';
 
 type Props = StackScreenProps<AuthStackProps, AuthStackRoutes.AuthsHome>;
 

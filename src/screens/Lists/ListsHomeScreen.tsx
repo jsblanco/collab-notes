@@ -1,25 +1,17 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import {
-	DrawerRoutes,
-	ListStackProps,
-	ListStackRoutes,
-	getDrawerListLink,
-} from '../../navigation/NavigationTypes';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import { useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
-import { Container, H2, H3 } from '../../ui/libUi';
-import DraggableFlatList, {
-	DragEndParams,
-	RenderItemParams,
-} from 'react-native-draggable-flatlist';
-import { TaskItem } from '../../components/TaskItem';
-import { Task } from '../../models/Task.models';
-import { List } from '../../models/List.models';
-import { changeTaskListIndex } from '../../store/lists/lists.actions';
 import { StackScreenProps } from '@react-navigation/stack';
 import TasksFlatlist from '../../components/TasksFlatlist';
+import { List } from '../../models';
+import {
+	getDrawerListLink,
+	ListStackProps,
+	ListStackRoutes,
+} from '../../navigation/NavigationTypes';
+import { RootState } from '../../store/store';
+import { Container, H2, H3 } from '../../ui';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListsHome>;
 const ListsHomeScreen = ({ route, navigation }: Props) => {
@@ -29,8 +21,7 @@ const ListsHomeScreen = ({ route, navigation }: Props) => {
 		<Container style={styles.screen}>
 			<View style={styles.header}>
 				<H2 style={styles.titles}>
-					You have{' '}
-					{lists.reduce((acc, list) => list.pendingTasks.length + acc, 0)}{' '}
+					You have {lists.reduce((acc, list) => list.pendingTasks.length + acc, 0)}{' '}
 					pending tasks
 				</H2>
 			</View>
@@ -51,16 +42,11 @@ const ListsHomeScreen = ({ route, navigation }: Props) => {
 									listId: list.id,
 								},
 							});
-						}}
-					>
+						}}>
 						<Ionicons name={list.icon} color={'#000'} size={24} />
 						<H3 style={styles.titles}>{list.title}</H3>
 					</Pressable>
-					<TasksFlatlist
-						listId={list.id}
-						tasks={list.pendingTasks}
-						reorderTasks
-					/>
+					<TasksFlatlist listId={list.id} tasks={list.pendingTasks} reorderTasks />
 				</View>
 			))}
 		</Container>

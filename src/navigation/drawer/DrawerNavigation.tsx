@@ -1,23 +1,22 @@
-import React from 'react';
-import { Text } from 'react-native';
-import {
-	DrawerNavigationOptions,
-	createDrawerNavigator,
-} from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
-import { ListStack } from '../stacks/ListStack';
-import { colors } from '../../ui/libUi';
-import CustomDrawerContent from './CustomDrawerContent';
+import {
+	createDrawerNavigator,
+	DrawerNavigationOptions,
+} from '@react-navigation/drawer';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import OpenDrawerButton from '../../components/OpenDrawerButton';
+import { RootState } from '../../store/store';
+import { colors } from '../../ui';
 import {
 	DrawerProps,
 	DrawerRoutes,
-	ListStackRoutes,
 	getDrawerListLink,
+	ListStackRoutes,
 } from '../NavigationTypes';
-import OpenDrawerButton from '../../components/OpenDrawerButton';
+import { ListStack } from '../stacks/ListStack';
 import styles from '../styles/stack.styles';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import CustomDrawerContent from './CustomDrawerContent';
 
 const Drawer = createDrawerNavigator<DrawerProps>();
 
@@ -34,8 +33,7 @@ export function DrawerNavigation() {
 				drawerInactiveTintColor: '#333',
 				headerLeft: OpenDrawerButton,
 				headerShown: false,
-			}}
-		>
+			}}>
 			<Drawer.Screen
 				name={DrawerRoutes.Home}
 				component={ListStack}
@@ -43,7 +41,7 @@ export function DrawerNavigation() {
 				options={{
 					drawerLabel: 'Home',
 					drawerIcon: ({ color, size }) => (
-						<Ionicons name='document-text-outline' color={color} size={size} />
+						<Ionicons name="document-text-outline" color={color} size={size} />
 					),
 				}}
 			/>

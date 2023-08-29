@@ -1,8 +1,7 @@
-import { View, StyleSheet } from 'react-native';
-import { Text, colors } from '../ui/libUi';
-import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { IconNames } from '../ui/sources/constants/iconNames';
+import { StyleSheet, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { colors, IconNames } from '../ui';
 
 const CompletionBadge = ({ isCompleted }: { isCompleted: boolean }) =>
 	isCompleted ? (
@@ -15,7 +14,7 @@ const CompletionBadge = ({ isCompleted }: { isCompleted: boolean }) =>
 		</View>
 	) : (
 		<View style={[styles.yellow, styles.completionBadge]}>
-			<Ionicons name={IconNames.alarmOutline} color={colors.white} size={28} />
+			<Ionicons name={IconNames.timeOutline} color={colors.white} size={22} />
 		</View>
 	);
 

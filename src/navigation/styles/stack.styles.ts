@@ -1,4 +1,4 @@
-import { colors, fonts } from '../../ui/libUi';
+import { colors, fonts } from '../../ui';
 
 const styles = {
 	headerStyle: {

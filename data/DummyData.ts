@@ -1,6 +1,4 @@
-import { DbList } from '../src/models/List.models';
-import { Task, TaskToggleEvent } from '../src/models/Task.models';
-import { User } from '../src/models/User.models';
+import { DbList, Task, TaskToggleEvent, User } from '../src/models';
 
 const createFakeTaskToggleEvent = (
 	userId: string,

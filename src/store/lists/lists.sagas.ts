@@ -1,18 +1,17 @@
 import {
-	takeLatest,
-	put,
 	call,
 	CallEffect,
+	put,
 	PutEffect,
 	select,
 	SelectEffect,
+	takeLatest,
 } from 'redux-saga/effects';
-import * as c from './lists.constants';
-import * as actions from './lists.actions';
-import * as queries from './lists.queries';
+import { List, Task } from '../../models';
 import { ReduxAction, RootState } from '../store';
-import { List } from '../../models/List.models';
-import { Task } from '../../models/Task.models';
+import * as actions from './lists.actions';
+import * as c from './lists.constants';
+import * as queries from './lists.queries';
 
 const getUserId = (state: RootState): string => state.auth.user.id;
 

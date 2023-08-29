@@ -1,22 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import {
-	View,
-	ImageBackground,
-	Text,
-	Image,
-	TouchableOpacity,
-} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import {
 	DrawerContentComponentProps,
 	DrawerContentScrollView,
 	DrawerItemList,
 } from '@react-navigation/drawer';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { fetchAllLists } from '../../store/lists/lists.actions';
-import { fonts } from '../../ui/libUi';
 import UserAvatar from '../../components/UserAvatar';
+import { fetchAllLists } from '../../store/lists/lists.actions';
+import { RootState } from '../../store/store';
+import { fonts } from '../../ui';
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 	const dispatch = useDispatch();
@@ -39,8 +33,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 				{...props}
 				contentContainerStyle={{
 					backgroundColor: '#8200d6',
-				}}
-			>
+				}}>
 				<UserHeader />
 
 				<View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 10 }}>
@@ -51,28 +44,26 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 			<View style={{ padding: 20, borderTopWidth: 1, borderTopColor: '#ccc' }}>
 				<TouchableOpacity onPress={() => {}} style={{ paddingVertical: 15 }}>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Ionicons name='share-social-outline' size={22} />
+						<Ionicons name="share-social-outline" size={22} />
 						<Text
 							style={{
 								fontSize: 15,
 								fontFamily: fonts.regular,
 								marginLeft: 5,
-							}}
-						>
+							}}>
 							Tell a Friend
 						</Text>
 					</View>
 				</TouchableOpacity>
 				<TouchableOpacity onPress={() => {}} style={{ paddingVertical: 15 }}>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Ionicons name='exit-outline' size={22} />
+						<Ionicons name="exit-outline" size={22} />
 						<Text
 							style={{
 								fontSize: 15,
 								fontFamily: fonts.regular,
 								marginLeft: 5,
-							}}
-						>
+							}}>
 							Sign Out
 						</Text>
 					</View>
@@ -97,8 +88,7 @@ const UserHeader = () => {
 	return (
 		<ImageBackground
 			source={require('../../assets/images/bg.png')}
-			style={{ padding: 20, paddingTop: 100, marginTop: -80 }}
-		>
+			style={{ padding: 20, paddingTop: 100, marginTop: -80 }}>
 			<UserAvatar user={user} big />
 			<Text
 				style={{
@@ -106,8 +96,7 @@ const UserHeader = () => {
 					fontSize: 18,
 					fontFamily: fonts.regular,
 					marginBottom: 5,
-				}}
-			>
+				}}>
 				{user.name}
 			</Text>
 		</ImageBackground>

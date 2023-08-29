@@ -1,5 +1,3 @@
-import { Task } from '../models/Task.models';
-
 export enum ListStackRoutes {
 	ListsHome = 'ListsHome',
 	ListTasks = 'ListTasks',

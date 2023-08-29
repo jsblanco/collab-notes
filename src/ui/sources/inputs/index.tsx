@@ -1,19 +1,19 @@
-import React, { ReactNode, VoidFunctionComponent, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import {
 	Platform,
-	View,
-	ViewStyle,
 	Switch as ReactSwitch,
 	TextInput,
 	TextStyle,
 	TouchableNativeFeedback,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
+	View,
+	ViewStyle,
 } from 'react-native';
-import styles from './Inputs.styles';
-import { B, Text } from '../text/Text';
 import { colors } from '../constants/constants';
-import { SvgPropsType } from '../icons/icons';
+import { SvgPropsType } from '../icons';
+import { B, Text } from '../text';
+import styles from './Inputs.styles';
 
 type SwitchPairing = {
 	label: string;
@@ -117,8 +117,7 @@ export const Button = ({
 						styles.buttonView,
 						buttonStyle,
 						!!disabled && styles.disabledButton,
-					]}
-				>
+					]}>
 					<Text style={{ ...styles.buttonText, ...textStyle }}>{children}</Text>
 				</View>
 			</ButtonType>
@@ -135,23 +134,23 @@ export const FloatingButton = ({
 	children,
 }: ButtonPropsType) => {
 	return (
-			<View
+		<View
+			style={{
+				...styles.bottomButtonContainer,
+				...(position ?? styles.bottomButtonContainerDefaultPosition),
+			}}>
+			<ButtonType
+				activeOpacity={0.6}
+				onPress={onPress}
+				disabled={disabled}
 				style={{
-					...styles.bottomButtonContainer,
-					...(position ?? styles.bottomButtonContainerDefaultPosition),
-				}}
-			>
-				<ButtonType
-					activeOpacity={0.6}
-					onPress={onPress}
-					disabled={disabled}
-					style={{ ...styles.bottomButtonView, ...buttonStyle, ...disabled && styles.disabledButton }}
-				>
-					<Text style={{ ...styles.bottomButtonText, ...textStyle }}>
-						{children}
-					</Text>
-				</ButtonType>
-			</View>
+					...styles.bottomButtonView,
+					...buttonStyle,
+					...(disabled && styles.disabledButton),
+				}}>
+				<Text style={{ ...styles.bottomButtonText, ...textStyle }}>{children}</Text>
+			</ButtonType>
+		</View>
 	);
 };
 
@@ -178,12 +177,9 @@ export const ActionButton = ({
 	return (
 		<View>
 			<View
-				style={[styles.roundButtonContainer, { backgroundColor: buttonColor }]}
-			>
+				style={[styles.roundButtonContainer, { backgroundColor: buttonColor }]}>
 				<TouchableWithoutFeedback onPressIn={onPressIn} onPressOut={onPressOut}>
-					<View
-						style={[styles.roundButtonContent, { height: size, width: size }]}
-					>
+					<View style={[styles.roundButtonContent, { height: size, width: size }]}>
 						<Icon size={size / 2.2} color={textColor} />
 					</View>
 				</TouchableWithoutFeedback>
@@ -211,8 +207,7 @@ export const RoundButton = ({
 							height: size ? size : 'auto',
 							width: size ? size : 'auto',
 						},
-					]}
-				>
+					]}>
 					{children}
 				</View>
 			</ButtonType>

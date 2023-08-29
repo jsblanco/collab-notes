@@ -1,10 +1,8 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import { TextInput, StyleSheet, View } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
+import { colors, Error, fonts, Label } from '../../ui';
+import { formControlReducer } from './FormControl.reducer';
 import { FormControlActions, FormControlType } from './FormControl.types';
-import {
-	formControlReducer,
-} from './FormControl.reducer';
-import { colors, Error, fonts, Label } from '../../ui/libUi';
 
 const FormControl = (props: FormControlType) => {
 	const {
@@ -60,7 +58,11 @@ const FormControl = (props: FormControlType) => {
 		if (!isValid)
 			setError(`Please input a valid ${(label ?? inputName).toLowerCase()}`);
 
-		dispatch({ type: FormControlActions.INPUT_CHANGE, value: input, isValid: isValid });
+		dispatch({
+			type: FormControlActions.INPUT_CHANGE,
+			value: input,
+			isValid: isValid,
+		});
 	};
 
 	const lostFocusHandler = async () => {
@@ -69,7 +71,7 @@ const FormControl = (props: FormControlType) => {
 			const externalCheck = await onInputCheck(value);
 			setError(externalCheck.errorMessage);
 			dispatch({
-				type:FormControlActions.INPUT_CHANGE,
+				type: FormControlActions.INPUT_CHANGE,
 				value: state.value,
 				isValid: externalCheck.isValid,
 			});
@@ -81,7 +83,8 @@ const FormControl = (props: FormControlType) => {
 	}, [inputHandler, state, value, error]);
 
 	useEffect(() => {
-		if (state.value !== '' && value === '') dispatch({ type: FormControlActions.FORM_RESET });
+		if (state.value !== '' && value === '')
+			dispatch({ type: FormControlActions.FORM_RESET });
 	}, [value]);
 
 	return (

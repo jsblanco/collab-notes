@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Image } from 'react-native';
-import { User } from '../models/User.models';
-import { Text, colors } from '../ui/libUi';
+import { Image, StyleSheet } from 'react-native';
+import { User } from '../models';
+import { colors, Text } from '../ui';
 
 const placeholderColors = [
 	colors.accent,
@@ -20,13 +20,8 @@ const UserAvatar = ({
 	i?: number;
 	big?: boolean;
 }) => {
-
-
 	return user.image ? (
-		<Image
-			style={[styles.userAvatar, big && styles.big]}
-			source={user.image}
-		/>
+		<Image style={[styles.userAvatar, big && styles.big]} source={user.image} />
 	) : (
 		<Text
 			style={{
@@ -36,8 +31,7 @@ const UserAvatar = ({
 				backgroundColor: placeholderColors[i % placeholderColors.length],
 			}}
 			noPadding
-			center
-		>
+			center>
 			{user?.name.slice(0, 1) ?? '?'}
 		</Text>
 	);
