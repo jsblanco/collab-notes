@@ -155,7 +155,6 @@ const styles = StyleSheet.create({
 	},
 	item: {
 		backgroundColor: 'white',
-		flexDirection: 'column',
 		borderWidth: 1,
 		borderColor: '#eee',
 		paddingVertical: 20,

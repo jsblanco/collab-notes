@@ -19,6 +19,7 @@ export default StyleSheet.create({
 		marginVertical: 5,
 		marginHorizontal: 10,
 		overflow: 'hidden',
+		margin: 0,
 	},
 	buttonView: {
 		backgroundColor: colors.primary,
@@ -39,10 +40,10 @@ export default StyleSheet.create({
 		// overflow: 'hidden',
 		position: 'absolute',
 		zIndex: 99,
-        borderWidth: 1,
-        borderBottomWidth: 3,
-        borderTopWidth:0,
-        borderColor: '#dedede'
+		borderWidth: 1,
+		borderBottomWidth: 3,
+		borderTopWidth: 0,
+		borderColor: '#dedede',
 	},
 	bottomButtonContainerDefaultPosition: {
 		bottom: 35,

@@ -57,9 +57,9 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	return (
 		<Container style={styles.screen}>
-			<Row style={{ marginBottom: 32, alignItems: 'center' }}>
+			<Row style={styles.titleRow}>
 				<CompletionBadge isCompleted={!!task.isCompleted} />
-				<H1 style={{ marginBottom: 0, paddingTop: 10 }} noPadding>
+				<H1 style={styles.title} noPadding>
 					{task.title}
 				</H1>
 			</Row>
@@ -95,6 +95,15 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-start',
 		padding: 20,
 	},
+	titleRow: {
+		marginBottom: 32,
+		alignItems: 'center',
+	},
+	title: {
+		marginBottom: 0,
+		paddingTop: 10,
+		paddingRight: 50,
+	},
 	section: {
 		marginBottom: 30,
 		width: '100%',
@@ -109,7 +118,6 @@ const styles = StyleSheet.create({
 	},
 	greenText: {
 		backgroundColor: colors.completed,
-		fontWeight: '900',
 	},
 	yellowText: {
 		backgroundColor: colors.pending,
