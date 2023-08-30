@@ -17,6 +17,11 @@ export default StyleSheet.create({
 	H3: {
 		fontFamily: fonts.regularBold,
 		lineHeight: 24,
+		fontSize: 18,
+	},
+	H4: {
+		fontFamily: fonts.regularBold,
+		lineHeight: 24,
 		fontSize: 16,
 	},
 	P: {

@@ -69,9 +69,7 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 				<Text noPadding>{list.users.length} participants</Text>
 				<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 					{list.users.slice(0, 4).map((user, i) => (
-						<View style={{ marginLeft: -10, zIndex: -i }}>
-							<UserAvatar user={user} i={i} key={user?.id} />
-						</View>
+							<UserAvatar user={user} i={i} key={user?.id} overlap/>
 					))}
 					{list.users.length > 5 && <B noPadding>+{list.users.length}</B>}
 				</View>

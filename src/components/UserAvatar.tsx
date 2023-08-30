@@ -14,11 +14,13 @@ const placeholderColors = [
 const UserAvatar = ({
 	user,
 	i = 0,
-	big,
+	big = false,
+	overlap = false,
 }: {
 	user: User;
 	i?: number;
 	big?: boolean;
+	overlap?: boolean;
 }) => {
 	return user.image ? (
 		<Image style={[styles.userAvatar, big && styles.big]} source={user.image} />
@@ -28,6 +30,7 @@ const UserAvatar = ({
 				...styles.userAvatar,
 				...styles.avatarPlaceholder,
 				...(big ? { ...styles.big, ...styles.bigText } : styles.text),
+				...overlap && { marginLeft: -10, zIndex: -i },
 				backgroundColor: placeholderColors[i % placeholderColors.length],
 			}}
 			noPadding

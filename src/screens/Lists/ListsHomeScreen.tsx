@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { StackScreenProps } from '@react-navigation/stack';
+import CompletionBadge from '@app/components/CompletionBadge';
 import TasksFlatlist from '@app/components/TasksFlatlist';
 import { List } from '@app/models';
 import {
@@ -11,7 +12,7 @@ import {
 	ListStackRoutes,
 } from '@app/navigation/NavigationTypes';
 import { RootState } from '@app/store';
-import { Container, H2, H3 } from '@app/ui';
+import { Container, H2, H3, Row } from '@app/ui';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListsHome>;
 const ListsHomeScreen = ({ route, navigation }: Props) => {
@@ -20,7 +21,7 @@ const ListsHomeScreen = ({ route, navigation }: Props) => {
 	return (
 		<Container style={styles.screen}>
 			<View style={styles.header}>
-				<H2 style={styles.titles}>
+				<H2>
 					You have {lists.reduce((acc, list) => list.pendingTasks.length + acc, 0)}{' '}
 					pending tasks
 				</H2>
@@ -43,8 +44,14 @@ const ListsHomeScreen = ({ route, navigation }: Props) => {
 								},
 							});
 						}}>
-						<Ionicons name={list.icon} color={'#000'} size={24} />
-						<H3 style={styles.titles}>{list.title}</H3>
+						<Row style={styles.titles}>
+							<View style={{flexDirection: 'row', alignItems:'center'}}>
+								<Ionicons name={list.icon} color={'#000'} size={24} />
+								<H3 noPadding style={{marginLeft: 10}}>{list.title}</H3>
+							</View>
+
+							<CompletionBadge isCompleted={false} />
+						</Row>
 					</Pressable>
 					<TasksFlatlist listId={list.id} tasks={list.pendingTasks} reorderTasks />
 				</View>
@@ -62,8 +69,10 @@ const styles = StyleSheet.create({
 		paddingTop: 20,
 	},
 	titles: {
-		paddingHorizontal: 20,
-		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		// paddingHorizontal: 20,
+		paddingVertical: 5,
 	},
 	header: {
 		paddingBottom: 40,

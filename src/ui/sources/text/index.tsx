@@ -46,6 +46,11 @@ export const H3 = (props: TextPropTypes) => (
 		{props.children}
 	</Text>
 );
+export const H4 = (props: TextPropTypes) => (
+	<Text {...props} style={{ ...styles.H4, ...props.style }}>
+		{props.children}
+	</Text>
+);
 export const Label = (props: TextPropTypes) => (
 	<H3 {...props} style={{ ...styles.label, ...props.style }}>
 		{props.children}
