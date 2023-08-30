@@ -1,4 +1,5 @@
 import React, { useCallback, useRef } from 'react';
+import { StyleSheet } from 'react-native';
 import DraggableFlatList, {
 	DragEndParams,
 	RenderItemParams,
@@ -43,7 +44,12 @@ const TasksFlatlist = ({
 		[dispatch, listId]
 	);
 
-	if (!tasks.length) return <Text center>No tasks in this list</Text>;
+	if (!tasks.length)
+		return (
+			<Text style={styles.emptyListMessage} center>
+				No tasks in this list
+			</Text>
+		);
 
 	return (
 		<DraggableFlatList
@@ -60,3 +66,7 @@ const TasksFlatlist = ({
 };
 
 export default TasksFlatlist;
+
+const styles = StyleSheet.create({
+	emptyListMessage: { marginTop: 20, marginBottom: 30 },
+});

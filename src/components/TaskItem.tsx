@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useCallback } from 'react';
+import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
 import { ScaleDecorator } from 'react-native-draggable-flatlist';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import SwipeableItem, {
@@ -12,7 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Task } from '@app/models';
 import { ListStackRoutes } from '@app/navigation/NavigationTypes';
-import { toggleTaskCompletion } from '@app/store';
+import { removeListTask, toggleTaskCompletion } from '@app/store';
 import { colors, fonts, H3, Text } from '@app/ui';
 
 export function TaskItem({
@@ -63,14 +63,34 @@ export function TaskItem({
 }
 
 const UnderlayLeft = ({ task }: { task: Task }) => {
-	const { percentOpen } = useSwipeableItemParams<Task>();
+	const dispatch = useDispatch();
 	const navigation = useNavigation();
+	const { percentOpen } = useSwipeableItemParams<Task>();
 	const animStyle = useAnimatedStyle(
 		() => ({
 			opacity: percentOpen.value,
 		}),
 		[percentOpen]
 	);
+
+	const onDeleteTask = useCallback(() => {
+		Alert.alert(
+			`Delete task "${task.title}"`,
+			'Are you sure you want to delete this task from this list for all users?\nThis cannot be undone.',
+			[
+				{
+					text: 'Cancel',
+					onPress: () => console.log('Cancel Pressed'),
+					style: 'cancel',
+				},
+				{
+					text: 'Delete',
+					onPress: () => dispatch(removeListTask.request(task.listId, task.id)),
+					style: 'destructive',
+				},
+			]
+		);
+	}, [task]);
 
 	const onEdit = () =>
 		//@ts-ignore
@@ -82,6 +102,7 @@ const UnderlayLeft = ({ task }: { task: Task }) => {
 	return (
 		<Animated.View style={styles.buttonRow}>
 			<TouchableOpacity
+				onPress={onDeleteTask}
 				style={[styles.underlay, styles.redBg, styles.buttonPadding, animStyle]}>
 				<Text style={styles.text}>{`Delete`}</Text>
 			</TouchableOpacity>
@@ -104,7 +125,7 @@ function UnderlayCompletedTask() {
 	);
 	return (
 		<LinearGradient
-			colors={[colors.general.mustard, colors.background]}
+			colors={[colors.pending, colors.background]}
 			style={[styles.row]}
 			start={[0, 0]}
 			end={[1, 0]}>
@@ -128,7 +149,7 @@ function UnderlayPendingTask() {
 	);
 	return (
 		<LinearGradient
-			colors={[colors.general.green, colors.background]}
+			colors={[colors.completed, colors.background]}
 			style={[styles.row]}
 			start={[0, 0]}
 			end={[1, 0]}>

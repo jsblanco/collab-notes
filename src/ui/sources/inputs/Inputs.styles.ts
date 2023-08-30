@@ -16,10 +16,8 @@ export default StyleSheet.create({
 	},
 	buttonContainer: {
 		borderRadius: 5,
-		marginVertical: 5,
-		marginHorizontal: 10,
 		overflow: 'hidden',
-		margin: 0,
+		margin: 5,
 	},
 	buttonView: {
 		backgroundColor: colors.primary,
