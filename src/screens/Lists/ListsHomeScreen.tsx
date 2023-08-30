@@ -10,7 +10,7 @@ import {
 	ListStackProps,
 	ListStackRoutes,
 } from '@app/navigation/NavigationTypes';
-import { RootState } from '@app/store/store';
+import { RootState } from '@app/store';
 import { Container, H2, H3 } from '@app/ui';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListsHome>;

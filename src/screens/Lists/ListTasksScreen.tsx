@@ -8,7 +8,7 @@ import {
 	ListStackProps,
 	ListStackRoutes,
 } from '@app/navigation/NavigationTypes';
-import { RootState } from '@app/store/store';
+import { RootState } from '@app/store';
 import { colors, Container, FloatingButton, H3, Row, Text } from '@app/ui';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListTasks>;

@@ -1,13 +1,13 @@
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import {
 	createDrawerNavigator,
 	DrawerNavigationOptions,
 } from '@react-navigation/drawer';
-import React from 'react';
-import { useSelector } from 'react-redux';
-import OpenDrawerButton from '../../components/OpenDrawerButton';
-import { RootState } from '../../store/store';
-import { colors } from '../../ui';
+import OpenDrawerButton from '@app/components/OpenDrawerButton';
+import { RootState } from '@app/store/store';
+import { colors } from '@app/ui';
 import {
 	DrawerProps,
 	DrawerRoutes,

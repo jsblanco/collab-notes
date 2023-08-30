@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { User } from '../models';
-import { colors, Text } from '../ui';
+import { User } from '@app/models';
+import { colors, Text } from '@app/ui';
 
 const placeholderColors = [
 	colors.accent,

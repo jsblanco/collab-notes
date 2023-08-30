@@ -6,7 +6,7 @@ import DraggableFlatList, {
 import { SwipeableItemImperativeRef } from 'react-native-swipeable-item';
 import { useDispatch } from 'react-redux';
 import { Task } from '@app/models';
-import { changeTaskListIndex } from '@app/store/lists/lists.actions';
+import { changeTaskListIndex } from '@app/store';
 import { Text } from '@app/ui';
 import { TaskItem } from './TaskItem';
 

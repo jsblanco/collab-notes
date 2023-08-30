@@ -1,16 +1,15 @@
+import React, { useCallback, useEffect, useState } from 'react';
+import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import {
 	DrawerContentComponentProps,
 	DrawerContentScrollView,
 	DrawerItemList,
 } from '@react-navigation/drawer';
-import React, { useCallback, useEffect, useState } from 'react';
-import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import UserAvatar from '../../components/UserAvatar';
-import { fetchAllLists } from '../../store/lists/lists.actions';
-import { RootState } from '../../store/store';
-import { fonts } from '../../ui';
+import UserAvatar from '@app/components/UserAvatar';
+import { RootState, fetchAllLists } from '@app/store';
+import { fonts } from '@app/ui';
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 	const dispatch = useDispatch();

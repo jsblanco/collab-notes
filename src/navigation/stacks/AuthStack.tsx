@@ -3,8 +3,8 @@ import {
 	CardStyleInterpolators,
 	createStackNavigator,
 } from '@react-navigation/stack';
-import AuthScreen from '../../screens/Auth/AuthScreen';
-import StartupScreen from '../../screens/Auth/StartupScreen';
+import AuthScreen from '@app/screens/Auth/AuthScreen';
+import StartupScreen from '@app/screens/Auth/StartupScreen';
 import { AuthStackProps, AuthStackRoutes } from '../NavigationTypes';
 import styles from '../styles/stack.styles';
 

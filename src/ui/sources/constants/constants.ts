@@ -2,7 +2,9 @@ import { Dimensions } from 'react-native';
 
 export const fonts = {
 	regular: 'regular',
+	regularThin: 'regular-Thin',
 	regularBold: 'regular-Bold',
+	regularBlack: 'regular-Black',
 };
 
 const textColors = {

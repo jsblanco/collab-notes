@@ -14,6 +14,8 @@ const fetchFonts = () =>
 	Font.loadAsync({
 		[fonts.regular]: require('./src/assets/fonts/Poppins-Regular.ttf'),
 		[fonts.regularBold]: require('./src/assets/fonts/Poppins-SemiBold.ttf'),
+		[fonts.regularBlack]: require('./src/assets/fonts/Poppins-Black.ttf'),
+		[fonts.regularThin]: require('./src/assets/fonts/Poppins-Thin.ttf'),
 	});
 
 const App = () => {

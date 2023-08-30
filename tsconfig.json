@@ -11,12 +11,7 @@
 		"strict": true,
 		"baseUrl": ".",
 		"paths": {
-			"@app/components/*": ["src/components/*"],
-			"@app/screens/*": ["src/screens/*"],
-			"@app/navigation/*": ["src/navigation/*"],
-			"@app/models": ["src/models"],
-			"@app/store/*": ["src/store/*"],
-			"@app/ui": ["src/ui"]
+			"@app/*": ["src/*"],
 		}
 	},
   "exclude": ["node_modules"]

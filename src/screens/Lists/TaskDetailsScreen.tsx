@@ -10,8 +10,7 @@ import {
 	ListStackProps,
 	ListStackRoutes,
 } from '@app/navigation/NavigationTypes';
-import { toggleTaskCompletion } from '@app/store/lists/lists.actions';
-import { RootState } from '@app/store/store';
+import { RootState, toggleTaskCompletion } from '@app/store';
 import { Button, colors, Container, H1, H3, Row, Text } from '@app/ui';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.TaskDetails>;

@@ -7,8 +7,7 @@ import {
 	ListStackProps,
 	ListStackRoutes,
 } from '@app/navigation/NavigationTypes';
-import { addListTask } from '@app/store/lists/lists.actions';
-import { RootState } from '@app/store/store';
+import { addListTask, RootState } from '@app/store';
 import { Container, FloatingButton } from '@app/ui';
 import { Actions, formReducer } from './TaskFormScreen.reducer';
 

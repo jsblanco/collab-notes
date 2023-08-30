@@ -12,7 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Task } from '@app/models';
 import { ListStackRoutes } from '@app/navigation/NavigationTypes';
-import { toggleTaskCompletion } from '@app/store/lists/lists.actions';
+import { toggleTaskCompletion } from '@app/store';
 import { colors, fonts, H3, Text } from '@app/ui';
 
 export function TaskItem({

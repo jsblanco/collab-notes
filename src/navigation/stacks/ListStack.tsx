@@ -4,11 +4,11 @@ import {
 	createStackNavigator,
 	StackNavigationOptions,
 } from '@react-navigation/stack';
-import OpenDrawerButton from '../../components/OpenDrawerButton';
-import ListsHomeScreen from '../../screens/Lists/ListsHomeScreen';
-import ListTaksScreen from '../../screens/Lists/ListTasksScreen';
-import TaskDetailsScreen from '../../screens/Lists/TaskDetailsScreen';
-import TaskFormScreen from '../../screens/Lists/TaskFormScreen/TaskFormScreen';
+import OpenDrawerButton from '@app/components/OpenDrawerButton';
+import ListsHomeScreen from '@app/screens/Lists/ListsHomeScreen';
+import ListTaksScreen from '@app/screens/Lists/ListTasksScreen';
+import TaskDetailsScreen from '@app/screens/Lists/TaskDetailsScreen';
+import TaskFormScreen from '@app/screens/Lists/TaskFormScreen/TaskFormScreen';
 import { ListStackProps, ListStackRoutes } from '../NavigationTypes';
 import styles from '../styles/stack.styles';
 
