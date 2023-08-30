@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.pending,
 	},
 	completionBadge: {
-		paddingHorizontal: 10,
+		paddingRight: 7,
+		paddingLeft: 8,
 		paddingVertical: 5,
 		borderRadius: 10,
 		marginRight: 10,

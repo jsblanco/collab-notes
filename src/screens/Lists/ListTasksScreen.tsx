@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { StackScreenProps } from '@react-navigation/stack';
+import CompletionBadge from '@app/components/CompletionBadge';
 import TasksFlatlist from '@app/components/TasksFlatlist';
 import UserAvatar from '@app/components/UserAvatar';
 import {
@@ -9,7 +10,7 @@ import {
 	ListStackRoutes,
 } from '@app/navigation/NavigationTypes';
 import { RootState } from '@app/store';
-import { colors, Container, FloatingButton, H3, Row, Text } from '@app/ui';
+import { B, colors, Container, FloatingButton, H2, Row, Text } from '@app/ui';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListTasks>;
 
@@ -68,14 +69,22 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 				<Text noPadding>{list.users.length} participants</Text>
 				<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 					{list.users.slice(0, 4).map((user, i) => (
-						<UserAvatar user={user} i={i} key={user?.id} />
+						<View style={{ marginLeft: -10, zIndex: -i }}>
+							<UserAvatar user={user} i={i} key={user?.id} />
+						</View>
 					))}
-					{list.users.length > 5 && <Text noPadding>+{list.users.length - 5}</Text>}
+					{list.users.length > 5 && <B noPadding>+{list.users.length}</B>}
 				</View>
 			</Row>
-			<H3 style={styles.titles}>Pending tasks</H3>
+			<Row style={styles.titles}>
+				<H2 noPadding>Pending tasks</H2>
+				<CompletionBadge isCompleted={false} />
+			</Row>
 			<TasksFlatlist listId={listId} tasks={list.pendingTasks} reorderTasks />
-			<H3 style={styles.titles}>Completed tasks</H3>
+			<Row style={styles.titles}>
+				<H2 noPadding>Completed tasks</H2>
+				<CompletionBadge isCompleted={true} />
+			</Row>
 			<TasksFlatlist listId={listId} tasks={list.completedTasks} reorderTasks />
 			<FloatingButton
 				onPress={() =>
@@ -101,7 +110,7 @@ const styles = StyleSheet.create({
 	error: { color: colors.danger },
 	usersRow: {
 		paddingHorizontal: 20,
-		marginBottom: 20,
+		marginBottom: 30,
 		alignItems: 'center',
 		justifyContent: 'space-between',
 	},
@@ -121,7 +130,10 @@ const styles = StyleSheet.create({
 		color: 'white',
 	},
 	titles: {
+		justifyContent: 'space-between',
+		alignItems: 'center',
 		paddingHorizontal: 20,
+		paddingVertical: 5,
 	},
 	button: {
 		width: 75,
