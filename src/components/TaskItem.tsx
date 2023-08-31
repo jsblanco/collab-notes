@@ -100,14 +100,14 @@ const UnderlayLeft = ({ task }: { task: Task }) => {
 		});
 
 	return (
-		<Animated.View style={styles.buttonRow}>
+		<Animated.View style={[styles.buttonRow, animStyle]}>
 			<TouchableOpacity
 				onPress={onDeleteTask}
-				style={[styles.underlay, styles.redBg, styles.buttonPadding, animStyle]}>
+				style={[styles.underlay, styles.redBg, styles.buttonPadding]}>
 				<Text style={styles.text}>{`Delete`}</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
-				style={[styles.underlay, styles.blueBg, styles.buttonPadding, animStyle]}
+				style={[styles.underlay, styles.blueBg, styles.buttonPadding]}
 				onPress={onEdit}>
 				<Text style={styles.text}>{`Edit`}</Text>
 			</TouchableOpacity>
@@ -119,23 +119,24 @@ function UnderlayCompletedTask() {
 	const { percentOpen } = useSwipeableItemParams<Task>();
 	const animStyle = useAnimatedStyle(
 		() => ({
+			flex: 1,
 			opacity: percentOpen.value * 3,
 		}),
 		[percentOpen]
 	);
 	return (
-		<LinearGradient
-			colors={[colors.pending, colors.background]}
-			style={[styles.row]}
-			start={[0, 0]}
-			end={[1, 0]}>
-			<Animated.View style={animStyle}>
+		<Animated.View style={animStyle}>
+			<LinearGradient
+				colors={[colors.pending, colors.background]}
+				style={[styles.row]}
+				start={[0, 0]}
+				end={[1, 0]}>
 				{/* @ts-ignore */}
 				<TouchableOpacity>
 					<Text style={{ ...styles.text, color: 'white' }}>Reactivate</Text>
 				</TouchableOpacity>
-			</Animated.View>
-		</LinearGradient>
+			</LinearGradient>
+		</Animated.View>
 	);
 }
 
@@ -143,23 +144,24 @@ function UnderlayPendingTask() {
 	const { percentOpen } = useSwipeableItemParams<Task>();
 	const animStyle = useAnimatedStyle(
 		() => ({
+			flex: 1,
 			opacity: percentOpen.value * 3,
 		}),
 		[percentOpen]
 	);
 	return (
-		<LinearGradient
-			colors={[colors.completed, colors.background]}
-			style={[styles.row]}
-			start={[0, 0]}
-			end={[1, 0]}>
-			<Animated.View style={animStyle}>
+		<Animated.View style={animStyle}>
+			<LinearGradient
+				colors={[colors.completed, colors.background]}
+				style={[styles.row]}
+				start={[0, 0]}
+				end={[1, 0]}>
 				{/* @ts-ignore */}
 				<TouchableOpacity>
 					<Text style={{ ...styles.text, color: 'white' }}>Complete</Text>
 				</TouchableOpacity>
-			</Animated.View>
-		</LinearGradient>
+			</LinearGradient>
+		</Animated.View>
 	);
 }
 
@@ -171,7 +173,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		flex: 1,
 		alignItems: 'center',
-		// justifyContent: 'center',
 		padding: 15,
 	},
 	item: {

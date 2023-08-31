@@ -1,5 +1,5 @@
-import { DummyLists, DummyTasks, DummyUsers } from '../../../data/DummyData';
 import { DbList, List, Task, User } from '@app/models';
+import { DummyLists, DummyTasks, DummyUsers } from '../../../data/DummyData';
 
 export const fetchLists = (): List[] => {
 	const preparedLists: List[] = [];
@@ -121,30 +121,32 @@ export const toggleTaskCompletion = (
 	const tasks = [...list.pendingTasks, ...list.completedTasks];
 	let taskIndex = tasks.findIndex((task) => task.id === taskId);
 	if (taskIndex === -1) throw new Error('Task does not belong to selected list');
-	tasks[taskIndex].isCompleted = !tasks[taskIndex].isCompleted;
+	const toggleDate = new Date();
 
-	const updatedtask = tasks[taskIndex];
+	const updatedtask = {
+		...tasks[taskIndex],
+		isCompleted: !tasks[taskIndex].isCompleted,
+		history:
+			userId === tasks[taskIndex].history[0].userId &&
+			toggleDate.getTime() - tasks[taskIndex].history[0].timestamp.getTime() <
+				600000
+				? tasks[taskIndex].history.slice(1)
+				: [
+						{
+							userId,
+							timestamp: toggleDate,
+							completed: !tasks[taskIndex].isCompleted,
+						},
+						...tasks[taskIndex].history,
+				  ],
+	};
+
 	tasks.splice(taskIndex, 1);
 	list.pendingTasks = tasks.filter((task) => !task.isCompleted);
 	list.completedTasks = tasks.filter((task) => task.isCompleted);
 	(updatedtask.isCompleted ? list.completedTasks : list.pendingTasks).push(
 		updatedtask
 	);
-
-	const toggleDate = new Date();
-	const latestToggle = updatedtask.history[0];
-	if (
-		userId === latestToggle.userId &&
-		toggleDate.getTime() - new Date(latestToggle.timestamp).getTime() < 600000
-	)
-		updatedtask.history.shift();
-	else
-		updatedtask.history.unshift({
-			userId,
-			timestamp: toggleDate,
-			completed: !!updatedtask.isCompleted,
-		});
-
 	taskIndex = DummyTasks.findIndex((task) => task.id === taskId);
 	DummyTasks[taskIndex] = updatedtask;
 
