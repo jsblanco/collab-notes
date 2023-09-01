@@ -24,19 +24,9 @@ export function TaskItem({
 	itemRefs: React.MutableRefObject<Map<any, any>>;
 }) {
 	const dispatch = useDispatch();
+
 	const navigation = useNavigation();
 	const closeThisRow = () => itemRefs.current.get(task.id)?.close();
-	const closeOtherOpenRows = useCallback(
-		() =>
-			[...itemRefs.current.entries()].forEach(([key, ref]) => {
-				if (key !== task.id && ref) ref?.close();
-			}),
-		[itemRefs, task]
-	);
-	const closeAllOpenRows = useCallback(
-		() => [...itemRefs.current.entries()].forEach(([_, ref]) => ref?.close()),
-		[itemRefs]
-	);
 
 	return (
 		<ScaleDecorator>
@@ -47,7 +37,10 @@ export function TaskItem({
 				}
 				item={task}
 				onChange={({ openDirection }) => {
-					if (openDirection !== OpenDirection.NONE) closeOtherOpenRows();
+					if (openDirection !== OpenDirection.NONE)
+						[...itemRefs.current.entries()].forEach(([key, ref]) => {
+							if (key !== task.id && ref) ref?.close();
+						});
 					if (openDirection === OpenDirection.RIGHT)
 						dispatch(toggleTaskCompletion.request(task.listId, task.id));
 				}}
@@ -69,7 +62,8 @@ export function TaskItem({
 							listId: task.listId,
 							taskId: task.id,
 						});
-						closeAllOpenRows();
+
+						[...itemRefs.current.entries()].forEach(([_, ref]) => ref?.close());
 						// ref.current.close();
 					}}
 					style={[styles.row, styles.item]}>
@@ -92,7 +86,7 @@ const UnderlayLeft = ({
 	const { percentOpen } = useSwipeableItemParams<Task>();
 	const animStyle = useAnimatedStyle(
 		() => ({
-			opacity: percentOpen.value,
+			opacity: percentOpen.value * 2,
 		}),
 		[percentOpen]
 	);

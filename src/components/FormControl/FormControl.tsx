@@ -91,7 +91,10 @@ const FormControl = (props: FormControlType) => {
 		<View style={styles.formControl}>
 			<Label>{label}</Label>
 			<TextInput
-				style={styles.input}
+				style={{
+					...styles.input,
+					...(numberOfLines && { minHeight: numberOfLines * 24 + 22 }),
+				}}
 				value={state.value}
 				multiline={multiline}
 				onBlur={lostFocusHandler}
