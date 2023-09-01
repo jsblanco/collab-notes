@@ -1,10 +1,9 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
 import { ScaleDecorator } from 'react-native-draggable-flatlist';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import SwipeableItem, {
 	OpenDirection,
-	SwipeableItemImperativeRef,
 	useSwipeableItemParams,
 } from 'react-native-swipeable-item';
 import { useDispatch } from 'react-redux';
@@ -18,27 +17,44 @@ import { colors, fonts, H3, Text } from '@app/ui';
 export function TaskItem({
 	task,
 	drag,
-	itemRef: ref,
+	itemRefs,
 }: {
 	task: Task;
 	drag: () => void;
-	itemRef?: React.ForwardedRef<SwipeableItemImperativeRef>;
+	itemRefs: React.MutableRefObject<Map<any, any>>;
 }) {
 	const dispatch = useDispatch();
 	const navigation = useNavigation();
+	const closeThisRow = () => itemRefs.current.get(task.id)?.close();
+	const closeOtherOpenRows = useCallback(
+		() =>
+			[...itemRefs.current.entries()].forEach(([key, ref]) => {
+				if (key !== task.id && ref) ref?.close();
+			}),
+		[itemRefs, task]
+	);
+	const closeAllOpenRows = useCallback(
+		() => [...itemRefs.current.entries()].forEach(([_, ref]) => ref?.close()),
+		[itemRefs]
+	);
 
 	return (
 		<ScaleDecorator>
 			<SwipeableItem
 				key={task.id}
-				ref={ref}
+				ref={(ref) =>
+					ref && !itemRefs.current.get(task.id) && itemRefs.current.set(task.id, ref)
+				}
 				item={task}
 				onChange={({ openDirection }) => {
+					if (openDirection !== OpenDirection.NONE) closeOtherOpenRows();
 					if (openDirection === OpenDirection.RIGHT)
 						dispatch(toggleTaskCompletion.request(task.listId, task.id));
 				}}
 				overSwipe={30}
-				renderUnderlayLeft={() => <UnderlayLeft task={task} />}
+				renderUnderlayLeft={() => (
+					<UnderlayLeft task={task} closeRow={closeThisRow} />
+				)}
 				renderUnderlayRight={() =>
 					!!task.isCompleted ? <UnderlayCompletedTask /> : <UnderlayPendingTask />
 				}
@@ -47,13 +63,15 @@ export function TaskItem({
 				<TouchableOpacity
 					activeOpacity={1}
 					onLongPress={drag}
-					onPress={() =>
+					onPress={() => {
 						//@ts-ignore
 						navigation.navigate(ListStackRoutes.TaskDetails, {
 							listId: task.listId,
 							taskId: task.id,
-						})
-					}
+						});
+						closeAllOpenRows();
+						// ref.current.close();
+					}}
 					style={[styles.row, styles.item]}>
 					<H3 style={styles.title}>{task.title}</H3>
 				</TouchableOpacity>
@@ -62,7 +80,13 @@ export function TaskItem({
 	);
 }
 
-const UnderlayLeft = ({ task }: { task: Task }) => {
+const UnderlayLeft = ({
+	task,
+	closeRow,
+}: {
+	task: Task;
+	closeRow: () => void;
+}) => {
 	const dispatch = useDispatch();
 	const navigation = useNavigation();
 	const { percentOpen } = useSwipeableItemParams<Task>();
@@ -80,7 +104,10 @@ const UnderlayLeft = ({ task }: { task: Task }) => {
 			[
 				{
 					text: 'Cancel',
-					onPress: () => console.log('Cancel Pressed'),
+					onPress: () => {
+						console.log('Cancel Pressed');
+						closeRow();
+					},
 					style: 'cancel',
 				},
 				{
@@ -92,12 +119,14 @@ const UnderlayLeft = ({ task }: { task: Task }) => {
 		);
 	}, [task]);
 
-	const onEdit = () =>
+	const onEdit = useCallback(() => {
 		//@ts-ignore
 		navigation.navigate(ListStackRoutes.TaskForm, {
 			listId: task.listId,
 			taskId: task.id,
 		});
+		closeRow();
+	}, [navigation, closeRow]);
 
 	return (
 		<Animated.View style={[styles.buttonRow, animStyle]}>

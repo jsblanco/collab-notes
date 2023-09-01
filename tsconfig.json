@@ -1,6 +1,7 @@
 {
-  "extends": "expo/tsconfig.base",
+	"extends": "expo/tsconfig.base",
 	"compilerOptions": {
+		"target": "ES2015",
 		"allowSyntheticDefaultImports": true,
 		"jsx": "react-native",
 		"lib": ["dom", "esnext"],
@@ -11,8 +12,8 @@
 		"strict": true,
 		"baseUrl": ".",
 		"paths": {
-			"@app/*": ["src/*"],
+			"@app/*": ["src/*"]
 		}
 	},
-  "exclude": ["node_modules"]
+	"exclude": ["node_modules"]
 }

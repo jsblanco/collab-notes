@@ -24,12 +24,19 @@ const TasksFlatlist = ({
 }: Props) => {
 	const dispatch = useDispatch();
 	const rowsRefs: React.RefObject<SwipeableItemImperativeRef>[] = [];
+	const itemRefs = useRef(new Map<string, React.RefObject<SwipeableItemImperativeRef>>());
 
 	const renderItem = useCallback((params: RenderItemParams<Task>) => {
 		const itemRef = useRef<SwipeableItemImperativeRef>(null);
 		if (typeof params.getIndex() === 'number')
 			rowsRefs[params.getIndex() as number] = itemRef;
-		return <TaskItem {...params} itemRef={itemRef} task={params.item} />;
+		return (
+			<TaskItem
+				{...params}
+				itemRefs={itemRefs}
+				task={params.item}
+			/>
+		);
 	}, []);
 
 	const changeTaskOrder = useCallback(
