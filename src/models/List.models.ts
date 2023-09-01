@@ -14,6 +14,6 @@ export interface DbList {
 	id: string;
 	icon: keyof typeof Ionicons.glyphMap;
 	title: string;
-	tasks: string[];
-	users: string[];
+	tasks: Set<string>;
+	users: Set<string>;
 }

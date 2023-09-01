@@ -22,7 +22,7 @@ const populateListData = (list: DbList): List => {
 
 	const tasks: Task[] = [];
 
-	DummyLists[listIndex].tasks.map((id) => {
+	DummyLists[listIndex].tasks.forEach((id) => {
 		DummyTasks.map((task) => {
 			if (task?.id === id) tasks.push(task);
 		});
@@ -30,14 +30,14 @@ const populateListData = (list: DbList): List => {
 	const completedTasks = tasks.filter((task) => task.isCompleted);
 	const pendingTasks = tasks.filter((task) => !task.isCompleted);
 
-	DummyLists[listIndex].tasks = [
+	DummyLists[listIndex].tasks = new Set([
 		...pendingTasks.map((task) => task.id),
 		...completedTasks.map((task) => task.id),
-	];
+	]);
 
 	const users: User[] = [];
 
-	DummyLists[listIndex].users.map((id) => {
+	DummyLists[listIndex].users.forEach((id) => {
 		DummyUsers.forEach((user) => {
 			if (user?.id === id) users.push(user);
 		});
@@ -74,7 +74,7 @@ export const addTaskToList = (
 
 	if (!dbList) throw new Error('List not found');
 
-	dbList.tasks.push(dbTask.id);
+	dbList.tasks.add(dbTask.id);
 
 	const oldTaskDbIndex = DummyTasks.findIndex((dbTask) => dbTask.id === task.id);
 	if (oldTaskDbIndex >= 0) DummyTasks.splice(oldTaskDbIndex, 1);

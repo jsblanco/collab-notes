@@ -162,14 +162,14 @@ export const DummyLists: DbList[] = [
 		id: '1',
 		icon: 'cart-outline',
 		title: 'Lista de la compra',
-		tasks: ['1001', '1002', '1003', '1004', '1005', '1006'],
-		users: ['a', 'b', 'c', 'd'],
+		tasks: new Set(['1001', '1002', '1003', '1004', '1005', '1006']),
+		users: new Set(['a', 'b', 'c', 'd']),
 	},
 	{
 		id: '2',
 		icon: 'home-outline',
 		title: 'Tareas del hogar',
-		tasks: ['2001', '2002', '2003'],
-		users: ['a'],
+		tasks: new Set(['2001', '2002', '2003']),
+		users: new Set(['a']),
 	},
 ];
