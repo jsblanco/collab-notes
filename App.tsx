@@ -2,7 +2,7 @@ import { enableScreens } from 'react-native-screens';
 import AppLoading from 'expo-app-loading';
 import { Provider } from 'react-redux';
 import React, { useState } from 'react';
-import { RootNavigation } from './src/navigation/RootNavigation';
+import { RootNavigation } from './src/router/RootNavigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 import { store } from './src/store/store';

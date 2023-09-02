@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { colors } from '@app/ui';
+import { IconNames, colors } from '@app/ui';
 
 const OpenDrawerButton = () => {
 	const navigation = useNavigation();
@@ -12,7 +12,7 @@ const OpenDrawerButton = () => {
 			//@ts-ignore
 			onPress={navigation.toggleDrawer}>
 			<Ionicons
-				name={'ios-menu'}
+				name={IconNames.hamburgerMenu}
 				color={colors.primary}
 				size={28}
 				style={{ marginLeft: 10 }}

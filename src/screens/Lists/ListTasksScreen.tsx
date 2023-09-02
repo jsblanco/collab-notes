@@ -5,10 +5,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import CompletionBadge from '@app/components/CompletionBadge';
 import TasksFlatlist from '@app/components/TasksFlatlist';
 import UserAvatar from '@app/components/UserAvatar';
-import {
-	ListStackProps,
-	ListStackRoutes,
-} from '@app/navigation/NavigationTypes';
+import { ListStackProps, ListStackRoutes } from '@app/router/NavigationTypes';
 import { RootState } from '@app/store';
 import { B, colors, Container, FloatingButton, H2, Row, Text } from '@app/ui';
 
@@ -69,7 +66,7 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 				<Text noPadding>{list.users.length} participants</Text>
 				<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 					{list.users.slice(0, 4).map((user, i) => (
-							<UserAvatar user={user} i={i} key={user?.id} overlap/>
+						<UserAvatar user={user} i={i} key={user?.id} overlap />
 					))}
 					{list.users.length > 5 && <B noPadding>+{list.users.length}</B>}
 				</View>

@@ -10,7 +10,7 @@ import {
 	getDrawerListLink,
 	ListStackProps,
 	ListStackRoutes,
-} from '@app/navigation/NavigationTypes';
+} from '@app/router/NavigationTypes';
 import { RootState } from '@app/store';
 import { Container, H2, H3, Row } from '@app/ui';
 
@@ -45,9 +45,11 @@ const ListsHomeScreen = ({ route, navigation }: Props) => {
 							});
 						}}>
 						<Row style={styles.titles}>
-							<View style={{flexDirection: 'row', alignItems:'center'}}>
+							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 								<Ionicons name={list.icon} color={'#000'} size={24} />
-								<H3 noPadding style={{marginLeft: 10}}>{list.title}</H3>
+								<H3 noPadding style={{ marginLeft: 10 }}>
+									{list.title}
+								</H3>
 							</View>
 
 							<CompletionBadge isCompleted={false} />

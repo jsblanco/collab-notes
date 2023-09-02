@@ -7,14 +7,14 @@ const CompletionBadge = ({ isCompleted }: { isCompleted: boolean }) =>
 	isCompleted ? (
 		<View style={[styles.green, styles.completionBadge]}>
 			<Ionicons
-				name={IconNames.checkmarkCircleOutline}
+				name={IconNames.checkmarkCircle}
 				color={colors.white}
 				size={22}
 			/>
 		</View>
 	) : (
 		<View style={[styles.yellow, styles.completionBadge]}>
-			<Ionicons name={IconNames.timeOutline} color={colors.white} size={22} />
+			<Ionicons name={IconNames.time} color={colors.white} size={22} />
 		</View>
 	);
 

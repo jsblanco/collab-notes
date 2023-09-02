@@ -6,10 +6,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import CompletionBadge from '@app/components/CompletionBadge';
 import TaskHistoryEntry from '@app/components/TaskHistoryEntry';
 import { List, TaskToggleEvent } from '@app/models';
-import {
-	ListStackProps,
-	ListStackRoutes,
-} from '@app/navigation/NavigationTypes';
+import { ListStackProps, ListStackRoutes } from '@app/router/NavigationTypes';
 import { RootState, toggleTaskCompletion } from '@app/store';
 import { Button, colors, Container, H1, H3, Row, Text } from '@app/ui';
 

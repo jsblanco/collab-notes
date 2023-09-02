@@ -3,10 +3,7 @@ import { StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { StackScreenProps } from '@react-navigation/stack';
 import FormControl from '@app/components/FormControl/FormControl';
-import {
-	ListStackProps,
-	ListStackRoutes,
-} from '@app/navigation/NavigationTypes';
+import { ListStackProps, ListStackRoutes } from '@app/router/NavigationTypes';
 import { addListTask, RootState } from '@app/store';
 import { Container, FloatingButton } from '@app/ui';
 import { Actions, formReducer } from './TaskFormScreen.reducer';

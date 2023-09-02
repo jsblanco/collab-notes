@@ -62,6 +62,27 @@ export const modifyList = {
 	},
 };
 
+export const addList = {
+	request: (payload: {title: string, icon: string, users: string[], id?: string}) => {
+		return {
+			type: constants.ADD_LIST_REQUEST,
+			payload: payload,
+		};
+	},
+	success: (payload: List) => {
+		return {
+			type: constants.ADD_LIST_SUCCESS,
+			payload,
+		};
+	},
+	failure: (e: any) => {
+		return {
+			type: constants.ADD_LIST_FAILURE,
+			payload: e,
+		};
+	},
+};
+
 export const addListTask = {
 	request: (listId: string, task: Task) => {
 		return {

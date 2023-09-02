@@ -42,7 +42,7 @@ export enum DrawerRoutes {
 }
 
 export type DrawerProps = {
-	[DrawerRoutes.NewList]: {};
+	[DrawerRoutes.NewList]: { listId?: string };
 	[DrawerRoutes.Home]: {};
 	[T: DrawerListEntry]: {
 		screen: ListStackRoutes;

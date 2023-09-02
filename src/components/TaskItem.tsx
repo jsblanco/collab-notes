@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Task } from '@app/models';
-import { ListStackRoutes } from '@app/navigation/NavigationTypes';
+import { ListStackRoutes } from '@app/router/NavigationTypes';
 import { removeListTask, toggleTaskCompletion } from '@app/store';
 import { colors, fonts, H3, Text } from '@app/ui';
 

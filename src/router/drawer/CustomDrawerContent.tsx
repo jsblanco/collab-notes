@@ -9,7 +9,7 @@ import {
 } from '@react-navigation/drawer';
 import UserAvatar from '@app/components/UserAvatar';
 import { RootState, fetchAllLists } from '@app/store';
-import { fonts } from '@app/ui';
+import { IconNames, fonts } from '@app/ui';
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 	const dispatch = useDispatch();
@@ -43,7 +43,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 			<View style={{ padding: 20, borderTopWidth: 1, borderTopColor: '#ccc' }}>
 				<TouchableOpacity onPress={() => {}} style={{ paddingVertical: 15 }}>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Ionicons name="share-social-outline" size={22} />
+						<Ionicons name={IconNames.shareSocial} size={22} />
 						<Text
 							style={{
 								fontSize: 15,
@@ -56,7 +56,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 				</TouchableOpacity>
 				<TouchableOpacity onPress={() => {}} style={{ paddingVertical: 15 }}>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Ionicons name="exit-outline" size={22} />
+						<Ionicons name={IconNames.exit} size={22} />
 						<Text
 							style={{
 								fontSize: 15,

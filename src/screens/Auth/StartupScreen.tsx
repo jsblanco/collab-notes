@@ -1,10 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
-import {
-	AuthStackProps,
-	AuthStackRoutes,
-} from '@app/navigation/NavigationTypes';
+import { AuthStackProps, AuthStackRoutes } from '@app/router/NavigationTypes';
 import { Text } from '@app/ui';
 
 type Props = StackScreenProps<AuthStackProps, AuthStackRoutes.Startup>;

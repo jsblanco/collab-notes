@@ -6,8 +6,9 @@ import {
 	DrawerNavigationOptions,
 } from '@react-navigation/drawer';
 import OpenDrawerButton from '@app/components/OpenDrawerButton';
+import ListFormScreen from '@app/screens/Lists/ListFormScreen/ListFormScreen';
 import { RootState } from '@app/store/store';
-import { colors } from '@app/ui';
+import { colors, IconNames } from '@app/ui';
 import {
 	DrawerProps,
 	DrawerRoutes,
@@ -32,20 +33,19 @@ export function DrawerNavigation() {
 				drawerActiveTintColor: '#fff',
 				drawerInactiveTintColor: '#333',
 				headerLeft: OpenDrawerButton,
-				headerShown: false,
 			}}>
 			<Drawer.Screen
 				name={DrawerRoutes.Home}
 				component={ListStack}
 				initialParams={{ screen: ListStackRoutes.ListsHome }}
 				options={{
-					drawerLabel: 'Home',
+					headerShown: false,
+					drawerLabel: 'Overview',
 					drawerIcon: ({ color, size }) => (
-						<Ionicons name="document-text-outline" color={color} size={size} />
+						<Ionicons name={IconNames.clipboard} color={color} size={size} />
 					),
 				}}
 			/>
-
 			<Drawer.Group>
 				{lists?.map((list) => (
 					<Drawer.Screen
@@ -67,6 +67,19 @@ export function DrawerNavigation() {
 					/>
 				))}
 			</Drawer.Group>
+			<Drawer.Screen
+				name={DrawerRoutes.NewList}
+				component={ListFormScreen}
+				initialParams={{
+					listId: '',
+				}}
+				options={{
+					drawerLabel: 'New List',
+					drawerIcon: ({ color, size }) => (
+						<Ionicons name={IconNames.documentText} color={color} size={size} />
+					),
+				}}
+			/>
 		</Drawer.Navigator>
 	);
 }
