@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import {
@@ -23,7 +23,7 @@ const Drawer = createDrawerNavigator<DrawerProps>();
 
 export function DrawerNavigation() {
 	const { lists, error } = useSelector((state: RootState) => state.lists);
-	useEffect(()=> {}, [lists])
+
 	return (
 		<Drawer.Navigator
 			drawerContent={CustomDrawerContent}

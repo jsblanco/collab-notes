@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -18,46 +18,54 @@ type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListsHome>;
 const ListsHomeScreen = ({ route, navigation }: Props) => {
 	const { lists } = useSelector((state: RootState) => state.lists);
 
+	const renderLists = ({ item }: { item: List }) => (
+		<View style={styles.listView}>
+			<Pressable
+				style={{
+					width: '100%',
+					flexDirection: 'row',
+					paddingHorizontal: 20,
+				}}
+				onPress={() => {
+					//@ts-ignore
+					navigation.navigate(getDrawerListLink(item.id), {
+						screen: ListStackRoutes.ListTasks,
+						params: {
+							listId: item.id,
+						},
+					});
+				}}>
+				<Row style={styles.titles}>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Ionicons name={item.icon} color={'#000'} size={24} />
+						<H3 noPadding style={{ marginLeft: 10 }}>
+							{item.title}
+						</H3>
+					</View>
+
+					<CompletionBadge isCompleted={false} />
+				</Row>
+			</Pressable>
+			<TasksFlatlist listId={item.id} tasks={item.pendingTasks} reorderTasks />
+		</View>
+	);
+
 	return (
 		<Container style={styles.screen}>
-			<View style={styles.header}>
-				<H2>
-					You have {lists.reduce((acc, list) => list.pendingTasks.length + acc, 0)}{' '}
-					pending tasks
-				</H2>
-			</View>
-
-			{lists.map((list: List, i: number) => (
-				<View style={styles.listView} key={list.id}>
-					<Pressable
-						style={{
-							width: '100%',
-							flexDirection: 'row',
-							paddingHorizontal: 20,
-						}}
-						onPress={() => {
-							//@ts-ignore
-							navigation.navigate(getDrawerListLink(list.id), {
-								screen: ListStackRoutes.ListTasks,
-								params: {
-									listId: list.id,
-								},
-							});
-						}}>
-						<Row style={styles.titles}>
-							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-								<Ionicons name={list.icon} color={'#000'} size={24} />
-								<H3 noPadding style={{ marginLeft: 10 }}>
-									{list.title}
-								</H3>
-							</View>
-
-							<CompletionBadge isCompleted={false} />
-						</Row>
-					</Pressable>
-					<TasksFlatlist listId={list.id} tasks={list.pendingTasks} reorderTasks />
-				</View>
-			))}
+			<FlatList
+				data={lists}
+				ListHeaderComponent={
+					<View style={styles.header}>
+						<H2>
+							You have {lists.reduce((acc, list) => list.pendingTasks.length + acc, 0)}{' '}
+							pending tasks
+						</H2>
+					</View>
+				}
+				renderItem={renderLists}
+				contentContainerStyle={{ width: '100%' }}
+				keyExtractor={(item) => item.id}
+			/>
 		</Container>
 	);
 };
@@ -78,6 +86,8 @@ const styles = StyleSheet.create({
 	},
 	header: {
 		paddingBottom: 40,
+		width: '100%',
+		alignItems: 'center',
 	},
 	listView: {
 		width: '100%',
