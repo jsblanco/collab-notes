@@ -22,7 +22,9 @@ import CustomDrawerContent from './CustomDrawerContent';
 const Drawer = createDrawerNavigator<DrawerProps>();
 
 export function DrawerNavigation() {
-	const { lists, error } = useSelector((state: RootState) => state.lists);
+	const { lists, loading, error } = useSelector(
+		(state: RootState) => state.lists
+	);
 
 	return (
 		<Drawer.Navigator

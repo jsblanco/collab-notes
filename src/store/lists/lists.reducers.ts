@@ -1,20 +1,17 @@
+import { Reducer } from 'redux';
 import { List } from '@app/models';
-import * as constants from './lists.constants';
-
-type StateType = {
-	selectedList?: string;
-	lists: List[];
-	error: string;
-};
+import { ListActionsType, StateType } from './list.types';
+import constants from './lists.constants';
 
 const initialState: StateType = {
 	lists: [],
 	error: '',
+	loading: false,
 };
 
-const listsReducer = (
+const listsReducer: Reducer<StateType, ListActionsType> = (
 	state: StateType = initialState,
-	{ type, payload }: { type: string; payload: any }
+	{ type, payload }
 ) => {
 	let listIndex: number = -1;
 	let updatedLists: List[] = [];
@@ -23,15 +20,14 @@ const listsReducer = (
 		case constants.FETCH_ALL_LISTS_SUCCESS:
 			return {
 				...state,
-				lists: payload as List[],
+				lists: payload,
+				loading: false,
 			};
 		case constants.ADD_LIST_SUCCESS:
 			return {
 				...state,
-				lists: [
-					...(state.lists.filter((list) => list.id !== payload.id) as List[]),
-					payload as List,
-				],
+				lists: [...state.lists.filter((list) => list.id !== payload.id), payload],
+				loading: false,
 			};
 		case constants.ADD_TASK_SUCCESS:
 		case constants.REMOVE_TASK_SUCCESS:
@@ -41,10 +37,10 @@ const listsReducer = (
 			if (listIndex === -1) return { ...state };
 			updatedLists = [...state.lists];
 			updatedLists[listIndex] = payload;
-
 			return {
 				...state,
 				lists: updatedLists,
+				loading: false,
 			};
 		case constants.CHANGE_TASK_ORDER_REQUEST:
 		case constants.TOGGLE_TASK_COMPL_REQUEST:
@@ -56,6 +52,7 @@ const listsReducer = (
 			return {
 				...state,
 				error: '',
+				loading: true,
 			};
 		case constants.CHANGE_TASK_ORDER_FAILURE:
 		case constants.TOGGLE_TASK_COMPL_FAILURE:
@@ -67,6 +64,7 @@ const listsReducer = (
 			return {
 				...state,
 				error: payload,
+				loading: false,
 			};
 		default:
 			return { ...state };

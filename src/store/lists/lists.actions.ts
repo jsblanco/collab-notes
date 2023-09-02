@@ -1,5 +1,5 @@
 import { List, Task } from '@app/models';
-import * as constants from './lists.constants';
+import constants from './lists.constants';
 import { AddListPayload } from './list.types';
 
 export const fetchSingleList = {

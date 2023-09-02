@@ -11,8 +11,8 @@ import { List, Task } from '@app/models';
 import { ReduxAction, RootState } from '../store';
 import { AddListPayload } from './list.types';
 import * as actions from './lists.actions';
-import * as c from './lists.constants';
 import * as queries from './lists.queries';
+import c from './lists.constants';
 
 const getUserId = (state: RootState): string => state.auth.user.id;
 
