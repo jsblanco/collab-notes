@@ -22,14 +22,12 @@ import CustomDrawerContent from './CustomDrawerContent';
 const Drawer = createDrawerNavigator<DrawerProps>();
 
 export function DrawerNavigation() {
-	const { lists, loading, error } = useSelector(
-		(state: RootState) => state.lists
-	);
+	const { lists } = useSelector((state: RootState) => state.lists);
 
 	return (
 		<Drawer.Navigator
 			drawerContent={CustomDrawerContent}
-			initialRouteName={DrawerRoutes.NewList}
+			initialRouteName={DrawerRoutes.Home}
 			screenOptions={{
 				...(styles as DrawerNavigationOptions),
 				drawerActiveBackgroundColor: colors.primary,

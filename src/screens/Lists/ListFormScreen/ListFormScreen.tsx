@@ -38,7 +38,7 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 		},
 		inputValidities: {
 			title: !!list,
-			icon: !!list,
+			icon: true,
 			users: true,
 		},
 		formIsValid: !!list,
