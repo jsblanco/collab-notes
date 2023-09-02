@@ -1,4 +1,5 @@
 import { DbList, List, Task, User } from '@app/models';
+import { IconNames } from '@app/ui';
 import { DummyLists, DummyTasks, DummyUsers } from '../../../data/DummyData';
 
 export const fetchLists = (): List[] => {
@@ -10,19 +11,44 @@ export const fetchLists = (): List[] => {
 };
 
 export const fetchList = (listId: string): List => {
-	const list = DummyLists.find((list) => list.id === listId);
+	const list = DummyLists.get(listId);
 	if (!list) throw new Error('No such list exists');
 
 	return populateListData(list);
 };
 
+export const addList = (payload: {
+	title: string;
+	icon: IconNames;
+	users: string[];
+	userId: string;
+	listId?: string;
+}): List => {
+	const { title, icon, users, userId, listId } = payload;
+	const originalList = listId ? DummyLists.get(listId) : {};
+	if (listId && !originalList) throw new Error('Could not find list to update');
+
+	const list: DbList = {
+		id: new Date().getTime().toString(),
+		tasks: new Set<string>(),
+		...originalList,
+		title,
+		icon,
+		users: new Set([userId, ...users]),
+	};
+
+	DummyLists.set(list.id, list);
+
+	return populateListData(list);
+};
+
 const populateListData = (list: DbList): List => {
-	const listIndex = DummyLists.findIndex((l) => l.id === list.id);
-	if (listIndex === -1) throw Error('No such list exists');
+	const dbList = DummyLists.get(list.id);
+	if (!dbList) throw Error('No such list exists');
 
 	const tasks: Task[] = [];
 
-	DummyLists[listIndex].tasks.forEach((id) => {
+	dbList.tasks.forEach((id) => {
 		DummyTasks.map((task) => {
 			if (task?.id === id) tasks.push(task);
 		});
@@ -30,14 +56,14 @@ const populateListData = (list: DbList): List => {
 	const completedTasks = tasks.filter((task) => task.isCompleted);
 	const pendingTasks = tasks.filter((task) => !task.isCompleted);
 
-	DummyLists[listIndex].tasks = new Set([
+	dbList.tasks = new Set([
 		...pendingTasks.map((task) => task.id),
 		...completedTasks.map((task) => task.id),
 	]);
 
 	const users: User[] = [];
 
-	DummyLists[listIndex].users.forEach((id) => {
+	dbList.users.forEach((id) => {
 		DummyUsers.forEach((user) => {
 			if (user?.id === id) users.push(user);
 		});
@@ -70,8 +96,7 @@ export const addTaskToList = (
 		],
 	};
 
-	const dbList = DummyLists.find((list) => list.id === listId);
-
+	const dbList = DummyLists.get(listId);
 	if (!dbList) throw new Error('List not found');
 
 	dbList.tasks.add(dbTask.id);
@@ -155,7 +180,8 @@ export const toggleTaskCompletion = (
 
 export const changeTaskOrder = (listId: string, taskOrder: string[]): List => {
 	const list = fetchList(listId);
-	const listIndex = DummyLists.findIndex((l) => l.id === listId);
+	const dbList = DummyLists.get(listId);
+	if (!dbList || !list) throw new Error('List not found');
 
 	const isCompleted = !!DummyTasks.find((task) => task.id === taskOrder[0])
 		?.isCompleted;
@@ -169,10 +195,10 @@ export const changeTaskOrder = (listId: string, taskOrder: string[]): List => {
 		? (list.completedTasks = newtasks as Task[])
 		: (list.pendingTasks = newtasks as Task[]);
 
-	DummyLists[listIndex].tasks = [
+	dbList.tasks = new Set([
 		...list.pendingTasks.map((e) => e.id),
 		...list.completedTasks.map((e) => e.id),
-	];
+	]);
 
 	return list;
 };

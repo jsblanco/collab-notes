@@ -1,5 +1,6 @@
 import { List, Task } from '@app/models';
 import * as constants from './lists.constants';
+import { AddListPayload } from './list.types';
 
 export const fetchSingleList = {
 	request: (listId: string) => {
@@ -63,7 +64,7 @@ export const modifyList = {
 };
 
 export const addList = {
-	request: (payload: {title: string, icon: string, users: string[], id?: string}) => {
+	request: (payload: AddListPayload) => {
 		return {
 			type: constants.ADD_LIST_REQUEST,
 			payload: payload,

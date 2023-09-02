@@ -25,7 +25,7 @@ const listsReducer = (
 				...state,
 				lists: payload as List[],
 			};
-		case constants.MODIFY_LIST_SUCCESS:
+		case constants.ADD_LIST_SUCCESS:
 			return {
 				...state,
 				lists: [
@@ -33,7 +33,6 @@ const listsReducer = (
 					payload as List,
 				],
 			};
-
 		case constants.ADD_TASK_SUCCESS:
 		case constants.REMOVE_TASK_SUCCESS:
 		case constants.TOGGLE_TASK_COMPL_SUCCESS:

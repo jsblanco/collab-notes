@@ -9,6 +9,7 @@ import {
 } from 'redux-saga/effects';
 import { List, Task } from '@app/models';
 import { ReduxAction, RootState } from '../store';
+import { AddListPayload } from './list.types';
 import * as actions from './lists.actions';
 import * as c from './lists.constants';
 import * as queries from './lists.queries';
@@ -42,6 +43,29 @@ function* fetchListEffect({
 	} catch (e) {
 		console.error(e);
 		yield put(actions.fetchAllLists.failure(e));
+	}
+}
+
+function* addListEffect({
+	payload,
+}: ReduxAction<AddListPayload>): Generator<
+	| SelectEffect
+	| CallEffect<List>
+	| PutEffect<ReduxAction<List>>
+	| PutEffect<ReduxAction<Task[]>>,
+	void,
+	string | List
+> {
+	try {
+		const userId = yield select(getUserId);
+		const updatedData = yield call(queries.addList, {
+			...payload,
+			userId: userId as string,
+		});
+		yield put(actions.addListTask.success(updatedData as List));
+	} catch (e) {
+		console.error(e);
+		yield put(actions.addListTask.failure(e));
 	}
 }
 
@@ -138,6 +162,7 @@ function* changeTaskListIndexEffect({
 function* listsSagas() {
 	yield takeLatest(c.FETCH_ALL_LISTS_REQUEST, fetchListsEffect);
 	yield takeLatest(c.FETCH_SINGLE_LIST_REQUEST, fetchListEffect);
+	yield takeLatest(c.ADD_LIST_REQUEST, addListEffect);
 	yield takeLatest(c.ADD_TASK_REQUEST, addListTaskEffect);
 	yield takeLatest(c.REMOVE_TASK_REQUEST, removeListTaskEffect);
 	yield takeLatest(c.TOGGLE_TASK_COMPL_REQUEST, toggleTaskCompletionEffect);

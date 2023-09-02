@@ -1,3 +1,4 @@
+import { IconNames } from '@app/ui';
 import { DbList, Task, TaskToggleEvent, User } from '../src/models';
 
 const createFakeTaskToggleEvent = (
@@ -157,19 +158,25 @@ export const DummyTasks: Task[] = [
 	},
 ];
 
-export const DummyLists: DbList[] = [
-	{
-		id: '1',
-		icon: 'cart-outline',
-		title: 'Lista de la compra',
-		tasks: new Set(['1001', '1002', '1003', '1004', '1005', '1006']),
-		users: new Set(['a', 'b', 'c', 'd']),
-	},
-	{
-		id: '2',
-		icon: 'home-outline',
-		title: 'Tareas del hogar',
-		tasks: new Set(['2001', '2002', '2003']),
-		users: new Set(['a']),
-	},
-];
+export const DummyLists: Map<string, DbList> = new Map([
+	[
+		'1',
+		{
+			id: '1',
+			icon: IconNames.cart,
+			title: 'Lista de la compra',
+			tasks: new Set(['1001', '1002', '1003', '1004', '1005', '1006']),
+			users: new Set(['a', 'b', 'c', 'd']),
+		},
+	],
+	[
+		'2',
+		{
+			id: '2',
+			icon: IconNames.home,
+			title: 'Tareas del hogar',
+			tasks: new Set(['2001', '2002', '2003']),
+			users: new Set(['a']),
+		},
+	],
+]);
