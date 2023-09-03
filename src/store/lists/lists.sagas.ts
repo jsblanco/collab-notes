@@ -11,8 +11,8 @@ import { List, Task } from '@app/models';
 import { ReduxAction, RootState } from '../store';
 import { AddListPayload } from './list.types';
 import * as actions from './lists.actions';
-import * as queries from './lists.queries';
 import c from './lists.constants';
+import * as queries from './lists.queries';
 
 const getUserId = (state: RootState): string => state.auth.user.id;
 
@@ -62,10 +62,10 @@ function* addListEffect({
 			...payload,
 			userId: userId as string,
 		});
-		yield put(actions.addListTask.success(updatedData as List));
+		yield put(actions.addList.success(updatedData as List));
 	} catch (e) {
 		console.error(e);
-		yield put(actions.addListTask.failure(e));
+		yield put(actions.addList.failure(e));
 	}
 }
 
