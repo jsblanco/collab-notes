@@ -1,20 +1,21 @@
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
-import { Modal, StyleSheet, Touchable, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { StackScreenProps } from '@react-navigation/stack';
 import FormControl from '@app/components/FormControl/FormControl';
-import { DrawerProps, DrawerRoutes, ListStackProps, ListStackRoutes } from '@app/router/NavigationTypes';
+import { DrawerProps, DrawerRoutes } from '@app/router/NavigationTypes';
 import { addList, RootState } from '@app/store';
 import {
-	Button,
+	colors,
 	Container,
 	FloatingButton,
+	H2,
 	IconNames,
 	Label,
+	Modal,
 	Row,
-	Text,
 } from '@app/ui';
 import { ListIconOptions } from './ListFormScreen.icons';
 import { Actions, formReducer } from './ListFormScreen.reducer';
@@ -83,21 +84,30 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	const renderIcons = ({ item }: { item: IconNames }) => (
 		<TouchableOpacity
-			style={styles.iconOptions}
+			style={{
+				...styles.iconOptions,
+				...(formState.inputValues.icon === item && {
+					backgroundColor: colors.primary,
+				}),
+			}}
 			onPress={() => {
 				inputHandler('icon', item, true);
 				setIconModalVisible(!iconModalVisible);
 			}}>
-			<Ionicons name={item} color={'#000'} size={32} />
+			<Ionicons
+				name={item}
+				color={formState.inputValues.icon === item ? '#fff' : '#000'}
+				size={32}
+			/>
 		</TouchableOpacity>
 	);
 
 	return (
 		<Container style={styles.screen}>
 			<Row style={{ alignItems: 'flex-start' }}>
-				<Label>Icon</Label>
+				<Label style={styles.iconLabel}>Icon</Label>
 				<TouchableOpacity
-					style={styles.chosenIcon}
+					style={styles.iconOptions}
 					onPress={() => setIconModalVisible(!iconModalVisible)}>
 					<Ionicons name={formState.inputValues.icon} color={'#000'} size={32} />
 				</TouchableOpacity>
@@ -114,20 +124,17 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 				required
 			/>
 			<Modal
-				animationType="slide"
-				// transparent={true}
-				style={{ marginHorizontal: 40, marginVertical: 70, alignItems: 'center' }}
 				visible={iconModalVisible}
-				onRequestClose={() => {
-					setIconModalVisible(!iconModalVisible);
-				}}>
-					
+				onRequestClose={setIconModalVisible.bind(null, !iconModalVisible)}>
 				<FlatList
+					numColumns={5}
 					data={ListIconOptions}
 					renderItem={renderIcons}
-					contentContainerStyle={{alignItems: 'center', paddingVertical: 50}}
-					numColumns={4}
-					keyExtractor={(item, index) => item}
+					keyExtractor={(item) => item}
+					contentContainerStyle={styles.iconsList}
+					ListHeaderComponent={
+						<H2 style={{ marginBottom: 30 }}>Choose an icon for your list</H2>
+					}
 				/>
 			</Modal>
 
@@ -147,17 +154,31 @@ const styles = StyleSheet.create({
 		width: '100%',
 		position: 'relative',
 	},
-	chosenIcon: {
-		padding: 10,
-		margin: 0,
-		marginLeft: 50,
-		borderRadius: 5,
-		borderWidth: 1,
+	iconsList: {
+		alignItems: 'center',
+		paddingVertical: 50,
 	},
 	iconOptions: {
 		padding: 10,
 		margin: 10,
+		borderColor: colors.grey[3],
 		borderRadius: 5,
-		borderWidth: 1,
+		// backgroundColor: 'transparent',
+		// shadowColor: "#000",
+		// shadowOffset: {
+		//     width: 0,
+		//     height: 2
+		// },
+		// shadowOpacity: 0.5,
+		// shadowRadius: 4,
+		// elevation: 5
+	},
+	iconLabel: {
+		paddingTop: 15,
+		marginRight: 50,
+	},
+	chosenIcon: {
+		backgroundColor: colors.primary,
+		borderColor: colors.primary,
 	},
 });

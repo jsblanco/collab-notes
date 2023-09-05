@@ -39,6 +39,20 @@ export const addList = (payload: {
 
 	DummyLists.set(list.id, list);
 
+	addTaskToList(
+		list.id,
+		{
+			id: '',
+			history: [],
+			listId: list.id,
+			isCompleted: false,
+			title: `Add some tasks to "${list.title}"!`,
+			description:
+				"This list is empty. Start adding tasks to it to help you with your day to day! When you're done, delete me or update me for any task you like.",
+		},
+		userId
+	);
+
 	return populateListData(list);
 };
 
@@ -85,7 +99,7 @@ export const addTaskToList = (
 	const list = fetchList(listId);
 	const dbTask = {
 		...task,
-		id: task.id ?? new Date().getTime().toString(),
+		id: `${task.id}`.length === 0 ? new Date().getTime().toString() : task.id,
 		history: [
 			{
 				userId,
