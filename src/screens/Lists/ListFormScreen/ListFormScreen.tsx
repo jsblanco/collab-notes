@@ -96,7 +96,7 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 			}}>
 			<Ionicons
 				name={item}
-				color={formState.inputValues.icon === item ? '#fff' : '#000'}
+				color={formState.inputValues.icon === item ? colors.white : colors.black}
 				size={32}
 			/>
 		</TouchableOpacity>
@@ -161,21 +161,22 @@ const styles = StyleSheet.create({
 	iconOptions: {
 		padding: 10,
 		margin: 10,
-		borderColor: colors.grey[3],
 		borderRadius: 5,
-		// backgroundColor: 'transparent',
-		// shadowColor: "#000",
-		// shadowOffset: {
-		//     width: 0,
-		//     height: 2
-		// },
-		// shadowOpacity: 0.5,
-		// shadowRadius: 4,
-		// elevation: 5
+		borderWidth:1,
+		borderColor:  colors.grey[4],
+		backgroundColor: colors.white,
+		shadowColor: "#ccc",
+		shadowOffset: {
+		    width: 0,
+		    height: 2
+		},
+		shadowOpacity: 0.5,
+		shadowRadius: 4,
+		elevation: 10
 	},
 	iconLabel: {
 		paddingTop: 15,
-		marginRight: 50,
+		marginRight: 30,
 	},
 	chosenIcon: {
 		backgroundColor: colors.primary,

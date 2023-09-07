@@ -35,7 +35,7 @@ export default StyleSheet.create({
 	},
 	bottomButtonContainer: {
 		borderRadius: 50,
-		// overflow: 'hidden',
+		overflow: 'hidden',
 		position: 'absolute',
 		zIndex: 99,
 		borderWidth: 1,
@@ -52,7 +52,7 @@ export default StyleSheet.create({
 		borderRadius: 50,
 		borderWidth: 0,
 		padding: 15,
-		paddingTop: 20,
+		// paddingTop: 20,
 	},
 	bottomButtonText: {
 		color: 'white',

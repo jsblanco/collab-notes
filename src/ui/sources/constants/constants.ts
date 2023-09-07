@@ -36,6 +36,7 @@ export const colors = {
 	warning: '#FF9900',
 	danger: '#DD3636',
 	white: '#ffffff',
+	black: '#000000',
 	background: '#f2f2f2',
 	text: textColors,
 	general: generalColorPalette,

@@ -1,6 +1,5 @@
-import React, { ReactNode } from 'react';
+import React, { PropsWithChildren } from 'react';
 import {
-	Pressable,
 	Modal as ReactModal,
 	TouchableOpacity,
 	View,
@@ -8,28 +7,25 @@ import {
 } from 'react-native';
 import styles from './Layout.styles';
 
-type ContainerType = {
-	children: ReactNode;
+type ContainerType = PropsWithChildren<{
 	pointerEvents?: 'auto' | 'none' | 'box-none';
 	center?: boolean;
 	style?: ViewStyle;
-};
+}>;
 
-type RowType = {
-	children: ReactNode;
+type RowType = PropsWithChildren<{
 	pointerEvents?: 'auto' | 'none' | 'box-none';
 	centerX?: boolean;
 	centerY?: boolean;
 	style?: ViewStyle;
-};
+}>;
 
 export const Card = ({
 	children,
 	style,
-}: {
+}: PropsWithChildren<{
 	style?: ViewStyle;
-	children: ReactNode;
-}) => {
+}>) => {
 	return <View style={{ ...styles.card, ...style }}>{children}</View>;
 };
 
@@ -38,12 +34,11 @@ export const Modal = ({
 	onRequestClose,
 	children,
 	style,
-}: {
+}: PropsWithChildren<{
 	visible: boolean;
 	style?: ViewStyle;
 	onRequestClose: () => void;
-	children: ReactNode;
-}) => {
+}>) => {
 	return (
 		<ReactModal
 			visible={visible}
@@ -71,7 +66,7 @@ export const DraggableHeader = () => {
 	);
 };
 
-export const InlineBlock = ({ children }: { children: ReactNode }) => {
+export const InlineBlock = ({ children }: PropsWithChildren) => {
 	return (
 		<View style={{ flexDirection: 'row' }}>
 			<View style={styles.inlineBlock} />

@@ -1,14 +1,13 @@
-import React, { ReactNode } from 'react';
+import React, { PropsWithChildren } from 'react';
 import { TextStyle, Text as ReactText } from 'react-native';
 import styles from './Text.styles';
 
-type TextPropTypes = {
+type TextPropTypes = PropsWithChildren<{
 	numberOfLines?: number;
 	style?: TextStyle;
 	center?: boolean;
 	noPadding?: boolean;
-	children: ReactNode;
-};
+}>;
 
 export const Text = (props: TextPropTypes) => {
 	return (

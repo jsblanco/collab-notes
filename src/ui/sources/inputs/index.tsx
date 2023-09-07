@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { PropsWithChildren, ReactNode, useState } from 'react';
 import {
 	Platform,
 	Switch as ReactSwitch,
@@ -23,14 +23,13 @@ type SwitchPairing = {
 	viewStyles?: StyleSheet;
 	onChange: (e: boolean) => void;
 };
-type ButtonPropsType = {
-	children: ReactNode;
+type ButtonPropsType = PropsWithChildren<{
 	disabled?: boolean;
 	position?: ViewStyle;
 	textStyle?: TextStyle;
 	buttonStyle?: ViewStyle;
 	onPress: (...args: any[]) => any | void;
-};
+}>;
 type ActionButtonType = {
 	size: number;
 	label: string;
@@ -38,20 +37,18 @@ type ActionButtonType = {
 	style?: TextStyle;
 	onPress: (...args: any[]) => any;
 };
-type RoundButtonPropsType = {
+type RoundButtonPropsType = PropsWithChildren<{
 	size?: number;
-	children: ReactNode;
 	style?: ViewStyle;
 	onPress: (...args: any[]) => any;
 	onLongPress?: (...args: any[]) => any;
-};
-type HeaderButtonPropsType = {
-	children: ReactNode;
+}>;
+type HeaderButtonPropsType = PropsWithChildren<{
 	onPress: (...args: any[]) => any;
 	size?: number;
 	style?: ViewStyle;
 	leftButton?: boolean;
-};
+}>;
 
 export const ButtonType: any =
 	Platform.OS === 'android' && Platform.Version >= 21
@@ -144,11 +141,20 @@ export const FloatingButton = ({
 				onPress={onPress}
 				disabled={disabled}
 				style={{
-					...styles.bottomButtonView,
-					...buttonStyle,
-					...(disabled && styles.disabledButton),
+					// ...styles.bottomButtonView,
+					// ...(disabled && styles.disabledButton),
+					// ...buttonStyle,
 				}}>
-				<Text style={{ ...styles.bottomButtonText, ...textStyle }}>{children}</Text>
+				<View
+					style={{
+						...styles.bottomButtonView,
+						...(disabled && styles.disabledButton),
+						...buttonStyle,
+					}}>
+					<Text style={{ ...styles.bottomButtonText, ...textStyle }}>
+						{children}
+					</Text>
+				</View>
 			</ButtonType>
 		</View>
 	);
@@ -204,8 +210,8 @@ export const RoundButton = ({
 						styles.roundButtonContent,
 						{
 							...style,
-							height: size ? size : 'auto',
-							width: size ? size : 'auto',
+							height: size ?? 'auto',
+							width: size ?? 'auto',
 						},
 					]}>
 					{children}

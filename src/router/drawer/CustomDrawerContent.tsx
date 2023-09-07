@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
@@ -26,7 +26,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 		loadLists().then(() => setIsLoading(false));
 	}, [dispatch, loadLists]);
 
-	const DrawerContent = ({ children }: { children?: React.ReactNode }) => (
+	const DrawerContent = ({ children }: PropsWithChildren) => (
 		<View style={{ flex: 1 }}>
 			<DrawerContentScrollView
 				{...props}
