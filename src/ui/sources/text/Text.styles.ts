@@ -4,7 +4,7 @@ import { colors, fonts } from '../constants/constants';
 export default StyleSheet.create({
 	H1: {
 		fontFamily: fonts.regularBold,
-		marginBottom: 32,
+		marginBottom: 20,
 		lineHeight: 32,
 		fontSize: 28,
 		width: '100%',

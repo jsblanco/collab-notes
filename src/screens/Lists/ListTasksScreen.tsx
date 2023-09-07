@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Switch, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
+import { Ionicons } from '@expo/vector-icons';
 import { StackScreenProps } from '@react-navigation/stack';
 import CompletionBadge from '@app/components/CompletionBadge';
 import TasksFlatlist from '@app/components/TasksFlatlist';
@@ -13,6 +14,7 @@ import {
 	colors,
 	Container,
 	FloatingButton,
+	H1,
 	H2,
 	H3,
 	Row,
@@ -92,6 +94,10 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	return (
 		<Container style={styles.screen}>
+			<Row style={styles.titleRow}>
+				<Ionicons name={list.icon} size={26} style={styles.titleIcon} />
+				<H1>{list.title}</H1>
+			</Row>
 			<Row style={styles.usersRow}>
 				<Text noPadding>{list.users.length} participants</Text>
 				<View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -135,6 +141,13 @@ const styles = StyleSheet.create({
 		width: '100%',
 	},
 	error: { color: colors.danger },
+	titleRow: {
+		paddingHorizontal: 20,
+		marginTop: 20,
+	},
+	titleIcon: {
+		marginRight: 20,
+	},
 	usersRow: {
 		paddingHorizontal: 20,
 		marginBottom: 30,

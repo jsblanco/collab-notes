@@ -2,10 +2,11 @@ import React, { PropsWithChildren, ReactNode, useState } from 'react';
 import {
 	Platform,
 	Switch as ReactSwitch,
+	StyleProp,
 	TextInput,
 	TextStyle,
-	TouchableHighlight,
 	TouchableNativeFeedback,
+	TouchableOpacity,
 	TouchableWithoutFeedback,
 	View,
 	ViewStyle,
@@ -50,17 +51,21 @@ type HeaderButtonPropsType = PropsWithChildren<{
 	leftButton?: boolean;
 }>;
 
-export const ButtonType: any = (props: PropsWithChildren) =>
-	Platform.OS === 'android' && Platform.Version >= 21 ? (
-		<TouchableNativeFeedback {...props}>{props.children}</TouchableNativeFeedback>
+export const OSButton: any = (
+	props: PropsWithChildren<{ style: StyleProp<ViewStyle> }>
+) => {
+	const { style, ...other } = props;
+
+	return Platform.OS === 'android' && Platform.Version >= 21 ? (
+		<TouchableNativeFeedback {...other}>
+			<View style={props.style}>{props.children}</View>
+		</TouchableNativeFeedback>
 	) : (
-		<TouchableHighlight
-			activeOpacity={0.6}
-			underlayColor={colors.grey[4]}
-			{...props}>
-			{props.children}
-		</TouchableHighlight>
+		<TouchableOpacity activeOpacity={0.6} {...other}>
+			<View style={props.style}>{props.children}</View>
+		</TouchableOpacity>
 	);
+};
 
 export const Switch = ({
 	icon,
@@ -115,16 +120,17 @@ export const Button = ({
 }: ButtonPropsType) => {
 	return (
 		<View style={{ ...styles.buttonContainer, ...position }}>
-			<ButtonType activeOpacity={0.6} onPress={onPress} disabled={!!disabled}>
-				<View
-					style={[
-						styles.buttonView,
-						buttonStyle,
-						!!disabled && styles.disabledButton,
-					]}>
-					<Text style={{ ...styles.buttonText, ...textStyle }}>{children}</Text>
-				</View>
-			</ButtonType>
+			<OSButton
+				activeOpacity={0.6}
+				onPress={onPress}
+				disabled={!!disabled}
+				style={[
+					styles.buttonView,
+					buttonStyle,
+					!!disabled && styles.disabledButton,
+				]}>
+				<Text style={{ ...styles.buttonText, ...textStyle }}>{children}</Text>
+			</OSButton>
 		</View>
 	);
 };
@@ -143,28 +149,17 @@ export const FloatingButton = ({
 				...styles.bottomButtonContainer,
 				...(position ?? styles.bottomButtonContainerDefaultPosition),
 			}}>
-			<ButtonType
+			<OSButton
 				activeOpacity={0.6}
 				onPress={onPress}
 				disabled={disabled}
-				style={
-					{
-						// ...styles.bottomButtonView,
-						// ...(disabled && styles.disabledButton),
-						// ...buttonStyle,
-					}
-				}>
-				<View
-					style={{
-						...styles.bottomButtonView,
-						...(disabled && styles.disabledButton),
-						...buttonStyle,
-					}}>
-					<Text style={{ ...styles.bottomButtonText, ...textStyle }}>
-						{children}
-					</Text>
-				</View>
-			</ButtonType>
+				style={{
+					...styles.bottomButtonView,
+					...(disabled && styles.disabledButton),
+					...buttonStyle,
+				}}>
+				<Text style={{ ...styles.bottomButtonText, ...textStyle }}>{children}</Text>
+			</OSButton>
 		</View>
 	);
 };
@@ -193,10 +188,11 @@ export const ActionButton = ({
 		<View>
 			<View
 				style={[styles.roundButtonContainer, { backgroundColor: buttonColor }]}>
-				<TouchableWithoutFeedback onPressIn={onPressIn} onPressOut={onPressOut}>
-					<View style={[styles.roundButtonContent, { height: size, width: size }]}>
-						<Icon size={size / 2.2} color={textColor} />
-					</View>
+				<TouchableWithoutFeedback
+					onPressIn={onPressIn}
+					onPressOut={onPressOut}
+					style={[styles.roundButtonContent, { height: size, width: size }]}>
+					<Icon size={size / 2.2} color={textColor} />
 				</TouchableWithoutFeedback>
 			</View>
 			<B style={styles.actionButtonLabel}>{label}</B>
@@ -213,19 +209,20 @@ export const RoundButton = ({
 }: RoundButtonPropsType) => {
 	return (
 		<View style={[styles.roundButtonContainer]}>
-			<ButtonType onPress={onPress} onLongPress={onLongPress} useForeground>
-				<View
-					style={[
-						styles.roundButtonContent,
-						{
-							...style,
-							height: size ?? 'auto',
-							width: size ?? 'auto',
-						},
-					]}>
-					{children}
-				</View>
-			</ButtonType>
+			<OSButton
+				useForeground
+				onPress={onPress}
+				onLongPress={onLongPress}
+				style={[
+					styles.roundButtonContent,
+					{
+						...style,
+						height: size ?? 'auto',
+						width: size ?? 'auto',
+					},
+				]}>
+				{children}
+			</OSButton>
 		</View>
 	);
 };

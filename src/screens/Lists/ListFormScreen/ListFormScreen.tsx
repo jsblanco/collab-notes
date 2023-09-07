@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
@@ -15,6 +15,7 @@ import {
 	IconNames,
 	Label,
 	Modal,
+	OSButton,
 	Row,
 } from '@app/ui';
 import { ListIconOptions } from './ListFormScreen.icons';
@@ -83,7 +84,7 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 	);
 
 	const renderIcons = ({ item }: { item: IconNames }) => (
-		<TouchableOpacity
+		<OSButton
 			style={{
 				...styles.iconOptions,
 				...(formState.inputValues.icon === item && {
@@ -99,18 +100,18 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 				color={formState.inputValues.icon === item ? colors.white : colors.black}
 				size={32}
 			/>
-		</TouchableOpacity>
+		</OSButton>
 	);
 
 	return (
 		<Container style={styles.screen}>
 			<Row style={{ alignItems: 'flex-start' }}>
 				<Label style={styles.iconLabel}>Icon</Label>
-				<TouchableOpacity
+				<OSButton
 					style={styles.iconOptions}
 					onPress={() => setIconModalVisible(!iconModalVisible)}>
 					<Ionicons name={formState.inputValues.icon} color={'#000'} size={32} />
-				</TouchableOpacity>
+				</OSButton>
 			</Row>
 			<FormControl
 				label={'Name'}
@@ -162,17 +163,17 @@ const styles = StyleSheet.create({
 		padding: 10,
 		margin: 10,
 		borderRadius: 5,
-		borderWidth:1,
-		borderColor:  colors.grey[4],
+		borderWidth: 1,
+		borderColor: colors.grey[4],
 		backgroundColor: colors.white,
-		shadowColor: "#ccc",
+		shadowColor: '#ccc',
 		shadowOffset: {
-		    width: 0,
-		    height: 2
+			width: 0,
+			height: 2,
 		},
 		shadowOpacity: 0.5,
 		shadowRadius: 4,
-		elevation: 10
+		elevation: 10,
 	},
 	iconLabel: {
 		paddingTop: 15,

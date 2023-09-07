@@ -7,7 +7,8 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 import { store } from './src/store/store';
 import * as Font from 'expo-font';
-import { fonts } from './src/ui';
+import { colors, fonts } from './src/ui';
+import { StatusBar } from 'react-native';
 
 enableScreens();
 const fetchFonts = () =>
@@ -31,6 +32,7 @@ const App = () => {
 	}
 	return (
 		<Provider store={store}>
+			<StatusBar backgroundColor={colors.background} barStyle='dark-content' />
 			<RootNavigation />
 		</Provider>
 	);

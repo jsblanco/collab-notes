@@ -1,5 +1,5 @@
-import React, { useCallback, useRef } from 'react';
-import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useCallback } from 'react';
+import { Alert, StyleSheet } from 'react-native';
 import { ScaleDecorator } from 'react-native-draggable-flatlist';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import SwipeableItem, {
@@ -12,7 +12,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Task } from '@app/models';
 import { ListStackRoutes } from '@app/router/NavigationTypes';
 import { removeListTask, toggleTaskCompletion } from '@app/store';
-import { colors, fonts, H3, Text } from '@app/ui';
+import { colors, fonts, H3, OSButton, Text } from '@app/ui';
 
 export function TaskItem({
 	task,
@@ -53,7 +53,7 @@ export function TaskItem({
 				}
 				snapPointsLeft={[90, 180]}
 				snapPointsRight={[400]}>
-				<TouchableOpacity
+				<OSButton
 					activeOpacity={1}
 					onLongPress={drag}
 					onPress={() => {
@@ -68,7 +68,7 @@ export function TaskItem({
 					}}
 					style={[styles.row, styles.item]}>
 					<H3 style={styles.title}>{task.title}</H3>
-				</TouchableOpacity>
+				</OSButton>
 			</SwipeableItem>
 		</ScaleDecorator>
 	);
@@ -124,16 +124,16 @@ const UnderlayLeft = ({
 
 	return (
 		<Animated.View style={[styles.buttonRow, animStyle]}>
-			<TouchableOpacity
+			<OSButton
 				onPress={onDeleteTask}
 				style={[styles.underlay, styles.redBg, styles.buttonPadding]}>
-				<Text style={styles.text}>{`Delete`}</Text>
-			</TouchableOpacity>
-			<TouchableOpacity
+				<Text style={styles.underlayText}>{`Delete`}</Text>
+			</OSButton>
+			<OSButton
 				style={[styles.underlay, styles.blueBg, styles.buttonPadding]}
 				onPress={onEdit}>
-				<Text style={styles.text}>{`Edit`}</Text>
-			</TouchableOpacity>
+				<Text style={styles.underlayText}>{`Edit`}</Text>
+			</OSButton>
 		</Animated.View>
 	);
 };
@@ -155,9 +155,9 @@ function UnderlayCompletedTask() {
 				start={[0, 0]}
 				end={[1, 0]}>
 				{/* @ts-ignore */}
-				<TouchableOpacity>
-					<Text style={{ ...styles.text, color: 'white' }}>Reactivate</Text>
-				</TouchableOpacity>
+				<OSButton>
+					<Text style={{ ...styles.underlayText, color: 'white' }}>Reactivate</Text>
+				</OSButton>
 			</LinearGradient>
 		</Animated.View>
 	);
@@ -180,9 +180,9 @@ function UnderlayPendingTask() {
 				start={[0, 0]}
 				end={[1, 0]}>
 				{/* @ts-ignore */}
-				<TouchableOpacity>
-					<Text style={{ ...styles.text, color: 'white' }}>Complete</Text>
-				</TouchableOpacity>
+				<OSButton>
+					<Text style={{ ...styles.underlayText, color: 'white' }}>Complete</Text>
+				</OSButton>
 			</LinearGradient>
 		</Animated.View>
 	);
@@ -197,21 +197,20 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		padding: 15,
+		marginBottom:1,
 	},
 	item: {
-		backgroundColor: 'white',
-		borderWidth: 1,
-		borderColor: '#eee',
+		backgroundColor: colors.white,
 		paddingVertical: 20,
-		marginBottom: -1,
 	},
 	buttonRow: {
 		width: '100%',
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
+		marginBottom:1,
 	},
-	text: {
+	underlayText: {
 		fontSize: 16,
 		paddingBottom: 0,
 		fontFamily: fonts.regular,
@@ -223,13 +222,12 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		paddingBottom: 0,
 		fontFamily: fonts.regular,
-		paddingLeft: 5,
+		paddingLeft: 15,
 		width: '100%',
 	},
 	underlay: {
-		flex: 1,
 		height: '100%',
-		maxWidth: 90,
+		width: 90,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
