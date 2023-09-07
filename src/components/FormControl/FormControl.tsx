@@ -123,11 +123,12 @@ const styles = StyleSheet.create({
 	input: {
 		width: '100%',
 		fontSize: 16,
-		lineHeight: 22,
+		lineHeight: 24,
 		fontFamily: fonts.regularBold,
+		textAlignVertical: 'top',
 		backgroundColor: colors.grey[4],
 		padding: 10,
-		paddingTop: 12,
+		paddingTop: 14,
 		borderRadius: 5,
 	},
 	warning: {
