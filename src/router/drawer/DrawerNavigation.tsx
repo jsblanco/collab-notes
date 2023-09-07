@@ -48,25 +48,29 @@ export function DrawerNavigation() {
 				}}
 			/>
 			<Drawer.Group>
-				{lists?.map((list) => (
-					<Drawer.Screen
-						key={list.id}
-						component={ListStack}
-						name={getDrawerListLink(list.id)}
-						initialParams={{
-							screen: ListStackRoutes.ListTasks,
-							params: { listId: list.id },
-						}}
-						options={{
-							headerShown: false,
-							title: list.title,
-							drawerItemStyle: { paddingLeft: 15, paddingRight: -5 },
-							drawerIcon: ({ color, size }) => (
-								<Ionicons name={list.icon} color={color} size={size} />
-							),
-						}}
-					/>
-				))}
+			{lists?.map((list) => (
+				<Drawer.Screen
+					key={list.id}
+					component={ListStack}
+					name={getDrawerListLink(list.id)}
+					initialParams={{
+						screen: ListStackRoutes.ListTasks,
+						params: { listId: list.id },
+					}}
+					options={{
+						headerShown: false,
+						title: list.title,
+						drawerIcon: ({ color, size }) => (
+							<Ionicons
+								name={list.icon}
+								color={color}
+								size={size}
+								style={{ paddingLeft: 15 }}
+							/>
+						),
+					}}
+				/>
+			))}
 			</Drawer.Group>
 			<Drawer.Screen
 				name={DrawerRoutes.NewList}
