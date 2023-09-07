@@ -1,5 +1,10 @@
 import React from 'react';
-import { FlatList, Pressable, StyleSheet, View } from 'react-native';
+import {
+	FlatList,
+	StyleSheet,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import { useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -20,32 +25,26 @@ const ListsHomeScreen = ({ route, navigation }: Props) => {
 
 	const renderLists = ({ item }: { item: List }) => (
 		<View style={styles.listView}>
-			<Pressable
-				style={{
-					width: '100%',
-					flexDirection: 'row',
-					paddingHorizontal: 20,
-				}}
-				onPress={() => {
-					//@ts-ignore
-					navigation.navigate(getDrawerListLink(item.id), {
-						screen: ListStackRoutes.ListTasks,
-						params: {
-							listId: item.id,
-						},
-					});
-				}}>
-				<Row style={styles.titles}>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Ionicons name={item.icon} color={'#000'} size={24} />
-						<H3 noPadding style={{ marginLeft: 10 }}>
-							{item.title}
-						</H3>
-					</View>
+			<Row style={styles.titles}>
+				<TouchableOpacity
+					style={{ flexDirection: 'row', alignItems: 'center' }}
+					onPress={() => {
+						//@ts-ignore
+						navigation.navigate(getDrawerListLink(item.id), {
+							screen: ListStackRoutes.ListTasks,
+							params: {
+								listId: item.id,
+							},
+						});
+					}}>
+					<Ionicons name={item.icon} color={'#000'} size={24} />
+					<H3 noPadding style={{ marginLeft: 10 }}>
+						{item.title}
+					</H3>
+				</TouchableOpacity>
 
-					<CompletionBadge isCompleted={false} />
-				</Row>
-			</Pressable>
+				<CompletionBadge isCompleted={false} />
+			</Row>
 			<TasksFlatlist listId={item.id} tasks={item.pendingTasks} reorderTasks />
 		</View>
 	);
@@ -79,9 +78,10 @@ const styles = StyleSheet.create({
 		paddingTop: 20,
 	},
 	titles: {
+		maxWidth: '100%',
+		paddingHorizontal: 20,
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		// paddingHorizontal: 20,
 		paddingVertical: 5,
 	},
 	header: {
@@ -91,6 +91,5 @@ const styles = StyleSheet.create({
 	},
 	listView: {
 		width: '100%',
-		// paddingBottom: 60,
 	},
 });

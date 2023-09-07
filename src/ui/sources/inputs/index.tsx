@@ -4,8 +4,8 @@ import {
 	Switch as ReactSwitch,
 	TextInput,
 	TextStyle,
+	TouchableHighlight,
 	TouchableNativeFeedback,
-	TouchableOpacity,
 	TouchableWithoutFeedback,
 	View,
 	ViewStyle,
@@ -50,10 +50,17 @@ type HeaderButtonPropsType = PropsWithChildren<{
 	leftButton?: boolean;
 }>;
 
-export const ButtonType: any =
-	Platform.OS === 'android' && Platform.Version >= 21
-		? TouchableNativeFeedback
-		: TouchableOpacity;
+export const ButtonType: any = (props: PropsWithChildren) =>
+	Platform.OS === 'android' && Platform.Version >= 21 ? (
+		<TouchableNativeFeedback {...props}>{props.children}</TouchableNativeFeedback>
+	) : (
+		<TouchableHighlight
+			activeOpacity={0.6}
+			underlayColor={colors.grey[4]}
+			{...props}>
+			{props.children}
+		</TouchableHighlight>
+	);
 
 export const Switch = ({
 	icon,
@@ -140,11 +147,13 @@ export const FloatingButton = ({
 				activeOpacity={0.6}
 				onPress={onPress}
 				disabled={disabled}
-				style={{
-					// ...styles.bottomButtonView,
-					// ...(disabled && styles.disabledButton),
-					// ...buttonStyle,
-				}}>
+				style={
+					{
+						// ...styles.bottomButtonView,
+						// ...(disabled && styles.disabledButton),
+						// ...buttonStyle,
+					}
+				}>
 				<View
 					style={{
 						...styles.bottomButtonView,
