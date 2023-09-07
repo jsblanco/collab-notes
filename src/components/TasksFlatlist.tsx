@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { ReactElement, useCallback, useRef } from 'react';
 import { StyleSheet } from 'react-native';
 import DraggableFlatList, {
 	DragEndParams,
@@ -17,26 +17,18 @@ interface Props {
 	reorderTasks?: boolean;
 }
 
-const TasksFlatlist = ({
-	listId,
-	tasks,
-	reorderTasks: reorderTasks,
-}: Props) => {
+const TasksFlatlist = ({ listId, tasks, reorderTasks }: Props) => {
 	const dispatch = useDispatch();
 	const rowsRefs: React.RefObject<SwipeableItemImperativeRef>[] = [];
-	const itemRefs = useRef(new Map<string, React.RefObject<SwipeableItemImperativeRef>>());
+	const itemRefs = useRef(
+		new Map<string, React.RefObject<SwipeableItemImperativeRef>>()
+	);
 
 	const renderItem = useCallback((params: RenderItemParams<Task>) => {
 		const itemRef = useRef<SwipeableItemImperativeRef>(null);
 		if (typeof params.getIndex() === 'number')
 			rowsRefs[params.getIndex() as number] = itemRef;
-		return (
-			<TaskItem
-				{...params}
-				itemRefs={itemRefs}
-				task={params.item}
-			/>
-		);
+		return <TaskItem {...params} itemRefs={itemRefs} task={params.item} />;
 	}, []);
 
 	const changeTaskOrder = useCallback(
@@ -60,14 +52,12 @@ const TasksFlatlist = ({
 
 	return (
 		<DraggableFlatList
-			containerStyle={{ width: '100%' }}
-			keyExtractor={(item) => item.id}
-			style={{ marginBottom: 50 }}
+			containerStyle={styles.container}
+			keyExtractor={(item, i) => item.id + i}
 			onDragEnd={reorderTasks ? changeTaskOrder : undefined}
 			data={tasks}
 			activationDistance={10}
 			renderItem={renderItem}
-			// ListFooterComponent={<Text>TODO: Add a new  task</Text>}
 		/>
 	);
 };
@@ -75,5 +65,6 @@ const TasksFlatlist = ({
 export default TasksFlatlist;
 
 const styles = StyleSheet.create({
+	container: { width: '100%', flex: 1 },
 	emptyListMessage: { marginTop: 20, marginBottom: 30 },
 });

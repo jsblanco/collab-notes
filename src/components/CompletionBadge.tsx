@@ -3,20 +3,26 @@ import { StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, IconNames } from '@app/ui';
 
-const CompletionBadge = ({ isCompleted }: { isCompleted: boolean }) =>
-	isCompleted ? (
-		<View style={[styles.green, styles.completionBadge]}>
-			<Ionicons
-				name={IconNames.checkmarkCircle}
-				color={colors.white}
-				size={22}
-			/>
-		</View>
-	) : (
-		<View style={[styles.yellow, styles.completionBadge]}>
-			<Ionicons name={IconNames.time} color={colors.white} size={22} />
-		</View>
-	);
+const CompletionBadge = ({
+	completed = false,
+	muted,
+}: {
+	completed?: boolean;
+	muted?: boolean;
+}) => (
+	<View
+		style={[
+			completed ? styles.green : styles.yellow,
+			styles.completionBadge,
+			muted && { backgroundColor: colors.grey[3] },
+		]}>
+		<Ionicons
+			name={completed ? IconNames.checkmarkCircle : IconNames.time}
+			color={colors.white}
+			size={22}
+		/>
+	</View>
+);
 
 export default CompletionBadge;
 
@@ -32,6 +38,6 @@ const styles = StyleSheet.create({
 		paddingLeft: 8,
 		paddingVertical: 5,
 		borderRadius: 10,
-		marginRight: 10,
+		marginHorizontal: 10,
 	},
 });

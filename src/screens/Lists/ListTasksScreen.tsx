@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import { StyleSheet, Switch, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 import { StackScreenProps } from '@react-navigation/stack';
 import CompletionBadge from '@app/components/CompletionBadge';
@@ -7,13 +8,22 @@ import TasksFlatlist from '@app/components/TasksFlatlist';
 import UserAvatar from '@app/components/UserAvatar';
 import { ListStackProps, ListStackRoutes } from '@app/router/NavigationTypes';
 import { RootState } from '@app/store';
-import { B, colors, Container, FloatingButton, H2, Row, Text } from '@app/ui';
+import {
+	B,
+	colors,
+	Container,
+	FloatingButton,
+	H2,
+	H3,
+	Row,
+	Text,
+} from '@app/ui';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListTasks>;
 
 const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 	const { listId } = route.params;
-
+	const [showCompleted, setShowCompleted] = useState<boolean>(false);
 	const error = useSelector((state: RootState) => state.lists.error);
 	const list = useSelector((state: RootState) =>
 		state.lists.lists.find((list) => list.id === listId)
@@ -23,6 +33,11 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 		() => navigation.setOptions({ title: list?.title ?? 'Missing list' }),
 		[]
 	);
+
+	const onCreateTask = () =>
+		navigation.navigate(ListStackRoutes.TaskForm, {
+			listId,
+		});
 
 	// const [isLoading, setIsLoading] = useState(false);
 	// const [isRefreshing, setIsRefreshing] = useState(false);
@@ -53,12 +68,27 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 	// 			</Text>
 	// 		</View>
 	// 	);
+
 	if (!list || error)
 		return (
 			<Container style={styles.screen}>
-				<Text style={styles.error}>{error.message}</Text>
+				<Text style={styles.error}>{error}</Text>
 			</Container>
 		);
+
+	const completedFlatlist = useMemo(
+		() => (
+			<TasksFlatlist listId={list.id} tasks={list.completedTasks} reorderTasks />
+		),
+		[list]
+	);
+
+	const pendingFlatlist = useMemo(
+		() => (
+			<TasksFlatlist listId={list.id} tasks={list.pendingTasks} reorderTasks />
+		),
+		[list.pendingTasks.length]
+	);
 
 	return (
 		<Container style={styles.screen}>
@@ -71,24 +101,28 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 					{list.users.length > 5 && <B noPadding>+{list.users.length}</B>}
 				</View>
 			</Row>
+
 			<Row style={styles.titles}>
-				<H2 noPadding>Pending tasks</H2>
-				<CompletionBadge isCompleted={false} />
+				<TouchableOpacity onPress={() => setShowCompleted(false)}>
+					<Row style={{ alignItems: 'center' }}>
+						<CompletionBadge muted={showCompleted} />
+						<H3 style={showCompleted ? styles.mutedTitle : {}} noPadding>
+							Pending
+						</H3>
+					</Row>
+				</TouchableOpacity>
+
+				<TouchableOpacity onPress={() => setShowCompleted(true)}>
+					<Row style={{ alignItems: 'center' }}>
+						<H3 style={!showCompleted ? styles.mutedTitle : {}} noPadding>
+							Completed
+						</H3>
+						<CompletionBadge completed muted={!showCompleted} />
+					</Row>
+				</TouchableOpacity>
 			</Row>
-			<TasksFlatlist listId={listId} tasks={list.pendingTasks} reorderTasks />
-			<Row style={styles.titles}>
-				<H2 noPadding>Completed tasks</H2>
-				<CompletionBadge isCompleted={true} />
-			</Row>
-			<TasksFlatlist listId={listId} tasks={list.completedTasks} reorderTasks />
-			<FloatingButton
-				onPress={() =>
-					navigation.navigate(ListStackRoutes.TaskForm, {
-						listId,
-					})
-				}>
-				New task
-			</FloatingButton>
+			{showCompleted ? completedFlatlist : pendingFlatlist}
+			<FloatingButton onPress={onCreateTask}>New task</FloatingButton>
 		</Container>
 	);
 };
@@ -99,8 +133,6 @@ const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
 		width: '100%',
-		minHeight: '100%',
-		paddingTop: 20,
 	},
 	error: { color: colors.danger },
 	usersRow: {
@@ -129,19 +161,11 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		paddingHorizontal: 20,
 		paddingVertical: 5,
+		marginBottom: 30,
 	},
-	button: {
-		width: 75,
-		height: '100%',
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: 'green',
+	mutedTitle: {
+		color: colors.grey[3],
 	},
-	buttonText: {
-		padding: 0,
-		color: '#fff',
-	},
-
 	// Draggable flatlist
 	rowItem: {
 		flex: 1,

@@ -26,7 +26,7 @@ function* fetchListsEffect(): Generator<
 		yield put(actions.fetchAllLists.success(lists));
 	} catch (e) {
 		console.error(e);
-		yield put(actions.fetchAllLists.failure(e));
+		yield put(actions.fetchAllLists.failure((e as { message: string }).message));
 	}
 }
 
@@ -42,7 +42,7 @@ function* fetchListEffect({
 		yield put(actions.fetchSingleList.success(list));
 	} catch (e) {
 		console.error(e);
-		yield put(actions.fetchAllLists.failure(e));
+		yield put(actions.fetchAllLists.failure((e as { message: string }).message));
 	}
 }
 
@@ -65,7 +65,7 @@ function* addListEffect({
 		yield put(actions.addList.success(updatedData as List));
 	} catch (e) {
 		console.error(e);
-		yield put(actions.addList.failure(e));
+		yield put(actions.addList.failure((e as { message: string }).message));
 	}
 }
 
@@ -90,7 +90,7 @@ function* addListTaskEffect({
 		yield put(actions.addListTask.success(updatedData as List));
 	} catch (e) {
 		console.error(e);
-		yield put(actions.addListTask.failure(e));
+		yield put(actions.addListTask.failure((e as { message: string }).message));
 	}
 }
 
@@ -110,7 +110,7 @@ function* removeListTaskEffect({
 		yield put(actions.removeListTask.success(list));
 	} catch (e) {
 		console.error(e);
-		yield put(actions.removeListTask.failure(e));
+		yield put(actions.removeListTask.failure((e as { message: string }).message));
 	}
 }
 
@@ -135,7 +135,9 @@ function* toggleTaskCompletionEffect({
 		yield put(actions.toggleTaskCompletion.success(list as List));
 	} catch (e) {
 		console.error(e);
-		yield put(actions.toggleTaskCompletion.failure(e));
+		yield put(
+			actions.toggleTaskCompletion.failure((e as { message: string }).message)
+		);
 	}
 }
 
@@ -153,9 +155,11 @@ function* changeTaskListIndexEffect({
 			payload.taskOrder
 		);
 		yield put(actions.changeTaskListIndex.success(list));
-	} catch (e) {
+	} catch (e: any) {
 		console.error(e);
-		yield put(actions.changeTaskListIndex.failure(e));
+		yield put(
+			actions.changeTaskListIndex.failure((e as { message: string }).message)
+		);
 	}
 }
 

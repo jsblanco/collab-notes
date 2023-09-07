@@ -55,7 +55,7 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 	return (
 		<Container style={styles.screen}>
 			<Row style={styles.titleRow}>
-				<CompletionBadge isCompleted={!!task.isCompleted} />
+				<CompletionBadge completed={!!task.isCompleted} />
 				<H1 style={styles.title} noPadding>
 					{task.title}
 				</H1>

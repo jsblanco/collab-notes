@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-	FlatList,
-	StyleSheet,
-	TouchableOpacity,
-	View,
-} from 'react-native';
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -42,8 +37,7 @@ const ListsHomeScreen = ({ route, navigation }: Props) => {
 						{item.title}
 					</H3>
 				</TouchableOpacity>
-
-				<CompletionBadge isCompleted={false} />
+				<CompletionBadge completed={false} />
 			</Row>
 			<TasksFlatlist listId={item.id} tasks={item.pendingTasks} reorderTasks />
 		</View>
@@ -91,5 +85,6 @@ const styles = StyleSheet.create({
 	},
 	listView: {
 		width: '100%',
+		marginBottom: 50,
 	},
 });
