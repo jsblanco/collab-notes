@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import { TextStyle, Text as ReactText } from 'react-native';
+import { Text as ReactText, TextStyle } from 'react-native';
 import styles from './Text.styles';
 
 type TextPropTypes = PropsWithChildren<{
@@ -7,61 +7,62 @@ type TextPropTypes = PropsWithChildren<{
 	style?: TextStyle;
 	center?: boolean;
 	noPadding?: boolean;
+	selectable?: boolean;
 }>;
 
-export const Text = (props: TextPropTypes) => {
+export const Text = ({ style, selectable = true, ...props }: TextPropTypes) => {
 	return (
 		<ReactText
 			{...props}
+			selectable={selectable}
 			style={{
 				...styles.P,
 				textAlign: props.center ? 'center' : 'auto',
 				paddingBottom: props.noPadding ? 0 : 8,
-				...props.style,
-			}}
-		>
+				...style,
+			}}>
 			{props.children}
 		</ReactText>
 	);
 };
 
-export const B = (props: TextPropTypes) => (
-	<Text {...props} style={{ ...styles.B, ...props.style }}>
+export const B = ({ style, ...props }: TextPropTypes) => (
+	<Text {...props} style={{ ...styles.B, ...style }}>
 		{props.children}
 	</Text>
 );
-export const H1 = (props: TextPropTypes) => (
-	<Text {...props} style={{ ...styles.H1, ...props.style }}>
+export const H1 = ({ style, ...props }: TextPropTypes) => (
+	<Text {...props} style={{ ...styles.H1, ...style }}>
 		{props.children}
 	</Text>
 );
-export const H2 = (props: TextPropTypes) => (
-	<Text {...props} style={{ ...styles.H2, ...props.style }}>
+export const H2 = ({ style, ...props }: TextPropTypes) => (
+	<Text {...props} style={{ ...styles.H2, ...style }}>
 		{props.children}
 	</Text>
 );
-export const H3 = (props: TextPropTypes) => (
-	<Text {...props} style={{ ...styles.H3, ...props.style }}>
+export const H3 = ({ style, ...props }: TextPropTypes) => (
+	<Text {...props} style={{ ...styles.H3, ...style }}>
 		{props.children}
 	</Text>
 );
-export const H4 = (props: TextPropTypes) => (
-	<Text {...props} style={{ ...styles.H4, ...props.style }}>
+export const H4 = ({ style, ...props }: TextPropTypes) => (
+	<Text {...props} style={{ ...styles.H4, ...style }}>
 		{props.children}
 	</Text>
 );
-export const Label = (props: TextPropTypes) => (
-	<H3 {...props} style={{ ...styles.label, ...props.style }}>
+export const Label = ({ style, ...props }: TextPropTypes) => (
+	<H3 {...props} style={{ ...styles.label, ...style }}>
 		{props.children}
 	</H3>
 );
-export const Error = (props: TextPropTypes) => (
-	<Text {...props} style={{ ...styles.Error, ...props.style }}>
+export const Error = ({ style, ...props }: TextPropTypes) => (
+	<Text {...props} style={{ ...styles.Error, ...style }}>
 		{props.children}
 	</Text>
 );
-export const Placeholder = (props: TextPropTypes) => (
-	<Text {...props} style={{ ...styles.Placeholder, ...props.style }}>
+export const Placeholder = ({ style, ...props }: TextPropTypes) => (
+	<Text {...props} style={{ ...styles.Placeholder, ...style }}>
 		{props.children}
 	</Text>
 );
