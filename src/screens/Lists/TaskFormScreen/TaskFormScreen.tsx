@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useReducer } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { StackScreenProps } from '@react-navigation/stack';
 import FormControl from '@app/components/FormControl/FormControl';
+import ImageSelector from '@app/components/ImageSelector/ImageSelector';
 import { ListStackProps, ListStackRoutes } from '@app/router/NavigationTypes';
 import { addListTask, RootState } from '@app/store';
 import { Container, FloatingButton } from '@app/ui';
@@ -23,9 +24,11 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 	const initialFormState = {
 		inputValues: {
 			title: task?.title ?? '',
+			images: [],
 			description: task?.description ?? '',
 		},
 		inputValidities: {
+			images: true,
 			title: !!task,
 			description: !!task,
 		},
@@ -70,6 +73,18 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 		[formDispatch]
 	);
 
+	const arrayInputHandler = useCallback(
+		(key: string, value: string[] = [], isValid: boolean) => {
+			formDispatch({
+				type: Actions.FORM_ARRAY_UPDATE,
+				value: value,
+				isValid: isValid,
+				input: key,
+			});
+		},
+		[formDispatch]
+	);
+
 	// const onReset = useCallback(() => {
 	// 	formDispatch({
 	// 		type: Actions.FORM_RESET,
@@ -79,28 +94,37 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	return (
 		<Container style={styles.screen}>
-			<FormControl
-				label={'Name'}
-				value={formState.inputValues.title}
-				isValid={formState.inputValidities.title}
-				inputName={'title'}
-				placeholder={'Task name'}
-				inputHandler={inputHandler}
-				minLength={3}
-				maxLength={30}
-				required
-			/>
-			<FormControl
-				label={'Description'}
-				inputName={'description'}
-				placeholder={'Task description'}
-				value={formState.inputValues.description}
-				isValid={formState.inputValidities.description}
-				inputHandler={inputHandler}
-				numberOfLines={4}
-				maxLength={300}
-				multiline
-				required
+			<View style={styles.formControl}>
+				<FormControl
+					label={'Name'}
+					value={formState.inputValues.title}
+					isValid={formState.inputValidities.title}
+					inputName={'title'}
+					placeholder={'Task name'}
+					inputHandler={inputHandler}
+					minLength={3}
+					maxLength={30}
+					required
+				/>
+				<FormControl
+					label={'Description'}
+					inputName={'description'}
+					placeholder={'Task description'}
+					value={formState.inputValues.description}
+					isValid={formState.inputValidities.description}
+					inputHandler={inputHandler}
+					numberOfLines={4}
+					maxLength={300}
+					multiline
+					required
+				/>
+			</View>
+			<ImageSelector
+				label={'Image'}
+				inputName={'images'}
+				value={formState.inputValues.images}
+				isValid={formState.inputValidities.images}
+				inputHandler={arrayInputHandler}
 			/>
 			<FloatingButton disabled={!formState.formIsValid} onPress={onSubmit}>
 				{task ? 'Update task' : 'Create new task'}
@@ -116,6 +140,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 		width: '100%',
 		position: 'relative',
-		padding: 20,
+		// padding: 20,
+	},
+	formControl: {
+		width: '100%',
+		paddingHorizontal: 20,
 	},
 });

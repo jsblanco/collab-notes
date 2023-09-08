@@ -11,7 +11,7 @@ import {
 	View,
 	ViewStyle,
 } from 'react-native';
-import { colors } from '../constants/constants';
+import { colors, shadow } from '../constants/constants';
 import { SvgPropsType } from '../icons';
 import { B, Text } from '../text';
 import styles from './Inputs.styles';
@@ -136,7 +136,7 @@ export const Button = ({
 };
 
 export const FloatingButton = ({
-	position,
+	position = {},
 	onPress,
 	buttonStyle,
 	textStyle,
@@ -146,20 +146,25 @@ export const FloatingButton = ({
 	return (
 		<View
 			style={{
-				...styles.bottomButtonContainer,
-				...(position ?? styles.bottomButtonContainerDefaultPosition),
+				...shadow,
+				...styles.bottomButtonContainerDefaultPosition,
+				...position,
 			}}>
-			<OSButton
-				activeOpacity={0.6}
-				onPress={onPress}
-				disabled={disabled}
-				style={{
-					...styles.bottomButtonView,
-					...(disabled && styles.disabledButton),
-					...buttonStyle,
-				}}>
-				<Text style={{ ...styles.bottomButtonText, ...textStyle }}>{children}</Text>
-			</OSButton>
+			<View style={styles.bottomButtonContainer}>
+				<OSButton
+					activeOpacity={0.6}
+					onPress={onPress}
+					disabled={disabled}
+					style={{
+						...styles.bottomButtonView,
+						...(disabled && styles.disabledButton),
+						...buttonStyle,
+					}}>
+					<Text style={{ ...styles.bottomButtonText, ...textStyle }}>
+						{children}
+					</Text>
+				</OSButton>
+			</View>
 		</View>
 	);
 };

@@ -50,8 +50,11 @@ export const aspectRatio = width / 374;
 
 export const shadow = {
 	shadowColor: '#000',
-	shadowOffset: { width: 2, height: 3 },
 	shadowOpacity: 0.25,
-	shadowRadius: 4,
+	shadowRadius: 3.84,
 	elevation: 5,
+	shadowOffset: {
+		width: 0,
+		height: 2,
+	},
 };

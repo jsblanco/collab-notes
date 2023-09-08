@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, fonts } from '../constants/constants';
+import { colors, fonts, shadow } from '../constants/constants';
 
 export default StyleSheet.create({
 	filterPairing: {
@@ -34,16 +34,12 @@ export default StyleSheet.create({
 		textAlign: 'center',
 	},
 	bottomButtonContainer: {
-		borderRadius: 50,
 		overflow: 'hidden',
-		position: 'absolute',
-		zIndex: 99,
-		borderWidth: 1,
-		borderBottomWidth: 3,
-		borderTopWidth: 0,
-		borderColor: '#dedede',
+		borderRadius: 50,
 	},
 	bottomButtonContainerDefaultPosition: {
+		position: 'absolute',
+		zIndex: 99,
 		bottom: 35,
 		right: 25,
 	},

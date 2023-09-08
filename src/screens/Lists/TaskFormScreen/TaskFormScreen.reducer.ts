@@ -4,10 +4,12 @@ type ReducerStateType = {
 	inputValues: {
 		title: string;
 		description: string;
+		images: string[];
 	};
 	inputValidities: {
 		title: boolean;
 		description: boolean;
+		images: boolean;
 	};
 	formIsValid: boolean;
 };
@@ -21,11 +23,18 @@ type ActionsType =
 			type: Actions.FORM_UPDATE;
 			value?: string;
 			isValid?: boolean;
-			input?: string;
+			input: string;
+	  }
+	| {
+			type: Actions.FORM_ARRAY_UPDATE;
+			value?: string[];
+			isValid?: boolean;
+			input: string;
 	  };
 
 export enum Actions {
 	FORM_UPDATE = 'FORM_UPDATE',
+	FORM_ARRAY_UPDATE = 'FORM_ARRAY_UPDATE',
 	FORM_RESET = 'FORM_RESET',
 }
 
@@ -37,6 +46,7 @@ export const formReducer: Reducer<ReducerStateType, ActionsType> = (
 	let updatedFormIsValid = true;
 	switch (a.type) {
 		case Actions.FORM_UPDATE:
+		case Actions.FORM_ARRAY_UPDATE:
 			if (!a.input) return { ...state };
 			updatedValues = {
 				...state.inputValues,
