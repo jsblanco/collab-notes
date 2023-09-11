@@ -19,9 +19,8 @@ import {
 	Text,
 } from '@app/ui';
 import {
-	ADD_PICTURE,
+	ImageSelectorActions,
 	imageSelectorReducer,
-	REMOVE_PICTURE,
 } from './ImageSelector.reducer';
 
 type ImageSelectorPropsType = {
@@ -77,7 +76,10 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 				},
 			]);
 
-			dispatch({ type: ADD_PICTURE, value: result.assets[0].uri });
+			dispatch({
+				type: ImageSelectorActions.ADD_PICTURE,
+				value: result.assets[0].uri,
+			});
 		},
 		[ImagePicker, dispatch]
 	);
@@ -112,7 +114,7 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 
 	const removePicture = (id: string) => {
 		setPreviews((previews) => previews.filter((preview) => preview.id !== id));
-		dispatch({ type: REMOVE_PICTURE, value: id });
+		dispatch({ type: ImageSelectorActions.REMOVE_PICTURE, value: id });
 	};
 
 	useEffect(() => {
@@ -121,7 +123,7 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 
 	useEffect(() => {
 		if (state.value.length > 0 && value.length === 0) {
-			dispatch({ type: 'FORM_RESET' });
+			dispatch({ type: ImageSelectorActions.FORM_RESET });
 			setPreviews([]);
 		}
 	}, [value]);
@@ -140,7 +142,9 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 							<View style={shadow}>
 								<OSButton style={styles.imagePreview} onPress={chooseImageOrigin}>
 									<Ionicons name={IconNames.image} color={colors.grey[3]} size={26} />
-									<Text noPadding style={styles.imagePreviewTitle}>{label}</Text>
+									<Text noPadding style={styles.imagePreviewTitle}>
+										{label}
+									</Text>
 								</OSButton>
 							</View>
 						)}
@@ -206,7 +210,7 @@ const styles = StyleSheet.create({
 	imagePreviewTitle: {
 		padding: 5,
 		textAlign: 'center',
-		color: colors.grey[3]
+		color: colors.grey[3],
 	},
 	deleteButton: {
 		backgroundColor: colors.white,
