@@ -5,23 +5,24 @@ import React, {
 	useReducer,
 	useState,
 } from 'react';
-import {
-	Dimensions,
-	FlatList,
-	StyleSheet,
-	TouchableOpacity,
-	View,
-} from 'react-native';
+import { Dimensions, FlatList, Image, StyleSheet, View } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import { Error, IconNames, Icons, OSButton, shadow, Text } from '@app/ui';
+import {
+	colors,
+	Error,
+	FloatingButton,
+	IconNames,
+	OSButton,
+	shadow,
+	Text,
+} from '@app/ui';
 import {
 	ADD_PICTURE,
 	imageSelectorReducer,
 	REMOVE_PICTURE,
 } from './ImageSelector.reducer';
-import SelectedImagePreview from './SelectedImagePreview';
 
 type ImageSelectorPropsType = {
 	label: string | ReactNode;
@@ -64,7 +65,6 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 				quality: 0.6,
 			});
 			if (result.canceled) return;
-			console.log(result);
 
 			if (!result) return setError('Could not upload your image');
 
@@ -87,8 +87,8 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 			{
 				options: ['Camera', 'Gallery', 'Cancel'],
 				icons: [
-					<Ionicons name={IconNames.camera} color={'#000'} size={20} />,
-					<Ionicons name={IconNames.images} color={'#000'} size={20} />,
+					<Ionicons name={IconNames.camera} color={colors.black} size={20} />,
+					<Ionicons name={IconNames.images} color={colors.black} size={20} />,
 				],
 				cancelButtonIndex: 2,
 			},
@@ -134,12 +134,13 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 				horizontal={true}
 				renderItem={renderItem}
 				keyExtractor={(value) => value.id}
-				ListFooterComponent={
+				ListHeaderComponent={
 					<>
 						{value.length < 4 && (
 							<View style={shadow}>
 								<OSButton style={styles.imagePreview} onPress={chooseImageOrigin}>
-									<Text style={styles.imagePreviewTitle}>{label}</Text>
+									<Ionicons name={IconNames.image} color={colors.grey[3]} size={26} />
+									<Text noPadding style={styles.imagePreviewTitle}>{label}</Text>
 								</OSButton>
 							</View>
 						)}
@@ -153,6 +154,32 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 
 export default ImageSelector;
 
+const SelectedImagePreview = ({
+	item,
+	removePicture,
+}: {
+	item: ImagePreviewType;
+	removePicture: () => void;
+}) => {
+	return (
+		<View style={shadow}>
+			<View style={styles.imagePreview}>
+				<FloatingButton
+					buttonStyle={styles.deleteButton}
+					onPress={removePicture}
+					position={{ top: 5, right: 5 }}>
+					{/* <RoundButton size={20} onPress={removePicture}> */}
+					<Ionicons size={16} color={colors.grey[3]} name={IconNames.close} />
+					{/* </RoundButton> */}
+				</FloatingButton>
+				{!!item.preview && (
+					<Image style={styles.image} source={{ uri: item.preview }} />
+				)}
+			</View>
+		</View>
+	);
+};
+
 const styles = StyleSheet.create({
 	screen: {
 		width: '100%',
@@ -164,6 +191,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 	},
 	imagePreview: {
+		...shadow,
 		borderRadius: 10,
 		marginHorizontal: 5,
 		marginBottom: 20,
@@ -172,11 +200,22 @@ const styles = StyleSheet.create({
 		position: 'relative',
 		justifyContent: 'center',
 		backgroundColor: 'white',
-		width: Dimensions.get('window').width * 0.192,
+		width: Dimensions.get('window').width * ((0.192 / 3) * 4),
 		height: Dimensions.get('window').width * ((0.192 / 3) * 4),
 	},
 	imagePreviewTitle: {
 		padding: 5,
 		textAlign: 'center',
+		color: colors.grey[3]
+	},
+	deleteButton: {
+		backgroundColor: colors.white,
+		padding: 0,
+		opacity: 0.9,
+		...shadow,
+	},
+	image: {
+		width: '100%',
+		height: '100%',
 	},
 });

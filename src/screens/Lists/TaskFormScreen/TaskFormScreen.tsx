@@ -120,7 +120,7 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 				/>
 			</View>
 			<ImageSelector
-				label={'Image'}
+				label={'Add image'}
 				inputName={'images'}
 				value={formState.inputValues.images}
 				isValid={formState.inputValidities.images}
