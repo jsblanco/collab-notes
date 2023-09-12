@@ -85,4 +85,10 @@ export default StyleSheet.create({
 		paddingTop: 8,
 		textAlign: 'center',
 	},
+	closeButton: {
+		backgroundColor: colors.white,
+		padding: 0,
+		opacity: 0.9,
+		...shadow,
+	},
 });

@@ -9,10 +9,11 @@ import { Dimensions, FlatList, Image, StyleSheet, View } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import { uploadImage } from '@app/store/lists/lists.queries';
 import {
+	CloseButton,
 	colors,
 	Error,
-	FloatingButton,
 	IconNames,
 	OSButton,
 	shadow,
@@ -48,37 +49,43 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 		isTouched: false,
 	});
 
+	useEffect(() => {
+		inputHandler(inputName, state.value, state.isValid);
+	}, [inputHandler, state, value]);
+
+	useEffect(() => {
+		if (state.value.length > 0 && value.length === 0) {
+			dispatch({ type: ImageSelectorActions.FORM_RESET });
+			setPreviews([]);
+		}
+	}, [value]);
+
 	const getImageHandler = useCallback(
 		async (origin: 'launchCameraAsync' | 'launchImageLibraryAsync') => {
 			setError('');
-			if (origin === ImageSources.CAMERA) {
-				let permissions = ImagePicker.getCameraPermissionsAsync();
-				if (!permissions) permissions = ImagePicker.requestCameraPermissionsAsync();
-				if (!permissions) return;
-			}
+			if (
+				origin === ImageSources.CAMERA &&
+				(!ImagePicker.getCameraPermissionsAsync() ||
+					!ImagePicker.requestCameraPermissionsAsync())
+			)
+				return;
 
 			const result = await ImagePicker[origin]({
-				// const result = await ImagePicker[origin]({
 				allowsEditing: true,
 				aspect: [3, 4],
 				quality: 0.6,
 			});
 			if (result.canceled) return;
 
-			if (!result) return setError('Could not upload your image');
+			const uploadedImage = uploadImage(result.assets[0]);
+			if (!uploadedImage) return setError('Could not upload your image');
 
 			// update with data fetched from backend after real BE is developed
-			setPreviews((previews) => [
-				...previews,
-				{
-					id: result.assets[0].uri,
-					preview: result.assets[0].uri,
-				},
-			]);
+			setPreviews((previews) => [uploadedImage, ...previews]);
 
 			dispatch({
 				type: ImageSelectorActions.ADD_PICTURE,
-				value: result.assets[0].uri,
+				value: uploadedImage.preview,
 			});
 		},
 		[ImagePicker, dispatch]
@@ -116,17 +123,6 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 		setPreviews((previews) => previews.filter((preview) => preview.id !== id));
 		dispatch({ type: ImageSelectorActions.REMOVE_PICTURE, value: id });
 	};
-
-	useEffect(() => {
-		inputHandler(inputName, state.value, state.isValid);
-	}, [inputHandler, state, value]);
-
-	useEffect(() => {
-		if (state.value.length > 0 && value.length === 0) {
-			dispatch({ type: ImageSelectorActions.FORM_RESET });
-			setPreviews([]);
-		}
-	}, [value]);
 
 	return (
 		<View style={styles.screen}>
@@ -168,14 +164,7 @@ const SelectedImagePreview = ({
 	return (
 		<View style={shadow}>
 			<View style={styles.imagePreview}>
-				<FloatingButton
-					buttonStyle={styles.deleteButton}
-					onPress={removePicture}
-					position={{ top: 5, right: 5 }}>
-					{/* <RoundButton size={20} onPress={removePicture}> */}
-					<Ionicons size={16} color={colors.grey[3]} name={IconNames.close} />
-					{/* </RoundButton> */}
-				</FloatingButton>
+				<CloseButton onRequestClose={removePicture} />
 				{!!item.preview && (
 					<Image style={styles.image} source={{ uri: item.preview }} />
 				)}
@@ -211,12 +200,6 @@ const styles = StyleSheet.create({
 		padding: 5,
 		textAlign: 'center',
 		color: colors.grey[3],
-	},
-	deleteButton: {
-		backgroundColor: colors.white,
-		padding: 0,
-		opacity: 0.9,
-		...shadow,
 	},
 	image: {
 		width: '100%',

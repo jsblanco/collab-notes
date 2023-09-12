@@ -11,6 +11,8 @@ import {
 	View,
 	ViewStyle,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { IconNames } from '../constants';
 import { colors, shadow } from '../constants/constants';
 import { SvgPropsType } from '../icons';
 import { B, Text } from '../text';
@@ -50,6 +52,12 @@ type HeaderButtonPropsType = PropsWithChildren<{
 	style?: ViewStyle;
 	leftButton?: boolean;
 }>;
+type CloseButtonProps = {
+	onRequestClose: () => void;
+	top?: number;
+	right?: number;
+	size?: number;
+};
 
 export const OSButton: any = (
 	props: PropsWithChildren<{ style: StyleProp<ViewStyle> }>
@@ -246,4 +254,18 @@ export const Input = (props: InputProps) => (
 		placeholder={props.placeholder}
 		onSubmitEditing={(event) => props.onSubmitEditing(event.nativeEvent.text)}
 	/>
+);
+
+export const CloseButton = ({
+	onRequestClose,
+	top = 5,
+	right = 5,
+	size = 20,
+}: CloseButtonProps) => (
+	<FloatingButton
+		buttonStyle={styles.closeButton}
+		onPress={onRequestClose}
+		position={{ top, right }}>
+		<Ionicons size={size} color={colors.grey[3]} name={IconNames.close} />
+	</FloatingButton>
 );

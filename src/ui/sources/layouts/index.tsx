@@ -1,10 +1,14 @@
 import React, { PropsWithChildren } from 'react';
 import {
+	Platform,
 	Modal as ReactModal,
 	TouchableOpacity,
 	View,
 	ViewStyle,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { colors, IconNames } from '../constants';
+import { CloseButton, FloatingButton } from '../inputs';
 import styles from './Layout.styles';
 
 type ContainerType = PropsWithChildren<{
@@ -46,6 +50,14 @@ export const Modal = ({
 			onRequestClose={onRequestClose}
 			presentationStyle="pageSheet"
 			style={[styles.modalView, style]}>
+			{Platform.OS === 'android' && (
+				<CloseButton
+					top={20}
+					size={32}
+					right={10}
+					onRequestClose={onRequestClose}
+				/>
+			)}
 			{children}
 		</ReactModal>
 	);
