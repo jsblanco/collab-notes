@@ -50,6 +50,23 @@ export const DummyTasks: Task[] = [
 		title: 'Tomates',
 		description: 'Canarios o de ensalada',
 		isCompleted: false,
+		images: [
+			{
+				preview:
+					'https://pbs.twimg.com/profile_images/649256113783836672/r30IvLdn_400x400.jpg',
+				id: 'https://pbs.twimg.com/profile_images/649256113783836672/r30IvLdn_400x400.jpg',
+			},
+			{
+				preview:
+					'https://static.diariosur.es/www/multimedia/201803/08/media/cortadas/122427314--624x492.jpg',
+				id: 'https://static.diariosur.es/www/multimedia/201803/08/media/cortadas/122427314--624x492.jpg',
+			},
+			{
+				preview:
+					'https://frutasolivar.com/wp-content/uploads/2019/01/el-tomote-es-una-fruta2-e1579691212614.jpg',
+				id: 'https://frutasolivar.com/wp-content/uploads/2019/01/el-tomote-es-una-fruta2-e1579691212614.jpg',
+			},
+		],
 		history: [
 			createFakeTaskToggleEvent('a', false, 3),
 			createFakeTaskToggleEvent('c', true, 8),
@@ -63,6 +80,13 @@ export const DummyTasks: Task[] = [
 		title: 'Cebollas',
 		description: 'Una malla llena',
 		isCompleted: false,
+		images: [
+			{
+				preview:
+					'https://www.jiomart.com/images/product/original/590001744/onion-5-kg-pack-product-images-o590001744-p590001744-0-202203170154.jpg?im=Resize=(420,420)',
+				id: 'https://www.jiomart.com/images/product/original/590001744/onion-5-kg-pack-product-images-o590001744-p590001744-0-202203170154.jpg?im=Resize=(420,420)',
+			},
+		],
 		history: [
 			createFakeTaskToggleEvent('a', false, 2),
 			createFakeTaskToggleEvent('d', true, 4),
@@ -76,6 +100,7 @@ export const DummyTasks: Task[] = [
 		title: 'Lechuga',
 		description: 'Mientras no sea iceberg...',
 		isCompleted: false,
+		images: [],
 		history: [
 			createFakeTaskToggleEvent('b', false, 5),
 			createFakeTaskToggleEvent('c', true, 9),
@@ -87,6 +112,7 @@ export const DummyTasks: Task[] = [
 		title: 'Pimiento verde',
 		description: 'De cocinar, no italiano',
 		isCompleted: true,
+		images: [],
 		history: [
 			createFakeTaskToggleEvent('b', true, 1),
 			createFakeTaskToggleEvent('d', false, 3),
@@ -101,6 +127,13 @@ export const DummyTasks: Task[] = [
 		title: 'Pimiento rojo',
 		description: 'De cocinar, no de freir',
 		isCompleted: false,
+		images: [
+			{
+				preview:
+					'https://images.immediate.co.uk/production/volatile/sites/30/2020/02/Red-peppers-afa27f8.jpg',
+				id: 'https://images.immediate.co.uk/production/volatile/sites/30/2020/02/Red-peppers-afa27f8.jpg',
+			},
+		],
 		history: [
 			createFakeTaskToggleEvent('b', false, 2),
 			createFakeTaskToggleEvent('c', true, 6),
@@ -114,6 +147,28 @@ export const DummyTasks: Task[] = [
 		title: 'Patatas fritas',
 		description: 'Las normales al punto de sal',
 		isCompleted: true,
+		images: [
+			{
+				preview:
+					'https://www.lacasadelasgolosinas.com/6998-thickbox_default/lay-s-al-punto-de-sal-bolsita-44gr.jpg',
+				id: 'https://www.lacasadelasgolosinas.com/6998-thickbox_default/lay-s-al-punto-de-sal-bolsita-44gr.jpg',
+			},
+			{
+				preview:
+					'https://comerciovending.com/8407-large_default/ruffles-jamon-hosteleria.jpg',
+				id: 'https://comerciovending.com/8407-large_default/ruffles-jamon-hosteleria.jpg',
+			},
+			{
+				preview:
+					'https://olefoodmarket.com/cdn/shop/products/09-Patatas-fritas-crujientes-a-la-sarte-n-Hacendado.jpg?v=1636545393',
+				id: 'https://olefoodmarket.com/cdn/shop/products/09-Patatas-fritas-crujientes-a-la-sarte-n-Hacendado.jpg?v=1636545393',
+			},
+			{
+				preview:
+					'https://prod-mercadona.imgix.net/images/70287f1c1d5f4d75c76a0edd4063fa7c.jpg?fit=crop&h=1300&w=1300',
+				id: 'https://prod-mercadona.imgix.net/images/70287f1c1d5f4d75c76a0edd4063fa7c.jpg?fit=crop&h=1300&w=1300',
+			},
+		],
 		history: [
 			createFakeTaskToggleEvent('a', true, 1),
 			createFakeTaskToggleEvent('d', false, 3),
@@ -126,6 +181,13 @@ export const DummyTasks: Task[] = [
 		title: 'Hacer la colada',
 		description: 'Lavadora de blancos y de colores',
 		isCompleted: false,
+		images: [
+			{
+				preview:
+					'https://www.ikea.com/es/es/images/products/tvattad-lavadora-secadora-integrada-blanco__1149203_pe883901_s5.jpg?f=s',
+				id: 'https://www.ikea.com/es/es/images/products/tvattad-lavadora-secadora-integrada-blanco__1149203_pe883901_s5.jpg?f=s',
+			},
+		],
 		history: [
 			createFakeTaskToggleEvent('a', false, 7),
 			createFakeTaskToggleEvent('a', true, 9),
@@ -137,6 +199,7 @@ export const DummyTasks: Task[] = [
 		title: 'Sacar al perro',
 		description: 'Tres veces al día',
 		isCompleted: false,
+		images: [],
 		history: [
 			createFakeTaskToggleEvent('a', false, 1),
 			createFakeTaskToggleEvent('a', true, 2),
@@ -150,6 +213,18 @@ export const DummyTasks: Task[] = [
 		title: 'Pasar la aspiradora',
 		description: '',
 		isCompleted: true,
+		images: [
+			{
+				preview:
+					'https://t2.uc.ltmcdn.com/es/posts/5/5/4/como_escoger_una_aspiradora_17455_orig.jpg',
+				id: 'https://t2.uc.ltmcdn.com/es/posts/5/5/4/como_escoger_una_aspiradora_17455_orig.jpg',
+			},
+			{
+				preview:
+					'https://images.hola.com/imagenes/decoracion/20200806172524/aspirador-como-elegir-mejor-limpiar-casa-mc/0-849-609/elegir-aspirador-m.jpg?tx=w_680',
+				id: 'https://images.hola.com/imagenes/decoracion/20200806172524/aspirador-como-elegir-mejor-limpiar-casa-mc/0-849-609/elegir-aspirador-m.jpg?tx=w_680',
+			},
+		],
 		history: [
 			createFakeTaskToggleEvent('a', true, 2),
 			createFakeTaskToggleEvent('a', false, 7),

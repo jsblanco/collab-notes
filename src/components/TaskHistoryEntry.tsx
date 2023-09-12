@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
 	entry: {
 		paddingVertical: 10,
 		paddingRight: 30,
+		marginHorizontal: 20,
 	},
 	textView: {
 		paddingLeft: 10,

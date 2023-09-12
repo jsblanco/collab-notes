@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { StackScreenProps } from '@react-navigation/stack';
 import CompletionBadge from '@app/components/CompletionBadge';
+import ImageGallery from '@app/components/ImageGallery';
 import TaskHistoryEntry from '@app/components/TaskHistoryEntry';
 import { List, TaskToggleEvent } from '@app/models';
 import { ListStackProps, ListStackRoutes } from '@app/router/NavigationTypes';
@@ -53,32 +54,39 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 	}, [task]);
 
 	return (
-		<Container style={styles.screen}>
-			<Row style={styles.titleRow}>
-				<CompletionBadge completed={!!task.isCompleted} />
-				<H1 style={styles.title} noPadding>
-					{task.title}
-				</H1>
-			</Row>
-			<View style={[styles.section]}>
-				<View style={[styles.section, styles.description]}>
-					<Text>{task.description}</Text>
-				</View>
-				<View style={[styles.section]}>
-					{task.isCompleted ? (
-						<Button buttonStyle={styles.yellowText} onPress={onToggleTask}>
-							Mark as pending
-						</Button>
-					) : (
-						<Button buttonStyle={styles.greenText} onPress={onToggleTask}>
-							Mark as completed
-						</Button>
-					)}
-				</View>
-			</View>
+		<Container>
+			<FlatList
+				data={task.history}
+				style={styles.screen}
+				renderItem={renderTaskHistoryItem}
+				ListHeaderComponent={
+					<>
+						<Row style={styles.titleRow}>
+							<CompletionBadge completed={!!task.isCompleted} />
+							<H1 style={styles.title} noPadding>
+								{task.title}
+							</H1>
+						</Row>
 
-			<H3>Task history</H3>
-			<FlatList data={task.history} renderItem={renderTaskHistoryItem} />
+						<View style={[styles.section, styles.description]}>
+							<Text>{task.description}</Text>
+						</View>
+						{task.images.length > 0 && <ImageGallery images={task.images} />}
+						<View style={[styles.section]}>
+							{task.isCompleted ? (
+								<Button buttonStyle={styles.yellowText} onPress={onToggleTask}>
+									Mark as pending
+								</Button>
+							) : (
+								<Button buttonStyle={styles.greenText} onPress={onToggleTask}>
+									Mark as completed
+								</Button>
+							)}
+						</View>
+						<H3 style={{ paddingHorizontal: 20 }}>Task history</H3>
+					</>
+				}
+			/>
 		</Container>
 	);
 };
@@ -89,11 +97,11 @@ const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
 		width: '100%',
-		alignItems: 'flex-start',
-		padding: 20,
+		paddingTop: 20,
 	},
 	titleRow: {
 		marginBottom: 32,
+		marginHorizontal: 10,
 		alignItems: 'center',
 	},
 	title: {
@@ -103,12 +111,12 @@ const styles = StyleSheet.create({
 	},
 	section: {
 		marginBottom: 30,
-		width: '100%',
+		marginHorizontal: 20,
 	},
+
 	description: {
 		padding: 20,
 		paddingBottom: 25,
-		width: '100%',
 		backgroundColor: colors.grey[5],
 		borderRadius: 10,
 		alignContent: 'flex-start',

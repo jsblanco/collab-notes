@@ -1,6 +1,6 @@
 import { ImagePickerAsset, ImagePickerResult } from 'expo-image-picker';
-import { ImagePreviewType } from '@app/components/ImageSelector/ImageSelector';
 import { DbList, List, Task, User } from '@app/models';
+import { DbImage } from '@app/models/DbImage.models';
 import { IconNames } from '@app/ui';
 import { DummyLists, DummyTasks, DummyUsers } from '../../../data/DummyData';
 
@@ -45,6 +45,7 @@ export const addList = (payload: {
 		list.id,
 		{
 			id: '',
+			images: [],
 			history: [],
 			listId: list.id,
 			isCompleted: false,
@@ -219,10 +220,11 @@ export const changeTaskOrder = (listId: string, taskOrder: string[]): List => {
 	return list;
 };
 
-export const uploadImage = (image: ImagePickerAsset): ImagePreviewType => {
+export const uploadImage = (image: ImagePickerAsset): DbImage => {
 	if (!image) throw Error('Could not upload your image');
-	
-	return ({
-	id: image.uri,
-	preview: image.uri,
-})};
+
+	return {
+		id: image.uri,
+		preview: image.uri,
+	};
+};

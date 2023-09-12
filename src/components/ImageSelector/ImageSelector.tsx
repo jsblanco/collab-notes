@@ -9,6 +9,7 @@ import { Dimensions, FlatList, Image, StyleSheet, View } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import { DbImage } from '@app/models/DbImage.models';
 import { uploadImage } from '@app/store/lists/lists.queries';
 import {
 	CloseButton,
@@ -31,7 +32,6 @@ type ImageSelectorPropsType = {
 	isValid: boolean;
 	inputHandler: (key: string, value: string[], isValid: boolean) => void;
 };
-export type ImagePreviewType = { preview: string; id: string };
 
 export enum ImageSources {
 	CAMERA = 'launchCameraAsync',
@@ -42,7 +42,7 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 	const { label, inputHandler, inputName, value, isValid } = props;
 	const { showActionSheetWithOptions } = useActionSheet();
 	const [error, setError] = useState('');
-	const [previews, setPreviews] = useState<ImagePreviewType[]>([]);
+	const [previews, setPreviews] = useState<DbImage[]>([]);
 	const [state, dispatch] = useReducer(imageSelectorReducer, {
 		value: value ? value : [],
 		isValid: isValid,
@@ -112,11 +112,14 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 		);
 	}, [showActionSheetWithOptions, getImageHandler]);
 
-	const renderItem = ({ item }: { item: ImagePreviewType }) => (
-		<SelectedImagePreview
-			item={item}
-			removePicture={removePicture.bind(this, item.id)}
-		/>
+	const renderItem = useCallback(
+		({ item }: { item: DbImage }) => (
+			<SelectedImagePreview
+				item={item}
+				removePicture={removePicture.bind(this, item.id)}
+			/>
+		),
+		[]
 	);
 
 	const removePicture = (id: string) => {
@@ -158,7 +161,7 @@ const SelectedImagePreview = ({
 	item,
 	removePicture,
 }: {
-	item: ImagePreviewType;
+	item: DbImage;
 	removePicture: () => void;
 }) => {
 	return (
