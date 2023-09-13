@@ -1,8 +1,8 @@
-import { useCallback } from 'react';
-import { Dimensions, Image, StyleSheet, View } from 'react-native';
+import { useCallback, useState } from 'react';
+import { Dimensions, Image, StyleSheet, View, ViewToken } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { DbImage } from '@app/models/DbImage.models';
-import { H1, shadow } from '@app/ui';
+import { colors, Row, shadow } from '@app/ui';
 
 const ImageGallery = ({ images }: { images: DbImage[] }) => {
 	const renderItem = useCallback(
@@ -15,19 +15,45 @@ const ImageGallery = ({ images }: { images: DbImage[] }) => {
 		[]
 	);
 
+	const [index, setIndex] = useState(0);
+	const onViewableItemsChanged = useCallback(
+		({ changed }: { changed: ViewToken[] }) => {
+			typeof changed[0].index === 'number' && setIndex(changed[0].index);
+		},
+		[setIndex]
+	);
+
 	return (
-		<FlatList
-			data={images}
-			style={styles.flatlist}
-			horizontal
-			pagingEnabled
-			removeClippedSubviews
-			windowSize={1}
-			bounces={false}
-			renderItem={renderItem}
-			showsHorizontalScrollIndicator={false}
-			keyExtractor={(value) => value.id}
-		/>
+		<View style={styles.galleryContainer}>
+			<FlatList
+				data={images}
+				horizontal
+				pagingEnabled
+				removeClippedSubviews
+				windowSize={1}
+				bounces={false}
+				renderItem={renderItem}
+				viewabilityConfig={{
+					itemVisiblePercentThreshold: 100,
+				}}
+				onViewableItemsChanged={onViewableItemsChanged}
+				showsHorizontalScrollIndicator={false}
+				keyExtractor={(value) => value.id}
+			/>
+			{images.length > 1 && (
+				<Row style={{ justifyContent: 'center' }}>
+					{images.map((_, i) => (
+						<View
+							key={i}
+							style={{
+								...styles.indicator,
+								...(index === i && styles.currentIndicator),
+							}}
+						/>
+					))}
+				</Row>
+			)}
+		</View>
 	);
 };
 
@@ -46,7 +72,17 @@ const styles = StyleSheet.create({
 		...shadow,
 		paddingHorizontal: 10,
 	},
-	flatlist: {
-		paddingBottom: 20,
+	galleryContainer: {
+		paddingBottom: 30,
+	},
+	indicator: {
+		margin: 3,
+		height: 10,
+		width: 10,
+		borderRadius: 5,
+		backgroundColor: colors.accent,
+	},
+	currentIndicator: {
+		width: 25,
 	},
 });
