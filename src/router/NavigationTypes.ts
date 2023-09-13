@@ -1,8 +1,8 @@
 export enum ListStackRoutes {
-	ListsHome = 'ListsHome',
-	ListTasks = 'ListTasks',
-	TaskForm = 'TaskForm',
-	TaskDetails = 'TaskDetails',
+	ListsHome = 'Overview',
+	ListTasks = 'List Tasks',
+	TaskForm = 'Task Form',
+	TaskDetails = 'Task Details',
 }
 
 export type ListStackProps = {

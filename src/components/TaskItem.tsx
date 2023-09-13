@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Alert, StyleSheet } from 'react-native';
+import { Alert, ImageBackground, StyleSheet } from 'react-native';
 import { ScaleDecorator } from 'react-native-draggable-flatlist';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import SwipeableItem, {
@@ -67,7 +67,28 @@ export function TaskItem({
 						// ref.current.close();
 					}}
 					style={[styles.row, styles.item]}>
-					<H3 style={styles.title}>{task.title}</H3>
+					{task.images[0]?.preview ? (
+						<ImageBackground
+							source={{ uri: task.images[0].preview }}
+							resizeMode="cover"
+							style={{ flex: 1, height: '100%', width: '100%' }}>
+							<LinearGradient
+								colors={[
+									'white',
+									'rgba(255, 255, 255, 0.8)',
+									'rgba(255, 255, 255, 0.3)',
+									'rgba(255, 255, 255, 0.2)',
+									'transparent',
+								]}
+								style={[styles.row]}
+								start={[0.35, 1]}
+								end={[1, 0]}>
+								<H3 style={styles.title}>{task.title}</H3>
+							</LinearGradient>
+						</ImageBackground>
+					) : (
+						<H3 style={styles.title}>{task.title}</H3>
+					)}
 				</OSButton>
 			</SwipeableItem>
 		</ScaleDecorator>
@@ -196,12 +217,12 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		flex: 1,
 		alignItems: 'center',
-		padding: 15,
-		marginBottom: 1,
+		// padding: 15,
 	},
 	item: {
 		backgroundColor: colors.white,
-		paddingVertical: 20,
+		marginBottom: 1,
+		// paddingVertical: 20,
 	},
 	buttonRow: {
 		width: '100%',
@@ -220,9 +241,10 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 16,
-		paddingBottom: 0,
 		fontFamily: fonts.regular,
-		paddingLeft: 15,
+		padding: 20,
+		paddingBottom: 20,
+		paddingLeft: 35,
 		width: '100%',
 	},
 	underlay: {
