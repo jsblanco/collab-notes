@@ -27,6 +27,7 @@ type SwitchPairing = {
 	onChange: (e: boolean) => void;
 };
 type ButtonPropsType = PropsWithChildren<{
+	fullWidth?: boolean;
 	disabled?: boolean;
 	position?: ViewStyle;
 	textStyle?: TextStyle;
@@ -122,12 +123,18 @@ export const Button = ({
 	position,
 	onPress,
 	buttonStyle,
+	ullWidth,
 	textStyle,
 	children,
 	disabled,
 }: ButtonPropsType) => {
 	return (
-		<View style={{ ...styles.buttonContainer, ...position }}>
+		<View
+			style={{
+				...styles.buttonContainer,
+				...position,
+				...(fullWidth && { flex: 1 }),
+			}}>
 			<OSButton
 				activeOpacity={0.6}
 				onPress={onPress}

@@ -111,7 +111,7 @@ const UnderlayLeft = ({
 				},
 			]
 		);
-	}, [task]);
+	}, [task, closeRow]);
 
 	const onEdit = useCallback(() => {
 		//@ts-ignore
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		padding: 15,
-		marginBottom:1,
+		marginBottom: 1,
 	},
 	item: {
 		backgroundColor: colors.white,
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
-		marginBottom:1,
+		marginBottom: 1,
 	},
 	underlayText: {
 		fontSize: 16,

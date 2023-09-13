@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -8,7 +8,7 @@ import ImageGallery from '@app/components/ImageGallery';
 import TaskHistoryEntry from '@app/components/TaskHistoryEntry';
 import { List, TaskToggleEvent } from '@app/models';
 import { ListStackProps, ListStackRoutes } from '@app/router/NavigationTypes';
-import { RootState, toggleTaskCompletion } from '@app/store';
+import { removeListTask, RootState, toggleTaskCompletion } from '@app/store';
 import { Button, colors, Container, H1, H3, Row, Text } from '@app/ui';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.TaskDetails>;
@@ -53,6 +53,33 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 		dispatch(toggleTaskCompletion.request(task.listId, task.id));
 	}, [task]);
 
+	const onDeleteTask = useCallback(() => {
+		Alert.alert(
+			`Delete task "${task.title}"`,
+			'Are you sure you want to delete this task from this list for all users?\nThis cannot be undone.',
+			[
+				{
+					text: 'Cancel',
+					onPress: () => {},
+					style: 'cancel',
+				},
+				{
+					text: 'Delete',
+					onPress: () => dispatch(removeListTask.request(task.listId, task.id)),
+					style: 'destructive',
+				},
+			]
+		);
+	}, [task]);
+
+	const onEdit = useCallback(() => {
+		//@ts-ignore
+		navigation.navigate(ListStackRoutes.TaskForm, {
+			listId: task.listId,
+			taskId: task.id,
+		});
+	}, [navigation]);
+
 	return (
 		<Container>
 			<FlatList
@@ -82,6 +109,17 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 									Mark as completed
 								</Button>
 							)}
+							<Row style={styles.buttonsRow}>
+								<Button fullWidth buttonStyle={styles.editButton} onPress={onEdit}>
+									Edit task
+								</Button>
+								<Button
+									fullWidth
+									buttonStyle={styles.deleteButton}
+									onPress={onDeleteTask}>
+									Delete task
+								</Button>
+							</Row>
 						</View>
 						<H3 style={{ paddingHorizontal: 20 }}>Task history</H3>
 					</>
@@ -117,6 +155,7 @@ const styles = StyleSheet.create({
 	description: {
 		padding: 20,
 		paddingBottom: 25,
+		marginBottom: 20,
 		backgroundColor: colors.grey[5],
 		borderRadius: 10,
 		alignContent: 'flex-start',
@@ -129,5 +168,14 @@ const styles = StyleSheet.create({
 	},
 	completionToggleSection: {
 		alignItems: 'center',
+	},
+	buttonsRow: {
+		justifyContent: 'space-between',
+	},
+	editButton: {
+		backgroundColor: colors.general.blue,
+	},
+	deleteButton: {
+		backgroundColor: colors.general.red,
 	},
 });
