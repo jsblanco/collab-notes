@@ -7,7 +7,11 @@ import CompletionBadge from '@app/components/CompletionBadge';
 import ImageGallery from '@app/components/ImageGallery';
 import TaskHistoryEntry from '@app/components/TaskHistoryEntry';
 import { List, TaskToggleEvent } from '@app/models';
-import { ListStackProps, ListStackRoutes } from '@app/router/NavigationTypes';
+import {
+	getDrawerListLink,
+	ListStackProps,
+	ListStackRoutes,
+} from '@app/router/NavigationTypes';
 import { removeListTask, RootState, toggleTaskCompletion } from '@app/store';
 import { Button, colors, Container, H1, H3, Row, Text } from '@app/ui';
 
@@ -42,18 +46,13 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 		);
 	};
 
-	if (!task)
-		return (
-			<Container>
-				<H1>Error</H1>
-			</Container>
-		);
-
 	const onToggleTask = useCallback(() => {
+		if (!task) return;
 		dispatch(toggleTaskCompletion.request(task.listId, task.id));
 	}, [task]);
 
 	const onDeleteTask = useCallback(() => {
+		if (!task) return;
 		Alert.alert(
 			`Delete task "${task.title}"`,
 			'Are you sure you want to delete this task from this list for all users?\nThis cannot be undone.',
@@ -65,7 +64,16 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 				},
 				{
 					text: 'Delete',
-					onPress: () => dispatch(removeListTask.request(task.listId, task.id)),
+					onPress: () => {
+						//@ts-ignore
+						navigation.navigate(getDrawerListLink(task.listId), {
+							screen: ListStackRoutes.ListTasks,
+							params: {
+								listId: task.listId,
+							},
+						});
+						dispatch(removeListTask.request(task.listId, task.id));
+					},
 					style: 'destructive',
 				},
 			]
@@ -73,12 +81,20 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 	}, [task]);
 
 	const onEdit = useCallback(() => {
+		if (!task) return;
 		//@ts-ignore
 		navigation.navigate(ListStackRoutes.TaskForm, {
 			listId: task.listId,
 			taskId: task.id,
 		});
 	}, [navigation]);
+
+	if (!task)
+		return (
+			<Container>
+				<H1>Error</H1>
+			</Container>
+		);
 
 	return (
 		<Container>
