@@ -1,10 +1,11 @@
+import { DbImage } from '@app/models/DbImage.models';
 import { Reducer } from 'react';
 
 type ReducerStateType = {
 	inputValues: {
 		title: string;
 		description: string;
-		images: string[];
+		images: DbImage[];
 	};
 	inputValidities: {
 		title: boolean;
@@ -27,7 +28,7 @@ type ActionsType =
 	  }
 	| {
 			type: Actions.FORM_ARRAY_UPDATE;
-			value?: string[];
+			value?: DbImage[];
 			isValid?: boolean;
 			input: string;
 	  };

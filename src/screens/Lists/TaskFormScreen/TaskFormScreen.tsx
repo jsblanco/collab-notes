@@ -8,6 +8,7 @@ import { ListStackProps, ListStackRoutes } from '@app/router/NavigationTypes';
 import { addListTask, RootState } from '@app/store';
 import { Container, FloatingButton } from '@app/ui';
 import { Actions, formReducer } from './TaskFormScreen.reducer';
+import { DbImage } from '@app/models/DbImage.models';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.TaskForm>;
 
@@ -24,7 +25,7 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 	const initialFormState = {
 		inputValues: {
 			title: task?.title ?? '',
-			images: [],
+			images: task?.images ?? [],
 			description: task?.description ?? '',
 		},
 		inputValidities: {
@@ -74,7 +75,7 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 	);
 
 	const arrayInputHandler = useCallback(
-		(key: string, value: string[] = [], isValid: boolean) => {
+		(key: string, value: DbImage[] = [], isValid: boolean) => {
 			formDispatch({
 				type: Actions.FORM_ARRAY_UPDATE,
 				value: value,

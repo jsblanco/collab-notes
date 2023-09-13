@@ -28,9 +28,9 @@ import {
 type ImageSelectorPropsType = {
 	label: string | ReactNode;
 	inputName: string;
-	value: string[];
+	value: DbImage[];
 	isValid: boolean;
-	inputHandler: (key: string, value: string[], isValid: boolean) => void;
+	inputHandler: (key: string, value: DbImage[], isValid: boolean) => void;
 };
 
 export enum ImageSources {
@@ -42,7 +42,6 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 	const { label, inputHandler, inputName, value, isValid } = props;
 	const { showActionSheetWithOptions } = useActionSheet();
 	const [error, setError] = useState('');
-	const [previews, setPreviews] = useState<DbImage[]>([]);
 	const [state, dispatch] = useReducer(imageSelectorReducer, {
 		value: value ? value : [],
 		isValid: isValid,
@@ -56,7 +55,6 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 	useEffect(() => {
 		if (state.value.length > 0 && value.length === 0) {
 			dispatch({ type: ImageSelectorActions.FORM_RESET });
-			setPreviews([]);
 		}
 	}, [value]);
 
@@ -80,12 +78,9 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 			const uploadedImage = uploadImage(result.assets[0]);
 			if (!uploadedImage) return setError('Could not upload your image');
 
-			// update with data fetched from backend after real BE is developed
-			setPreviews((previews) => [uploadedImage, ...previews]);
-
 			dispatch({
 				type: ImageSelectorActions.ADD_PICTURE,
-				value: uploadedImage.preview,
+				value: uploadedImage,
 			});
 		},
 		[ImagePicker, dispatch]
@@ -123,14 +118,13 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 	);
 
 	const removePicture = (id: string) => {
-		setPreviews((previews) => previews.filter((preview) => preview.id !== id));
 		dispatch({ type: ImageSelectorActions.REMOVE_PICTURE, value: id });
 	};
 
 	return (
 		<View style={styles.screen}>
 			<FlatList
-				data={previews}
+				data={value}
 				style={styles.flatlist}
 				horizontal={true}
 				renderItem={renderItem}

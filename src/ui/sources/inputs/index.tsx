@@ -123,7 +123,7 @@ export const Button = ({
 	position,
 	onPress,
 	buttonStyle,
-	ullWidth,
+	fullWidth,
 	textStyle,
 	children,
 	disabled,
