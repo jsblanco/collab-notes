@@ -1,5 +1,14 @@
-import { useCallback, useState } from 'react';
-import { Dimensions, Image, StyleSheet, View, ViewToken } from 'react-native';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+	Animated,
+	Dimensions,
+	Easing,
+	Image,
+	LayoutAnimation,
+	StyleSheet,
+	View,
+	ViewToken,
+} from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { DbImage } from '@app/models/DbImage.models';
 import { colors, Row, shadow } from '@app/ui';
@@ -43,13 +52,7 @@ const ImageGallery = ({ images }: { images: DbImage[] }) => {
 			{images.length > 1 && (
 				<Row style={{ justifyContent: 'center' }}>
 					{images.map((_, i) => (
-						<View
-							key={i}
-							style={{
-								...styles.indicator,
-								...(index === i && styles.currentIndicator),
-							}}
-						/>
+						<Indicator key={i} isOpen={i === index} />
 					))}
 				</Row>
 			)}
@@ -58,6 +61,21 @@ const ImageGallery = ({ images }: { images: DbImage[] }) => {
 };
 
 export default ImageGallery;
+
+const Indicator = ({ isOpen }: { isOpen: boolean }) => {
+	const [animatedWidth] = useState(new Animated.Value(isOpen ? 30 : 10));
+
+	useEffect(() => {
+		LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+		Animated.timing(animatedWidth, {
+			toValue: isOpen ? 30 : 10,
+			duration: 100,
+			useNativeDriver: false,
+		}).start();
+	}, [isOpen]);
+
+	return <Animated.View style={[styles.indicator, { width: animatedWidth }]} />;
+};
 
 const styles = StyleSheet.create({
 	image: {
@@ -81,6 +99,7 @@ const styles = StyleSheet.create({
 		width: 10,
 		borderRadius: 5,
 		backgroundColor: colors.accent,
+		transition: '0.5s, transform 0,5s',
 	},
 	currentIndicator: {
 		width: 25,
