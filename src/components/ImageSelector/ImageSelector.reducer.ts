@@ -11,12 +11,12 @@ type ActionType =
 	| {
 			type: ImageSelectorActions.ADD_PICTURE;
 			value: DbImage;
-			// isValid: boolean;
+			isValid: boolean;
 	  }
 	| {
 			type: ImageSelectorActions.REMOVE_PICTURE;
 			value: string;
-			// isValid: boolean;
+			isValid: boolean;
 	  }
 	| {
 			type: ImageSelectorActions.FORM_RESET;
@@ -34,15 +34,14 @@ export const imageSelectorReducer: Reducer<StateType, ActionType> = (
 			return {
 				...state,
 				value: updatedValues,
-				isValid: true,
+				isValid: a.isValid,
 				isTouched: true,
 			};
 		case ImageSelectorActions.REMOVE_PICTURE:
 			updatedValues = state.value.filter((img) => img.id !== a.value);
-			updatedValidities = !!updatedValues.length;
 			return {
 				value: updatedValues,
-				isValid: updatedValidities,
+				isValid: a.isValid,
 				isTouched: true,
 			};
 		case ImageSelectorActions.FORM_RESET:

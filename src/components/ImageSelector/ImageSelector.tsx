@@ -30,6 +30,7 @@ type ImageSelectorPropsType = {
 	maxAmount: number;
 	inputName: string;
 	value: DbImage[];
+	required?: boolean;
 	isValid: boolean;
 	inputHandler: (key: string, value: DbImage[], isValid: boolean) => void;
 };
@@ -40,12 +41,13 @@ export enum ImageSources {
 }
 
 const ImageSelector = (props: ImageSelectorPropsType) => {
-	const { label, inputHandler, inputName, value, isValid, maxAmount } = props;
+	const { label, inputHandler, inputName, value, isValid, maxAmount, required } =
+		props;
 	const { showActionSheetWithOptions } = useActionSheet();
 	const [error, setError] = useState('');
 	const [state, dispatch] = useReducer(imageSelectorReducer, {
 		value: value ? value : [],
-		isValid: isValid,
+		isValid: required ? isValid : true,
 		isTouched: false,
 	});
 
@@ -82,6 +84,7 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 			dispatch({
 				type: ImageSelectorActions.ADD_PICTURE,
 				value: uploadedImage,
+				isValid: true,
 			});
 		},
 		[ImagePicker, dispatch]
@@ -119,7 +122,11 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 	);
 
 	const removePicture = (id: string) => {
-		dispatch({ type: ImageSelectorActions.REMOVE_PICTURE, value: id });
+		dispatch({
+			type: ImageSelectorActions.REMOVE_PICTURE,
+			value: id,
+			isValid: required ? state.value.length > 1 : true,
+		});
 	};
 
 	return (
