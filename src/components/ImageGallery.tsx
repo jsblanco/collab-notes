@@ -70,6 +70,7 @@ const Indicator = ({ isOpen }: { isOpen: boolean }) => {
 		Animated.timing(animatedWidth, {
 			toValue: isOpen ? 30 : 10,
 			duration: 50,
+			easing: Easing.bounce,
 			useNativeDriver: false,
 		}).start();
 	}, [isOpen]);
