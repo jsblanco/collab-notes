@@ -132,8 +132,8 @@ export const addTaskToList = (
 	const oldTaskListIndex = listTaskArray.findIndex(
 		(dbTask) => dbTask.id === task.id
 	);
-	
-	oldTaskListIndex === 0
+
+	oldTaskListIndex < 0
 		? listTaskArray.push(dbTask)
 		: listTaskArray.splice(oldTaskListIndex, 1, dbTask);
 
