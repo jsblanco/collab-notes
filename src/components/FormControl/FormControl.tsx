@@ -108,7 +108,7 @@ const FormControl = (props: FormControlType) => {
 				autoComplete={autoComplete}
 				placeholderTextColor={colors.grey['3']}
 			/>
-			{required && state.isTouched && !state.isValid && <Error>{error}</Error>}
+			{required && state.isTouched && !state.isValid && error && <Error>{error}</Error>}
 		</View>
 	);
 };
