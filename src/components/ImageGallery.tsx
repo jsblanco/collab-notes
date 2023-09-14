@@ -52,7 +52,12 @@ const ImageGallery = ({ images }: { images: DbImage[] }) => {
 			{images.length > 1 && (
 				<Row style={styles.indicatorsRow}>
 					{images.map((_, i) => (
-						<Indicator key={i} isOpen={i === index} />
+						<Indicator
+							key={i}
+							isOpen={
+								i === index || (i === images.length - 1 && index >= images.length)
+							}
+						/>
 					))}
 				</Row>
 			)}
@@ -92,7 +97,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 10,
 	},
 	galleryContainer: {
-		paddingBottom: 30,
+		paddingBottom: 20,
 	},
 	indicator: {
 		margin: 3,

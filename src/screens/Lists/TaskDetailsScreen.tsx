@@ -126,18 +126,18 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 								</Button>
 							)}
 							<Row style={styles.buttonsRow}>
-								<Button fullWidth buttonStyle={styles.editButton} onPress={onEdit}>
-									Edit task
-								</Button>
 								<Button
 									fullWidth
 									buttonStyle={styles.deleteButton}
 									onPress={onDeleteTask}>
 									Delete task
 								</Button>
+								<Button fullWidth buttonStyle={styles.editButton} onPress={onEdit}>
+									Edit task
+								</Button>
 							</Row>
 						</View>
-						<H3 style={{ paddingHorizontal: 20 }}>Task history</H3>
+						<H3 style={styles.historyTitle}>Task history</H3>
 					</>
 				}
 			/>
@@ -193,5 +193,8 @@ const styles = StyleSheet.create({
 	},
 	deleteButton: {
 		backgroundColor: colors.general.red,
+	},
+	historyTitle: {
+		paddingHorizontal: 20,
 	},
 });
