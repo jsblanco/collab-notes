@@ -264,8 +264,8 @@ export const Input = (props: InputProps) => (
 
 export const CloseButton = ({
 	onRequestClose,
-	top = 5,
-	right = 5,
+	top = -5,
+	right = -5,
 	size = 20,
 }: CloseButtonProps) => (
 	<FloatingButton
