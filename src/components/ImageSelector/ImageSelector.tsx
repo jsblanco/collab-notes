@@ -27,6 +27,7 @@ import {
 
 type ImageSelectorPropsType = {
 	label: string | ReactNode;
+	maxAmount: number;
 	inputName: string;
 	value: DbImage[];
 	isValid: boolean;
@@ -39,7 +40,7 @@ export enum ImageSources {
 }
 
 const ImageSelector = (props: ImageSelectorPropsType) => {
-	const { label, inputHandler, inputName, value, isValid } = props;
+	const { label, inputHandler, inputName, value, isValid, maxAmount } = props;
 	const { showActionSheetWithOptions } = useActionSheet();
 	const [error, setError] = useState('');
 	const [state, dispatch] = useReducer(imageSelectorReducer, {
@@ -131,7 +132,7 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 				keyExtractor={(value) => value.id}
 				ListHeaderComponent={
 					<>
-						{value.length < 4 && (
+						{value.length < maxAmount && (
 							<View style={shadow}>
 								<OSButton style={styles.imagePreview} onPress={chooseImageOrigin}>
 									<Ionicons name={IconNames.image} color={colors.grey[3]} size={26} />

@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { StackScreenProps } from '@react-navigation/stack';
 import FormControl from '@app/components/FormControl/FormControl';
 import ImageSelector from '@app/components/ImageSelector/ImageSelector';
+import { DbImage } from '@app/models/DbImage.models';
 import { ListStackProps, ListStackRoutes } from '@app/router/NavigationTypes';
 import { addListTask, RootState } from '@app/store';
 import { Container, FloatingButton } from '@app/ui';
 import { Actions, formReducer } from './TaskFormScreen.reducer';
-import { DbImage } from '@app/models/DbImage.models';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.TaskForm>;
 
@@ -123,6 +123,7 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 			<ImageSelector
 				label={'Add image'}
 				inputName={'images'}
+				maxAmount={5}
 				value={formState.inputValues.images}
 				isValid={formState.inputValidities.images}
 				inputHandler={arrayInputHandler}
@@ -141,7 +142,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		width: '100%',
 		position: 'relative',
-		// padding: 20,
 	},
 	formControl: {
 		width: '100%',

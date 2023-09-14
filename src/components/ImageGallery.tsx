@@ -69,7 +69,7 @@ const Indicator = ({ isOpen }: { isOpen: boolean }) => {
 		LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
 		Animated.timing(animatedWidth, {
 			toValue: isOpen ? 30 : 10,
-			duration: 100,
+			duration: 50,
 			useNativeDriver: false,
 		}).start();
 	}, [isOpen]);
