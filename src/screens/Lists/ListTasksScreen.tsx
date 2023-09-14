@@ -15,7 +15,6 @@ import {
 	Container,
 	FloatingButton,
 	H1,
-	H2,
 	H3,
 	Row,
 	Text,
@@ -33,7 +32,7 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	useEffect(
 		() => navigation.setOptions({ title: list?.title ?? 'Missing list' }),
-		[]
+		[list]
 	);
 
 	const onCreateTask = () =>
@@ -71,26 +70,26 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 	// 		</View>
 	// 	);
 
+	const completedFlatlist = useMemo(() => {
+		if (!list) return;
+		return (
+			<TasksFlatlist listId={list.id} tasks={list.completedTasks} reorderTasks />
+		);
+	}, [list?.completedTasks]);
+
+	const pendingFlatlist = useMemo(() => {
+		if (!list) return;
+		return (
+			<TasksFlatlist listId={list.id} tasks={list.pendingTasks} reorderTasks />
+		);
+	}, [list?.pendingTasks]);
+
 	if (!list || error)
 		return (
 			<Container style={styles.screen}>
 				<Text style={styles.error}>{error}</Text>
 			</Container>
 		);
-
-	const completedFlatlist = useMemo(
-		() => (
-			<TasksFlatlist listId={list.id} tasks={list.completedTasks} reorderTasks />
-		),
-		[list]
-	);
-
-	const pendingFlatlist = useMemo(
-		() => (
-			<TasksFlatlist listId={list.id} tasks={list.pendingTasks} reorderTasks />
-		),
-		[list.pendingTasks.length]
-	);
 
 	return (
 		<Container style={styles.screen}>
