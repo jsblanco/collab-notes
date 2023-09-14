@@ -35,22 +35,22 @@ const ImageGallery = ({ images }: { images: DbImage[] }) => {
 	return (
 		<View style={styles.galleryContainer}>
 			<FlatList
-				data={images}
 				horizontal
+				data={images}
 				pagingEnabled
-				removeClippedSubviews
 				windowSize={1}
 				bounces={false}
+				removeClippedSubviews
 				renderItem={renderItem}
+				keyExtractor={(value) => value.id}
+				showsHorizontalScrollIndicator={false}
+				onViewableItemsChanged={onViewableItemsChanged}
 				viewabilityConfig={{
 					itemVisiblePercentThreshold: 100,
 				}}
-				onViewableItemsChanged={onViewableItemsChanged}
-				showsHorizontalScrollIndicator={false}
-				keyExtractor={(value) => value.id}
 			/>
 			{images.length > 1 && (
-				<Row style={{ justifyContent: 'center' }}>
+				<Row style={styles.indicatorsRow}>
 					{images.map((_, i) => (
 						<Indicator key={i} isOpen={i === index} />
 					))}
@@ -104,5 +104,10 @@ const styles = StyleSheet.create({
 	},
 	currentIndicator: {
 		width: 25,
+	},
+	indicatorsRow: {
+		justifyContent: 'center',
+		flexWrap: 'wrap',
+		paddingHorizontal: 20,
 	},
 });

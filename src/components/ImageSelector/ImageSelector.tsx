@@ -126,10 +126,11 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 		<View style={styles.screen}>
 			<FlatList
 				data={value}
-				style={styles.flatlist}
 				horizontal={true}
+				style={styles.flatlist}
 				renderItem={renderItem}
 				keyExtractor={(value) => value.id}
+				showsHorizontalScrollIndicator={false}
 				ListHeaderComponent={
 					<>
 						{value.length < maxAmount && (
