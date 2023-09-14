@@ -33,24 +33,26 @@ export default StyleSheet.create({
 		fontWeight: 'bold',
 		textAlign: 'center',
 	},
-	bottomButtonContainer: {
+	floatingButtonContainer: {
 		overflow: 'hidden',
 		borderRadius: 50,
+		padding: 10,
 	},
-	bottomButtonContainerDefaultPosition: {
+	floatingButtonContainerDefaultPosition: {
 		position: 'absolute',
 		zIndex: 99,
 		bottom: 35,
 		right: 25,
 	},
-	bottomButtonView: {
+	floatingButtonView: {
+		...shadow,
 		backgroundColor: colors.accent,
 		borderRadius: 50,
 		borderWidth: 0,
 		padding: 15,
 		// paddingTop: 20,
 	},
-	bottomButtonText: {
+	floatingButtonText: {
 		color: 'white',
 		paddingBottom: 0,
 		fontFamily: fonts.regular,

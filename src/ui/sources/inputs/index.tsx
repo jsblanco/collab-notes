@@ -161,21 +161,20 @@ export const FloatingButton = ({
 	return (
 		<View
 			style={{
-				...shadow,
-				...styles.bottomButtonContainerDefaultPosition,
+				...styles.floatingButtonContainerDefaultPosition,
 				...position,
 			}}>
-			<View style={styles.bottomButtonContainer}>
+			<View style={styles.floatingButtonContainer}>
 				<OSButton
 					activeOpacity={0.6}
 					onPress={onPress}
 					disabled={disabled}
 					style={{
-						...styles.bottomButtonView,
+						...styles.floatingButtonView,
 						...(disabled && styles.disabledButton),
 						...buttonStyle,
 					}}>
-					<Text style={{ ...styles.bottomButtonText, ...textStyle }}>
+					<Text style={{ ...styles.floatingButtonText, ...textStyle }}>
 						{children}
 					</Text>
 				</OSButton>
