@@ -100,17 +100,20 @@ export const addTaskToList = (
 	userId: string
 ): List => {
 	const list = fetchList(listId);
+
+	const history = [...task.history];
+	if (task.id === '')
+		history.unshift({
+			userId,
+			completed: !!task.isCompleted,
+			timestamp: new Date(),
+		});
+
 	const dbTask = {
 		...task,
+		images: [...task.images],
 		id: `${task.id}`.length === 0 ? new Date().getTime().toString() : task.id,
-		history: [
-			{
-				userId,
-				completed: !!task.isCompleted,
-				timestamp: new Date(),
-			},
-			...task.history,
-		],
+		history,
 	};
 
 	const dbList = DummyLists.get(listId);
