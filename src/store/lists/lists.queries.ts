@@ -1,5 +1,5 @@
 import { ImagePickerAsset, ImagePickerResult } from 'expo-image-picker';
-import { DbList, List, Task, User } from '@app/models';
+import { DbList, List, Task, TaskDto, User } from '@app/models';
 import { DbImage } from '@app/models/DbImage.models';
 import { IconNames } from '@app/ui';
 import { DummyLists, DummyTasks, DummyUsers } from '../../../data/DummyData';
@@ -96,7 +96,7 @@ const populateListData = (list: DbList): List => {
 
 export const addTaskToList = (
 	listId: string,
-	task: Task,
+	task: TaskDto,
 	userId: string
 ): List => {
 	const list = fetchList(listId);
@@ -112,7 +112,7 @@ export const addTaskToList = (
 	const dbTask = {
 		...task,
 		images: [...task.images],
-		id: `${task.id}`.length === 0 ? new Date().getTime().toString() : task.id,
+		id: task.id ?? new Date().getTime().toString(),
 		history,
 	};
 

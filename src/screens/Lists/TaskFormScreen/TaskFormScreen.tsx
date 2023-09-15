@@ -51,7 +51,6 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 		if (!!formState.formIsValid)
 			dispatch(
 				addListTask.request(listId, {
-					id: '',
 					listId,
 					history: [],
 					...task,

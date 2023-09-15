@@ -7,7 +7,7 @@ import {
 	SelectEffect,
 	takeLatest,
 } from 'redux-saga/effects';
-import { List, Task } from '@app/models';
+import { List, Task, TaskDto } from '@app/models';
 import { ReduxAction, RootState } from '../store';
 import { AddListPayload } from './list.types';
 import * as actions from './lists.actions';
@@ -71,7 +71,7 @@ function* addListEffect({
 
 function* addListTaskEffect({
 	payload,
-}: ReduxAction<{ listId: string; task: Task }>): Generator<
+}: ReduxAction<{ listId: string; task: TaskDto }>): Generator<
 	| SelectEffect
 	| CallEffect<List>
 	| PutEffect<ReduxAction<List>>

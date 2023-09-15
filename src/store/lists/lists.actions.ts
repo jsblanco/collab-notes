@@ -1,4 +1,4 @@
-import { List, Task } from '@app/models';
+import { List, TaskDto } from '@app/models';
 import constants from './lists.constants';
 import { AddListPayload } from './list.types';
 
@@ -85,7 +85,7 @@ export const addList = {
 };
 
 export const addListTask = {
-	request: (listId: string, task: Task) => {
+	request: (listId: string, task: TaskDto) => {
 		return {
 			type: constants.ADD_TASK_REQUEST,
 			payload: { listId, task },
