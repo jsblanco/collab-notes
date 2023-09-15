@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
 	Animated,
 	Dimensions,
@@ -10,15 +10,20 @@ import {
 	ViewToken,
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons';
 import { DbImage } from '@app/models/DbImage.models';
-import { colors, Row, shadow } from '@app/ui';
+import { colors, IconNames, Row, shadow } from '@app/ui';
 
 const ImageGallery = ({ images }: { images: DbImage[] }) => {
 	const renderItem = useCallback(
 		({ item }: { item: DbImage }) => (
-			<View style={styles.imageContainer}>
-				{/* TODO - Add a placeholder while image loads */}
-				<Image style={styles.image} source={{ uri: item.preview }} />
+			<View style={styles.gallerySlide}>
+				<View style={styles.imageContainer}>
+					<Image style={styles.image} source={{ uri: item.preview }} />
+					<View style={styles.imagePlaceholder}>
+						<Ionicons name={IconNames.image} color={colors.grey[4]} size={80} />
+					</View>
+				</View>
 			</View>
 		),
 		[]
@@ -87,14 +92,30 @@ const styles = StyleSheet.create({
 	image: {
 		flex: 1,
 		borderRadius: 15,
+		zIndex: 2,
+	},
+	imagePlaceholder: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		justifyContent: 'center',
+		alignItems: 'center',
+		zIndex: 1,
 	},
 	imageContainer: {
-		margin: 10,
 		flex: 1,
-		width: Dimensions.get('window').width - 20,
-		height: 300,
+		backgroundColor: colors.white,
+		borderRadius: 15,
+		position: 'relative',
+		// overflow: 'hidden',
+		margin: 20,
 		...shadow,
-		paddingHorizontal: 10,
+	},
+	gallerySlide: {
+		width: Dimensions.get('window').width,
+		height: 350,
 	},
 	galleryContainer: {
 		paddingBottom: 20,
