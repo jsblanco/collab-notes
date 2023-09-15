@@ -73,7 +73,7 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 
 			const result = await ImagePicker[origin]({
 				allowsEditing: true,
-				aspect: [3, 4],
+				aspect: [1, 1],
 				quality: 0.6,
 			});
 			if (result.canceled) return;
