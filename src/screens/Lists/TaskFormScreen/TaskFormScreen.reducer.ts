@@ -1,15 +1,18 @@
-import { DbImage } from '@app/models/DbImage.models';
 import { Reducer } from 'react';
+import { DbImage } from '@app/models/DbImage.models';
+import { Periodicity } from '@app/models';
 
 type ReducerStateType = {
 	inputValues: {
 		title: string;
 		description: string;
+		periodicity: Periodicity;
 		images: DbImage[];
 	};
 	inputValidities: {
 		title: boolean;
 		description: boolean;
+		periodicity: boolean;
 		images: boolean;
 	};
 	formIsValid: boolean;

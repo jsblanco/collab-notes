@@ -14,8 +14,16 @@ export interface TaskDto {
 	id?: string;
 	title: string;
 	listId: string;
-	description: string;
-	history: TaskToggleEvent[];
 	images: DbImage[];
+	description: string;
 	isCompleted?: boolean;
+	periodicity: Periodicity;
+	history: TaskToggleEvent[];
+}
+
+export enum Periodicity {
+	MANUAL = 'MANUAL',
+	DAILY = 'DAILY',
+	WEEKLY = 'WEEKLY',
+	MONTHLY = 'MONTHLY',
 }

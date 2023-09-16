@@ -1,5 +1,11 @@
 import { IconNames } from '@app/ui';
-import { DbList, Task, TaskToggleEvent, User } from '../src/models';
+import {
+	DbList,
+	Periodicity,
+	Task,
+	TaskToggleEvent,
+	User,
+} from '../src/models';
 
 const createFakeTaskToggleEvent = (
 	userId: string,
@@ -50,6 +56,7 @@ export const DummyTasks: Task[] = [
 		title: 'Tomates',
 		description: 'Canarios o de ensalada',
 		isCompleted: false,
+		periodicity: Periodicity.MANUAL,
 		images: [
 			{
 				preview:
@@ -80,6 +87,7 @@ export const DummyTasks: Task[] = [
 		title: 'Cebollas',
 		description: 'Una malla llena',
 		isCompleted: false,
+		periodicity: Periodicity.MONTHLY,
 		images: [
 			{
 				preview:
@@ -100,6 +108,7 @@ export const DummyTasks: Task[] = [
 		title: 'Lechuga',
 		description: 'Mientras no sea iceberg...',
 		isCompleted: false,
+		periodicity: Periodicity.WEEKLY,
 		images: [],
 		history: [
 			createFakeTaskToggleEvent('b', false, 5),
@@ -112,6 +121,7 @@ export const DummyTasks: Task[] = [
 		title: 'Pimiento verde',
 		description: 'De cocinar, no italiano',
 		isCompleted: true,
+		periodicity: Periodicity.MANUAL,
 		images: [],
 		history: [
 			createFakeTaskToggleEvent('b', true, 1),
@@ -127,6 +137,7 @@ export const DummyTasks: Task[] = [
 		title: 'Pimiento rojo',
 		description: 'De cocinar, no de freir',
 		isCompleted: false,
+		periodicity: Periodicity.MANUAL,
 		images: [
 			{
 				preview:
@@ -147,6 +158,7 @@ export const DummyTasks: Task[] = [
 		title: 'Patatas fritas',
 		description: 'Las normales al punto de sal',
 		isCompleted: true,
+		periodicity: Periodicity.DAILY,
 		images: [
 			{
 				preview:
@@ -181,6 +193,7 @@ export const DummyTasks: Task[] = [
 		title: 'Hacer la colada',
 		description: 'Lavadora de blancos y de colores',
 		isCompleted: false,
+		periodicity: Periodicity.MANUAL,
 		images: [
 			{
 				preview:
@@ -199,6 +212,7 @@ export const DummyTasks: Task[] = [
 		title: 'Sacar al perro',
 		description: 'Tres veces al día',
 		isCompleted: false,
+		periodicity: Periodicity.DAILY,
 		images: [],
 		history: [
 			createFakeTaskToggleEvent('a', false, 1),
@@ -213,6 +227,7 @@ export const DummyTasks: Task[] = [
 		title: 'Pasar la aspiradora',
 		description: '',
 		isCompleted: true,
+		periodicity: Periodicity.WEEKLY,
 		images: [
 			{
 				preview:

@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { StackScreenProps } from '@react-navigation/stack';
 import FormControl from '@app/components/FormControl/FormControl';
 import ImageSelector from '@app/components/ImageSelector/ImageSelector';
+import RadioInput from '@app/components/RadioInput/RadioInput';
+import { Periodicity } from '@app/models';
 import { DbImage } from '@app/models/DbImage.models';
 import { ListStackProps, ListStackRoutes } from '@app/router/NavigationTypes';
 import { addListTask, RootState } from '@app/store';
@@ -27,9 +29,11 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 			title: task?.title ?? '',
 			images: task?.images ?? [],
 			description: task?.description ?? '',
+			periodicity: task?.periodicity ?? Periodicity.MANUAL,
 		},
 		inputValidities: {
 			images: true,
+			periodicity: true,
 			title: !!task,
 			description: !!task,
 		},
@@ -127,6 +131,20 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 				isValid={formState.inputValidities.images}
 				inputHandler={arrayInputHandler}
 			/>
+			<RadioInput
+				options={[
+					{ id: Periodicity.MANUAL, label: 'Manual' },
+					{ id: Periodicity.DAILY, label: 'Daily' },
+					{ id: Periodicity.WEEKLY, label: 'Weekly' },
+					{ id: Periodicity.MONTHLY, label: 'Monthly' },
+				]}
+				label={'Periodicity'}
+				value={formState.inputValues.periodicity}
+				isValid={formState.inputValidities.periodicity}
+				inputName={''}
+				inputHandler={inputHandler}
+			/>
+
 			<FloatingButton disabled={!formState.formIsValid} onPress={onSubmit}>
 				{task ? 'Update task' : 'Create new task'}
 			</FloatingButton>
