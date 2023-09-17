@@ -294,9 +294,12 @@ export const InfoTooltip = ({ message }: { message: string }) => {
 				/>
 			</RoundButton>
 			{visible && message && (
-				<Pressable onPress={toggleTooltip} style={styles.tooltipMessage}>
-					<Text noPadding>{message}</Text>
-				</Pressable>
+				<>
+					<View style={styles.tooltipBackdrop}></View>
+					<Pressable onPress={toggleTooltip} style={styles.tooltipMessage}>
+						<Text noPadding>{message}</Text>
+					</Pressable>
+				</>
 			)}
 		</View>
 	);
