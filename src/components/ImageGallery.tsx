@@ -20,7 +20,7 @@ const ImageGallery = ({ images }: { images: DbImage[] }) => {
 			<View style={styles.gallerySlide}>
 				<View style={styles.imageContainer}>
 					<Image style={styles.image} source={{ uri: item.preview }} />
-					<View style={styles.imagePlaceholder}>
+					<View style={styles.imagePlaceholder} >
 						<Ionicons name={IconNames.image} color={colors.grey[4]} size={80} />
 					</View>
 				</View>
@@ -55,7 +55,7 @@ const ImageGallery = ({ images }: { images: DbImage[] }) => {
 				}}
 			/>
 			{images.length > 1 && (
-				<Row style={styles.indicatorsRow}>
+				<Row style={styles.indicatorsRow} justifyContent={'center'}>
 					{images.map((_, i) => (
 						<Indicator
 							key={i}
@@ -132,7 +132,6 @@ const styles = StyleSheet.create({
 		width: 25,
 	},
 	indicatorsRow: {
-		justifyContent: 'center',
 		flexWrap: 'wrap',
 		paddingHorizontal: 20,
 	},

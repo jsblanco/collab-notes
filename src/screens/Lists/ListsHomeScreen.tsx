@@ -20,7 +20,10 @@ const ListsHomeScreen = ({ route, navigation }: Props) => {
 
 	const renderLists = ({ item }: { item: List }) => (
 		<View style={styles.listView}>
-			<Row style={styles.titles}>
+			<Row
+				style={styles.titles}
+				justifyContent={'space-between'}
+				alignItems={'center'}>
 				<TouchableOpacity
 					style={{ flexDirection: 'row', alignItems: 'center' }}
 					onPress={() => {
@@ -74,8 +77,6 @@ const styles = StyleSheet.create({
 	titles: {
 		maxWidth: '100%',
 		paddingHorizontal: 20,
-		justifyContent: 'space-between',
-		alignItems: 'center',
 		paddingVertical: 5,
 	},
 	header: {

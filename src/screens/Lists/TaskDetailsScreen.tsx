@@ -104,7 +104,7 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 				renderItem={renderTaskHistoryItem}
 				ListHeaderComponent={
 					<>
-						<Row style={styles.titleRow}>
+						<Row style={styles.titleRow} alignItems={'center'}>
 							<CompletionBadge completed={!!task.isCompleted} />
 							<H1 style={styles.title} noPadding>
 								{task.title}
@@ -125,7 +125,7 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 									Mark as completed
 								</Button>
 							)}
-							<Row style={styles.buttonsRow}>
+							<Row justifyContent={'space-between'}>
 								<Button
 									fullWidth
 									buttonStyle={styles.deleteButton}
@@ -156,7 +156,6 @@ const styles = StyleSheet.create({
 	titleRow: {
 		marginBottom: 32,
 		marginHorizontal: 10,
-		alignItems: 'center',
 	},
 	title: {
 		marginBottom: 0,
@@ -184,9 +183,6 @@ const styles = StyleSheet.create({
 	},
 	completionToggleSection: {
 		alignItems: 'center',
-	},
-	buttonsRow: {
-		justifyContent: 'space-between',
 	},
 	editButton: {
 		backgroundColor: colors.general.blue,

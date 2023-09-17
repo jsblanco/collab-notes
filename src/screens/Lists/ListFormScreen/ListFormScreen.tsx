@@ -105,7 +105,7 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	return (
 		<Container style={styles.screen}>
-			<Row style={{ alignItems: 'flex-start' }}>
+			<Row alignItems={'flex-start'}>
 				<Label style={styles.iconLabel}>Icon</Label>
 				<OSButton
 					style={styles.iconOptions}

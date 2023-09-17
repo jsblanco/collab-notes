@@ -97,7 +97,10 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 				<Ionicons name={list.icon} size={26} style={styles.titleIcon} />
 				<H1>{list.title}</H1>
 			</Row>
-			<Row style={styles.usersRow}>
+			<Row
+				style={styles.usersRow}
+				justifyContent={'space-between'}
+				alignItems={'center'}>
 				<Text noPadding>{list.users.length} participants</Text>
 				<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 					{list.users.slice(0, 4).map((user, i) => (
@@ -107,9 +110,12 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 				</View>
 			</Row>
 
-			<Row style={styles.titles}>
+			<Row
+				style={styles.titles}
+				justifyContent={'space-between'}
+				alignItems={'center'}>
 				<TouchableOpacity onPress={() => setShowCompleted(false)}>
-					<Row style={{ alignItems: 'center' }}>
+					<Row alignItems={'center'}>
 						<CompletionBadge muted={showCompleted} />
 						<H3 style={showCompleted ? styles.mutedTitle : {}} noPadding>
 							Pending
@@ -118,7 +124,7 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 				</TouchableOpacity>
 
 				<TouchableOpacity onPress={() => setShowCompleted(true)}>
-					<Row style={{ alignItems: 'center' }}>
+					<Row alignItems={'center'}>
 						<H3 style={!showCompleted ? styles.mutedTitle : {}} noPadding>
 							Completed
 						</H3>
@@ -139,7 +145,9 @@ const styles = StyleSheet.create({
 		flex: 1,
 		width: '100%',
 	},
-	error: { color: colors.danger },
+	error: {
+		color: colors.danger,
+	},
 	titleRow: {
 		paddingHorizontal: 20,
 		marginTop: 20,
@@ -150,8 +158,6 @@ const styles = StyleSheet.create({
 	usersRow: {
 		paddingHorizontal: 20,
 		marginBottom: 30,
-		alignItems: 'center',
-		justifyContent: 'space-between',
 	},
 	userAvatar: {
 		height: 40,
@@ -169,25 +175,11 @@ const styles = StyleSheet.create({
 		color: 'white',
 	},
 	titles: {
-		justifyContent: 'space-between',
-		alignItems: 'center',
 		paddingHorizontal: 20,
 		paddingVertical: 5,
 		marginBottom: 30,
 	},
 	mutedTitle: {
 		color: colors.grey[3],
-	},
-	// Draggable flatlist
-	rowItem: {
-		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	// Draggable flatlist
-	text: {
-		color: 'black',
-		fontWeight: 'bold',
-		textAlign: 'center',
 	},
 });
