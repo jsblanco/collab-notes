@@ -85,8 +85,8 @@ export const DummyTasks: Task[] = [
 		id: '1002',
 		listId: '1',
 		title: 'Cebollas',
-		description: 'Una malla llena',
-		isCompleted: false,
+		description: 'Una malla llena. Test para periodicidad mensual',
+		isCompleted: true,
 		periodicity: Periodicity.MONTHLY,
 		images: [
 			{
@@ -96,10 +96,10 @@ export const DummyTasks: Task[] = [
 			},
 		],
 		history: [
-			createFakeTaskToggleEvent('a', false, 2),
-			createFakeTaskToggleEvent('d', true, 4),
-			createFakeTaskToggleEvent('b', false, 6),
-			createFakeTaskToggleEvent('c', true, 8),
+			createFakeTaskToggleEvent('a', false, 32),
+			createFakeTaskToggleEvent('d', true, 34),
+			createFakeTaskToggleEvent('b', false, 36),
+			createFakeTaskToggleEvent('c', true, 38),
 		],
 	},
 	{
@@ -107,7 +107,7 @@ export const DummyTasks: Task[] = [
 		listId: '1',
 		title: 'Lechuga',
 		description: 'Mientras no sea iceberg...',
-		isCompleted: false,
+		isCompleted: true,
 		periodicity: Periodicity.WEEKLY,
 		images: [],
 		history: [
@@ -119,25 +119,25 @@ export const DummyTasks: Task[] = [
 		id: '1004',
 		listId: '1',
 		title: 'Pimiento verde',
-		description: 'De cocinar, no italiano',
+		description: 'De cocinar, no italiano. Test para periodicidad mensual.',
 		isCompleted: true,
-		periodicity: Periodicity.MANUAL,
+		periodicity: Periodicity.WEEKLY,
 		images: [],
 		history: [
-			createFakeTaskToggleEvent('b', true, 1),
-			createFakeTaskToggleEvent('d', false, 3),
 			createFakeTaskToggleEvent('c', true, 8),
 			createFakeTaskToggleEvent('b', false, 16),
 			createFakeTaskToggleEvent('a', true, 18),
+			createFakeTaskToggleEvent('b', true, 21),
+			createFakeTaskToggleEvent('d', false, 23),
 		],
 	},
 	{
 		id: '1005',
 		listId: '1',
 		title: 'Pimiento rojo',
-		description: 'De cocinar, no de freir',
-		isCompleted: false,
-		periodicity: Periodicity.MANUAL,
+		description: 'De cocinar, no de freir. Test para periodicidad diaria.',
+		isCompleted: true,
+		periodicity: Periodicity.DAILY,
 		images: [
 			{
 				preview:
@@ -158,12 +158,12 @@ export const DummyTasks: Task[] = [
 		title: 'Patatas fritas',
 		description: 'Las normales al punto de sal',
 		isCompleted: true,
-		periodicity: Periodicity.DAILY,
+		periodicity: Periodicity.WEEKLY,
 		images: [
 			{
 				preview:
-					'https://www.lacasadelasgolosinas.com/6998-thickbox_default/lay-s-al-punto-de-sal-bolsita-44gr.jpg',
-				id: 'https://www.lacasadelasgolosinas.com/6998-thickbox_default/lay-s-al-punto-de-sal-bolsita-44gr.jpg',
+					'https://olefoodmarket.com/cdn/shop/products/09-Patatas-fritas-crujientes-a-la-sarte-n-Hacendado.jpg?v=1636545393',
+				id: 'https://olefoodmarket.com/cdn/shop/products/09-Patatas-fritas-crujientes-a-la-sarte-n-Hacendado.jpg?v=1636545393',
 			},
 			{
 				preview:
@@ -172,8 +172,8 @@ export const DummyTasks: Task[] = [
 			},
 			{
 				preview:
-					'https://olefoodmarket.com/cdn/shop/products/09-Patatas-fritas-crujientes-a-la-sarte-n-Hacendado.jpg?v=1636545393',
-				id: 'https://olefoodmarket.com/cdn/shop/products/09-Patatas-fritas-crujientes-a-la-sarte-n-Hacendado.jpg?v=1636545393',
+					'https://www.lacasadelasgolosinas.com/6998-thickbox_default/lay-s-al-punto-de-sal-bolsita-44gr.jpg',
+				id: 'https://www.lacasadelasgolosinas.com/6998-thickbox_default/lay-s-al-punto-de-sal-bolsita-44gr.jpg',
 			},
 			{
 				preview:
