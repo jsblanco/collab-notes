@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, ReactNode, useState } from 'react';
 import {
 	Platform,
+	Pressable,
 	Switch as ReactSwitch,
 	StyleProp,
 	TextInput,
@@ -275,3 +276,28 @@ export const CloseButton = ({
 		<Ionicons size={size} color={colors.grey[3]} name={IconNames.close} />
 	</FloatingButton>
 );
+
+export const InfoTooltip = ({ message }: { message: string }) => {
+	const [visible, setVisible] = useState(false);
+
+	const toggleTooltip = () => {
+		setVisible(!visible);
+	};
+
+	return (
+		<View style={styles.tooltipContainer}>
+			<RoundButton onPress={toggleTooltip}>
+				<Ionicons
+					name={IconNames.informationCircle}
+					color={colors.primary}
+					size={24}
+				/>
+			</RoundButton>
+			{visible && message && (
+				<Pressable onPress={toggleTooltip} style={styles.tooltipMessage}>
+					<Text noPadding>{message}</Text>
+				</Pressable>
+			)}
+		</View>
+	);
+};

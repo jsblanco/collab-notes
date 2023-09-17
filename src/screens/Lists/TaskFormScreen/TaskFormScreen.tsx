@@ -132,17 +132,20 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 				inputHandler={arrayInputHandler}
 			/>
 			<RadioInput
+				label={"Automatically set as 'Pending'..."}
+				tooltip={
+					"How often would you like this task to be automatically set as 'Pending', if at all?"
+				}
+				inputName={'periodicity'}
+				inputHandler={inputHandler}
+				value={formState.inputValues.periodicity}
+				isValid={formState.inputValidities.periodicity}
 				options={[
-					{ id: Periodicity.MANUAL, label: 'Manual' },
 					{ id: Periodicity.DAILY, label: 'Daily' },
 					{ id: Periodicity.WEEKLY, label: 'Weekly' },
 					{ id: Periodicity.MONTHLY, label: 'Monthly' },
+					{ id: Periodicity.MANUAL, label: "I'll toggle it myself" },
 				]}
-				label={'Periodicity'}
-				value={formState.inputValues.periodicity}
-				isValid={formState.inputValidities.periodicity}
-				inputName={''}
-				inputHandler={inputHandler}
 			/>
 
 			<FloatingButton disabled={!formState.formIsValid} onPress={onSubmit}>

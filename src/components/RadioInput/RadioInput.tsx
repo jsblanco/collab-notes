@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { colors, Label, Row, Text } from '@app/ui';
+import { colors, InfoTooltip, Label, Row, Text } from '@app/ui';
 import { RadioInputActions, RadioInputReducer } from './RadioInput.reducer';
 
 type OptionType = { label: string; id: string };
@@ -10,11 +10,13 @@ type RadioInputType = {
 	value: string;
 	isValid: boolean;
 	inputName: string;
+	tooltip: string;
 	inputHandler: (key: string, value: string, isValid: boolean) => void;
 };
 
 const RadioInput = (props: RadioInputType) => {
-	const { label, options, value, isValid, inputName, inputHandler } = props;
+	const { label, options, value, isValid, inputName, inputHandler, tooltip } =
+		props;
 	const [state, dispatch] = useReducer(RadioInputReducer, {
 		value: value ? value : '',
 		isValid: isValid,
@@ -31,10 +33,16 @@ const RadioInput = (props: RadioInputType) => {
 
 	return (
 		<View style={styles.screen}>
-			<Label>{label}</Label>
+			<Row
+				style={styles.titleRow}
+				alignItems="center"
+				justifyContent="space-between">
+				<Label>{label}</Label>
+				<InfoTooltip message={tooltip} />
+			</Row>
 			<View style={styles.options}>
 				{options.map((option, index) => (
-					<Row style={styles.inputRow} key={index}>
+					<Row justifyContent={'flex-start'} key={index}>
 						<Pressable
 							onPress={selectionHandler.bind(this, option.id)}
 							style={[
@@ -59,9 +67,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		paddingHorizontal: 20,
 	},
-	inputRow: {
-		marginBottom: 10,
-		justifyContent: 'flex-start',
+	titleRow: {
+		zIndex: 3,
 	},
 	emptyInput: {
 		width: 22,

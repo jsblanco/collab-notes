@@ -1,5 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import {
+	FlexAlignType,
 	Platform,
 	Modal as ReactModal,
 	TouchableOpacity,
@@ -19,8 +20,14 @@ type ContainerType = PropsWithChildren<{
 
 type RowType = PropsWithChildren<{
 	pointerEvents?: 'auto' | 'none' | 'box-none';
-	centerX?: boolean;
-	centerY?: boolean;
+	justifyContent?:
+		| 'center'
+		| 'flex-start'
+		| 'flex-end'
+		| 'space-between'
+		| 'space-around'
+		| 'space-evenly';
+	alignItems?: FlexAlignType;
 	style?: ViewStyle;
 }>;
 
@@ -90,20 +97,22 @@ export const InlineBlock = ({ children }: PropsWithChildren) => {
 
 export const Row = ({
 	children,
-	centerX,
-	centerY,
+	justifyContent,
+	alignItems,
 	style,
 	pointerEvents = 'auto',
 }: RowType) => {
 	return (
 		<View
 			pointerEvents={pointerEvents}
-			style={[
-				styles.row,
-				centerX && styles.justifyCenter,
-				centerY && styles.alignCenter,
-				style,
-			]}>
+			style={{
+				...styles.row,
+				...style,
+				...{
+					justifyContent,
+					alignItems,
+				},
+			}}>
 			{children}
 		</View>
 	);

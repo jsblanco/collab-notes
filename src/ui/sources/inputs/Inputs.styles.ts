@@ -93,4 +93,18 @@ export default StyleSheet.create({
 		opacity: 0.9,
 		...shadow,
 	},
+	tooltipContainer: {
+		position: 'relative',
+	},
+	tooltipMessage: {
+		position: 'absolute',
+		top: 20,
+		right: 5,
+		zIndex: 2,
+		minWidth: 200,
+		borderRadius: 7,
+		paddingVertical: 10,
+		paddingHorizontal: 20,
+		backgroundColor: colors.accent,
+	},
 });
