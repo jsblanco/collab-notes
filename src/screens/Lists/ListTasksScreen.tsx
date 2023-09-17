@@ -4,9 +4,9 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { StackScreenProps } from '@react-navigation/stack';
+import UserAvatar from '@app/components/Avatars/UserAvatar';
 import CompletionBadge from '@app/components/CompletionBadge';
 import TasksFlatlist from '@app/components/TasksFlatlist';
-import UserAvatar from '@app/components/UserAvatar';
 import { ListStackProps, ListStackRoutes } from '@app/router/NavigationTypes';
 import { RootState } from '@app/store';
 import {

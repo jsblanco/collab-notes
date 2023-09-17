@@ -12,7 +12,7 @@ import {
 	DrawerContentScrollView,
 	DrawerItemList,
 } from '@react-navigation/drawer';
-import UserAvatar from '@app/components/UserAvatar';
+import UserAvatar from '@app/components/Avatars/UserAvatar';
 import { fetchAllLists, RootState } from '@app/store';
 import { fonts, IconNames, OSButton } from '@app/ui';
 
