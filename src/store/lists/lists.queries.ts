@@ -83,17 +83,17 @@ const populateListData = (list: DbList): List => {
 					now.getMonth() === task.history[0].timestamp.getMonth() &&
 					now.getFullYear() === task.history[0].timestamp.getFullYear()
 					? completedTasks.push(task)
-					: pendingTasks.push(task);
+					: automaticallyToggleAsPending(task, pendingTasks);
 			case Periodicity.WEEKLY:
 				return getWeekNumber(now) === getWeekNumber(task.history[0].timestamp) &&
 					now.getFullYear() === task.history[0].timestamp.getFullYear()
 					? completedTasks.push(task)
-					: pendingTasks.push(task);
+					: automaticallyToggleAsPending(task, pendingTasks);
 			case Periodicity.MONTHLY:
 				return now.getMonth() === task.history[0].timestamp.getMonth() &&
 					now.getFullYear() === task.history[0].timestamp.getFullYear()
 					? completedTasks.push(task)
-					: pendingTasks.push(task);
+					: automaticallyToggleAsPending(task, pendingTasks);
 			case Periodicity.MANUAL:
 			default:
 				return completedTasks.push(task);
@@ -119,6 +119,12 @@ const populateListData = (list: DbList): List => {
 		pendingTasks,
 		users,
 	};
+};
+
+const automaticallyToggleAsPending = (task: Task, pendingTasks: Task[]) => {
+	task.isCompleted = false;
+	task.history.unshift({ completed: false, timestamp: new Date() });
+	pendingTasks.push(task);
 };
 
 const getWeekNumber = (date: Date) => {

@@ -96,7 +96,6 @@ export const DummyTasks: Task[] = [
 			},
 		],
 		history: [
-			createFakeTaskToggleEvent('a', false, 32),
 			createFakeTaskToggleEvent('d', true, 34),
 			createFakeTaskToggleEvent('b', false, 36),
 			createFakeTaskToggleEvent('c', true, 38),
@@ -111,6 +110,7 @@ export const DummyTasks: Task[] = [
 		periodicity: Periodicity.WEEKLY,
 		images: [],
 		history: [
+			createFakeTaskToggleEvent('b', true, 4),
 			createFakeTaskToggleEvent('b', false, 5),
 			createFakeTaskToggleEvent('c', true, 9),
 		],
@@ -146,7 +146,8 @@ export const DummyTasks: Task[] = [
 			},
 		],
 		history: [
-			createFakeTaskToggleEvent('b', false, 2),
+			createFakeTaskToggleEvent('c', true, 1),
+			createFakeTaskToggleEvent('b', false, 4),
 			createFakeTaskToggleEvent('c', true, 6),
 			createFakeTaskToggleEvent('d', false, 7),
 			createFakeTaskToggleEvent('a', true, 9),

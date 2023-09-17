@@ -5,7 +5,7 @@ export interface Task extends TaskDto {
 }
 
 export interface TaskToggleEvent {
-	userId: string;
+	userId?: string;
 	completed: boolean;
 	timestamp: Date;
 }

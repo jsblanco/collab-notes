@@ -9,15 +9,17 @@ const TaskHistoryEntry = ({
 	index,
 }: {
 	toggleEvent: TaskToggleEvent;
-	user: User;
+	user?: User;
 	index: number;
 }) => {
+	const userName = user?.name.split(' ')[0] ?? 'Automatically';
+
 	return (
 		<Row style={styles.entry}>
-			<UserAvatar user={user} i={index} />
+			{user ? <UserAvatar user={user} i={index} /> : <></>}
 			<View style={styles.textView}>
 				<Text noPadding>
-					<B noPadding>{user.name.split(' ')[0]}</B> marked this task as{' '}
+					<B noPadding>{userName}</B> marked this task as{' '}
 					{toggleEvent.completed ? (
 						<Text noPadding style={styles.completed}>
 							completed

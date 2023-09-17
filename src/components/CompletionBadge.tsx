@@ -13,7 +13,7 @@ const CompletionBadge = ({
 	alignLeft?: boolean;
 }) => (
 	<Tooltip
-		message={'This task is ' + ( completed ? 'completed' : 'pending')}
+		message={'This task is ' + ( completed ? 'completed' : 'pending completion')}
 		alignLeft={alignLeft}>
 		<View
 			style={[
