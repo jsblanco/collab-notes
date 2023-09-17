@@ -7,19 +7,11 @@ import {
 	View,
 	ViewStyle,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { colors, IconNames } from '../constants';
-import { CloseButton, FloatingButton } from '../inputs';
+import { CloseButton } from '../inputs';
 import styles from './Layout.styles';
 
-type ContainerType = PropsWithChildren<{
-	pointerEvents?: 'auto' | 'none' | 'box-none';
-	center?: boolean;
-	style?: ViewStyle;
-}>;
-
-type RowType = PropsWithChildren<{
-	pointerEvents?: 'auto' | 'none' | 'box-none';
+type FlexProps = {
+	alignItems?: FlexAlignType;
 	justifyContent?:
 		| 'center'
 		| 'flex-start'
@@ -27,9 +19,21 @@ type RowType = PropsWithChildren<{
 		| 'space-between'
 		| 'space-around'
 		| 'space-evenly';
-	alignItems?: FlexAlignType;
-	style?: ViewStyle;
-}>;
+};
+
+type ContainerType = PropsWithChildren<
+	{
+		pointerEvents?: 'auto' | 'none' | 'box-none';
+		style?: ViewStyle;
+	} & FlexProps
+>;
+
+type RowType = PropsWithChildren<
+	{
+		pointerEvents?: 'auto' | 'none' | 'box-none';
+		style?: ViewStyle;
+	} & FlexProps
+>;
 
 export const Card = ({
 	children,
@@ -120,14 +124,23 @@ export const Row = ({
 
 export const Container = ({
 	children,
-	center,
+	justifyContent,
+	alignItems,
 	style,
+
 	pointerEvents = 'auto',
 }: ContainerType) => {
 	return (
 		<View
 			pointerEvents={pointerEvents}
-			style={[styles.container, center && styles.justifyCenter, style]}>
+			style={{
+				...styles.container,
+				...style,
+				...{
+					justifyContent,
+					alignItems,
+				},
+			}}>
 			{children}
 		</View>
 	);
