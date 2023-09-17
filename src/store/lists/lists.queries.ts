@@ -1,5 +1,5 @@
 import { ImagePickerAsset, ImagePickerResult } from 'expo-image-picker';
-import { DbList, List, Task, TaskDto, User } from '@app/models';
+import { DbList, List, Periodicity, Task, TaskDto, User } from '@app/models';
 import { DbImage } from '@app/models/DbImage.models';
 import { IconNames } from '@app/ui';
 import { DummyLists, DummyTasks, DummyUsers } from '../../../data/DummyData';
@@ -44,11 +44,11 @@ export const addList = (payload: {
 	addTaskToList(
 		list.id,
 		{
-			id: '',
 			images: [],
 			history: [],
 			listId: list.id,
 			isCompleted: false,
+			periodicity: Periodicity.MANUAL,
 			title: `Add some tasks to "${list.title}"!`,
 			description:
 				"This list is empty. Start adding tasks to it to help you with your day to day! When you're done, delete me or update me for any task you like.",
@@ -70,8 +70,35 @@ const populateListData = (list: DbList): List => {
 			if (task?.id === id) tasks.push(task);
 		});
 	});
-	const completedTasks = tasks.filter((task) => task.isCompleted);
-	const pendingTasks = tasks.filter((task) => !task.isCompleted);
+
+	const completedTasks: Task[] = [];
+	const pendingTasks: Task[] = [];
+
+	tasks.forEach((task) => {
+		if (!task.isCompleted) return pendingTasks.push(task);
+		const now = new Date();
+		switch (task.periodicity) {
+			case Periodicity.DAILY:
+				return now.getDate() === task.history[0].timestamp.getDate() &&
+					now.getMonth() === task.history[0].timestamp.getMonth() &&
+					now.getFullYear() === task.history[0].timestamp.getFullYear()
+					? completedTasks.push(task)
+					: pendingTasks.push(task);
+			case Periodicity.WEEKLY:
+				return getWeekNumber(now) === getWeekNumber(task.history[0].timestamp) &&
+					now.getFullYear() === task.history[0].timestamp.getFullYear()
+					? completedTasks.push(task)
+					: pendingTasks.push(task);
+			case Periodicity.MONTHLY:
+				return now.getMonth() === task.history[0].timestamp.getMonth() &&
+					now.getFullYear() === task.history[0].timestamp.getFullYear()
+					? completedTasks.push(task)
+					: pendingTasks.push(task);
+			case Periodicity.MANUAL:
+			default:
+				return completedTasks.push(task);
+		}
+	});
 
 	dbList.tasks = new Set([
 		...pendingTasks.map((task) => task.id),
@@ -92,6 +119,17 @@ const populateListData = (list: DbList): List => {
 		pendingTasks,
 		users,
 	};
+};
+
+const getWeekNumber = (date: Date) => {
+	const target = new Date(date.valueOf());
+	const dayNr = (date.getDay() + 6) % 7;
+	target.setDate(target.getDate() - dayNr + 3);
+	const firstThursday = target.valueOf();
+	target.setMonth(0, 1);
+	if (target.getDay() !== 4)
+		target.setMonth(0, 1 + ((4 - target.getDay() + 7) % 7));
+	return 1 + Math.ceil((firstThursday - target.getTime()) / 604800000);
 };
 
 export const addTaskToList = (
