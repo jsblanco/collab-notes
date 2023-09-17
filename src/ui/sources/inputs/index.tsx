@@ -281,6 +281,8 @@ export const InfoTooltip = ({ message }: { message: string }) => {
 	const [visible, setVisible] = useState(false);
 
 	const toggleTooltip = () => {
+		if (!visible) setTimeout(setVisible.bind(null, false), 3000);
+
 		setVisible(!visible);
 	};
 
@@ -294,12 +296,9 @@ export const InfoTooltip = ({ message }: { message: string }) => {
 				/>
 			</RoundButton>
 			{visible && message && (
-				<>
-					<View style={styles.tooltipBackdrop}></View>
-					<Pressable onPress={toggleTooltip} style={styles.tooltipMessage}>
-						<Text noPadding>{message}</Text>
-					</Pressable>
-				</>
+				<Pressable onPress={toggleTooltip} style={styles.tooltipMessage}>
+					<Text noPadding>{message}</Text>
+				</Pressable>
 			)}
 		</View>
 	);
