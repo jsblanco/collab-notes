@@ -62,14 +62,19 @@ type CloseButtonProps = {
 };
 
 export const OSButton: any = (
-	props: PropsWithChildren<{ style: StyleProp<ViewStyle> }>
+	props: PropsWithChildren<{
+		style: StyleProp<ViewStyle>;
+		borderRadius?: number;
+	}>
 ) => {
-	const { style, ...other } = props;
+	const { style, borderRadius, ...other } = props;
 
 	return Platform.OS === 'android' && Platform.Version >= 21 ? (
-		<TouchableNativeFeedback {...other}>
-			<View style={props.style}>{props.children}</View>
-		</TouchableNativeFeedback>
+		<View style={{ borderRadius, overflow: 'hidden' }}>
+			<TouchableNativeFeedback {...other}>
+				<View style={props.style}>{props.children}</View>
+			</TouchableNativeFeedback>
+		</View>
 	) : (
 		<TouchableOpacity activeOpacity={0.6} {...other}>
 			<View style={props.style}>{props.children}</View>
@@ -281,7 +286,12 @@ export const Tooltip = ({
 	message,
 	alignLeft,
 	children,
-}: PropsWithChildren<{ message: string; alignLeft?: boolean }>) => {
+	borderRadius,
+}: PropsWithChildren<{
+	message: string;
+	alignLeft?: boolean;
+	borderRadius: number;
+}>) => {
 	const [visible, setVisible] = useState(false);
 
 	const toggleTooltip = () => {
@@ -292,11 +302,16 @@ export const Tooltip = ({
 
 	return (
 		<View style={styles.tooltipContainer}>
-			<OSButton onPress={toggleTooltip}>{children}</OSButton>
+			<OSButton borderRadius={borderRadius} onPress={toggleTooltip}>
+				{children}
+			</OSButton>
 			{visible && message && (
 				<Pressable
 					onPress={toggleTooltip}
-					style={[styles.tooltipMessage, alignLeft && { right: undefined, left: 30 }]}>
+					style={[
+						styles.tooltipMessage,
+						alignLeft && { right: undefined, left: 30 },
+					]}>
 					<Text noPadding>{message}</Text>
 				</Pressable>
 			)}

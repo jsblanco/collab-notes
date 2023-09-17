@@ -110,12 +110,12 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 							alignItems={'center'}
 							justifyContent="space-between">
 							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-								<CompletionBadge completed={!!task.isCompleted} alignLeft />
+								<CompletionBadge completed={!!task.isCompleted} tooltip alignLeft />
 								<H1 style={styles.title} noPadding>
 									{task.title}
 								</H1>
 							</View>
-							<PeriodicityBadge periodicity={task.periodicity} />
+							<PeriodicityBadge periodicity={task.periodicity} tooltip />
 						</Row>
 
 						<View style={[styles.section, styles.description]}>
@@ -163,11 +163,12 @@ const styles = StyleSheet.create({
 	titleRow: {
 		zIndex: 2,
 		marginBottom: 32,
-		paddingHorizontal: 10,
+		paddingHorizontal: 20,
 	},
 	title: {
 		marginBottom: 0,
 		paddingTop: 10,
+		paddingLeft: 20,
 		paddingRight: 50,
 	},
 	section: {

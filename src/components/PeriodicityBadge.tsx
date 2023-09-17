@@ -21,17 +21,29 @@ const periodicityTooltip = {
 	[Periodicity.MANUAL]: 'This task will not be automatically marked as pending',
 };
 
-const PeriodicityBadge = ({ periodicity }: { periodicity: Periodicity }) => {
-	return (
-		<Tooltip message={periodicityTooltip[periodicity]}>
-			<View style={[styles.periodicityBadge]}>
-				{periodicity === Periodicity.MANUAL ? (
-					<Ionicons name={IconNames.create} color={colors.white} size={23} />
-				) : (
-					<Text style={styles.number}>{periodicityIcons[periodicity]}</Text>
-				)}
-			</View>
+const PeriodicityBadge = ({
+	periodicity,
+	tooltip,
+}: {
+	periodicity: Periodicity;
+	tooltip?: boolean;
+}) => {
+	const badge = (
+		<View style={[styles.periodicityBadge]}>
+			{periodicity === Periodicity.MANUAL ? (
+				<Ionicons name={IconNames.create} color={colors.white} size={23} />
+			) : (
+				<Text style={styles.number}>{periodicityIcons[periodicity]}</Text>
+			)}
+		</View>
+	);
+
+	return tooltip ? (
+		<Tooltip borderRadius={20} message={periodicityTooltip[periodicity]}>
+			{badge}
 		</Tooltip>
+	) : (
+		badge
 	);
 };
 
@@ -44,7 +56,6 @@ const styles = StyleSheet.create({
 		width: 40,
 		height: 40,
 		borderRadius: 20,
-		marginHorizontal: 10,
 		alignItems: 'center',
 		justifyContent: 'center',
 		zIndex: 2,

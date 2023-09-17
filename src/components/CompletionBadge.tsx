@@ -6,15 +6,15 @@ import { colors, IconNames, shadow, Tooltip } from '@app/ui';
 const CompletionBadge = ({
 	completed = false,
 	muted,
+	tooltip,
 	alignLeft,
 }: {
 	completed?: boolean;
+	tooltip?: boolean;
 	muted?: boolean;
 	alignLeft?: boolean;
-}) => (
-	<Tooltip
-		message={'This task is ' + ( completed ? 'completed' : 'pending completion')}
-		alignLeft={alignLeft}>
+}) => {
+	const badge = (
 		<View
 			style={[
 				completed ? styles.green : styles.yellow,
@@ -27,8 +27,19 @@ const CompletionBadge = ({
 				size={22}
 			/>
 		</View>
-	</Tooltip>
-);
+	);
+
+	return tooltip ? (
+		<Tooltip
+			borderRadius={10}
+			message={'This task is ' + (completed ? 'completed' : 'pending completion')}
+			alignLeft={alignLeft}>
+			{badge}
+		</Tooltip>
+	) : (
+		badge
+	);
+};
 
 export default CompletionBadge;
 
@@ -44,7 +55,6 @@ const styles = StyleSheet.create({
 		paddingLeft: 8,
 		paddingVertical: 5,
 		borderRadius: 10,
-		marginHorizontal: 10,
 		...shadow,
 	},
 });

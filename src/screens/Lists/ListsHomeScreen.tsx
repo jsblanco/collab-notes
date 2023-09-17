@@ -40,6 +40,7 @@ const ListsHomeScreen = ({ route, navigation }: Props) => {
 						{item.title}
 					</H3>
 				</TouchableOpacity>
+				<CompletionBadge completed={false} />
 			</Row>
 			<TasksFlatlist listId={item.id} tasks={item.pendingTasks} reorderTasks />
 		</View>

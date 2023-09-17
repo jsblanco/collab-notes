@@ -13,6 +13,7 @@ import { Task } from '@app/models';
 import { ListStackRoutes } from '@app/router/NavigationTypes';
 import { removeListTask, toggleTaskCompletion } from '@app/store';
 import { colors, fonts, H3, OSButton, Row, Text } from '@app/ui';
+import PeriodicityBadge from './PeriodicityBadge';
 
 export function TaskItem({
 	task,
@@ -27,7 +28,12 @@ export function TaskItem({
 
 	const navigation = useNavigation();
 	const closeThisRow = () => itemRefs.current.get(task.id)?.close();
-	const itemBody = <H3 style={styles.title}>{task.title}</H3>;
+	const itemBody = (
+		<Row alignItems="center" style={{ paddingHorizontal: 20 }}>
+			<PeriodicityBadge periodicity={task.periodicity} />
+			<H3 style={styles.title}>{task.title}</H3>
+		</Row>
+	);
 
 	return (
 		<ScaleDecorator>
@@ -72,7 +78,7 @@ export function TaskItem({
 						<ImageBackground
 							source={{ uri: task.images[0].preview }}
 							resizeMode="cover"
-							style={{ flex: 1, height: '100%', width: '100%' }}>
+							style={styles.imageBackground}>
 							<LinearGradient
 								colors={[
 									'white',
@@ -239,6 +245,11 @@ const styles = StyleSheet.create({
 		paddingLeft: 5,
 		width: '100%',
 		color: 'white',
+	},
+	imageBackground: {
+		flex: 1,
+		height: '100%',
+		width: '100%',
 	},
 	title: {
 		fontSize: 16,
