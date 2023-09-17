@@ -38,7 +38,7 @@ const RadioInput = (props: RadioInputType) => {
 				alignItems="center"
 				justifyContent="space-between">
 				<Label>{label}</Label>
-				<InfoTooltip message={tooltip} />
+				{!!tooltip && <InfoTooltip message={tooltip} />}
 			</Row>
 			<View style={styles.options}>
 				{options.map((option, index) => (
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 	},
 	titleRow: {
-		zIndex: 3,
+		zIndex: 2,
 	},
 	emptyInput: {
 		width: 22,

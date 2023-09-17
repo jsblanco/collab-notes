@@ -41,6 +41,7 @@ export type FormControlType = {
 	placeholder: string;
 	inputHandler: (key: string, value: string, isValid: boolean) => void;
 	label?: string;
+	tooltip?: string;
 	multiline?: boolean;
 	keyboardType?: KeyfolderType;
 	autoCapitalize?: AutoCapitalizeType;

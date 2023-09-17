@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
-import { colors, Error, fonts, Label } from '@app/ui';
+import { colors, Error, fonts, InfoTooltip, Label, Row } from '@app/ui';
 import { formControlReducer } from './FormControl.reducer';
 import { FormControlActions, FormControlType } from './FormControl.types';
 
@@ -10,6 +10,7 @@ const FormControl = (props: FormControlType) => {
 		value,
 		inputName,
 		isValid,
+		tooltip,
 		inputHandler,
 		placeholder,
 		min,
@@ -89,7 +90,13 @@ const FormControl = (props: FormControlType) => {
 
 	return (
 		<View style={styles.formControl}>
-			<Label>{label}</Label>
+			<Row
+				style={styles.titleRow}
+				alignItems="center"
+				justifyContent="space-between">
+				<Label>{label}</Label>
+				{!!tooltip && <InfoTooltip message={tooltip} />}
+			</Row>
 			<TextInput
 				style={{
 					...styles.input,
@@ -108,7 +115,9 @@ const FormControl = (props: FormControlType) => {
 				autoComplete={autoComplete}
 				placeholderTextColor={colors.grey['3']}
 			/>
-			{required && state.isTouched && !state.isValid && error && <Error>{error}</Error>}
+			{required && state.isTouched && !state.isValid && error && (
+				<Error>{error}</Error>
+			)}
 		</View>
 	);
 };
@@ -119,6 +128,9 @@ const styles = StyleSheet.create({
 	formControl: {
 		paddingVertical: 10,
 		width: '100%',
+	},
+	titleRow: {
+		zIndex: 2,
 	},
 	input: {
 		width: '100%',
