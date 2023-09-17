@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Periodicity } from '@app/models';
-import { colors, fonts, IconNames, Tooltip } from '@app/ui';
+import { colors, fonts, IconNames, shadow, Tooltip } from '@app/ui';
 
 // TODO - Rework into some more inctuitive iconography
 
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		zIndex: 2,
+		...shadow,
 	},
 	number: {
 		fontSize: 18,

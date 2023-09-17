@@ -7,7 +7,6 @@ export default StyleSheet.create({
 		marginBottom: 20,
 		lineHeight: 32,
 		fontSize: 28,
-		// width: '100%',
 	},
 	H2: {
 		fontFamily: fonts.regularBold,

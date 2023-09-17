@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, IconNames, Tooltip } from '@app/ui';
+import { colors, IconNames, shadow, Tooltip } from '@app/ui';
 
 const CompletionBadge = ({
 	completed = false,
@@ -45,5 +45,6 @@ const styles = StyleSheet.create({
 		paddingVertical: 5,
 		borderRadius: 10,
 		marginHorizontal: 10,
+		...shadow,
 	},
 });

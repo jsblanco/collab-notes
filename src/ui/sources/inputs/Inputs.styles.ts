@@ -107,5 +107,6 @@ export default StyleSheet.create({
 		paddingVertical: 10,
 		paddingHorizontal: 20,
 		backgroundColor: colors.accent,
+		...shadow,
 	},
 });
