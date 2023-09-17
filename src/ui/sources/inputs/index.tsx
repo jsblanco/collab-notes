@@ -277,6 +277,33 @@ export const CloseButton = ({
 	</FloatingButton>
 );
 
+export const Tooltip = ({
+	message,
+	alignLeft,
+	children,
+}: PropsWithChildren<{ message: string; alignLeft?: boolean }>) => {
+	const [visible, setVisible] = useState(false);
+
+	const toggleTooltip = () => {
+		if (!visible) setTimeout(setVisible.bind(null, false), 3000);
+
+		setVisible(!visible);
+	};
+
+	return (
+		<View style={styles.tooltipContainer}>
+			<OSButton onPress={toggleTooltip}>{children}</OSButton>
+			{visible && message && (
+				<Pressable
+					onPress={toggleTooltip}
+					style={[styles.tooltipMessage, alignLeft && { right: undefined, left: 30 }]}>
+					<Text noPadding>{message}</Text>
+				</Pressable>
+			)}
+		</View>
+	);
+};
+
 export const InfoTooltip = ({ message }: { message: string }) => {
 	const [visible, setVisible] = useState(false);
 

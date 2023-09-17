@@ -94,13 +94,14 @@ export default StyleSheet.create({
 		...shadow,
 	},
 	tooltipContainer: {
+		zIndex: 2,
 		position: 'relative',
 	},
 	tooltipMessage: {
 		position: 'absolute',
 		top: 20,
 		right: 5,
-		zIndex: 2,
+		zIndex: 3,
 		minWidth: 200,
 		borderRadius: 7,
 		paddingVertical: 10,

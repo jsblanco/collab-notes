@@ -22,8 +22,8 @@ export interface TaskDto {
 }
 
 export enum Periodicity {
-	MANUAL = 'MANUAL',
-	DAILY = 'DAILY',
-	WEEKLY = 'WEEKLY',
-	MONTHLY = 'MONTHLY',
+	MANUAL = '-1',
+	DAILY = '1',
+	WEEKLY = '7',
+	MONTHLY = '30',
 }

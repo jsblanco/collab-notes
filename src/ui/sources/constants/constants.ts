@@ -18,6 +18,9 @@ const generalColorPalette = {
 	mustard: '#EEC055',
 	red: '#EF476F',
 	darkBlue: '#073B4C',
+	purple: '#845C7E',
+	orange: '#D89780',
+	mutedGreen: '#8A9A5B',
 };
 const greyTones = {
 	1: '#303133',

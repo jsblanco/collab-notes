@@ -12,7 +12,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Task } from '@app/models';
 import { ListStackRoutes } from '@app/router/NavigationTypes';
 import { removeListTask, toggleTaskCompletion } from '@app/store';
-import { colors, fonts, H3, OSButton, Text } from '@app/ui';
+import { colors, fonts, H3, OSButton, Row, Text } from '@app/ui';
 
 export function TaskItem({
 	task,
@@ -27,6 +27,7 @@ export function TaskItem({
 
 	const navigation = useNavigation();
 	const closeThisRow = () => itemRefs.current.get(task.id)?.close();
+	const itemBody = <H3 style={styles.title}>{task.title}</H3>;
 
 	return (
 		<ScaleDecorator>
@@ -83,11 +84,11 @@ export function TaskItem({
 								style={[styles.row]}
 								start={[0.35, 1]}
 								end={[1, 0]}>
-								<H3 style={styles.title}>{task.title}</H3>
+								{itemBody}
 							</LinearGradient>
 						</ImageBackground>
 					) : (
-						<H3 style={styles.title}>{task.title}</H3>
+						itemBody
 					)}
 				</OSButton>
 			</SwipeableItem>

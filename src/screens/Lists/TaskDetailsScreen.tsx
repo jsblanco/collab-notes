@@ -5,15 +5,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { StackScreenProps } from '@react-navigation/stack';
 import CompletionBadge from '@app/components/CompletionBadge';
 import ImageGallery from '@app/components/ImageGallery';
+import PeriodicityBadge from '@app/components/PeriodicityBadge';
 import TaskHistoryEntry from '@app/components/TaskHistoryEntry';
-import { List, TaskToggleEvent } from '@app/models';
+import { List, Periodicity, TaskToggleEvent } from '@app/models';
 import {
 	getDrawerListLink,
 	ListStackProps,
 	ListStackRoutes,
 } from '@app/router/NavigationTypes';
 import { removeListTask, RootState, toggleTaskCompletion } from '@app/store';
-import { Button, colors, Container, H1, H3, Row, Text } from '@app/ui';
+import { B, Button, colors, Container, H1, H3, Row, Text } from '@app/ui';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.TaskDetails>;
 
@@ -104,11 +105,17 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 				renderItem={renderTaskHistoryItem}
 				ListHeaderComponent={
 					<>
-						<Row style={styles.titleRow} alignItems={'center'}>
-							<CompletionBadge completed={!!task.isCompleted} />
-							<H1 style={styles.title} noPadding>
-								{task.title}
-							</H1>
+						<Row
+							style={styles.titleRow}
+							alignItems={'center'}
+							justifyContent="space-between">
+							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+								<CompletionBadge completed={!!task.isCompleted} alignLeft />
+								<H1 style={styles.title} noPadding>
+									{task.title}
+								</H1>
+							</View>
+							<PeriodicityBadge periodicity={task.periodicity} />
 						</Row>
 
 						<View style={[styles.section, styles.description]}>
@@ -154,8 +161,9 @@ const styles = StyleSheet.create({
 		paddingTop: 20,
 	},
 	titleRow: {
+		zIndex: 2,
 		marginBottom: 32,
-		marginHorizontal: 10,
+		paddingHorizontal: 10,
 	},
 	title: {
 		marginBottom: 0,
@@ -192,5 +200,14 @@ const styles = StyleSheet.create({
 	},
 	historyTitle: {
 		paddingHorizontal: 20,
+	},
+	daily: {
+		color: colors.general.darkBlue,
+	},
+	weekly: {
+		color: colors.accent,
+	},
+	monthly: {
+		color: colors.general.green,
 	},
 });
