@@ -7,14 +7,14 @@ import CompletionBadge from '@app/components/CompletionBadge';
 import ImageGallery from '@app/components/ImageGallery';
 import PeriodicityBadge from '@app/components/PeriodicityBadge';
 import TaskHistoryEntry from '@app/components/TaskHistoryEntry';
-import { List, Periodicity, TaskToggleEvent } from '@app/models';
+import { List, TaskToggleEvent } from '@app/models';
 import {
 	getDrawerListLink,
 	ListStackProps,
 	ListStackRoutes,
 } from '@app/router/NavigationTypes';
 import { removeListTask, RootState, toggleTaskCompletion } from '@app/store';
-import { B, Button, colors, Container, H1, H3, Row, Text } from '@app/ui';
+import { Button, colors, Container, H1, H3, Row, Text } from '@app/ui';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.TaskDetails>;
 

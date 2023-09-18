@@ -4,6 +4,7 @@ import { ScaleDecorator } from 'react-native-draggable-flatlist';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import SwipeableItem, {
 	OpenDirection,
+	SwipeableItemImperativeRef,
 	useSwipeableItemParams,
 } from 'react-native-swipeable-item';
 import { useDispatch } from 'react-redux';
@@ -15,64 +16,96 @@ import { removeListTask, toggleTaskCompletion } from '@app/store';
 import { colors, fonts, H3, OSButton, Row, Text } from '@app/ui';
 import PeriodicityBadge from './PeriodicityBadge';
 
-export function TaskItem({
-	task,
-	drag,
-	itemRefs,
-}: {
+const colorGradient = [
+	'white',
+	'rgba(255, 255, 255, 0.8)',
+	'rgba(255, 255, 255, 0.3)',
+	'rgba(255, 255, 255, 0.2)',
+	'transparent',
+];
+
+type TaskItemProps = {
 	task: Task;
 	drag: () => void;
 	itemRefs: React.MutableRefObject<Map<any, any>>;
-}) {
+};
+
+export function TaskItem({ task, drag, itemRefs }: TaskItemProps) {
 	const dispatch = useDispatch();
 
 	const navigation = useNavigation();
-	const closeThisRow = () => itemRefs.current.get(task.id)?.close();
+	const closeThisRow = useCallback(
+		() => itemRefs.current.get(task.id)?.close(),
+		[itemRefs]
+	);
+
 	const itemBody = (
-		<Row alignItems="center" style={{ paddingHorizontal: 20 }}>
+		<Row
+			alignItems="center"
+			justifyContent="space-between"
+			style={styles.contentRow}>
+			<H3 noPadding style={styles.title}>
+				{task.title}
+			</H3>
 			<PeriodicityBadge periodicity={task.periodicity} />
-			<H3 style={styles.title}>{task.title}</H3>
 		</Row>
+	);
+
+	const onSwipeItem = useCallback(
+		({ openDirection }: { openDirection: OpenDirection }) => {
+			if (openDirection !== OpenDirection.NONE)
+				[...itemRefs.current.entries()].forEach(([key, ref]) => {
+					if (key !== task.id && ref) ref?.close();
+				});
+			if (openDirection === OpenDirection.RIGHT)
+				dispatch(toggleTaskCompletion.request(task.listId, task.id));
+		},
+		[]
+	);
+
+	const onPressItem = useCallback(() => {
+		//@ts-ignore
+		navigation.navigate(ListStackRoutes.TaskDetails, {
+			listId: task.listId,
+			taskId: task.id,
+		});
+
+		[...itemRefs.current.entries()].forEach(([_, ref]) => ref?.close());
+	}, []);
+
+	const onAssigningItemRef = useCallback(
+		(ref: SwipeableItemImperativeRef | null) =>
+			ref && !itemRefs.current.get(task.id) && itemRefs.current.set(task.id, ref),
+		[task, itemRefs]
+	);
+
+	const onRenderUnderlayLeft = useCallback(
+		() => <UnderlayLeft task={task} closeRow={closeThisRow} />,
+		[task, closeThisRow]
+	);
+
+	const onRenderUnderlayRight = useCallback(
+		() =>
+			!!task.isCompleted ? <UnderlayCompletedTask /> : <UnderlayPendingTask />,
+		[]
 	);
 
 	return (
 		<ScaleDecorator>
 			<SwipeableItem
 				key={task.id}
-				ref={(ref) =>
-					ref && !itemRefs.current.get(task.id) && itemRefs.current.set(task.id, ref)
-				}
 				item={task}
-				onChange={({ openDirection }) => {
-					if (openDirection !== OpenDirection.NONE)
-						[...itemRefs.current.entries()].forEach(([key, ref]) => {
-							if (key !== task.id && ref) ref?.close();
-						});
-					if (openDirection === OpenDirection.RIGHT)
-						dispatch(toggleTaskCompletion.request(task.listId, task.id));
-				}}
 				overSwipe={30}
-				renderUnderlayLeft={() => (
-					<UnderlayLeft task={task} closeRow={closeThisRow} />
-				)}
-				renderUnderlayRight={() =>
-					!!task.isCompleted ? <UnderlayCompletedTask /> : <UnderlayPendingTask />
-				}
+				onChange={onSwipeItem}
+				ref={onAssigningItemRef}
+				renderUnderlayLeft={onRenderUnderlayLeft}
+				renderUnderlayRight={onRenderUnderlayRight}
 				snapPointsLeft={[90, 180]}
 				snapPointsRight={[400]}>
 				<OSButton
 					activeOpacity={1}
 					onLongPress={drag}
-					onPress={() => {
-						//@ts-ignore
-						navigation.navigate(ListStackRoutes.TaskDetails, {
-							listId: task.listId,
-							taskId: task.id,
-						});
-
-						[...itemRefs.current.entries()].forEach(([_, ref]) => ref?.close());
-						// ref.current.close();
-					}}
+					onPress={onPressItem}
 					style={[styles.row, styles.item]}>
 					{task.images[0]?.preview ? (
 						<ImageBackground
@@ -80,13 +113,7 @@ export function TaskItem({
 							resizeMode="cover"
 							style={styles.imageBackground}>
 							<LinearGradient
-								colors={[
-									'white',
-									'rgba(255, 255, 255, 0.8)',
-									'rgba(255, 255, 255, 0.3)',
-									'rgba(255, 255, 255, 0.2)',
-									'transparent',
-								]}
+								colors={colorGradient}
 								style={[styles.row]}
 								start={[0.35, 1]}
 								end={[1, 0]}>
@@ -166,7 +193,7 @@ const UnderlayLeft = ({
 	);
 };
 
-function UnderlayCompletedTask() {
+const UnderlayCompletedTask = () => {
 	const { percentOpen } = useSwipeableItemParams<Task>();
 	const animStyle = useAnimatedStyle(
 		() => ({
@@ -189,9 +216,9 @@ function UnderlayCompletedTask() {
 			</LinearGradient>
 		</Animated.View>
 	);
-}
+};
 
-function UnderlayPendingTask() {
+const UnderlayPendingTask = () => {
 	const { percentOpen } = useSwipeableItemParams<Task>();
 	const animStyle = useAnimatedStyle(
 		() => ({
@@ -214,7 +241,7 @@ function UnderlayPendingTask() {
 			</LinearGradient>
 		</Animated.View>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	container: {
@@ -224,12 +251,10 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		flex: 1,
 		alignItems: 'center',
-		// padding: 15,
 	},
 	item: {
 		backgroundColor: colors.white,
 		marginBottom: 1,
-		// paddingVertical: 20,
 	},
 	buttonRow: {
 		width: '100%',
@@ -254,10 +279,11 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 16,
 		fontFamily: fonts.regular,
-		padding: 20,
-		paddingBottom: 20,
+	},
+	contentRow: {
+		padding: 12,
 		paddingLeft: 35,
-		width: '100%',
+		paddingRight: 19,
 	},
 	underlay: {
 		height: '100%',

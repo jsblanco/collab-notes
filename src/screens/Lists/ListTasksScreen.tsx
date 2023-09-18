@@ -117,7 +117,12 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 				<TouchableOpacity onPress={() => setShowCompleted(false)}>
 					<Row alignItems={'center'}>
 						<CompletionBadge muted={showCompleted} />
-						<H3 style={showCompleted ? styles.mutedTitle : {}} noPadding>
+						<H3
+							noPadding
+							style={{
+								paddingLeft: 20,
+								...(!showCompleted ? styles.mutedTitle : {}),
+							}}>
 							Pending
 						</H3>
 					</Row>
@@ -125,7 +130,12 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 
 				<TouchableOpacity onPress={() => setShowCompleted(true)}>
 					<Row alignItems={'center'}>
-						<H3 style={!showCompleted ? styles.mutedTitle : {}} noPadding>
+						<H3
+							noPadding
+							style={{
+								paddingRight: 20,
+								...(!showCompleted ? styles.mutedTitle : {}),
+							}}>
 							Completed
 						</H3>
 						<CompletionBadge completed muted={!showCompleted} />

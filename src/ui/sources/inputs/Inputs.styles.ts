@@ -102,7 +102,7 @@ export default StyleSheet.create({
 		top: 20,
 		right: 5,
 		zIndex: 3,
-		minWidth: 200,
+		minWidth: 180,
 		borderRadius: 7,
 		paddingVertical: 10,
 		paddingHorizontal: 20,

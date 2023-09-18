@@ -310,7 +310,7 @@ export const Tooltip = ({
 					onPress={toggleTooltip}
 					style={[
 						styles.tooltipMessage,
-						alignLeft && { right: undefined, left: 30 },
+						alignLeft && { right: undefined, left: 0 },
 					]}>
 					<Text noPadding>{message}</Text>
 				</Pressable>
