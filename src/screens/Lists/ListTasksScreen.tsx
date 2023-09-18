@@ -121,7 +121,7 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 							noPadding
 							style={{
 								paddingLeft: 20,
-								...(!showCompleted ? styles.mutedTitle : {}),
+								...(showCompleted ? styles.mutedTitle : {}),
 							}}>
 							Pending
 						</H3>
