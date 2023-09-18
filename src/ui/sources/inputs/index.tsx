@@ -308,11 +308,10 @@ export const Tooltip = ({
 			{visible && message && (
 				<Pressable
 					onPress={toggleTooltip}
-					style={[
-						styles.tooltipMessage,
-						alignLeft && { right: undefined, left: 0 },
-					]}>
-					<Text noPadding>{message}</Text>
+					style={[styles.tooltipBody, alignLeft && { right: undefined, left: 0 }]}>
+					<Text noPadding style={styles.tooltipText}>
+						{message}
+					</Text>
 				</Pressable>
 			)}
 		</View>
@@ -338,8 +337,10 @@ export const InfoTooltip = ({ message }: { message: string }) => {
 				/>
 			</RoundButton>
 			{visible && message && (
-				<Pressable onPress={toggleTooltip} style={styles.tooltipMessage}>
-					<Text noPadding>{message}</Text>
+				<Pressable onPress={toggleTooltip} style={styles.tooltipBody}>
+					<Text noPadding style={styles.tooltipText}>
+						{message}
+					</Text>
 				</Pressable>
 			)}
 		</View>

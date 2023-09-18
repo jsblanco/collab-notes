@@ -134,7 +134,7 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 			<RadioInput
 				label={"Automatically set as 'Pending'..."}
 				tooltip={
-					"How often would you like this task to be automatically set as 'Pending', if at all?"
+					"How often should this task be automatically set as Pending, if at all?"
 				}
 				inputName={'periodicity'}
 				inputHandler={inputHandler}

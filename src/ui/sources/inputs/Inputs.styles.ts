@@ -97,16 +97,19 @@ export default StyleSheet.create({
 		zIndex: 2,
 		position: 'relative',
 	},
-	tooltipMessage: {
+	tooltipBody: {
 		position: 'absolute',
 		top: 20,
 		right: 5,
 		zIndex: 3,
+		padding: 10,
 		minWidth: 180,
 		borderRadius: 7,
-		paddingVertical: 10,
-		paddingHorizontal: 20,
-		backgroundColor: colors.accent,
+		backgroundColor: colors.primary,
 		...shadow,
+	},
+	tooltipText: {
+		color: colors.grey[5],
+		padding: 0,
 	},
 });
