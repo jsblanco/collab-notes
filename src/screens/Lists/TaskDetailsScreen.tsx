@@ -158,7 +158,8 @@ const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
 		width: '100%',
-		paddingTop: 20,
+		marginTop: 20,
+		marginBottom: 50,
 	},
 	titleRow: {
 		zIndex: 2,
