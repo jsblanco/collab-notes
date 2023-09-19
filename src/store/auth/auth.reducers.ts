@@ -1,6 +1,7 @@
 import { DummyUsers } from '../../../data/DummyData';
 import { User } from '../../models';
 import * as constants from './auth.constants';
+import { fetchUserData } from './auth.queries';
 
 type StateType = {
 	isLoggedIn: boolean;
@@ -13,7 +14,7 @@ const initialState: StateType = {
 	isLoggedIn: false,
 	didTryAutoLogin: false,
 	token: '',
-	user: DummyUsers[0],
+	user: fetchUserData(DummyUsers[0].id),
 };
 
 const authReducer = (

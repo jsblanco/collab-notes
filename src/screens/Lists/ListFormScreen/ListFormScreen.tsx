@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { StackScreenProps } from '@react-navigation/stack';
 import FormControl from '@app/components/FormControl/FormControl';
+import UserSelector from '@app/components/UserSelector/UserSelector';
 import { DrawerProps, DrawerRoutes } from '@app/router/NavigationTypes';
 import { addList, RootState } from '@app/store';
 import {
@@ -26,6 +27,9 @@ type Props = StackScreenProps<DrawerProps, DrawerRoutes.NewList>;
 const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 	const { listId } = route.params;
 	const [iconModalVisible, setIconModalVisible] = useState<boolean>(false);
+
+	const userFriends = useSelector((state: RootState) => state.auth.user.friends);
+
 	const list = useSelector((state: RootState) =>
 		state.lists.lists.find((list) => listId === list.id)
 	);
@@ -105,39 +109,62 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	return (
 		<Container style={styles.screen}>
-			<Row alignItems={'flex-start'}>
-				<Label style={styles.iconLabel}>Icon</Label>
-				<OSButton
-					style={styles.iconOptions}
-					onPress={() => setIconModalVisible(!iconModalVisible)}>
-					<Ionicons name={formState.inputValues.icon} color={'#000'} size={32} />
-				</OSButton>
-			</Row>
-			<FormControl
-				label={'Name'}
-				value={formState.inputValues.title}
-				isValid={formState.inputValidities.title}
-				inputName={'title'}
-				placeholder={'List name'}
-				inputHandler={inputHandler}
-				minLength={3}
-				maxLength={30}
-				required
+			<UserSelector
+				label={'Friends'}
+				maxAmount={0}
+				inputName={''}
+				value={[
+					...userFriends,
+					...userFriends,
+					...userFriends,
+					...userFriends,
+					...userFriends,
+				]}
+				isValid={false}
+				inputHandler={function (
+					key: string,
+					value: string[],
+					isValid: boolean
+				): void {}}
+				headercomponent={
+					<>
+						<Row alignItems={'flex-start'}>
+							<Label style={styles.iconLabel}>Icon</Label>
+							<OSButton
+								style={styles.iconOptions}
+								onPress={() => setIconModalVisible(!iconModalVisible)}>
+								<Ionicons name={formState.inputValues.icon} color={'#000'} size={32} />
+							</OSButton>
+						</Row>
+						<FormControl
+							label={'Name'}
+							value={formState.inputValues.title}
+							isValid={formState.inputValidities.title}
+							inputName={'title'}
+							placeholder={'List name'}
+							inputHandler={inputHandler}
+							minLength={3}
+							maxLength={30}
+							required
+						/>
+
+						<Modal
+							visible={iconModalVisible}
+							onRequestClose={setIconModalVisible.bind(null, !iconModalVisible)}>
+							<FlatList
+								numColumns={5}
+								data={ListIconOptions}
+								renderItem={renderIcons}
+								keyExtractor={(item) => item}
+								contentContainerStyle={styles.iconsList}
+								ListHeaderComponent={
+									<H2 style={{ marginBottom: 30 }}>Choose an icon for your list</H2>
+								}
+							/>
+						</Modal>
+					</>
+				}
 			/>
-			<Modal
-				visible={iconModalVisible}
-				onRequestClose={setIconModalVisible.bind(null, !iconModalVisible)}>
-				<FlatList
-					numColumns={5}
-					data={ListIconOptions}
-					renderItem={renderIcons}
-					keyExtractor={(item) => item}
-					contentContainerStyle={styles.iconsList}
-					ListHeaderComponent={
-						<H2 style={{ marginBottom: 30 }}>Choose an icon for your list</H2>
-					}
-				/>
-			</Modal>
 
 			<FloatingButton disabled={!formState.formIsValid} onPress={onSubmit}>
 				{list ? 'Update list' : 'Create new list'}
@@ -151,7 +178,7 @@ export default ListFormScreen;
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
-		padding: 20,
+		// padding: 20,
 		width: '100%',
 		position: 'relative',
 	},

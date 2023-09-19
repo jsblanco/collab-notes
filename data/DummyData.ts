@@ -1,6 +1,7 @@
 import { IconNames } from '@app/ui';
 import {
 	DbList,
+	DbUser,
 	Periodicity,
 	Task,
 	TaskToggleEvent,
@@ -17,14 +18,14 @@ const createFakeTaskToggleEvent = (
 	timestamp: new Date(new Date().setDate(new Date().getDate() - daysPast)),
 });
 
-export const DummyUsers: User[] = [
+export const DummyUsers: DbUser[] = [
 	{
 		id: 'a',
 		lists: ['1', '2'],
 		email: 'jorgito@email.com',
 		image: require('../src/assets/images/profile.png'),
 		name: 'Jorgito',
-		friends: ['b'],
+		friends: ['b', 'c', 'd'],
 	},
 	{
 		id: 'b',

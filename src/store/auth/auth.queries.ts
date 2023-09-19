@@ -1,9 +1,21 @@
-import {axiosInstance} from '../api/axios';
+import { DummyUsers } from 'data/DummyData';
+import { User } from '@app/models';
+import { axiosInstance } from '../api/axios';
 
-export const createUserInDb = async ({email, password}: { email: string, password: string, }) => {
-    return axiosInstance.post("/accounts:signUp?key=AIzaSyBANhzKXlQjW3l1KXqGttm1DuswCGKVM5E", {email: email, password: password, returnSecureToken: true })
-}
+export const fetchUserData = (userId: string): User => {
+	const user = DummyUsers.find((user) => user.id === userId);
 
-export const loginUserFromDb = async ({email, password}: { email: string, password: string, }) => {
-    return axiosInstance.post("/accounts:signInWithPassword?key=AIzaSyBANhzKXlQjW3l1KXqGttm1DuswCGKVM5E", {email: email, password: password, returnSecureToken: true })
-}
+	if (!user) throw new Error('Could not find user');
+
+	return {
+		...user,
+		friends: user.friends.reduce((accum, friendId) => {
+			const friend = DummyUsers.find((user) => user.id === friendId);
+			if (friend !== undefined) {
+				accum.push({ ...friend, friends: [] });
+			}
+
+			return accum;
+		}, [] as User[]),
+	};
+};
