@@ -15,10 +15,9 @@ export default StyleSheet.create({
 		justifyContent: 'flex-end',
 	},
 	userAvatar: {
-		height: 40,
 		width: 40,
+		height: 40,
 		borderRadius: 20,
-		marginRight: 5,
 		overflow: 'hidden',
 		alignItems: 'center',
 	},
@@ -30,6 +29,15 @@ export default StyleSheet.create({
 	avatarPlaceholder: {
 		fontWeight: 'bold',
 		color: 'white',
+	},
+	selected: {
+		borderRadius: 50,
+		borderWidth: 3,
+		borderColor: colors.primary,
+		padding: 3,
+	},
+	wrapper: {
+		marginRight: 5,
 	},
 	big: {
 		height: 80,

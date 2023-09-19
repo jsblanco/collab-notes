@@ -102,6 +102,7 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 			<FlatList
 				data={task.history}
 				style={styles.screen}
+				contentContainerStyle={styles.contentContainer}
 				renderItem={renderTaskHistoryItem}
 				ListHeaderComponent={
 					<>
@@ -158,8 +159,9 @@ const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
 		width: '100%',
-		marginTop: 20,
-		marginBottom: 50,
+	},
+	contentContainer: {
+		paddingBottom: 50,
 	},
 	titleRow: {
 		zIndex: 2,

@@ -40,7 +40,7 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 			icon:
 				list?.icon ??
 				ListIconOptions[Math.floor(Math.random() * ListIconOptions.length)],
-			users: list?.users.map((user) => user.id) ?? [],
+			users: [],
 		},
 		inputValidities: {
 			title: !!list,
@@ -111,21 +111,12 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 		<Container style={styles.screen}>
 			<UserSelector
 				label={'Friends'}
-				maxAmount={0}
-				inputName={''}
-				value={[
-					...userFriends,
-					...userFriends,
-					...userFriends,
-					...userFriends,
-					...userFriends,
-				]}
-				isValid={false}
-				inputHandler={function (
-					key: string,
-					value: string[],
-					isValid: boolean
-				): void {}}
+				maxAmount={10}
+				inputName={'users'}
+				value={formState.inputValues.users}
+				isValid={formState.inputValidities.users}
+				userList={userFriends}
+				inputHandler={inputHandler}
 				headercomponent={
 					<>
 						<Row alignItems={'flex-start'}>
@@ -152,7 +143,7 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 							visible={iconModalVisible}
 							onRequestClose={setIconModalVisible.bind(null, !iconModalVisible)}>
 							<FlatList
-								numColumns={5}
+								numColumns={4}
 								data={ListIconOptions}
 								renderItem={renderIcons}
 								keyExtractor={(item) => item}

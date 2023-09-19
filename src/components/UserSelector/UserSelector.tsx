@@ -6,10 +6,10 @@ import React, {
 	useReducer,
 	useState,
 } from 'react';
-import { FlatList, Pressable, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { User } from '@app/models';
-import { Error, Label, Text } from '@app/ui';
+import { Error, Label, OSButton, Text } from '@app/ui';
 import UserAvatar from '../Avatars/UserAvatar';
 import {
 	ImageSelectorActions,
@@ -20,7 +20,8 @@ type UserSelectorPropsType = {
 	label: string | ReactNode;
 	maxAmount: number;
 	inputName: string;
-	value: User[];
+	value: string[];
+	userList: User[];
 	required?: boolean;
 	isValid: boolean;
 	headercomponent: ReactElement;
@@ -30,17 +31,18 @@ type UserSelectorPropsType = {
 const UserSelector = (props: UserSelectorPropsType) => {
 	const {
 		label,
-		inputHandler,
-		headercomponent,
-		inputName,
 		value,
 		isValid,
-		maxAmount,
 		required,
+		userList,
+		inputName,
+		maxAmount,
+		inputHandler,
+		headercomponent,
 	} = props;
 	const [error, setError] = useState('');
 	const [state, dispatch] = useReducer(imageSelectorReducer, {
-		value: value ? value.map((user) => user.id) : [],
+		value: value ? value : [],
 		isValid: required ? isValid : true,
 		isTouched: false,
 	});
@@ -75,10 +77,10 @@ const UserSelector = (props: UserSelectorPropsType) => {
 	const renderItem = useCallback(
 		({ item, index }: { item: User; index: number }) => {
 			return (
-				<Pressable onPress={() => selectUserHandler(item)}>
-					<UserAvatar big user={item} i={index} />
+				<OSButton onPress={() => selectUserHandler(item)}>
+					<UserAvatar selected={value.includes(item.id)} big user={item} i={index} />
 					<Text center>{item.name}</Text>
-				</Pressable>
+				</OSButton>
 			);
 		},
 		[]
@@ -87,7 +89,7 @@ const UserSelector = (props: UserSelectorPropsType) => {
 	return (
 		<View style={styles.screen}>
 			<FlatList
-				data={value}
+				data={userList}
 				style={styles.flatlist}
 				contentContainerStyle={styles.flatlistContentContainer}
 				columnWrapperStyle={styles.columnWrapper}
@@ -116,11 +118,10 @@ const styles = StyleSheet.create({
 	},
 	flatlist: {
 		width: '100%',
-		paddingBottom: 100,
 		paddingHorizontal: 20,
 	},
 	flatlistContentContainer: {
-		paddingBottom: 100,
+		paddingBottom: 120,
 	},
 	columnWrapper: {
 		justifyContent: 'space-between',
