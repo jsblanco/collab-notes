@@ -6,10 +6,20 @@ import React, {
 	useReducer,
 	useState,
 } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { Dimensions, FlatList, Modal, StyleSheet, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { User } from '@app/models';
-import { Error, Label, OSButton, Text } from '@app/ui';
+import {
+	CloseButton,
+	colors,
+	Error,
+	IconNames,
+	Label,
+	OSButton,
+	shadow,
+	Text,
+} from '@app/ui';
 import UserAvatar from '../Avatars/UserAvatar';
 import {
 	ImageSelectorActions,
@@ -20,12 +30,12 @@ type UserSelectorPropsType = {
 	label: string | ReactNode;
 	maxAmount: number;
 	inputName: string;
-	value: string[];
+	value: User[];
 	userList: User[];
 	required?: boolean;
 	isValid: boolean;
 	headercomponent: ReactElement;
-	inputHandler: (key: string, value: string[], isValid: boolean) => void;
+	inputHandler: (key: string, value: User[], isValid: boolean) => void;
 };
 
 const UserSelector = (props: UserSelectorPropsType) => {
@@ -41,6 +51,7 @@ const UserSelector = (props: UserSelectorPropsType) => {
 		headercomponent,
 	} = props;
 	const [error, setError] = useState('');
+	const [modalVisible, setModalVisible] = useState(false);
 	const [state, dispatch] = useReducer(imageSelectorReducer, {
 		value: value ? value : [],
 		isValid: required ? isValid : true,
@@ -57,28 +68,49 @@ const UserSelector = (props: UserSelectorPropsType) => {
 		}
 	}, [value]);
 
-	const selectUserHandler = useCallback(
-		async (user: User) => {
-			state.value.includes(user.id)
-				? dispatch({
-						type: ImageSelectorActions.REMOVE_USER,
-						value: user.id,
-						isValid: required ? state.value.length > 1 : true,
-				  })
-				: dispatch({
-						type: ImageSelectorActions.ADD_USER,
-						value: user.id,
-						isValid: true,
-				  });
-		},
-		[ImagePicker, dispatch]
+	const onAddUser = useCallback(
+		(user: User) =>
+			dispatch({
+				type: ImageSelectorActions.ADD_USER,
+				value: user,
+				isValid: required ? state.value.length > 1 : true,
+			}),
+		[dispatch]
 	);
 
-	const renderItem = useCallback(
+	const onRemoveUser = useCallback(
+		(user: User) =>
+			dispatch({
+				type: ImageSelectorActions.REMOVE_USER,
+				value: user,
+				isValid: true,
+			}),
+		[dispatch]
+	);
+
+	const renderSelectedUserAvatars = useCallback(
+		({ item, index }: { item: User; index: number }) => {
+			console.log(item);
+			return (
+				<View>
+					<CloseButton onRequestClose={onRemoveUser.bind(null, item)} />
+					<UserAvatar big user={item} i={index} />
+					<Text center>{item.name}</Text>
+				</View>
+			);
+		},
+		[]
+	);
+
+	const renderUserAvatars = useCallback(
 		({ item, index }: { item: User; index: number }) => {
 			return (
-				<OSButton onPress={() => selectUserHandler(item)}>
-					<UserAvatar selected={value.includes(item.id)} big user={item} i={index} />
+				<OSButton
+					onPress={() => {
+						onAddUser(item);
+						setModalVisible(false);
+					}}>
+					<UserAvatar big user={item} i={index} />
 					<Text center>{item.name}</Text>
 				</OSButton>
 			);
@@ -87,25 +119,50 @@ const UserSelector = (props: UserSelectorPropsType) => {
 	);
 
 	return (
-		<View style={styles.screen}>
+		<>
+			<Label style={styles.label}>{label} </Label>
 			<FlatList
-				data={userList}
+				data={value}
+				horizontal
 				style={styles.flatlist}
-				contentContainerStyle={styles.flatlistContentContainer}
-				columnWrapperStyle={styles.columnWrapper}
-				numColumns={3}
-				renderItem={renderItem}
+				renderItem={renderSelectedUserAvatars}
 				keyExtractor={(value) => value.id}
 				showsHorizontalScrollIndicator={false}
 				ListHeaderComponent={
 					<>
-						{headercomponent}
-						<Label style={styles.label}>{label}</Label>
+						{value.length < maxAmount && (
+							<View style={styles.addUserButton}>
+								<OSButton
+									style={styles.userPreview}
+									onPress={() => setModalVisible(true)}>
+									<Ionicons name={IconNames.person} color={colors.grey[3]} size={32} />
+								</OSButton>
+								<Text noPadding style={styles.userPreviewTitle}>
+									Add user
+								</Text>
+							</View>
+						)}
 					</>
 				}
 			/>
+
 			{!!error && <Error>{error}</Error>}
-		</View>
+
+			<Modal
+				visible={modalVisible}
+				onRequestClose={setModalVisible.bind(null, !modalVisible)}>
+				<FlatList
+					numColumns={4}
+					data={userList.filter(
+						(user) =>
+							value.findIndex((selectedUser) => user.id === selectedUser.id) === -1
+					)}
+					renderItem={renderUserAvatars}
+					keyExtractor={(item) => item.id}
+					contentContainerStyle={styles.usersModal}
+				/>
+			</Modal>
+		</>
 	);
 };
 
@@ -130,5 +187,27 @@ const styles = StyleSheet.create({
 	},
 	label: {
 		paddingTop: 20,
+	},
+	usersModal: {
+		alignItems: 'center',
+		paddingVertical: 50,
+	},
+	addUserButton: {
+		marginRight: 10,
+		...shadow,
+	},
+	userPreview: {
+		...shadow,
+		overflow: 'hidden',
+		alignItems: 'center',
+		position: 'relative',
+		justifyContent: 'center',
+		backgroundColor: 'white',
+		height: 80,
+		width: 80,
+		borderRadius: 40,
+	},
+	userPreviewTitle: {
+		textAlign: 'center',
 	},
 });
