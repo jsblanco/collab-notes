@@ -34,7 +34,6 @@ type UserSelectorPropsType = {
 	userList: User[];
 	required?: boolean;
 	isValid: boolean;
-	headercomponent: ReactElement;
 	inputHandler: (key: string, value: User[], isValid: boolean) => void;
 };
 
@@ -48,7 +47,6 @@ const UserSelector = (props: UserSelectorPropsType) => {
 		inputName,
 		maxAmount,
 		inputHandler,
-		headercomponent,
 	} = props;
 	const [error, setError] = useState('');
 	const [modalVisible, setModalVisible] = useState(false);
@@ -89,32 +87,37 @@ const UserSelector = (props: UserSelectorPropsType) => {
 	);
 
 	const renderSelectedUserAvatars = useCallback(
-		({ item, index }: { item: User; index: number }) => {
-			console.log(item);
-			return (
+		({ item, index }: { item: User | 0; index: number }) =>
+			item === 0 ? (
+				<View style={styles.addUserButton}>
+					<OSButton style={styles.userPreview} onPress={() => setModalVisible(true)}>
+						<Ionicons name={IconNames.person} color={colors.grey[3]} size={32} />
+					</OSButton>
+					<Text noPadding style={styles.userPreviewTitle}>
+						Add user
+					</Text>
+				</View>
+			) : (
 				<View>
 					<CloseButton onRequestClose={onRemoveUser.bind(null, item)} />
 					<UserAvatar big user={item} i={index} />
 					<Text center>{item.name}</Text>
 				</View>
-			);
-		},
+			),
 		[]
 	);
 
 	const renderUserAvatars = useCallback(
-		({ item, index }: { item: User; index: number }) => {
-			return (
-				<OSButton
-					onPress={() => {
-						onAddUser(item);
-						setModalVisible(false);
-					}}>
-					<UserAvatar big user={item} i={index} />
-					<Text center>{item.name}</Text>
-				</OSButton>
-			);
-		},
+		({ item, index }: { item: User; index: number }) => (
+			<OSButton
+				onPress={() => {
+					onAddUser(item);
+					setModalVisible(false);
+				}}>
+				<UserAvatar big user={item} i={index} />
+				<Text center>{item.name}</Text>
+			</OSButton>
+		),
 		[]
 	);
 
@@ -122,28 +125,14 @@ const UserSelector = (props: UserSelectorPropsType) => {
 		<>
 			<Label style={styles.label}>{label} </Label>
 			<FlatList
-				data={value}
-				horizontal
+				data={value.length < maxAmount ? [0, ...value] : value}
+				// horizontal
+				numColumns={3}
 				style={styles.flatlist}
+				columnWrapperStyle={styles.columnWrapper}
 				renderItem={renderSelectedUserAvatars}
-				keyExtractor={(value) => value.id}
+				keyExtractor={(value) => (value as User).id ?? 'picker'}
 				showsHorizontalScrollIndicator={false}
-				ListHeaderComponent={
-					<>
-						{value.length < maxAmount && (
-							<View style={styles.addUserButton}>
-								<OSButton
-									style={styles.userPreview}
-									onPress={() => setModalVisible(true)}>
-									<Ionicons name={IconNames.person} color={colors.grey[3]} size={32} />
-								</OSButton>
-								<Text noPadding style={styles.userPreviewTitle}>
-									Add user
-								</Text>
-							</View>
-						)}
-					</>
-				}
 			/>
 
 			{!!error && <Error>{error}</Error>}
@@ -175,7 +164,6 @@ const styles = StyleSheet.create({
 	},
 	flatlist: {
 		width: '100%',
-		paddingHorizontal: 20,
 	},
 	flatlistContentContainer: {
 		paddingBottom: 120,
@@ -197,7 +185,6 @@ const styles = StyleSheet.create({
 		...shadow,
 	},
 	userPreview: {
-		...shadow,
 		overflow: 'hidden',
 		alignItems: 'center',
 		position: 'relative',
