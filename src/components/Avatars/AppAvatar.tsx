@@ -17,12 +17,21 @@ const AppAvatar = ({
 	return (
 		<View
 			style={{
-				...styles.userAvatar,
-				...styles.appAvatar,
-				...(big ? { ...styles.big, ...styles.bigText } : styles.text),
+				...styles.wrapper,
+				...(big ? styles.big : styles.small),
 				...(overlap && { marginLeft: -10, zIndex: -i }),
 			}}>
-			<Ionicons name={IconNames.cog} color={colors.white} size={28} />
+			<View
+				style={{
+					...styles.userAvatar,
+					...styles.appAvatar,
+					...(big
+						? { ...styles.big, ...styles.bigText }
+						: { ...styles.small, ...styles.text }),
+					...(overlap && { marginLeft: -10, zIndex: -i }),
+				}}>
+				<Ionicons name={IconNames.cog} color={colors.white} size={28} />
+			</View>
 		</View>
 	);
 };
