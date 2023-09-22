@@ -177,11 +177,7 @@ const styles = StyleSheet.create({
 	flatlist: {
 		width: '100%',
 	},
-	flatlistContentContainer: {
-		paddingBottom: 120,
-	},
 	columnWrapper: {
-		// justifyContent: 'space-between',
 		gap: 25,
 		paddingVertical: 5,
 		paddingHorizontal: 20,
@@ -191,10 +187,10 @@ const styles = StyleSheet.create({
 	},
 	usersModal: {
 		alignItems: 'center',
-		paddingVertical: 50,
+		paddingTop: 20,
+		paddingBottom: 100,
 	},
 	addUserButton: {
-		marginRight: 10,
 		...shadow,
 	},
 	userPreview: {
