@@ -58,6 +58,10 @@ const UserSelector = (props: UserSelectorPropsType) => {
 		isValid: required ? isValid : true,
 		isTouched: false,
 	});
+	const unselectedUsers = userList.filter(
+		(user) =>
+			value.findIndex((selectedUser) => user.id === selectedUser.id) === -1
+	);
 
 	useEffect(() => {
 		inputHandler(inputName, state.value, state.isValid);
@@ -128,7 +132,11 @@ const UserSelector = (props: UserSelectorPropsType) => {
 		<>
 			<Label style={styles.label}>{label} </Label>
 			<FlatList
-				data={value.length < maxAmount ? [0, ...value] : value}
+				data={
+					value.length < maxAmount && unselectedUsers.length > 0
+						? [0, ...value]
+						: value
+				}
 				// horizontal
 				numColumns={3}
 				style={styles.flatlist}
@@ -143,21 +151,16 @@ const UserSelector = (props: UserSelectorPropsType) => {
 			<Modal
 				visible={modalVisible}
 				onRequestClose={setModalVisible.bind(null, !modalVisible)}>
+				<H2 center style={{ paddingTop: 40 }}>
+					{modalLabel}
+				</H2>
 				<FlatList
 					numColumns={4}
-					data={userList.filter(
-						(user) =>
-							value.findIndex((selectedUser) => user.id === selectedUser.id) === -1
-					)}
+					data={unselectedUsers}
 					renderItem={renderUserAvatars}
 					keyExtractor={(item) => item.id}
 					contentContainerStyle={styles.usersModal}
 					columnWrapperStyle={styles.columnWrapper}
-					ListHeaderComponent={
-						<H2 center style={{ marginBottom: 30 }}>
-							{modalLabel}
-						</H2>
-					}
 				/>
 			</Modal>
 		</>
@@ -179,7 +182,7 @@ const styles = StyleSheet.create({
 	},
 	columnWrapper: {
 		// justifyContent: 'space-between',
-		gap: 10,
+		gap: 25,
 		paddingVertical: 5,
 		paddingHorizontal: 20,
 	},

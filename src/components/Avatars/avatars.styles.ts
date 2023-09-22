@@ -28,7 +28,6 @@ export default StyleSheet.create({
 		padding: 3,
 	},
 	wrapper: {
-		marginRight: 5,
 		maxWidth: 80,
 		backgroundColor: 'white',
 		borderRadius: 99,
