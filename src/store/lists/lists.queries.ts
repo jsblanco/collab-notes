@@ -3,6 +3,7 @@ import { DbList, List, Periodicity, Task, TaskDto, User } from '@app/models';
 import { DbImage } from '@app/models/DbImage.models';
 import { IconNames } from '@app/ui';
 import { DummyLists, DummyTasks, DummyUsers } from '../../../data/DummyData';
+import { fetchUserData } from '../auth/auth.queries';
 
 export const fetchLists = (): List[] => {
 	const preparedLists: List[] = [];
@@ -22,7 +23,7 @@ export const fetchList = (listId: string): List => {
 export const addList = (payload: {
 	title: string;
 	icon: IconNames;
-	users: string[];
+	users: User[];
 	userId: string;
 	listId?: string;
 }): List => {
@@ -36,7 +37,7 @@ export const addList = (payload: {
 		...originalList,
 		title,
 		icon,
-		users: new Set([userId, ...users]),
+		users: new Set([userId, ...users.map((user) => user.id)]),
 	};
 
 	DummyLists.set(list.id, list);
@@ -109,7 +110,7 @@ const populateListData = (list: DbList): List => {
 
 	dbList.users.forEach((id) => {
 		DummyUsers.forEach((user) => {
-			if (user?.id === id) users.push(user);
+			if (user?.id === id) users.push(fetchUserData(user.id));
 		});
 	});
 

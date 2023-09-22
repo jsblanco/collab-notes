@@ -1,12 +1,11 @@
 import React, {
-	ReactElement,
 	ReactNode,
 	useCallback,
 	useEffect,
 	useReducer,
 	useState,
 } from 'react';
-import { Dimensions, FlatList, Modal, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { User } from '@app/models';
@@ -14,8 +13,10 @@ import {
 	CloseButton,
 	colors,
 	Error,
+	H2,
 	IconNames,
 	Label,
+	Modal,
 	OSButton,
 	shadow,
 	Text,
@@ -149,6 +150,12 @@ const UserSelector = (props: UserSelectorPropsType) => {
 					renderItem={renderUserAvatars}
 					keyExtractor={(item) => item.id}
 					contentContainerStyle={styles.usersModal}
+					columnWrapperStyle={styles.columnWrapper}
+					ListHeaderComponent={
+						<H2 center style={{ marginBottom: 30 }}>
+							Select who to invite to this list
+						</H2>
+					}
 				/>
 			</Modal>
 		</>
@@ -169,9 +176,10 @@ const styles = StyleSheet.create({
 		paddingBottom: 120,
 	},
 	columnWrapper: {
-		justifyContent: 'space-between',
+		// justifyContent: 'space-between',
+		gap: 10,
+		paddingVertical: 5,
 		paddingHorizontal: 20,
-		paddingVertical: 10,
 	},
 	label: {
 		paddingTop: 20,
