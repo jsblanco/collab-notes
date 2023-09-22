@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { StackScreenProps } from '@react-navigation/stack';
 import FormControl from '@app/components/FormControl/FormControl';
 import UserSelector from '@app/components/UserSelector/UserSelector';
+import { User } from '@app/models';
 import { DrawerProps, DrawerRoutes } from '@app/router/NavigationTypes';
 import { addList, RootState } from '@app/store';
 import {
@@ -21,7 +22,6 @@ import {
 } from '@app/ui';
 import { ListIconOptions } from './ListFormScreen.icons';
 import { Actions, formReducer } from './ListFormScreen.reducer';
-import { User } from '@app/models';
 
 type Props = StackScreenProps<DrawerProps, DrawerRoutes.NewList>;
 
@@ -141,7 +141,6 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 				maxLength={30}
 				required
 			/>
-
 			<UserSelector
 				label={'Friends'}
 				maxAmount={10}
@@ -150,6 +149,7 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 				isValid={formState.inputValidities.users}
 				userList={userFriends}
 				inputHandler={userInputHandler}
+				modalLabel={'Add friends to this list'}
 			/>
 
 			<Modal

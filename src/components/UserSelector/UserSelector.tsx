@@ -33,6 +33,7 @@ type UserSelectorPropsType = {
 	inputName: string;
 	value: User[];
 	userList: User[];
+	modalLabel: string | ReactNode;
 	required?: boolean;
 	isValid: boolean;
 	inputHandler: (key: string, value: User[], isValid: boolean) => void;
@@ -47,6 +48,7 @@ const UserSelector = (props: UserSelectorPropsType) => {
 		userList,
 		inputName,
 		maxAmount,
+		modalLabel,
 		inputHandler,
 	} = props;
 	const [error, setError] = useState('');
@@ -153,7 +155,7 @@ const UserSelector = (props: UserSelectorPropsType) => {
 					columnWrapperStyle={styles.columnWrapper}
 					ListHeaderComponent={
 						<H2 center style={{ marginBottom: 30 }}>
-							Select who to invite to this list
+							{modalLabel}
 						</H2>
 					}
 				/>
