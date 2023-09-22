@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, View } from 'react-native';
 import { User } from '@app/models';
-import { colors, Text } from '@app/ui';
+import { colors, shadow, Text } from '@app/ui';
 import styles from './avatars.styles';
 
 const placeholderColors = [
@@ -26,16 +26,27 @@ const UserAvatar = ({
 	overlap?: boolean;
 }) => {
 	return (
-		<View style={{ ...styles.wrapper, ...(selected && styles.selected) }}>
+		<View
+			style={{
+				...styles.wrapper,
+				...(selected && styles.selected),
+				...(big ? styles.big : styles.small),
+				...(overlap && { marginLeft: -10, zIndex: -i }),
+			}}>
 			{user.image ? (
-				<Image style={[styles.userAvatar, big && styles.big]} source={user.image} />
+				<Image
+					style={[styles.userAvatar, big ? styles.big : styles.small]}
+					source={user.image}
+				/>
 			) : (
 				<Text
 					style={{
+						...(big
+							? { ...styles.big, ...styles.bigText }
+							: { ...styles.small, ...styles.text }),
 						...styles.userAvatar,
 						...styles.avatarPlaceholder,
-						...(big ? { ...styles.big, ...styles.bigText } : styles.text),
-						...(overlap && { marginLeft: -10, zIndex: -i }),
+
 						backgroundColor: placeholderColors[i % placeholderColors.length],
 					}}
 					noPadding

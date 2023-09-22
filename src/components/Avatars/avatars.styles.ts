@@ -1,13 +1,7 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '@app/ui';
+import { colors, shadow } from '@app/ui';
 
 export default StyleSheet.create({
-	screen: {
-		flex: 1,
-		width: '100%',
-		minHeight: '100%',
-		paddingTop: 20,
-	},
 	usersRow: {
 		paddingHorizontal: 20,
 		marginBottom: 20,
@@ -15,9 +9,6 @@ export default StyleSheet.create({
 		justifyContent: 'flex-end',
 	},
 	userAvatar: {
-		width: 40,
-		height: 40,
-		borderRadius: 20,
 		overflow: 'hidden',
 		alignItems: 'center',
 	},
@@ -38,6 +29,15 @@ export default StyleSheet.create({
 	},
 	wrapper: {
 		marginRight: 5,
+		maxWidth: 80,
+		backgroundColor: 'white',
+		borderRadius: 99,
+		...shadow,
+	},
+	small: {
+		width: 40,
+		height: 40,
+		borderRadius: 20,
 	},
 	big: {
 		height: 80,
