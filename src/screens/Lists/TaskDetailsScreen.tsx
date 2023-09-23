@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,6 +34,17 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	const task = [...list.pendingTasks, ...list.completedTasks].find(
 		(task) => task.id === taskId
+	);
+
+	useEffect(
+		() =>
+			navigation.setOptions({
+				title: task?.title ?? 'Missing task',
+				headerStyle: {
+					backgroundColor: task?.isCompleted ? colors.completed : colors.pending,
+				},
+			}),
+		[task]
 	);
 
 	const renderTaskHistoryItem = ({ item }: { item: TaskToggleEvent }) => {
@@ -159,6 +170,7 @@ const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
 		width: '100%',
+		paddingTop: 10,
 	},
 	contentContainer: {
 		paddingBottom: 50,

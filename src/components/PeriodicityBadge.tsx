@@ -24,9 +24,11 @@ const periodicityTooltip = {
 const PeriodicityBadge = ({
 	periodicity,
 	tooltip,
+	alignLeft,
 }: {
 	periodicity: Periodicity;
 	tooltip?: boolean;
+	alignLeft?: boolean;
 }) => {
 	const badge = (
 		<View style={[styles.periodicityBadge]}>
@@ -39,7 +41,10 @@ const PeriodicityBadge = ({
 	);
 
 	return tooltip ? (
-		<Tooltip borderRadius={20} message={periodicityTooltip[periodicity]}>
+		<Tooltip
+			borderRadius={20}
+			message={periodicityTooltip[periodicity]}
+			alignLeft={alignLeft}>
 			{badge}
 		</Tooltip>
 	) : (

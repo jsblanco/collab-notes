@@ -21,7 +21,7 @@ export function ListStack({ route }: any) {
 			screenOptions={{
 				...(styles as StackNavigationOptions),
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-				headerTitleStyle: { display: 'none' },
+				headerBackTitle: ' '
 			}}>
 			<Stack.Screen
 				name={ListStackRoutes.ListsHome}

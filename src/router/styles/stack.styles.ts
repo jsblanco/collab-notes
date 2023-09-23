@@ -1,14 +1,13 @@
-import { colors, fonts } from '../../ui';
+import { colors, fonts, shadow } from '../../ui';
 
 const styles = {
 	headerStyle: {
-		elevation: 0,
-		shadowOpacity: 0,
-		backgroundColor: colors.background,
+		backgroundColor: colors.primary,
+		...shadow,
 	},
-	headerTintColor: colors.primary,
+	headerTintColor: colors.white,
 	headerTitleStyle: {
-		color: colors.primary,
+		color: colors.white,
 		fontWeight: '900',
 		fontFamily: fonts.regularBold,
 		alignSelf: 'center',

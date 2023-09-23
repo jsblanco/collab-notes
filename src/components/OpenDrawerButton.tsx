@@ -13,7 +13,7 @@ const OpenDrawerButton = () => {
 			onPress={navigation.toggleDrawer}>
 			<Ionicons
 				name={IconNames.hamburgerMenu}
-				color={colors.primary}
+				color={colors.white}
 				size={28}
 				style={{ marginLeft: 10 }}
 			/>

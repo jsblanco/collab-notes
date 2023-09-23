@@ -51,6 +51,8 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.pending,
 	},
 	completionBadge: {
+		width: 37,
+		height: 33,
 		paddingRight: 7,
 		paddingLeft: 8,
 		paddingVertical: 5,

@@ -93,10 +93,10 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	return (
 		<Container style={styles.screen}>
-			<Row style={styles.titleRow}>
+			{/* <Row style={styles.titleRow}>
 				<Ionicons name={list.icon} size={26} style={styles.titleIcon} />
 				<H1>{list.title}</H1>
-			</Row>
+			</Row> */}
 			<Row
 				style={styles.usersRow}
 				justifyContent={'space-between'}
@@ -154,13 +154,13 @@ const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
 		width: '100%',
+		paddingTop: 20,
 	},
 	error: {
 		color: colors.danger,
 	},
 	titleRow: {
 		paddingHorizontal: 20,
-		marginTop: 20,
 	},
 	titleIcon: {
 		marginRight: 20,
