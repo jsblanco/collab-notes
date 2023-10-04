@@ -69,6 +69,23 @@ function* addListEffect({
 	}
 }
 
+function* deleteListEffect({
+	payload,
+}: ReduxAction<string>): Generator<
+	SelectEffect | CallEffect | PutEffect<ReduxAction<string>>,
+	void,
+	string | List
+> {
+	try {
+		const userId = yield select(getUserId);
+		yield call(queries.deleteList, payload, userId);
+		yield put(actions.deleteList.success(payload));
+	} catch (e) {
+		console.error(e);
+		yield put(actions.deleteList.failure((e as { message: string }).message));
+	}
+}
+
 function* addListTaskEffect({
 	payload,
 }: ReduxAction<{ listId: string; task: TaskDto }>): Generator<
@@ -168,6 +185,7 @@ function* listsSagas() {
 	yield takeLatest(c.FETCH_SINGLE_LIST_REQUEST, fetchListEffect);
 	yield takeLatest(c.ADD_LIST_REQUEST, addListEffect);
 	yield takeLatest(c.ADD_TASK_REQUEST, addListTaskEffect);
+	yield takeLatest(c.DELETE_LIST_REQUEST, deleteListEffect);
 	yield takeLatest(c.REMOVE_TASK_REQUEST, removeListTaskEffect);
 	yield takeLatest(c.TOGGLE_TASK_COMPL_REQUEST, toggleTaskCompletionEffect);
 	yield takeLatest(c.CHANGE_TASK_ORDER_REQUEST, changeTaskListIndexEffect);

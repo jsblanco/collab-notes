@@ -23,6 +23,11 @@ const listsReducer: Reducer<StateType, ListActionsType> = (
 				lists: payload,
 				loading: false,
 			};
+		case constants.DELETE_LIST_SUCCESS:
+			return {
+				...state,
+				lists: state.lists.filter((list) => list.id !== (payload as string)),
+			};
 		case constants.ADD_LIST_SUCCESS:
 			listIndex = state.lists.findIndex((list) => list.id === payload.id);
 			updatedLists = [...state.lists];
@@ -53,6 +58,7 @@ const listsReducer: Reducer<StateType, ListActionsType> = (
 		case constants.ADD_TASK_REQUEST:
 		case constants.REMOVE_TASK_REQUEST:
 		case constants.FETCH_TASKS_REQUEST:
+		case constants.DELETE_LIST_REQUEST:
 		case constants.FETCH_ALL_LISTS_REQUEST:
 		case constants.MODIFY_LIST_REQUEST:
 			return {
@@ -63,6 +69,8 @@ const listsReducer: Reducer<StateType, ListActionsType> = (
 		case constants.CHANGE_TASK_ORDER_FAILURE:
 		case constants.TOGGLE_TASK_COMPL_FAILURE:
 		case constants.ADD_TASK_FAILURE:
+		case constants.DELETE_LIST_FAILURE:
+		case constants.ADD_LIST_FAILURE:
 		case constants.FETCH_TASKS_FAILURE:
 		case constants.REMOVE_TASK_FAILURE:
 		case constants.FETCH_ALL_LISTS_FAILURE:

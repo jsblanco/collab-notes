@@ -1,6 +1,6 @@
 import { List, TaskDto } from '@app/models';
-import constants from './lists.constants';
 import { AddListPayload } from './list.types';
+import constants from './lists.constants';
 
 export const fetchSingleList = {
 	request: (listId: string) => {
@@ -79,6 +79,27 @@ export const addList = {
 	failure: (e: any) => {
 		return {
 			type: constants.ADD_LIST_FAILURE,
+			payload: e,
+		};
+	},
+};
+
+export const deleteList = {
+	request: (listId: string) => {
+		return {
+			type: constants.DELETE_LIST_REQUEST,
+			payload: listId,
+		};
+	},
+	success: (listId: string) => {
+		return {
+			type: constants.DELETE_LIST_SUCCESS,
+			payload: listId,
+		};
+	},
+	failure: (e: any) => {
+		return {
+			type: constants.DELETE_LIST_FAILURE,
 			payload: e,
 		};
 	},

@@ -26,6 +26,7 @@ export type ListActionsType =
 				| constants.MODIFY_LIST_REQUEST
 				| constants.FETCH_TASKS_REQUEST
 				| constants.ADD_LIST_REQUEST
+				| constants.DELETE_LIST_REQUEST
 				| constants.ADD_TASK_REQUEST
 				| constants.REMOVE_TASK_REQUEST
 				| constants.TOGGLE_TASK_COMPL_REQUEST
@@ -42,6 +43,10 @@ export type ListActionsType =
 			payload: List;
 	  }
 	| {
+			type: constants.DELETE_LIST_SUCCESS;
+			payload: string;
+	  }
+	| {
 			type:
 				| constants.ADD_TASK_SUCCESS
 				| constants.REMOVE_TASK_SUCCESS
@@ -54,6 +59,8 @@ export type ListActionsType =
 				| constants.CHANGE_TASK_ORDER_FAILURE
 				| constants.TOGGLE_TASK_COMPL_FAILURE
 				| constants.ADD_TASK_FAILURE
+				| constants.DELETE_LIST_FAILURE
+				| constants.ADD_LIST_FAILURE
 				| constants.FETCH_TASKS_FAILURE
 				| constants.REMOVE_TASK_FAILURE
 				| constants.FETCH_ALL_LISTS_FAILURE

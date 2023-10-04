@@ -61,6 +61,10 @@ export const addList = (payload: {
 	return populateListData(list);
 };
 
+export const deleteList = (listId: string, userId: string): void => {
+	DummyLists.delete(listId);
+};
+
 const populateListData = (list: DbList): List => {
 	const dbList = DummyLists.get(list.id);
 	if (!dbList) throw Error('No such list exists');

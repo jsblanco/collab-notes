@@ -1,14 +1,19 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Alert, Pressable, StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { StackScreenProps } from '@react-navigation/stack';
 import UserAvatar from '@app/components/Avatars/UserAvatar';
 import CompletionBadge from '@app/components/CompletionBadge';
+import EditDeleteButtonsRow from '@app/components/EditDeleteButtonsRow';
 import TasksFlatlist from '@app/components/TasksFlatlist';
-import { ListStackProps, ListStackRoutes } from '@app/router/NavigationTypes';
-import { RootState } from '@app/store';
+import {
+	DrawerRoutes,
+	ListStackProps,
+	ListStackRoutes,
+} from '@app/router/NavigationTypes';
+import { deleteList, removeListTask, RootState } from '@app/store';
 import {
 	B,
 	colors,
@@ -24,6 +29,7 @@ import {
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListTasks>;
 
 const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
+	const dispatch = useDispatch();
 	const { listId } = route.params;
 	const [showCompleted, setShowCompleted] = useState<boolean>(false);
 	const error = useSelector((state: RootState) => state.lists.error);
@@ -102,6 +108,40 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 		);
 	}, [list?.pendingTasks]);
 
+	const onEdit = () =>
+		navigation.navigate(ListStackRoutes.EditList, {
+			listId,
+		});
+
+	const onDelete = useCallback(() => {
+		if (!list) return;
+		Alert.alert(
+			`Delete list "${list.title}"`,
+			'Are you sure you want to delete this list from this list for all users?\nThis cannot be undone.',
+			[
+				{
+					text: 'Cancel',
+					onPress: () => {},
+					style: 'cancel',
+				},
+				{
+					text: 'Delete',
+					onPress: () => {
+						//@ts-ignore
+						navigation.navigate(DrawerRoutes.Home, {
+							screen: ListStackRoutes.ListTasks,
+							params: {
+								listId: list.id,
+							},
+						});
+						dispatch(deleteList.request(list.id));
+					},
+					style: 'destructive',
+				},
+			]
+		);
+	}, [list]);
+
 	if (!list || error)
 		return (
 			<Container style={styles.screen}>
@@ -124,6 +164,9 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 				</View>
 			</Row>
 
+			<View style={{ paddingHorizontal: 20, marginBottom: 30 }}>
+				<EditDeleteButtonsRow label={'list'} onDelete={onDelete} onEdit={onEdit} />
+			</View>
 			<Row
 				style={styles.titles}
 				justifyContent={'space-between'}
@@ -181,7 +224,7 @@ const styles = StyleSheet.create({
 	},
 	usersRow: {
 		paddingHorizontal: 20,
-		marginBottom: 30,
+		marginBottom: 10,
 	},
 	userAvatar: {
 		height: 40,
