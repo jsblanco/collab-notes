@@ -25,11 +25,11 @@ export const addList = (payload: {
 	icon: IconNames;
 	users: User[];
 	userId: string;
-	listId?: string;
+	id?: string;
 }): List => {
-	const { title, icon, users, userId, listId } = payload;
-	const originalList = listId ? DummyLists.get(listId) : {};
-	if (listId && !originalList) throw new Error('Could not find list to update');
+	const { title, icon, users, userId, id } = payload;
+	const originalList = id ? DummyLists.get(id) : {};
+	if (id && !originalList) throw new Error('Could not find list to update');
 
 	const list: DbList = {
 		id: new Date().getTime().toString(),
