@@ -117,21 +117,25 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 				renderItem={renderTaskHistoryItem}
 				ListHeaderComponent={
 					<>
-						<Row
+						{/* <Row
 							style={styles.titleRow}
 							alignItems={'center'}
 							justifyContent="space-between">
 							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-								<CompletionBadge completed={!!task.isCompleted} tooltip alignLeft />
-								<H1 style={styles.title} noPadding>
-									{task.title}
-								</H1>
+							<H1 style={styles.title} noPadding>
+							{task.title}
+							</H1>
 							</View>
-							<PeriodicityBadge periodicity={task.periodicity} tooltip />
-						</Row>
+						</Row> */}
 
 						<View style={[styles.section, styles.description]}>
 							<Text>{task.description}</Text>
+							<Row alignItems="center">
+								<CompletionBadge completed={!!task.isCompleted} tooltip alignLeft />
+								<View style={{ paddingLeft: 10 }}>
+									<PeriodicityBadge periodicity={task.periodicity} tooltip alignLeft />
+								</View>
+							</Row>
 						</View>
 						{task.images.length > 0 && <ImageGallery images={task.images} />}
 						<View style={[styles.section]}>
@@ -198,6 +202,7 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.grey[5],
 		borderRadius: 10,
 		alignContent: 'flex-start',
+		zIndex: 2,
 	},
 	greenText: {
 		backgroundColor: colors.completed,
