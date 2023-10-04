@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { StyleSheet, Switch, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,6 +16,7 @@ import {
 	FloatingButton,
 	H1,
 	H3,
+	IconNames,
 	Row,
 	Text,
 } from '@app/ui';
@@ -31,7 +32,24 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 	);
 
 	useEffect(
-		() => navigation.setOptions({ title: list?.title ?? 'Missing list' }),
+		() =>
+			navigation.setOptions({
+				title: list?.title ?? 'Missing list',
+				headerRight: () => (
+					<Pressable
+						//@ts-ignore
+						onPress={navigation.navigate.bind(this, ListStackRoutes.EditList, {
+							listId,
+						})}>
+						<Ionicons
+							name={IconNames.create}
+							color={colors.white}
+							size={28}
+							style={{ marginRight: 10 }}
+						/>
+					</Pressable>
+				),
+			}),
 		[list]
 	);
 
@@ -93,10 +111,6 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	return (
 		<Container style={styles.screen}>
-			{/* <Row style={styles.titleRow}>
-				<Ionicons name={list.icon} size={26} style={styles.titleIcon} />
-				<H1>{list.title}</H1>
-			</Row> */}
 			<Row
 				style={styles.usersRow}
 				justifyContent={'space-between'}

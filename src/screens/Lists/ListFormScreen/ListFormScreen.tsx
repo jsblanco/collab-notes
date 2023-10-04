@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import { StyleSheet } from 'react-native';
+import { ListRenderItemInfo } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,7 +8,12 @@ import { StackScreenProps } from '@react-navigation/stack';
 import FormControl from '@app/components/FormControl/FormControl';
 import UserSelector from '@app/components/UserSelector/UserSelector';
 import { User } from '@app/models';
-import { DrawerProps, DrawerRoutes } from '@app/router/NavigationTypes';
+import {
+	DrawerProps,
+	DrawerRoutes,
+	ListStackProps,
+	ListStackRoutes,
+} from '@app/router/NavigationTypes';
 import { addList, RootState } from '@app/store';
 import {
 	colors,
@@ -23,16 +29,22 @@ import {
 import { ListIconOptions } from './ListFormScreen.icons';
 import { Actions, formReducer } from './ListFormScreen.reducer';
 
-type Props = StackScreenProps<DrawerProps, DrawerRoutes.NewList>;
+type Props =
+	| StackScreenProps<DrawerProps, DrawerRoutes.NewList>
+	| StackScreenProps<ListStackProps, ListStackRoutes.EditList>;
 
 const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 	const { listId } = route.params;
 	const [iconModalVisible, setIconModalVisible] = useState<boolean>(false);
-
-	const userFriends = useSelector((state: RootState) => state.auth.user.friends);
+	const user = useSelector((state: RootState) => state.auth.user);
 
 	const list = useSelector((state: RootState) =>
 		state.lists.lists.find((list) => listId === list.id)
+	);
+	console.log(
+		list?.users
+			.filter((listUser) => user.id !== listUser.id)
+			.map((listUser) => listUser.id)
 	);
 
 	const initialFormState = {
@@ -41,7 +53,7 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 			icon:
 				list?.icon ??
 				ListIconOptions[Math.floor(Math.random() * ListIconOptions.length)],
-			users: [],
+			users: list?.users.length ? list.users : [],
 		},
 		inputValidities: {
 			title: !!list,
@@ -147,7 +159,7 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 				inputName={'users'}
 				value={formState.inputValues.users}
 				isValid={formState.inputValidities.users}
-				userList={userFriends}
+				userList={user.friends}
 				inputHandler={userInputHandler}
 				modalLabel={'Add friends to this list'}
 			/>

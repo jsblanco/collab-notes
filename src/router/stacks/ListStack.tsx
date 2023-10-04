@@ -5,6 +5,7 @@ import {
 	StackNavigationOptions,
 } from '@react-navigation/stack';
 import OpenDrawerButton from '@app/components/OpenDrawerButton';
+import ListFormScreen from '@app/screens/Lists/ListFormScreen/ListFormScreen';
 import ListsHomeScreen from '@app/screens/Lists/ListsHomeScreen';
 import ListTaksScreen from '@app/screens/Lists/ListTasksScreen';
 import TaskDetailsScreen from '@app/screens/Lists/TaskDetailsScreen';
@@ -21,7 +22,7 @@ export function ListStack({ route }: any) {
 			screenOptions={{
 				...(styles as StackNavigationOptions),
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-				headerBackTitle: ' '
+				headerBackTitle: ' ',
 			}}>
 			<Stack.Screen
 				name={ListStackRoutes.ListsHome}
@@ -37,6 +38,11 @@ export function ListStack({ route }: any) {
 				options={{
 					headerLeft: OpenDrawerButton,
 				}}
+			/>
+			<Stack.Screen
+				name={ListStackRoutes.EditList}
+				initialParams={{ listId: route.params.listId }}
+				component={ListFormScreen}
 			/>
 			<Stack.Screen
 				name={ListStackRoutes.TaskForm}
