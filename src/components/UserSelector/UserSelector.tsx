@@ -88,7 +88,7 @@ const UserSelector = (props: UserSelectorPropsType) => {
 			dispatch({
 				type: ImageSelectorActions.REMOVE_USER,
 				value: user,
-				isValid: true,
+				isValid: required ? state.value.length > 1 : true,
 			}),
 		[dispatch]
 	);

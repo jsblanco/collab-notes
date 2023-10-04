@@ -28,7 +28,7 @@ export const addList = (payload: {
 	id?: string;
 }): List => {
 	const { title, icon, users, userId, id } = payload;
-	const originalList = id ? DummyLists.get(id) : {};
+	const originalList = id ? DummyLists.get(id) : null;
 	if (id && !originalList) throw new Error('Could not find list to update');
 
 	const list: DbList = {
@@ -42,20 +42,21 @@ export const addList = (payload: {
 
 	DummyLists.set(list.id, list);
 
-	addTaskToList(
-		list.id,
-		{
-			images: [],
-			history: [],
-			listId: list.id,
-			isCompleted: false,
-			periodicity: Periodicity.MANUAL,
-			title: `Add some tasks to "${list.title}"!`,
-			description:
-				"This list is empty. Start adding tasks to it to help you with your day to day! When you're done, delete me or update me for any task you like.",
-		},
-		userId
-	);
+	if (!originalList)
+		addTaskToList(
+			list.id,
+			{
+				images: [],
+				history: [],
+				listId: list.id,
+				isCompleted: false,
+				periodicity: Periodicity.MANUAL,
+				title: `Add some tasks to "${list.title}"!`,
+				description:
+					"This list is empty. Start adding tasks to it to help you with your day to day! When you're done, delete me or update me for any task you like.",
+			},
+			userId
+		);
 
 	return populateListData(list);
 };

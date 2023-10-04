@@ -24,9 +24,15 @@ const listsReducer: Reducer<StateType, ListActionsType> = (
 				loading: false,
 			};
 		case constants.ADD_LIST_SUCCESS:
+			listIndex = state.lists.findIndex((list) => list.id === payload.id);
+			updatedLists = [...state.lists];
+			listIndex > -1
+				? (updatedLists[listIndex] = payload)
+				: updatedLists.push(payload);
+
 			return {
 				...state,
-				lists: [...state.lists.filter((list) => list.id !== payload.id), payload],
+				lists: updatedLists,
 				loading: false,
 			};
 		case constants.ADD_TASK_SUCCESS:

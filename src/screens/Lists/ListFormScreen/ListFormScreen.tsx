@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { ListRenderItemInfo } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
