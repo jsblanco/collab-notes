@@ -14,7 +14,7 @@ const EditDeleteMenu = ({ label, onDelete, onEdit }: Props) => {
 	const showListOptions = useCallback(() => {
 		showActionSheetWithOptions(
 			{
-				options: ['Edit task', 'Delete task', 'Cancel'],
+				options: [`Edit ${label}`, `Delete ${label}`, 'Cancel'],
 				destructiveButtonIndex: 1,
 				icons: [
 					<Ionicons name={IconNames.create} color={colors.black} size={20} />,
