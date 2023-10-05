@@ -122,12 +122,18 @@ export const Row = ({
 	);
 };
 
+export const DescriptionField = ({
+	style,
+	children,
+}: PropsWithChildren<{ style?: ViewStyle }>) => (
+	<View style={{ ...styles.description, ...style }}>{children}</View>
+);
+
 export const Container = ({
 	children,
 	justifyContent,
 	alignItems,
 	style,
-
 	pointerEvents = 'auto',
 }: ContainerType) => {
 	return (

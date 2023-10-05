@@ -72,13 +72,13 @@ function* addListEffect({
 function* deleteListEffect({
 	payload,
 }: ReduxAction<string>): Generator<
-	SelectEffect | CallEffect | PutEffect<ReduxAction<string>>,
+	SelectEffect | CallEffect<void> | PutEffect<ReduxAction<string>>,
 	void,
 	string | List
 > {
 	try {
 		const userId = yield select(getUserId);
-		yield call(queries.deleteList, payload, userId);
+		yield call(queries.deleteList, payload, userId as string);
 		yield put(actions.deleteList.success(payload));
 	} catch (e) {
 		console.error(e);

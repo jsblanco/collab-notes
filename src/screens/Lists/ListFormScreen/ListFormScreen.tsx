@@ -49,6 +49,7 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 	const initialFormState = {
 		inputValues: {
 			title: list?.title ?? '',
+			description: list?.description ?? '',
 			icon:
 				list?.icon ??
 				ListIconOptions[Math.floor(Math.random() * ListIconOptions.length)],
@@ -56,6 +57,7 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 		},
 		inputValidities: {
 			title: !!list,
+			description: true,
 			icon: true,
 			users: true,
 		},
@@ -151,6 +153,17 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 				minLength={3}
 				maxLength={30}
 				required
+			/>
+			<FormControl
+				label={'Description'}
+				inputName={'description'}
+				placeholder={'List description'}
+				value={formState.inputValues.description}
+				isValid={formState.inputValidities.description}
+				inputHandler={inputHandler}
+				numberOfLines={4}
+				maxLength={300}
+				multiline
 			/>
 			<UserSelector
 				label={'Friends'}

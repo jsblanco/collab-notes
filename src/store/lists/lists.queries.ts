@@ -1,4 +1,4 @@
-import { ImagePickerAsset, ImagePickerResult } from 'expo-image-picker';
+import { ImagePickerAsset } from 'expo-image-picker';
 import { DbList, List, Periodicity, Task, TaskDto, User } from '@app/models';
 import { DbImage } from '@app/models/DbImage.models';
 import { IconNames } from '@app/ui';
@@ -22,12 +22,13 @@ export const fetchList = (listId: string): List => {
 
 export const addList = (payload: {
 	title: string;
+	description?: string;
 	icon: IconNames;
 	users: User[];
 	userId: string;
 	id?: string;
 }): List => {
-	const { title, icon, users, userId, id } = payload;
+	const { title, description, icon, users, userId, id } = payload;
 	const originalList = id ? DummyLists.get(id) : null;
 	if (id && !originalList) throw new Error('Could not find list to update');
 
@@ -35,8 +36,9 @@ export const addList = (payload: {
 		id: new Date().getTime().toString(),
 		tasks: new Set<string>(),
 		...originalList,
-		title,
 		icon,
+		title,
+		description,
 		users: new Set([userId, ...users.map((user) => user.id)]),
 	};
 

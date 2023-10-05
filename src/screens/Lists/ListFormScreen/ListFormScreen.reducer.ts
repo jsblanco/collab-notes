@@ -6,11 +6,13 @@ import { ListIconOptions } from './ListFormScreen.icons';
 type ReducerStateType = {
 	inputValues: {
 		title: string;
+		description: string;
 		icon: IconNames;
 		users: User[];
 	};
 	inputValidities: {
 		title: boolean;
+		description: boolean;
 		icon: boolean;
 		users: boolean;
 	};
@@ -71,11 +73,13 @@ export const formReducer: Reducer<ReducerStateType, ActionsType> = (
 			return {
 				inputValues: {
 					title: '',
+					description: '',
 					icon: ListIconOptions[Math.floor(Math.random() * ListIconOptions.length)],
 					users: [],
 				},
 				inputValidities: {
 					title: false,
+					description: true,
 					icon: true,
 					users: true,
 				},

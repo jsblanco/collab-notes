@@ -5,6 +5,7 @@ import constants from './lists.constants';
 
 export interface AddListPayload {
 	title: string;
+	description?: string;
 	icon: IconNames;
 	users: User[];
 	id?: string;

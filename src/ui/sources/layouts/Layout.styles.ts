@@ -66,5 +66,14 @@ export default StyleSheet.create({
         marginVertical: 30,
         borderBottomWidth: 2,
         borderColor: colors.grey['5'],
-    }
+    },
+    description: {
+		padding: 20,
+		paddingBottom: 25,
+		marginBottom: 20,
+		backgroundColor: colors.grey[5],
+		borderRadius: 10,
+		alignContent: 'flex-start',
+		zIndex: 2,
+	},
 })

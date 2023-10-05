@@ -13,11 +13,12 @@ import {
 	ListStackProps,
 	ListStackRoutes,
 } from '@app/router/NavigationTypes';
-import { deleteList, removeListTask, RootState } from '@app/store';
+import { deleteList, RootState } from '@app/store';
 import {
 	B,
 	colors,
 	Container,
+	DescriptionField,
 	FloatingButton,
 	H1,
 	H3,
@@ -151,18 +152,20 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	return (
 		<Container style={styles.screen}>
-			<Row
-				style={styles.usersRow}
-				justifyContent={'space-between'}
-				alignItems={'center'}>
-				<Text noPadding>{list.users.length} participants</Text>
-				<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-					{list.users.slice(0, 4).map((user, i) => (
-						<UserAvatar user={user} i={i} key={user?.id} overlap />
-					))}
-					{list.users.length > 5 && <B noPadding>+{list.users.length}</B>}
-				</View>
-			</Row>
+			<DescriptionField style={{ marginHorizontal: 20 }}>
+			{!!list.description && <Text style={{ marginBottom: 15 }}>{list.description}</Text>}
+				<Row
+					justifyContent={'space-between'}
+					alignItems={'center'}>
+					<Text noPadding>{list.users.length} participants</Text>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						{list.users.slice(0, 4).map((user, i) => (
+							<UserAvatar user={user} i={i} key={user?.id} overlap />
+						))}
+						{list.users.length > 5 && <B noPadding>+{list.users.length}</B>}
+					</View>
+				</Row>
+			</DescriptionField>
 
 			<View style={{ paddingHorizontal: 20, marginBottom: 30 }}>
 				<EditDeleteButtonsRow label={'list'} onDelete={onDelete} onEdit={onEdit} />
@@ -222,10 +225,7 @@ const styles = StyleSheet.create({
 	titleIcon: {
 		marginRight: 20,
 	},
-	usersRow: {
-		paddingHorizontal: 20,
-		marginBottom: 10,
-	},
+
 	userAvatar: {
 		height: 40,
 		width: 40,

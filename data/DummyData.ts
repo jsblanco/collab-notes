@@ -5,7 +5,6 @@ import {
 	Periodicity,
 	Task,
 	TaskToggleEvent,
-	User,
 } from '../src/models';
 
 const createFakeTaskToggleEvent = (
@@ -257,6 +256,7 @@ export const DummyLists: Map<string, DbList> = new Map([
 			id: '1',
 			icon: IconNames.cart,
 			title: 'Lista de la compra',
+			description: 'Preferiblemente en el Mercadona',
 			tasks: new Set(['1001', '1002', '1003', '1004', '1005', '1006']),
 			users: new Set(['a', 'b', 'c', 'd']),
 		},
