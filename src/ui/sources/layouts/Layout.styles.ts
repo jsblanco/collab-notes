@@ -69,8 +69,8 @@ export default StyleSheet.create({
     },
     description: {
 		padding: 20,
-		paddingBottom: 25,
-		marginBottom: 20,
+		paddingBottom: 15,
+		marginVertical: 20,
 		backgroundColor: colors.grey[5],
 		borderRadius: 10,
 		alignContent: 'flex-start',

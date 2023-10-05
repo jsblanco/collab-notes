@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Alert, Pressable, StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
-import { Ionicons } from '@expo/vector-icons';
 import { StackScreenProps } from '@react-navigation/stack';
 import UserAvatar from '@app/components/Avatars/UserAvatar';
 import CompletionBadge from '@app/components/CompletionBadge';
-import EditDeleteButtonsRow from '@app/components/EditDeleteButtonsRow';
+import EditDeleteMenu from '@app/components/EditDeleteMenu';
 import TasksFlatlist from '@app/components/TasksFlatlist';
 import {
 	DrawerRoutes,
@@ -20,9 +19,7 @@ import {
 	Container,
 	DescriptionField,
 	FloatingButton,
-	H1,
 	H3,
-	IconNames,
 	Row,
 	Text,
 } from '@app/ui';
@@ -36,28 +33,6 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 	const error = useSelector((state: RootState) => state.lists.error);
 	const list = useSelector((state: RootState) =>
 		state.lists.lists.find((list) => list.id === listId)
-	);
-
-	useEffect(
-		() =>
-			navigation.setOptions({
-				title: list?.title ?? 'Missing list',
-				headerRight: () => (
-					<Pressable
-						//@ts-ignore
-						onPress={navigation.navigate.bind(this, ListStackRoutes.EditList, {
-							listId,
-						})}>
-						<Ionicons
-							name={IconNames.create}
-							color={colors.white}
-							size={28}
-							style={{ marginRight: 10 }}
-						/>
-					</Pressable>
-				),
-			}),
-		[list]
 	);
 
 	const onCreateTask = () =>
@@ -118,7 +93,7 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 		if (!list) return;
 		Alert.alert(
 			`Delete list "${list.title}"`,
-			'Are you sure you want to delete this list from this list for all users?\nThis cannot be undone.',
+			'Are you sure you want to delete this list for all users?\nThis cannot be undone.',
 			[
 				{
 					text: 'Cancel',
@@ -143,6 +118,17 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 		);
 	}, [list]);
 
+	useEffect(
+		() =>
+			navigation.setOptions({
+				title: list?.title ?? 'Missing list',
+				headerRight: () => (
+					<EditDeleteMenu label={'list'} onDelete={onDelete} onEdit={onEdit} />
+				),
+			}),
+		[list]
+	);
+
 	if (!list || error)
 		return (
 			<Container style={styles.screen}>
@@ -153,10 +139,10 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 	return (
 		<Container style={styles.screen}>
 			<DescriptionField style={{ marginHorizontal: 20 }}>
-			{!!list.description && <Text style={{ marginBottom: 15 }}>{list.description}</Text>}
-				<Row
-					justifyContent={'space-between'}
-					alignItems={'center'}>
+				{!!list.description && (
+					<Text style={{ marginBottom: 15 }}>{list.description}</Text>
+				)}
+				<Row justifyContent={'space-between'} alignItems={'center'}>
 					<Text noPadding>{list.users.length} participants</Text>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						{list.users.slice(0, 4).map((user, i) => (
@@ -167,9 +153,6 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 				</Row>
 			</DescriptionField>
 
-			<View style={{ paddingHorizontal: 20, marginBottom: 30 }}>
-				<EditDeleteButtonsRow label={'list'} onDelete={onDelete} onEdit={onEdit} />
-			</View>
 			<Row
 				style={styles.titles}
 				justifyContent={'space-between'}
@@ -214,7 +197,6 @@ const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
 		width: '100%',
-		paddingTop: 20,
 	},
 	error: {
 		color: colors.danger,

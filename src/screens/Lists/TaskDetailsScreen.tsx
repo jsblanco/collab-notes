@@ -4,6 +4,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { StackScreenProps } from '@react-navigation/stack';
 import CompletionBadge from '@app/components/CompletionBadge';
+import EditDeleteMenu from '@app/components/EditDeleteMenu';
 import ImageGallery from '@app/components/ImageGallery';
 import PeriodicityBadge from '@app/components/PeriodicityBadge';
 import TaskHistoryEntry from '@app/components/TaskHistoryEntry';
@@ -14,7 +15,16 @@ import {
 	ListStackRoutes,
 } from '@app/router/NavigationTypes';
 import { removeListTask, RootState, toggleTaskCompletion } from '@app/store';
-import { Button, colors, Container, H1, H3, Row, Text } from '@app/ui';
+import {
+	Button,
+	colors,
+	Container,
+	DescriptionField,
+	H1,
+	H3,
+	Row,
+	Text,
+} from '@app/ui';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.TaskDetails>;
 
@@ -36,17 +46,6 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 		(task) => task.id === taskId
 	);
 
-	useEffect(
-		() =>
-			navigation.setOptions({
-				title: task?.title ?? 'Missing task',
-				headerStyle: {
-					backgroundColor: task?.isCompleted ? colors.completed : colors.pending,
-				},
-			}),
-		[task]
-	);
-
 	const renderTaskHistoryItem = ({ item }: { item: TaskToggleEvent }) => {
 		const index = list.users.findIndex((user) => user.id === item.userId);
 		return (
@@ -63,7 +62,7 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 		dispatch(toggleTaskCompletion.request(task.listId, task.id));
 	}, [task]);
 
-	const onDeleteTask = useCallback(() => {
+	const onDelete = useCallback(() => {
 		if (!task) return;
 		Alert.alert(
 			`Delete task "${task.title}"`,
@@ -101,6 +100,20 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 		});
 	}, [navigation]);
 
+	useEffect(
+		() =>
+			navigation.setOptions({
+				title: task?.title ?? 'Missing task',
+				headerStyle: {
+					backgroundColor: task?.isCompleted ? colors.completed : colors.pending,
+				},
+				headerRight: () => (
+					<EditDeleteMenu label={'task'} onDelete={onDelete} onEdit={onEdit} />
+				),
+			}),
+		[task]
+	);
+
 	if (!task)
 		return (
 			<Container>
@@ -128,7 +141,7 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 							</View>
 						</Row> */}
 
-						<View style={[styles.section, styles.description]}>
+						<DescriptionField style={styles.section}>
 							<Text>{task.description}</Text>
 							<Row alignItems="center">
 								<CompletionBadge completed={!!task.isCompleted} tooltip alignLeft />
@@ -136,7 +149,7 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 									<PeriodicityBadge periodicity={task.periodicity} tooltip alignLeft />
 								</View>
 							</Row>
-						</View>
+						</DescriptionField>
 						{task.images.length > 0 && <ImageGallery images={task.images} />}
 						<View style={[styles.section]}>
 							{task.isCompleted ? (
@@ -148,17 +161,6 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 									Mark as completed
 								</Button>
 							)}
-							<Row justifyContent={'space-between'}>
-								<Button
-									fullWidth
-									buttonStyle={styles.deleteButton}
-									onPress={onDeleteTask}>
-									Delete task
-								</Button>
-								<Button fullWidth buttonStyle={styles.editButton} onPress={onEdit}>
-									Edit task
-								</Button>
-							</Row>
 						</View>
 						<H3 style={styles.historyTitle}>Task history</H3>
 					</>
@@ -191,19 +193,10 @@ const styles = StyleSheet.create({
 		paddingRight: 50,
 	},
 	section: {
-		marginBottom: 30,
+		marginBottom: 20,
 		marginHorizontal: 20,
 	},
 
-	description: {
-		padding: 20,
-		paddingBottom: 25,
-		marginBottom: 20,
-		backgroundColor: colors.grey[5],
-		borderRadius: 10,
-		alignContent: 'flex-start',
-		zIndex: 2,
-	},
 	greenText: {
 		backgroundColor: colors.completed,
 	},
@@ -212,12 +205,6 @@ const styles = StyleSheet.create({
 	},
 	completionToggleSection: {
 		alignItems: 'center',
-	},
-	editButton: {
-		backgroundColor: colors.general.blue,
-	},
-	deleteButton: {
-		backgroundColor: colors.general.red,
 	},
 	historyTitle: {
 		paddingHorizontal: 20,
