@@ -46,7 +46,10 @@ export function ListStack({ route }: any) {
 			/>
 			<Stack.Screen
 				name={ListStackRoutes.TaskForm}
-				initialParams={{ listId: route.params.listId }}
+				initialParams={{
+					listId: route.params.listId,
+					listTitle: route.params.listTitle,
+				}}
 				component={TaskFormScreen}
 			/>
 			<Stack.Screen

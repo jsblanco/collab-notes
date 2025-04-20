@@ -181,19 +181,19 @@ const SelectedImagePreview = ({
 
 const styles = StyleSheet.create({
 	screen: {
-		width: '100%',
-		paddingVertical: 20,
+		flex: 1,
+		paddingVertical: 10,
 		alignItems: 'center',
 	},
 	flatlist: {
-		width: '100%',
-		paddingHorizontal: 20,
+		flex: 1,
+		paddingHorizontal: 10,
 	},
 	imagePreview: {
 		...shadow,
 		borderRadius: 10,
 		marginHorizontal: 5,
-		marginBottom: 20,
+		marginVertical: 10,
 		overflow: 'hidden',
 		alignItems: 'center',
 		position: 'relative',

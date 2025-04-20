@@ -20,7 +20,7 @@ const ImageGallery = ({ images }: { images: DbImage[] }) => {
 			<View style={styles.gallerySlide}>
 				<View style={styles.imageContainer}>
 					<Image style={styles.image} source={{ uri: item.preview }} />
-					<View style={styles.imagePlaceholder} >
+					<View style={styles.imagePlaceholder}>
 						<Ionicons name={IconNames.image} color={colors.grey[4]} size={80} />
 					</View>
 				</View>
@@ -114,8 +114,8 @@ const styles = StyleSheet.create({
 		...shadow,
 	},
 	gallerySlide: {
-		width: Dimensions.get('window').width,
 		height: 350,
+		width: Dimensions.get('window').width-20
 	},
 	galleryContainer: {
 		paddingBottom: 20,

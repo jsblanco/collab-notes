@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
@@ -15,6 +15,7 @@ import {
 } from '@app/router/NavigationTypes';
 import { addList, RootState } from '@app/store';
 import {
+	Card,
 	colors,
 	Container,
 	FloatingButton,
@@ -135,47 +136,48 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	return (
 		<Container style={styles.screen}>
-			<Row alignItems={'flex-start'}>
-				<Label style={styles.iconLabel}>Icon</Label>
-				<OSButton
-					style={styles.iconOptions}
-					onPress={() => setIconModalVisible(!iconModalVisible)}>
-					<Ionicons name={formState.inputValues.icon} color={'#000'} size={32} />
-				</OSButton>
-			</Row>
-			<FormControl
-				label={'Name'}
-				value={formState.inputValues.title}
-				isValid={formState.inputValidities.title}
-				inputName={'title'}
-				placeholder={'List name'}
-				inputHandler={inputHandler}
-				minLength={3}
-				maxLength={30}
-				required
-			/>
-			<FormControl
-				label={'Description'}
-				inputName={'description'}
-				placeholder={'List description'}
-				value={formState.inputValues.description}
-				isValid={formState.inputValidities.description}
-				inputHandler={inputHandler}
-				numberOfLines={4}
-				maxLength={300}
-				multiline
-			/>
-			<UserSelector
-				label={'Friends'}
-				maxAmount={10}
-				inputName={'users'}
-				value={formState.inputValues.users}
-				isValid={formState.inputValidities.users}
-				userList={user.friends}
-				inputHandler={userInputHandler}
-				modalLabel={'Add friends to this list'}
-			/>
-
+			<Card>
+				<Row alignItems={'flex-start'}>
+					<Label style={styles.iconLabel}>Icon</Label>
+					<OSButton
+						style={styles.iconOptions}
+						onPress={() => setIconModalVisible(!iconModalVisible)}>
+						<Ionicons name={formState.inputValues.icon} color={'#000'} size={32} />
+					</OSButton>
+				</Row>
+				<FormControl
+					label={'Name'}
+					value={formState.inputValues.title}
+					isValid={formState.inputValidities.title}
+					inputName={'title'}
+					placeholder={'List name'}
+					inputHandler={inputHandler}
+					minLength={3}
+					maxLength={30}
+					required
+				/>
+				<FormControl
+					label={'Description'}
+					inputName={'description'}
+					placeholder={'List description'}
+					value={formState.inputValues.description}
+					isValid={formState.inputValidities.description}
+					inputHandler={inputHandler}
+					numberOfLines={4}
+					maxLength={300}
+					multiline
+				/>
+				<UserSelector
+					label={'Friends'}
+					maxAmount={10}
+					inputName={'users'}
+					value={formState.inputValues.users}
+					isValid={formState.inputValidities.users}
+					userList={user.friends}
+					inputHandler={userInputHandler}
+					modalLabel={'Add friends to this list'}
+				/>
+			</Card>
 			<Modal
 				visible={iconModalVisible}
 				onRequestClose={setIconModalVisible.bind(null, !iconModalVisible)}>
@@ -203,9 +205,9 @@ export default ListFormScreen;
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
-		padding: 20,
 		width: '100%',
 		position: 'relative',
+		backgroundColor: '#e2e2e2',
 	},
 	iconsList: {
 		alignItems: 'center',

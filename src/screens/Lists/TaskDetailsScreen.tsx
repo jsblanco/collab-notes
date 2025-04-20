@@ -17,12 +17,14 @@ import {
 import { removeListTask, RootState, toggleTaskCompletion } from '@app/store';
 import {
 	Button,
+	Card,
 	colors,
 	Container,
 	DescriptionField,
 	H1,
 	H3,
 	Row,
+	shadow,
 	Text,
 } from '@app/ui';
 
@@ -96,6 +98,7 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 		//@ts-ignore
 		navigation.navigate(ListStackRoutes.TaskForm, {
 			listId: task.listId,
+			listTitle: list.title,
 			taskId: task.id,
 		});
 	}, [navigation]);
@@ -103,7 +106,7 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 	useEffect(
 		() =>
 			navigation.setOptions({
-				title: task?.title ?? 'Missing task',
+				title: list.title ?? 'Missing task',
 				headerStyle: {
 					backgroundColor: task?.isCompleted ? colors.completed : colors.pending,
 				},
@@ -128,41 +131,38 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 				style={styles.screen}
 				contentContainerStyle={styles.contentContainer}
 				renderItem={renderTaskHistoryItem}
+				ListFooterComponent={<View style={styles.historyFooter} />}
 				ListHeaderComponent={
 					<>
-						{/* <Row
-							style={styles.titleRow}
-							alignItems={'center'}
-							justifyContent="space-between">
-							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Card>
 							<H1 style={styles.title} noPadding>
-							{task.title}
+								{task.title}
 							</H1>
+							<DescriptionField style={styles.section}>
+								<Text>{task.description}</Text>
+								<Row alignItems="center">
+									<CompletionBadge completed={!!task.isCompleted} tooltip alignLeft />
+									<View style={{ paddingLeft: 10 }}>
+										<PeriodicityBadge periodicity={task.periodicity} tooltip alignLeft />
+									</View>
+								</Row>
+							</DescriptionField>
+							{task.images.length > 0 && <ImageGallery images={task.images} />}
+							<View style={[styles.section]}>
+								{task.isCompleted ? (
+									<Button buttonStyle={styles.yellowText} onPress={onToggleTask}>
+										Mark as pending
+									</Button>
+								) : (
+									<Button buttonStyle={styles.greenText} onPress={onToggleTask}>
+										Mark as completed
+									</Button>
+								)}
 							</View>
-						</Row> */}
-
-						<DescriptionField style={styles.section}>
-							<Text>{task.description}</Text>
-							<Row alignItems="center">
-								<CompletionBadge completed={!!task.isCompleted} tooltip alignLeft />
-								<View style={{ paddingLeft: 10 }}>
-									<PeriodicityBadge periodicity={task.periodicity} tooltip alignLeft />
-								</View>
-							</Row>
-						</DescriptionField>
-						{task.images.length > 0 && <ImageGallery images={task.images} />}
-						<View style={[styles.section]}>
-							{task.isCompleted ? (
-								<Button buttonStyle={styles.yellowText} onPress={onToggleTask}>
-									Mark as pending
-								</Button>
-							) : (
-								<Button buttonStyle={styles.greenText} onPress={onToggleTask}>
-									Mark as completed
-								</Button>
-							)}
+						</Card>
+						<View style={styles.historyHeader}>
+							<H3 style={styles.historyTitle}>Task history</H3>
 						</View>
-						<H3 style={styles.historyTitle}>Task history</H3>
 					</>
 				}
 			/>
@@ -181,20 +181,14 @@ const styles = StyleSheet.create({
 	contentContainer: {
 		paddingBottom: 50,
 	},
-	titleRow: {
-		zIndex: 2,
-		marginBottom: 32,
-		paddingHorizontal: 20,
-	},
 	title: {
+		textAlign: 'center',
 		marginBottom: 0,
 		paddingTop: 10,
-		paddingLeft: 20,
-		paddingRight: 50,
 	},
 	section: {
-		marginBottom: 20,
 		marginHorizontal: 20,
+		marginBottom: 20,
 	},
 
 	greenText: {
@@ -206,8 +200,27 @@ const styles = StyleSheet.create({
 	completionToggleSection: {
 		alignItems: 'center',
 	},
+	historyHeader: {
+		backgroundColor: 'white',
+		borderTopRightRadius: 15,
+		borderTopLeftRadius: 15,
+		paddingTop: 10,
+		marginHorizontal: 10,
+		parginBottom: -1,
+		borderColor: 'white',
+		borderBottomWidth: 1,
+		...shadow,
+	},
 	historyTitle: {
 		paddingHorizontal: 20,
+	},
+	historyFooter: {
+		padding: 10,
+		marginHorizontal: 10,
+		backgroundColor: 'white',
+		borderBottomRightRadius: 15,
+		borderBottomLeftRadius: 15,
+		...shadow,
 	},
 	daily: {
 		color: colors.general.darkBlue,

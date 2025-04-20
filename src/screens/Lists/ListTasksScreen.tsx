@@ -38,6 +38,7 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 	const onCreateTask = () =>
 		navigation.navigate(ListStackRoutes.TaskForm, {
 			listId,
+			listTitle: list?.title ?? 'Unknown list',
 		});
 
 	// const [isLoading, setIsLoading] = useState(false);
@@ -138,53 +139,55 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	return (
 		<Container style={styles.screen}>
-			<DescriptionField style={{ marginHorizontal: 20 }}>
-				{!!list.description && (
-					<Text style={{ marginBottom: 15 }}>{list.description}</Text>
-				)}
-				<Row justifyContent={'space-between'} alignItems={'center'}>
-					<Text noPadding>{list.users.length} participants</Text>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						{list.users.slice(0, 4).map((user, i) => (
-							<UserAvatar user={user} i={i} key={user?.id} overlap />
-						))}
-						{list.users.length > 5 && <B noPadding>+{list.users.length}</B>}
-					</View>
+			<View style={styles.card}>
+				<DescriptionField style={{ marginHorizontal: 20 }}>
+					{!!list.description && (
+						<Text style={{ marginBottom: 15 }}>{list.description}</Text>
+					)}
+					<Row justifyContent={'space-between'} alignItems={'center'}>
+						<Text noPadding>{list.users.length} participants</Text>
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+							{list.users.slice(0, 4).map((user, i) => (
+								<UserAvatar user={user} i={i} key={user?.id} overlap />
+							))}
+							{list.users.length > 5 && <B noPadding>+{list.users.length}</B>}
+						</View>
+					</Row>
+				</DescriptionField>
+
+				<Row
+					style={styles.titles}
+					justifyContent={'space-between'}
+					alignItems={'center'}>
+					<TouchableOpacity onPress={() => setShowCompleted(false)}>
+						<Row alignItems={'center'}>
+							<CompletionBadge muted={showCompleted} />
+							<H3
+								noPadding
+								style={{
+									paddingLeft: 20,
+									...(showCompleted ? styles.mutedTitle : {}),
+								}}>
+								Pending
+							</H3>
+						</Row>
+					</TouchableOpacity>
+
+					<TouchableOpacity onPress={() => setShowCompleted(true)}>
+						<Row alignItems={'center'}>
+							<H3
+								noPadding
+								style={{
+									paddingRight: 20,
+									...(!showCompleted ? styles.mutedTitle : {}),
+								}}>
+								Completed
+							</H3>
+							<CompletionBadge completed muted={!showCompleted} />
+						</Row>
+					</TouchableOpacity>
 				</Row>
-			</DescriptionField>
-
-			<Row
-				style={styles.titles}
-				justifyContent={'space-between'}
-				alignItems={'center'}>
-				<TouchableOpacity onPress={() => setShowCompleted(false)}>
-					<Row alignItems={'center'}>
-						<CompletionBadge muted={showCompleted} />
-						<H3
-							noPadding
-							style={{
-								paddingLeft: 20,
-								...(showCompleted ? styles.mutedTitle : {}),
-							}}>
-							Pending
-						</H3>
-					</Row>
-				</TouchableOpacity>
-
-				<TouchableOpacity onPress={() => setShowCompleted(true)}>
-					<Row alignItems={'center'}>
-						<H3
-							noPadding
-							style={{
-								paddingRight: 20,
-								...(!showCompleted ? styles.mutedTitle : {}),
-							}}>
-							Completed
-						</H3>
-						<CompletionBadge completed muted={!showCompleted} />
-					</Row>
-				</TouchableOpacity>
-			</Row>
+			</View>
 			{showCompleted ? completedFlatlist : pendingFlatlist}
 			<FloatingButton onPress={onCreateTask}>New task</FloatingButton>
 		</Container>
@@ -197,6 +200,9 @@ const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
 		width: '100%',
+	},
+	card: {
+		// backgroundColor: 'red',
 	},
 	error: {
 		color: colors.danger,
