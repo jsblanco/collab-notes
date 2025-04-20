@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, StatusBar, StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -139,6 +139,7 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	return (
 		<Container style={styles.screen}>
+			<StatusBar backgroundColor={colors.primary} barStyle="light-content" />
 			<View style={styles.card}>
 				<DescriptionField style={{ marginHorizontal: 20 }}>
 					{!!list.description && (

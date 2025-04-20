@@ -34,7 +34,7 @@ const ImageGallery = ({ images }: { images: DbImage[] }) => {
 		({ changed }: { changed: ViewToken[] }) => {
 			typeof changed[0].index === 'number' && setIndex(changed[0].index);
 		},
-		[setIndex]
+		[]
 	);
 
 	return (
@@ -43,6 +43,7 @@ const ImageGallery = ({ images }: { images: DbImage[] }) => {
 				horizontal
 				data={images}
 				pagingEnabled
+				contentContainerStyle={styles.galleryContainer}
 				windowSize={1}
 				bounces={false}
 				removeClippedSubviews
@@ -109,16 +110,16 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.white,
 		borderRadius: 15,
 		position: 'relative',
-		// overflow: 'hidden',
-		margin: 20,
 		...shadow,
 	},
 	gallerySlide: {
 		height: 350,
-		width: Dimensions.get('window').width-20
+		width: Dimensions.get('window').width - 20,
+		paddingLeft: 30,
 	},
 	galleryContainer: {
 		paddingBottom: 20,
+		marginHorizontal: -15,
 	},
 	indicator: {
 		margin: 3,

@@ -39,7 +39,7 @@ const EditDeleteMenu = ({ label, onDelete, onEdit }: Props) => {
 		<OSButton onPress={showListOptions}>
 			<Ionicons
 				name={IconNames.ellipsisHorizontal}
-				color={colors.white}
+				color={colors.grey[1]}
 				size={28}
 				style={{ marginRight: 15 }}
 			/>

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, StatusBar, StyleSheet, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -107,6 +107,10 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 		() =>
 			navigation.setOptions({
 				title: list.title ?? 'Missing task',
+				headerTintColor: colors.grey[1],
+				headerTitleStyle: {
+					color: colors.grey[1],
+				},
 				headerStyle: {
 					backgroundColor: task?.isCompleted ? colors.completed : colors.pending,
 				},
@@ -126,6 +130,10 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	return (
 		<Container>
+			<StatusBar
+				backgroundColor={task?.isCompleted ? colors.completed : colors.pending}
+				barStyle="dark-content"
+			/>
 			<FlatList
 				data={task.history}
 				style={styles.screen}
@@ -187,7 +195,6 @@ const styles = StyleSheet.create({
 		paddingTop: 10,
 	},
 	section: {
-		marginHorizontal: 20,
 		marginBottom: 20,
 	},
 

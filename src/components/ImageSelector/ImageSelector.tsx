@@ -130,11 +130,11 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 	};
 
 	return (
-		<View style={styles.screen}>
+		<>
 			<FlatList
 				data={value}
 				horizontal={true}
-				style={styles.flatlist}
+				contentContainerStyle={styles.flatlist}
 				renderItem={renderItem}
 				keyExtractor={(value) => value.id}
 				showsHorizontalScrollIndicator={false}
@@ -154,7 +154,7 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 				}
 			/>
 			{!!error && <Error>{error}</Error>}
-		</View>
+		</>
 	);
 };
 
@@ -180,13 +180,7 @@ const SelectedImagePreview = ({
 };
 
 const styles = StyleSheet.create({
-	screen: {
-		flex: 1,
-		paddingVertical: 10,
-		alignItems: 'center',
-	},
 	flatlist: {
-		flex: 1,
 		paddingHorizontal: 10,
 	},
 	imagePreview: {

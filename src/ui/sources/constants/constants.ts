@@ -40,13 +40,12 @@ export const colors = {
 	danger: '#DD3636',
 	white: '#ffffff',
 	black: '#000000',
-	// background: '#e2e2e2',
+	background: '#f2f2f2',
 	text: textColors,
 	general: generalColorPalette,
 	grey: greyTones,
 	completed: generalColorPalette.green,
 	pending: generalColorPalette.mustard,
-	background: greyTones[2],
 };
 
 const { width } = Dimensions.get('window');

@@ -3,6 +3,7 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 	ScrollView,
+	StatusBar,
 	StyleSheet,
 	View,
 } from 'react-native';
@@ -15,7 +16,7 @@ import { Periodicity } from '@app/models';
 import { DbImage } from '@app/models/DbImage.models';
 import { ListStackProps, ListStackRoutes } from '@app/router/NavigationTypes';
 import { addListTask, RootState } from '@app/store';
-import { Button, Card, Container, extraShadow, H2 } from '@app/ui';
+import { Button, Card, colors, Container, extraShadow, H2 } from '@app/ui';
 import { Actions, formReducer } from './TaskFormScreen.reducer';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.TaskForm>;
@@ -106,6 +107,7 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 		<KeyboardAvoidingView
 			style={styles.container}
 			behavior={Platform.select({ ios: 'padding', android: undefined })}>
+			<StatusBar backgroundColor={colors.primary} barStyle="dark-content" />
 			<ScrollView
 				contentContainerStyle={styles.scrollContent}
 				keyboardShouldPersistTaps="handled">

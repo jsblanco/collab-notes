@@ -1,5 +1,11 @@
 import React from 'react';
-import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+	FlatList,
+	StatusBar,
+	StyleSheet,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import { useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -12,7 +18,7 @@ import {
 	ListStackRoutes,
 } from '@app/router/NavigationTypes';
 import { RootState } from '@app/store';
-import { Container, H2, H3, Row } from '@app/ui';
+import { colors, Container, H2, H3, Row } from '@app/ui';
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListsHome>;
 const ListsHomeScreen = ({ route, navigation }: Props) => {
@@ -48,6 +54,7 @@ const ListsHomeScreen = ({ route, navigation }: Props) => {
 
 	return (
 		<Container style={styles.screen}>
+			<StatusBar backgroundColor={colors.primary} barStyle="light-content" />
 			<FlatList
 				data={lists}
 				ListHeaderComponent={
