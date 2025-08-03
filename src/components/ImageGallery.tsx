@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
 		marginHorizontal: -15,
 	},
 	indicator: {
-		margin: 3,
+		card: 3,
 		height: 10,
 		width: 10,
 		borderRadius: 5,

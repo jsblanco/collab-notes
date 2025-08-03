@@ -123,7 +123,7 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 				keyboardShouldPersistTaps="handled"
 			>
 				<Container style={styles.screen}>
-					<Card>
+					<Card style={styles.card}>
 						<H2>{task ? `Edit task "${task.title}"` : "Create new task"}</H2>
 						<FormControl
 							label={"Name"}
@@ -157,7 +157,7 @@ const TaskFormScreen = ({ route, navigation }: Props): JSX.Element => {
 						isValid={formState.inputValidities.images}
 						inputHandler={arrayInputHandler}
 					/>
-					<Card>
+					<Card style={styles.card}>
 						<RadioInput
 							label={"Automatically set as 'Pending'..."}
 							tooltip={
@@ -203,8 +203,12 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	scrollContent: {
-		padding: 10,
-		paddingBottom: 100, // Leave space for the button
+		paddingVertical: 10,
+		paddingBottom: 100,
+	},
+	card: {
+		marginHorizontal: 14,
+		marginVertical: 10,
 	},
 	submitButton: {
 		position: "absolute",
@@ -212,9 +216,8 @@ const styles = StyleSheet.create({
 		left: 0,
 		right: 0,
 		padding: 16,
-		borderTopRightRadius: 15,
-		borderTopLeftRadius: 15,
-		backgroundColor: "#fff", // Match screen background or use semi-transparent color
+		paddingBottom: 32,
+		backgroundColor: "#fff",
 		borderTopWidth: 1,
 		borderTopColor: "#ddd",
 		...extraShadow,

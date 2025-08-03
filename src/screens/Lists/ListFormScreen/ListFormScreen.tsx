@@ -211,7 +211,7 @@ export default ListFormScreen;
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
-		margin: 10,
+		card: 10,
 		width: "100%",
 		position: "relative",
 		backgroundColor: "#e2e2e2",
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
 	},
 	iconOptions: {
 		padding: 10,
-		margin: 10,
+		card: 10,
 		borderRadius: 5,
 		borderWidth: 1,
 		borderColor: colors.grey[4],
