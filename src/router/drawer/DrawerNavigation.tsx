@@ -31,6 +31,8 @@ const drawerIcon =
 		/>
 	);
 
+// Rework so that it shares a common parent stack with ListsStack, which should be TasksStack,
+// and Home and List Screens use a regular component here
 export function DrawerNavigation() {
 	const { lists } = useSelector((state: RootState) => state.lists);
 
@@ -56,6 +58,13 @@ export function DrawerNavigation() {
 					headerShown: false,
 					drawerLabel: "Overview",
 					drawerIcon: drawerIcon(IconNames.clipboard),
+				}}
+			/>
+			<Drawer.Screen
+				name={DrawerRoutes.List}
+				component={ListStack}
+				options={{
+					drawerItemStyle: { display: "none" },
 				}}
 			/>
 			<Drawer.Group>

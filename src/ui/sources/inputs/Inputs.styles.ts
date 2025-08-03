@@ -22,8 +22,8 @@ export default StyleSheet.create({
 	buttonView: {
 		backgroundColor: colors.primary,
 		paddingHorizontal: 16,
-		paddingVertical: 8,
-		borderRadius: 5,
+		paddingVertical: 12,
+		borderRadius: 100,
 		borderWidth: 0,
 	},
 	buttonText: {

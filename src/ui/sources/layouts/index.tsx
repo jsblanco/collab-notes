@@ -8,6 +8,7 @@ import {
 	View,
 	type ViewStyle,
 } from "react-native";
+import { shadow } from "../constants";
 import { CloseButton } from "../inputs";
 import styles from "./Layout.styles";
 
@@ -39,10 +40,14 @@ type RowType = PropsWithChildren<
 export const Card = ({
 	children,
 	style,
+	showShadow = true,
 }: PropsWithChildren<{
 	style?: StyleProp<ViewStyle>;
+	showShadow?: boolean;
 }>) => {
-	return <View style={[styles.card, style]}>{children}</View>;
+	return (
+		<View style={[styles.card, showShadow && shadow, style]}>{children}</View>
+	);
 };
 
 export const Modal = ({

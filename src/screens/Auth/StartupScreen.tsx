@@ -1,14 +1,7 @@
-import type {
-	AuthStackProps,
-	AuthStackRoutes,
-} from "@app/router/stacks/AuthStack.types";
 import { Text } from "@app/ui";
-import type { StackScreenProps } from "@react-navigation/stack";
 import { StyleSheet, View } from "react-native";
 
-type Props = StackScreenProps<AuthStackProps, AuthStackRoutes.Startup>;
-
-const StartupScreen = (_: Props) => {
+const StartupScreen = () => {
 	return (
 		<View style={styles.screen}>
 			<Text>StartupScreen works!</Text>

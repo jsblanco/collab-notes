@@ -5,16 +5,20 @@ import {
 } from "@app/router/stacks/ListStack.types";
 import ListFormScreen from "@app/screens/Lists/ListFormScreen/ListFormScreen";
 import ListsHomeScreen from "@app/screens/Lists/ListsHomeScreen";
-import ListTaksScreen from "@app/screens/Lists/ListTasksScreen";
+import ListTasksScreen from "@app/screens/Lists/ListTasksScreen";
 import TaskDetailsScreen from "@app/screens/Lists/TaskDetailsScreen";
 import TaskFormScreen from "@app/screens/Lists/TaskFormScreen/TaskFormScreen";
-
+import { HeaderBackButton } from "@react-navigation/elements";
 import {
 	CardStyleInterpolators,
 	createStackNavigator,
 	type StackNavigationOptions,
 } from "@react-navigation/stack";
 import styles from "../styles/stack.styles";
+
+const headerLeft = (callback: () => void) => () => (
+	<HeaderBackButton onPress={callback} />
+);
 
 const Stack = createStackNavigator<ListStackProps>();
 
@@ -37,7 +41,7 @@ export function ListStack() {
 			/>
 			<Stack.Screen
 				name={ListStackRoutes.ListTasks}
-				component={ListTaksScreen}
+				component={ListTasksScreen}
 				options={{
 					headerLeft: OpenDrawerButton,
 				}}
@@ -47,12 +51,15 @@ export function ListStack() {
 				component={ListFormScreen}
 			/>
 			<Stack.Screen
-				name={ListStackRoutes.TaskForm}
-				component={TaskFormScreen}
-			/>
-			<Stack.Screen
 				name={ListStackRoutes.TaskDetails}
 				component={TaskDetailsScreen}
+				options={({ navigation }) => ({
+					headerLeft: headerLeft(navigation.goBack),
+				})}
+			/>
+			<Stack.Screen
+				name={ListStackRoutes.TaskForm}
+				component={TaskFormScreen}
 			/>
 		</Stack.Navigator>
 	);

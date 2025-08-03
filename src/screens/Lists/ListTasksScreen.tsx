@@ -1,7 +1,7 @@
 import UserAvatar from "@app/components/Avatars/UserAvatar";
 import CompletionBadge from "@app/components/CompletionBadge";
 import EditDeleteMenu from "@app/components/EditDeleteMenu";
-import TasksFlatList from "@app/components/TasksFlatList";
+import { TasksFlatList } from "@app/components/TasksFlatList";
 import { DrawerRoutes } from "@app/router/drawer/DrawerNavigation.types";
 import {
 	type ListStackProps,
@@ -26,7 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.ListTasks>;
 
-const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
+const ListTasksScreen = ({ route, navigation }: Props): JSX.Element => {
 	const dispatch = useDispatch();
 	const { listId } = route.params;
 	const [showCompleted, setShowCompleted] = useState<boolean>(false);
@@ -75,19 +75,25 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 		if (!list) return;
 		return (
 			<TasksFlatList
+				navigation={navigation.getParent()}
 				listId={list.id}
 				tasks={list.completedTasks}
 				reorderTasks
 			/>
 		);
-	}, [list]);
+	}, [list, navigation]);
 
 	const pendingFlatlist = useMemo(() => {
 		if (!list) return;
 		return (
-			<TasksFlatList listId={list.id} tasks={list.pendingTasks} reorderTasks />
+			<TasksFlatList
+				navigation={navigation.getParent()}
+				listId={list.id}
+				tasks={list.pendingTasks}
+				reorderTasks
+			/>
 		);
-	}, [list]);
+	}, [list, navigation]);
 
 	const onEdit = useCallback(
 		() =>
@@ -205,7 +211,7 @@ const ListTaksScreen = ({ route, navigation }: Props): JSX.Element => {
 	);
 };
 
-export default ListTaksScreen;
+export default ListTasksScreen;
 
 const styles = StyleSheet.create({
 	screen: {

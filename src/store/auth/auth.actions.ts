@@ -14,7 +14,7 @@ export const signup = {
 			payload: payload,
 		};
 	},
-	failure: (error: Error) => {
+	failure: (error: unknown) => {
 		return {
 			type: constants.SIGNUP_FAILURE,
 			payload: error,

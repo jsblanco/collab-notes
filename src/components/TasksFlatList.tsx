@@ -1,7 +1,8 @@
 import type { Task } from "@app/models";
+import type { DrawerProps } from "@app/router/drawer/DrawerNavigation.types";
 import { changeTaskListIndex } from "@app/store";
 import { Text } from "@app/ui";
-import type React from "react";
+import type { NavigationProp } from "@react-navigation/native";
 import { useCallback, useRef } from "react";
 import { StyleSheet } from "react-native";
 import DraggableFlatList, {
@@ -16,17 +17,31 @@ interface Props {
 	listId: string;
 	tasks: Task[];
 	reorderTasks?: boolean;
+	navigation: NavigationProp<DrawerProps>;
 }
 
-const TasksFlatList = ({ listId, tasks, reorderTasks }: Props) => {
+export const TasksFlatList = ({
+	listId,
+	tasks,
+	navigation,
+	reorderTasks,
+}: Props) => {
 	const dispatch = useDispatch();
-	const itemRefs = useRef(
-		new Map<string, React.RefObject<SwipeableItemImperativeRef>>(),
-	);
+	const itemRefs = useRef(new Map<string, SwipeableItemImperativeRef>());
 
-	const renderItem = useCallback((params: RenderItemParams<Task>) => {
-		return <TaskItem {...params} itemRefs={itemRefs} task={params.item} />;
-	}, []);
+	const renderItem = useCallback(
+		(params: RenderItemParams<Task>) => {
+			return (
+				<TaskItem
+					{...params}
+					navigation={navigation}
+					itemRefs={itemRefs}
+					task={params.item}
+				/>
+			);
+		},
+		[navigation],
+	);
 
 	const changeTaskOrder = useCallback(
 		({ data }: DragEndParams<Task>) => {
@@ -58,8 +73,6 @@ const TasksFlatList = ({ listId, tasks, reorderTasks }: Props) => {
 		/>
 	);
 };
-
-export default TasksFlatList;
 
 const styles = StyleSheet.create({
 	container: {

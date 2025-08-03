@@ -203,8 +203,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	scrollContent: {
-		// padding: 16,
-		paddingBottom: 80, // Leave space for the button
+		padding: 10,
+		paddingBottom: 100, // Leave space for the button
 	},
 	submitButton: {
 		position: "absolute",

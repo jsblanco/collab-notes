@@ -3,11 +3,9 @@ import { colors, shadow } from "../constants/constants";
 
 export default StyleSheet.create({
 	card: {
-		margin: 10,
 		borderRadius: 15,
 		padding: 15,
 		backgroundColor: colors.white,
-		...shadow,
 	},
 	modalView: {
 		marginHorizontal: 10,

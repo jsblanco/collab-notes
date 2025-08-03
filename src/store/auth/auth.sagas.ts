@@ -1,4 +1,5 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: <auth implementation is still pending so biome please stop bugging me> */
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
 	type CallEffect,
@@ -72,7 +73,7 @@ function* loginEffect({
 
 function* logoutEffect() {
 	try {
-		console.log("logout");
+		console.info("logout");
 		deleteDataFromStorage();
 		yield put(logout.success());
 	} catch (e) {

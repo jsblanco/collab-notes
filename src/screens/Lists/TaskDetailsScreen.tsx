@@ -34,6 +34,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.TaskDetails>;
 
+import { HeaderBackButton } from "@react-navigation/elements";
+
 const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 	const { listId, taskId } = route.params;
 	const dispatch = useDispatch();
@@ -117,11 +119,17 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 						? colors.completed
 						: colors.pending,
 				},
+				headerLeft: () => (
+					<HeaderBackButton
+						onPress={navigation.goBack}
+						tintColor={colors.grey[1]}
+					/>
+				),
 				headerRight: () => (
 					<EditDeleteMenu label={"task"} onDelete={onDelete} onEdit={onEdit} />
 				),
 			}),
-		[task, list, navigation.setOptions, onDelete, onEdit],
+		[task, list, navigation.setOptions, onDelete, navigation.goBack, onEdit],
 	);
 
 	return !list || !task ? (
@@ -139,10 +147,11 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 				style={styles.screen}
 				contentContainerStyle={styles.contentContainer}
 				renderItem={renderTaskHistoryItem}
+				showsVerticalScrollIndicator={false}
 				ListFooterComponent={<View style={styles.historyFooter} />}
 				ListHeaderComponent={
 					<>
-						<Card>
+						<Card showShadow={false}>
 							<H1 style={styles.title} noPadding>
 								{task.title}
 							</H1>
@@ -196,9 +205,11 @@ const styles = StyleSheet.create({
 		flex: 1,
 		width: "100%",
 		paddingTop: 10,
+		...shadow,
 	},
 	contentContainer: {
 		paddingBottom: 50,
+		marginHorizontal: 10,
 	},
 	title: {
 		textAlign: "center",
@@ -223,22 +234,21 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: 15,
 		borderTopLeftRadius: 15,
 		paddingTop: 10,
-		marginHorizontal: 10,
-		parginBottom: -1,
+		marginTop: 20,
+		marginBottom: -1,
 		borderColor: "white",
 		borderBottomWidth: 1,
-		...shadow,
 	},
 	historyTitle: {
 		paddingHorizontal: 20,
 	},
 	historyFooter: {
 		padding: 10,
-		marginHorizontal: 10,
+		marginTop: -2,
+		zIndex: 2,
 		backgroundColor: "white",
 		borderBottomRightRadius: 15,
 		borderBottomLeftRadius: 15,
-		...shadow,
 	},
 	daily: {
 		color: colors.general.darkBlue,

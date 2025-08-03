@@ -1,5 +1,5 @@
 import CompletionBadge from "@app/components/CompletionBadge";
-import TasksFlatList from "@app/components/TasksFlatList";
+import { TasksFlatList } from "@app/components/TasksFlatList";
 import type { List } from "@app/models";
 import {
 	type DrawerProps,
@@ -15,7 +15,7 @@ import { Container, colors, H3, Row } from "@app/ui";
 import { Ionicons } from "@expo/vector-icons";
 import type { CompositeScreenProps } from "@react-navigation/native";
 import type { StackScreenProps } from "@react-navigation/stack";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import {
 	FlatList,
 	StatusBar,
@@ -32,46 +32,54 @@ type Props = CompositeScreenProps<
 
 const ListsHomeScreen = ({ navigation }: Props) => {
 	const { lists } = useSelector((state: RootState) => state.lists);
-
 	useEffect(() => {
 		navigation.setOptions({
 			title: `You have ${lists.reduce((acc, list) => list.pendingTasks.length + acc, 0)} pending tasks`,
 		});
 	}, [navigation, lists]);
 
-	const renderLists = ({ item }: { item: List }) => (
-		<View style={styles.listView}>
-			<Row
-				style={styles.titles}
-				justifyContent={"space-between"}
-				alignItems={"center"}
-			>
-				<TouchableOpacity
-					style={{ flexDirection: "row", alignItems: "center" }}
-					onPress={() => {
-						//@ts-ignore
-						navigation.navigate(getDrawerListLink(item.id), {
-							screen: ListStackRoutes.ListTasks,
-							params: {
-								listId: item.id,
-							},
-						});
-					}}
+	const renderLists = useCallback(
+		({ item }: { item: List }) => (
+			<View style={styles.listView}>
+				<Row
+					style={styles.titles}
+					justifyContent={"space-between"}
+					alignItems={"center"}
 				>
-					<Ionicons name={item.icon} color={"#000"} size={24} />
-					<H3 noPadding style={{ marginLeft: 10 }}>
-						{item.title}
-					</H3>
-				</TouchableOpacity>
-				<CompletionBadge completed={false} />
-			</Row>
-			<TasksFlatList listId={item.id} tasks={item.pendingTasks} reorderTasks />
-		</View>
+					<TouchableOpacity
+						style={{ flexDirection: "row", alignItems: "center" }}
+						onPress={() => {
+							//@ts-ignore
+							navigation?.navigate(getDrawerListLink(item.id), {
+								screen: ListStackRoutes.ListTasks,
+								params: {
+									listId: item.id,
+								},
+							});
+						}}
+					>
+						<Ionicons name={item.icon} color={"#000"} size={24} />
+						<H3 noPadding style={{ marginLeft: 10 }}>
+							{item.title}
+						</H3>
+					</TouchableOpacity>
+					<CompletionBadge completed={false} />
+				</Row>
+				<TasksFlatList
+					listId={item.id}
+					tasks={item.pendingTasks}
+					navigation={navigation.getParent()}
+					reorderTasks
+				/>
+			</View>
+		),
+		[navigation],
 	);
 
 	return (
 		<Container style={styles.screen}>
 			<StatusBar backgroundColor={colors.primary} barStyle="light-content" />
+			{/* TODO - Convert to SectionList */}
 			<FlatList
 				data={lists}
 				renderItem={renderLists}

@@ -1,9 +1,12 @@
 import type { Task } from "@app/models";
-import { getDrawerListLink } from "@app/router/drawer/DrawerNavigation.types";
+import {
+	type DrawerProps,
+	getDrawerListLink,
+} from "@app/router/drawer/DrawerNavigation.types";
 import { ListStackRoutes } from "@app/router/stacks/ListStack.types";
 import { removeListTask, toggleTaskCompletion } from "@app/store";
 import { colors, fonts, H3, OSButton, Row, Text } from "@app/ui";
-import { useNavigation } from "@react-navigation/native";
+import { type NavigationProp, useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import type React from "react";
 import { useCallback } from "react";
@@ -30,12 +33,12 @@ type TaskItemProps = {
 	task: Task;
 	drag: () => void;
 	itemRefs: React.MutableRefObject<Map<string, SwipeableItemImperativeRef>>;
+	navigation: NavigationProp<DrawerProps>;
 };
 
-export function TaskItem({ task, drag, itemRefs }: TaskItemProps) {
+export function TaskItem({ task, drag, navigation, itemRefs }: TaskItemProps) {
 	const dispatch = useDispatch();
 
-	const navigation = useNavigation();
 	const closeThisRow = useCallback(
 		() => itemRefs.current.get(task.id)?.close(),
 		[itemRefs.current.get, task.id],
@@ -67,7 +70,7 @@ export function TaskItem({ task, drag, itemRefs }: TaskItemProps) {
 	);
 
 	const onPressItem = useCallback(() => {
-		navigation.navigate(getDrawerListLink(task.listId), {
+		navigation?.navigate(getDrawerListLink(task.listId), {
 			screen: ListStackRoutes.TaskDetails,
 			params: {
 				listId: task.listId,
@@ -76,7 +79,7 @@ export function TaskItem({ task, drag, itemRefs }: TaskItemProps) {
 		});
 
 		[...itemRefs.current.entries()].forEach(([_, ref]) => ref?.close());
-	}, [navigation.navigate, task.id, itemRefs.current.entries, task.listId]);
+	}, [navigation, task.id, itemRefs.current.entries, task.listId]);
 
 	const onAssigningItemRef = useCallback(
 		(ref: SwipeableItemImperativeRef | null) =>
@@ -165,7 +168,7 @@ const UnderlayLeft = ({
 				{
 					text: "Cancel",
 					onPress: () => {
-						console.log("Cancel Pressed");
+						console.info("Cancel Pressed");
 						closeRow();
 					},
 					style: "cancel",

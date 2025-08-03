@@ -55,10 +55,9 @@ const styles = StyleSheet.create({
 		paddingVertical: 10,
 		paddingLeft: 10,
 		paddingRight: 30,
-		marginHorizontal: 10,
 		backgroundColor: "white",
 		flex: 1,
-		...shadow,
+		// ...shadow,
 	},
 	textView: {
 		paddingLeft: 10,

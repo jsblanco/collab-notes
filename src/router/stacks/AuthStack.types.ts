@@ -1,9 +1,9 @@
 export enum AuthStackRoutes {
 	AuthsHome = "AuthsHome",
-	Startup = "Startup",
+	LogIn = "LogIn",
+	SignUp = "SignUp",
 }
 
 export type AuthStackProps = {
 	[AuthStackRoutes.AuthsHome]: undefined;
-	[AuthStackRoutes.Startup]: undefined;
 };
