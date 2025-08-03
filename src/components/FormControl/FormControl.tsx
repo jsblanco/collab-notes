@@ -1,8 +1,8 @@
-import React, { useEffect, useReducer, useState } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
-import { colors, Error, fonts, InfoTooltip, Label, Row } from '@app/ui';
-import { formControlReducer } from './FormControl.reducer';
-import { FormControlActions, FormControlType } from './FormControl.types';
+import { colors, ErrorMessage, fonts, InfoTooltip, Label, Row } from "@app/ui";
+import { useEffect, useReducer, useState } from "react";
+import { StyleSheet, TextInput, View } from "react-native";
+import { formControlReducer } from "./FormControl.reducer";
+import { FormControlActions, type FormControlType } from "./FormControl.types";
 
 const FormControl = (props: FormControlType) => {
 	const {
@@ -22,36 +22,36 @@ const FormControl = (props: FormControlType) => {
 		multiline = false,
 		autoCorrect = true,
 		secureTextEntry = false,
-		keyboardType = 'email-address',
-		autoComplete = 'off',
-		autoCapitalize = 'sentences',
+		keyboardType = "email-address",
+		autoComplete = "off",
+		autoCapitalize = "sentences",
 		numberOfLines = 1,
 		onInputCheck,
 	} = props;
 
-	const [error, setError] = useState<string>('');
+	const [error, setError] = useState<string>("");
 	const [state, dispatch] = useReducer(formControlReducer, {
-		value: value ?? '',
-		isValid: !!isValid,
+		value: value ?? "",
+		isValid: isValid,
 		isTouched: false,
 	});
 
 	const stringChangeHandler = (input: string) => {
 		const emailRegex =
-			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		const numberRegex = /^-?\d*(\.\d+)?$/;
 		let isValid = true;
 
 		if (
 			(required && input.trim().length === 0) ||
 			(email && !emailRegex.test(input.toLowerCase())) ||
-			(typeof min === 'number' && parseFloat(input) < min) ||
-			(typeof max === 'number' && parseFloat(input) > max) ||
-			(typeof minLength === 'number' && input.length < minLength) ||
-			(typeof maxLength === 'number' && input.length > maxLength) ||
-			((keyboardType === 'numeric' ||
-				keyboardType === 'number-pad' ||
-				keyboardType === 'decimal-pad') &&
+			(typeof min === "number" && parseFloat(input) < min) ||
+			(typeof max === "number" && parseFloat(input) > max) ||
+			(typeof minLength === "number" && input.length < minLength) ||
+			(typeof maxLength === "number" && input.length > maxLength) ||
+			((keyboardType === "numeric" ||
+				keyboardType === "number-pad" ||
+				keyboardType === "decimal-pad") &&
 				!numberRegex.test(input))
 		)
 			isValid = false;
@@ -79,21 +79,23 @@ const FormControl = (props: FormControlType) => {
 		}
 	};
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <needed>
 	useEffect(() => {
 		inputHandler(inputName, state.value, state.isValid);
-	}, [inputHandler, state, value, error]);
+	}, [inputHandler, state, value, error, inputName]);
 
 	useEffect(() => {
-		if (state.value !== '' && value === '')
+		if (state.value !== "" && value === "")
 			dispatch({ type: FormControlActions.FORM_RESET });
-	}, [value]);
+	}, [value, state.value]);
 
 	return (
 		<View style={styles.formControl}>
 			<Row
 				style={styles.titleRow}
 				alignItems="center"
-				justifyContent="space-between">
+				justifyContent="space-between"
+			>
 				<Label>{label}</Label>
 				{!!tooltip && <InfoTooltip message={tooltip} />}
 			</Row>
@@ -113,10 +115,10 @@ const FormControl = (props: FormControlType) => {
 				secureTextEntry={secureTextEntry}
 				onChangeText={stringChangeHandler}
 				autoComplete={autoComplete}
-				placeholderTextColor={colors.grey['3']}
+				placeholderTextColor={colors.grey["3"]}
 			/>
 			{required && state.isTouched && !state.isValid && error && (
-				<Error>{error}</Error>
+				<ErrorMessage>{error}</ErrorMessage>
 			)}
 		</View>
 	);
@@ -127,17 +129,17 @@ export default FormControl;
 const styles = StyleSheet.create({
 	formControl: {
 		paddingVertical: 10,
-		width: '100%',
+		width: "100%",
 	},
 	titleRow: {
 		zIndex: 2,
 	},
 	input: {
-		width: '100%',
+		width: "100%",
 		fontSize: 16,
 		lineHeight: 24,
 		fontFamily: fonts.regularBold,
-		textAlignVertical: 'top',
+		textAlignVertical: "top",
 		backgroundColor: colors.grey[4],
 		padding: 10,
 		paddingTop: 14,
@@ -146,6 +148,6 @@ const styles = StyleSheet.create({
 	warning: {
 		color: colors.danger,
 		fontFamily: fonts.regular,
-		textAlign: 'center',
+		textAlign: "center",
 	},
 });

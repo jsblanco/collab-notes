@@ -1,10 +1,10 @@
-import { Reducer } from 'react';
-import { User } from '@app/models';
+import type { User } from "@app/models";
+import type { Reducer } from "react";
 
 export enum ImageSelectorActions {
-	ADD_USER = 'ADD_USER',
-	REMOVE_USER = 'REMOVE_USER',
-	FORM_RESET = 'FORM_RESET',
+	ADD_USER = "ADD_USER",
+	REMOVE_USER = "REMOVE_USER",
+	FORM_RESET = "FORM_RESET",
 }
 type StateType = { value: User[]; isValid: boolean; isTouched: boolean };
 type ActionType =
@@ -24,9 +24,9 @@ type ActionType =
 
 export const imageSelectorReducer: Reducer<StateType, ActionType> = (
 	state,
-	a
+	a,
 ) => {
-	let updatedValues;
+	let updatedValues: User[];
 	switch (a.type) {
 		case ImageSelectorActions.ADD_USER:
 			updatedValues = [a.value, ...state.value];
@@ -38,7 +38,7 @@ export const imageSelectorReducer: Reducer<StateType, ActionType> = (
 			};
 		case ImageSelectorActions.REMOVE_USER:
 			updatedValues = state.value.filter((user) => user.id !== a.value.id);
-			console.log(updatedValues);
+
 			return {
 				value: updatedValues,
 				isValid: a.isValid,

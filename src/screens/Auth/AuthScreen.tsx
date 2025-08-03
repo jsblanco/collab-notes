@@ -1,12 +1,14 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
-import { AuthStackProps, AuthStackRoutes } from '@app/router/NavigationTypes';
-import { Text } from '@app/ui';
+import type {
+	AuthStackProps,
+	AuthStackRoutes,
+} from "@app/router/stacks/AuthStack.types";
+import { Text } from "@app/ui";
+import type { StackScreenProps } from "@react-navigation/stack";
+import { StyleSheet, View } from "react-native";
 
 type Props = StackScreenProps<AuthStackProps, AuthStackRoutes.AuthsHome>;
 
-const AuthScreen = (props: Props) => {
+const AuthScreen = (_: Props) => {
 	return (
 		<View style={styles.screen}>
 			<Text>AuthScreen works!</Text>
@@ -19,8 +21,8 @@ export default AuthScreen;
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
-		width: '100%',
-		justifyContent: 'center',
-		alignItems: 'center',
+		width: "100%",
+		justifyContent: "center",
+		alignItems: "center",
 	},
 });

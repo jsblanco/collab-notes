@@ -1,3 +1,3 @@
-export * from './List.models'
-export * from './Task.models'
-export * from './User.models'
+export * from "./List.models";
+export * from "./Task.models";
+export * from "./User.models";

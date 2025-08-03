@@ -1,25 +1,25 @@
-import { StyleSheet } from 'react-native';
-import { colors, shadow } from '@app/ui';
+import { colors, shadow } from "@app/ui";
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
 	usersRow: {
 		paddingHorizontal: 20,
 		marginBottom: 20,
-		alignItems: 'center',
-		justifyContent: 'flex-end',
+		alignItems: "center",
+		justifyContent: "flex-end",
 	},
 	userAvatar: {
-		overflow: 'hidden',
-		alignItems: 'center',
+		overflow: "hidden",
+		alignItems: "center",
 	},
 	appAvatar: {
-		alignItems: 'center',
-		justifyContent: 'center',
+		alignItems: "center",
+		justifyContent: "center",
 		backgroundColor: colors.grey[3],
 	},
 	avatarPlaceholder: {
-		fontWeight: 'bold',
-		color: 'white',
+		fontWeight: "bold",
+		color: "white",
 	},
 	selected: {
 		borderRadius: 50,
@@ -29,7 +29,7 @@ export default StyleSheet.create({
 	},
 	wrapper: {
 		maxWidth: 80,
-		backgroundColor: 'white',
+		backgroundColor: "white",
 		borderRadius: 99,
 		...shadow,
 	},

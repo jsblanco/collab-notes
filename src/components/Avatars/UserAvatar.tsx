@@ -1,8 +1,7 @@
-import React from 'react';
-import { Image, View } from 'react-native';
-import { User } from '@app/models';
-import { colors, shadow, Text } from '@app/ui';
-import styles from './avatars.styles';
+import type { User } from "@app/models";
+import { colors, Text } from "@app/ui";
+import { Image, View } from "react-native";
+import styles from "./avatars.styles";
 
 const placeholderColors = [
 	colors.accent,
@@ -32,7 +31,8 @@ const UserAvatar = ({
 				...(selected && styles.selected),
 				...(big ? styles.big : styles.small),
 				...(overlap && { marginLeft: -10, zIndex: -i }),
-			}}>
+			}}
+		>
 			{user.image ? (
 				<Image
 					style={[styles.userAvatar, big ? styles.big : styles.small]}
@@ -50,8 +50,9 @@ const UserAvatar = ({
 						backgroundColor: placeholderColors[i % placeholderColors.length],
 					}}
 					noPadding
-					center>
-					{user?.name.slice(0, 1) ?? '?'}
+					center
+				>
+					{user?.name.slice(0, 1) ?? "?"}
 				</Text>
 			)}
 		</View>

@@ -1,18 +1,8 @@
-import React, {
-	ReactNode,
-	useCallback,
-	useEffect,
-	useReducer,
-	useState,
-} from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker';
-import { User } from '@app/models';
+import type { User } from "@app/models";
 import {
 	CloseButton,
 	colors,
-	Error,
+	ErrorMessage,
 	H2,
 	IconNames,
 	Label,
@@ -20,12 +10,21 @@ import {
 	OSButton,
 	shadow,
 	Text,
-} from '@app/ui';
-import UserAvatar from '../Avatars/UserAvatar';
+} from "@app/ui";
+import { Ionicons } from "@expo/vector-icons";
+import {
+	type ReactNode,
+	useCallback,
+	useEffect,
+	useReducer,
+	useState,
+} from "react";
+import { FlatList, StyleSheet, View } from "react-native";
+import UserAvatar from "../Avatars/UserAvatar";
 import {
 	ImageSelectorActions,
 	imageSelectorReducer,
-} from './UserSelector.reducer';
+} from "./UserSelector.reducer";
 
 type UserSelectorPropsType = {
 	label: string | ReactNode;
@@ -51,7 +50,7 @@ const UserSelector = (props: UserSelectorPropsType) => {
 		modalLabel,
 		inputHandler,
 	} = props;
-	const [error, setError] = useState('');
+	const [error, _] = useState("");
 	const [modalVisible, setModalVisible] = useState(false);
 	const [state, dispatch] = useReducer(imageSelectorReducer, {
 		value: value ? value : [],
@@ -60,18 +59,18 @@ const UserSelector = (props: UserSelectorPropsType) => {
 	});
 	const unselectedUsers = userList.filter(
 		(user) =>
-			value.findIndex((selectedUser) => user.id === selectedUser.id) === -1
+			value.findIndex((selectedUser) => user.id === selectedUser.id) === -1,
 	);
 
 	useEffect(() => {
 		inputHandler(inputName, state.value, state.isValid);
-	}, [inputHandler, state, value]);
+	}, [inputHandler, state.value, state.isValid, inputName]);
 
 	useEffect(() => {
 		if (state.value.length > 0 && value.length === 0) {
 			dispatch({ type: ImageSelectorActions.FORM_RESET });
 		}
-	}, [value]);
+	}, [value, state.value]);
 
 	const onAddUser = useCallback(
 		(user: User) =>
@@ -80,7 +79,7 @@ const UserSelector = (props: UserSelectorPropsType) => {
 				value: user,
 				isValid: required ? state.value.length > 1 : true,
 			}),
-		[dispatch]
+		[state.value.length, required],
 	);
 
 	const onRemoveUser = useCallback(
@@ -90,15 +89,22 @@ const UserSelector = (props: UserSelectorPropsType) => {
 				value: user,
 				isValid: required ? state.value.length > 1 : true,
 			}),
-		[dispatch]
+		[required, state.value.length],
 	);
 
 	const renderSelectedUserAvatars = useCallback(
 		({ item, index }: { item: User | 0; index: number }) =>
 			item === 0 ? (
 				<View style={styles.addUserButton}>
-					<OSButton style={styles.userPreview} onPress={() => setModalVisible(true)}>
-						<Ionicons name={IconNames.person} color={colors.grey[3]} size={32} />
+					<OSButton
+						style={styles.userPreview}
+						onPress={() => setModalVisible(true)}
+					>
+						<Ionicons
+							name={IconNames.person}
+							color={colors.grey[3]}
+							size={32}
+						/>
 					</OSButton>
 					<Text noPadding style={styles.userPreviewTitle}>
 						Add user
@@ -111,7 +117,7 @@ const UserSelector = (props: UserSelectorPropsType) => {
 					<Text center>{item.name}</Text>
 				</View>
 			),
-		[]
+		[onRemoveUser.bind],
 	);
 
 	const renderUserAvatars = useCallback(
@@ -120,12 +126,13 @@ const UserSelector = (props: UserSelectorPropsType) => {
 				onPress={() => {
 					onAddUser(item);
 					setModalVisible(false);
-				}}>
+				}}
+			>
 				<UserAvatar big user={item} i={index} />
 				<Text center>{item.name}</Text>
 			</OSButton>
 		),
-		[]
+		[onAddUser],
 	);
 
 	return (
@@ -142,15 +149,16 @@ const UserSelector = (props: UserSelectorPropsType) => {
 				style={styles.flatlist}
 				columnWrapperStyle={styles.columnWrapper}
 				renderItem={renderSelectedUserAvatars}
-				keyExtractor={(value) => (value as User).id ?? 'picker'}
+				keyExtractor={(value) => (value as User).id ?? "picker"}
 				showsHorizontalScrollIndicator={false}
 			/>
 
-			{!!error && <Error>{error}</Error>}
+			{!!error && <ErrorMessage>{error}</ErrorMessage>}
 
 			<Modal
 				visible={modalVisible}
-				onRequestClose={setModalVisible.bind(null, !modalVisible)}>
+				onRequestClose={setModalVisible.bind(null, !modalVisible)}
+			>
 				<H2 center style={{ paddingTop: 40 }}>
 					{modalLabel}
 				</H2>
@@ -171,11 +179,11 @@ export default UserSelector;
 
 const styles = StyleSheet.create({
 	screen: {
-		width: '100%',
-		alignItems: 'center',
+		width: "100%",
+		alignItems: "center",
 	},
 	flatlist: {
-		width: '100%',
+		width: "100%",
 	},
 	columnWrapper: {
 		gap: 25,
@@ -186,7 +194,7 @@ const styles = StyleSheet.create({
 		paddingTop: 20,
 	},
 	usersModal: {
-		alignItems: 'center',
+		alignItems: "center",
 		paddingTop: 20,
 		paddingBottom: 100,
 	},
@@ -194,16 +202,16 @@ const styles = StyleSheet.create({
 		...shadow,
 	},
 	userPreview: {
-		overflow: 'hidden',
-		alignItems: 'center',
-		position: 'relative',
-		justifyContent: 'center',
-		backgroundColor: 'white',
+		overflow: "hidden",
+		alignItems: "center",
+		position: "relative",
+		justifyContent: "center",
+		backgroundColor: "white",
 		height: 80,
 		width: 80,
 		borderRadius: 40,
 	},
 	userPreviewTitle: {
-		textAlign: 'center',
+		textAlign: "center",
 	},
 });

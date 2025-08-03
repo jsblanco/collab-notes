@@ -1,7 +1,6 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { colors, IconNames, shadow, Tooltip } from '@app/ui';
+import { colors, IconNames, shadow, Tooltip } from "@app/ui";
+import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet, View } from "react-native";
 
 const CompletionBadge = ({
 	completed = false,
@@ -20,7 +19,8 @@ const CompletionBadge = ({
 				completed ? styles.green : styles.yellow,
 				styles.completionBadge,
 				muted && { backgroundColor: colors.grey[3] },
-			]}>
+			]}
+		>
 			<Ionicons
 				name={completed ? IconNames.checkmarkCircle : IconNames.time}
 				color={colors.white}
@@ -32,8 +32,9 @@ const CompletionBadge = ({
 	return tooltip ? (
 		<Tooltip
 			borderRadius={10}
-			message={'This task is ' + (completed ? 'completed' : 'pending completion')}
-			alignLeft={alignLeft}>
+			message={`This task is ${completed ? "completed" : "pending completion"}`}
+			alignLeft={alignLeft}
+		>
 			{badge}
 		</Tooltip>
 	) : (

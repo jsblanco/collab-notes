@@ -1,5 +1,5 @@
-import { IconNames } from '@app/ui';
-import { Task, User } from './';
+import type { IconNames } from "@app/ui";
+import type { Task, User } from "./";
 
 export interface List {
 	id: string;

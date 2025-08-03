@@ -1,20 +1,20 @@
-import React, {
-	PropsWithChildren,
+import UserAvatar from "@app/components/Avatars/UserAvatar";
+import { fetchAllLists, type RootState } from "@app/store";
+import { fonts, IconNames, OSButton } from "@app/ui";
+import { Ionicons } from "@expo/vector-icons";
+import {
+	type DrawerContentComponentProps,
+	DrawerContentScrollView,
+	DrawerItemList,
+} from "@react-navigation/drawer";
+import {
+	type PropsWithChildren,
 	useCallback,
 	useEffect,
 	useState,
-} from 'react';
-import { ImageBackground, Text, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { Ionicons } from '@expo/vector-icons';
-import {
-	DrawerContentComponentProps,
-	DrawerContentScrollView,
-	DrawerItemList,
-} from '@react-navigation/drawer';
-import UserAvatar from '@app/components/Avatars/UserAvatar';
-import { fetchAllLists, RootState } from '@app/store';
-import { fonts, IconNames, OSButton } from '@app/ui';
+} from "react";
+import { ImageBackground, Text, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 	const dispatch = useDispatch();
@@ -23,51 +23,54 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 
 	const loadLists = useCallback(
 		async () => await dispatch(fetchAllLists.request()),
-		[dispatch]
+		[dispatch],
 	);
 
 	useEffect(() => {
 		setIsLoading(true);
 		loadLists().then(() => setIsLoading(false));
-	}, [dispatch, loadLists]);
+	}, [loadLists]);
 
 	const DrawerContent = ({ children }: PropsWithChildren) => (
 		<View style={{ flex: 1 }}>
 			<DrawerContentScrollView
 				{...props}
 				contentContainerStyle={{
-					backgroundColor: '#8200d6',
-				}}>
+					backgroundColor: "#8200d6",
+				}}
+			>
 				<UserHeader />
 
-				<View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 10 }}>
+				<View style={{ flex: 1, backgroundColor: "#fff", paddingTop: 10 }}>
 					<DrawerItemList {...props} />
 					{children}
 				</View>
 			</DrawerContentScrollView>
-			<View style={{ padding: 20, borderTopWidth: 1, borderTopColor: '#ccc' }}>
+			<View style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc" }}>
 				<OSButton onPress={() => {}} style={{ paddingVertical: 15 }}>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+					<View style={{ flexDirection: "row", alignItems: "center" }}>
 						<Ionicons name={IconNames.shareSocial} size={22} />
 						<Text
 							style={{
 								fontSize: 15,
 								fontFamily: fonts.regular,
 								marginLeft: 5,
-							}}>
+							}}
+						>
 							Tell a Friend
 						</Text>
 					</View>
 				</OSButton>
 				<OSButton onPress={() => {}} style={{ paddingVertical: 15 }}>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+					<View style={{ flexDirection: "row", alignItems: "center" }}>
 						<Ionicons name={IconNames.exit} size={22} />
 						<Text
 							style={{
 								fontSize: 15,
 								fontFamily: fonts.regular,
 								marginLeft: 5,
-							}}>
+							}}
+						>
 							Sign Out
 						</Text>
 					</View>
@@ -91,16 +94,18 @@ const UserHeader = () => {
 
 	return (
 		<ImageBackground
-			source={require('../../assets/images/bg.png')}
-			style={{ padding: 20, paddingTop: 100, marginTop: -80 }}>
+			source={require("../../assets/images/bg.png")}
+			style={{ padding: 20, paddingTop: 100, marginTop: -80 }}
+		>
 			<UserAvatar user={user} big />
 			<Text
 				style={{
-					color: '#fff',
+					color: "#fff",
 					fontSize: 18,
 					fontFamily: fonts.regular,
 					marginBottom: 5,
-				}}>
+				}}
+			>
 				{user.name}
 			</Text>
 		</ImageBackground>

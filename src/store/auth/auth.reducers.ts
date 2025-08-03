@@ -1,7 +1,7 @@
-import { DummyUsers } from '../../../data/DummyData';
-import { User } from '../../models';
-import * as constants from './auth.constants';
-import { fetchUserData } from './auth.queries';
+import { DummyUsers } from "../../../data/DummyData";
+import type { User } from "../../models";
+import * as constants from "./auth.constants";
+import { fetchUserData } from "./auth.queries";
 
 type StateType = {
 	isLoggedIn: boolean;
@@ -13,13 +13,13 @@ type StateType = {
 const initialState: StateType = {
 	isLoggedIn: false,
 	didTryAutoLogin: false,
-	token: '',
+	token: "",
 	user: fetchUserData(DummyUsers[0].id),
 };
 
 const authReducer = (
 	state: StateType = initialState,
-	{ type, payload }: { type: string; payload: any }
+	{ type, payload }: { type: string; payload: any },
 ) => {
 	switch (type) {
 		case constants.SIGNUP_SUCCESS:
@@ -40,8 +40,8 @@ const authReducer = (
 			return {
 				...state,
 				isLoggedIn: false,
-				token: '',
-				userId: '',
+				token: "",
+				userId: "",
 			};
 		default:
 			return { ...state };

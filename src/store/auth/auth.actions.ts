@@ -1,5 +1,5 @@
-import { User } from '../../models';
-import * as constants from './auth.constants';
+import type { User } from "../../models";
+import * as constants from "./auth.constants";
 
 export const signup = {
 	request: (email: string, password: string) => {
@@ -14,7 +14,7 @@ export const signup = {
 			payload: payload,
 		};
 	},
-	failure: (error: any) => {
+	failure: (error: Error) => {
 		return {
 			type: constants.SIGNUP_FAILURE,
 			payload: error,
@@ -35,7 +35,7 @@ export const login = {
 			payload: payload,
 		};
 	},
-	failure: (error: any) => {
+	failure: (error: unknown) => {
 		return {
 			type: constants.LOGIN_FAILURE,
 			payload: error,
@@ -61,7 +61,7 @@ export const logout = {
 			type: constants.LOGOUT_SUCCESS,
 		};
 	},
-	failure: (error: any) => {
+	failure: (error: unknown) => {
 		return {
 			type: constants.LOGOUT_FAILURE,
 			payload: error,

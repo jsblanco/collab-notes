@@ -1,4 +1,4 @@
-import { Reducer } from 'react';
+import type { Reducer } from "react";
 
 export type RadioInputStateType = {
 	value: string;
@@ -7,8 +7,8 @@ export type RadioInputStateType = {
 };
 
 export enum RadioInputActions {
-	INPUT_CHANGE = 'INPUT_CHANGE',
-	IS_TOUCHED = 'IS_TOUCHED',
+	INPUT_CHANGE = "INPUT_CHANGE",
+	IS_TOUCHED = "IS_TOUCHED",
 }
 export type RadioInputAction =
 	| {

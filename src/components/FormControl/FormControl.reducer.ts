@@ -1,5 +1,9 @@
-import { Reducer } from 'react';
-import { FormControlStateType, FormControlAction, FormControlActions } from './FormControl.types';
+import type { Reducer } from "react";
+import {
+	type FormControlAction,
+	FormControlActions,
+	type FormControlStateType,
+} from "./FormControl.types";
 
 export const formControlReducer: Reducer<
 	FormControlStateType,
@@ -19,7 +23,7 @@ export const formControlReducer: Reducer<
 			};
 		case FormControlActions.FORM_RESET:
 			return {
-				value: '',
+				value: "",
 				isValid: false,
 				isTouched: false,
 			};

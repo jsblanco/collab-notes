@@ -1,6 +1,5 @@
-import * as React from 'react';
-import Svg from 'react-native-svg';
-import { FillableSvgProps } from '..';
+import Svg from "react-native-svg";
+import type { FillableSvgProps } from "..";
 
 export const Person = ({ size, color, fill, style }: FillableSvgProps) => {
 	const width = size ?? 17;
@@ -12,7 +11,8 @@ export const Person = ({ size, color, fill, style }: FillableSvgProps) => {
 			width={width}
 			height={height}
 			fill={color}
-			viewBox="0 0 17 17">
+			viewBox="0 0 17 17"
+		>
 			{fill ? (
 				<path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
 			) : (

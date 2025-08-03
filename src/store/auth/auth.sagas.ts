@@ -1,15 +1,16 @@
+/** biome-ignore-all lint/suspicious/noExplicitAny: <auth implementation is still pending so biome please stop bugging me> */
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
-	takeLatest,
+	type CallEffect,
 	call,
+	type PutEffect,
 	put,
-	CallEffect,
-	PutEffect,
-} from 'redux-saga/effects';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as constants from './auth.constants';
-import { createUserInDb, loginUserFromDb } from './auth.queries';
-import { login, logout, signup } from './auth.actions';
-import { ReduxAction } from '../store';
+	takeLatest,
+} from "redux-saga/effects";
+import type { ReduxAction } from "../store";
+import { login, logout, signup } from "./auth.actions";
+import * as constants from "./auth.constants";
+import { createUserInDb, loginUserFromDb } from "./auth.queries";
 
 function* signupEffect({
 	payload,
@@ -23,16 +24,16 @@ function* signupEffect({
 		yield put(
 			signup.success({
 				token: serverResponse.idToken,
-				userId: serverResponse.localId,
-			})
+				user: serverResponse.localId,
+			}),
 		);
 		const expirationDate = new Date(
-			new Date().getTime() + +serverResponse.expiresIn * 1000
+			Date.now() + +serverResponse.expiresIn * 1000,
 		);
 		saveDataToStorage(
 			serverResponse.idToken,
 			serverResponse.localId,
-			expirationDate
+			expirationDate,
 		);
 	} catch (e) {
 		console.error(e);
@@ -52,16 +53,16 @@ function* loginEffect({
 		yield put(
 			login.success({
 				token: serverResponse.idToken,
-				userId: serverResponse.localId,
-			})
+				user: serverResponse.localId,
+			}),
 		);
 		const expirationDate = new Date(
-			new Date().getTime() + +serverResponse.expiresIn * 1000
+			Date.now() + +serverResponse.expiresIn * 1000,
 		);
 		saveDataToStorage(
 			serverResponse.idToken,
 			serverResponse.localId,
-			expirationDate
+			expirationDate,
 		);
 	} catch (e) {
 		console.error(e);
@@ -71,7 +72,7 @@ function* loginEffect({
 
 function* logoutEffect() {
 	try {
-		console.log('logout');
+		console.log("logout");
 		deleteDataFromStorage();
 		yield put(logout.success());
 	} catch (e) {
@@ -90,16 +91,16 @@ export default authSagas;
 const saveDataToStorage = async (
 	token: string,
 	userId: string,
-	expirationDate: Date
+	expirationDate: Date,
 ) => {
 	try {
 		await AsyncStorage.setItem(
-			'userData',
+			"userData",
 			JSON.stringify({
 				token: token,
 				userId: userId,
 				expirationDate: expirationDate.toISOString(),
-			})
+			}),
 		);
 	} catch (e) {
 		console.error(e);
@@ -108,7 +109,7 @@ const saveDataToStorage = async (
 
 const deleteDataFromStorage = async () => {
 	try {
-		await AsyncStorage.removeItem('userData');
+		await AsyncStorage.removeItem("userData");
 	} catch (e) {
 		console.error(e);
 	}

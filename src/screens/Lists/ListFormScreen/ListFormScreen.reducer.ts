@@ -1,21 +1,20 @@
-import { Reducer } from 'react';
-import { User } from '@app/models';
-import { IconNames } from '@app/ui';
-import { ListIconOptions } from './ListFormScreen.icons';
+import type { User } from "@app/models";
+import type { IconNames } from "@app/ui";
+import type { Reducer } from "react";
+import { ListIconOptions } from "./ListFormScreen.icons";
+
+type ListFormValues = {
+	title: string;
+	description: string;
+	icon: IconNames;
+	users: User[];
+};
+
+type ListFormKeys = keyof ListFormValues;
 
 type ReducerStateType = {
-	inputValues: {
-		title: string;
-		description: string;
-		icon: IconNames;
-		users: User[];
-	};
-	inputValidities: {
-		title: boolean;
-		description: boolean;
-		icon: boolean;
-		users: boolean;
-	};
+	inputValues: ListFormValues;
+	inputValidities: { [k in ListFormKeys]: boolean };
 	formIsValid: boolean;
 };
 
@@ -37,16 +36,18 @@ type ActionsType =
 	  };
 
 export enum Actions {
-	FORM_UPDATE = 'FORM_UPDATE',
-	FORM_RESET = 'FORM_RESET',
-	FORM_ARRAY_UPDATE = 'FORM_ARRAY_UPDATE',
+	FORM_UPDATE = "FORM_UPDATE",
+	FORM_RESET = "FORM_RESET",
+	FORM_ARRAY_UPDATE = "FORM_ARRAY_UPDATE",
 }
 
 export const formReducer: Reducer<ReducerStateType, ActionsType> = (
 	state,
-	a
+	a,
 ) => {
-	let updatedValues, updatedValidities;
+	let updatedValues: ListFormValues;
+	let updatedValidities: ReducerStateType["inputValidities"];
+
 	let updatedFormIsValid = true;
 	switch (a.type) {
 		case Actions.FORM_UPDATE:
@@ -60,8 +61,9 @@ export const formReducer: Reducer<ReducerStateType, ActionsType> = (
 				...state.inputValidities,
 				[a.input]: a.isValid,
 			};
-			for (let key in updatedValidities) {
-				updatedFormIsValid = !!(updatedFormIsValid && updatedValidities[key]);
+			for (const key in updatedValidities) {
+				updatedFormIsValid =
+					updatedFormIsValid && updatedValidities[key as ListFormKeys];
 			}
 			return {
 				...state,
@@ -72,9 +74,11 @@ export const formReducer: Reducer<ReducerStateType, ActionsType> = (
 		case Actions.FORM_RESET:
 			return {
 				inputValues: {
-					title: '',
-					description: '',
-					icon: ListIconOptions[Math.floor(Math.random() * ListIconOptions.length)],
+					title: "",
+					description: "",
+					icon: ListIconOptions[
+						Math.floor(Math.random() * ListIconOptions.length)
+					],
 					users: [],
 				},
 				inputValidities: {

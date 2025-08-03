@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { colors, fonts } from '../constants/constants';
+import { StyleSheet } from "react-native";
+import { colors, fonts } from "../constants/constants";
 
 export default StyleSheet.create({
 	H1: {
@@ -36,7 +36,7 @@ export default StyleSheet.create({
 		marginTop: 10,
 	},
 	Error: {
-		width: '100%',
+		width: "100%",
 		fontSize: 14,
 		lineHeight: 21,
 		borderRadius: 8,
@@ -44,13 +44,13 @@ export default StyleSheet.create({
 		paddingBottom: 4,
 		paddingHorizontal: 8,
 		color: colors.danger,
-		backgroundColor: '#DD363608',
+		backgroundColor: "#DD363608",
 		fontFamily: fonts.regularBold,
 	},
 	Placeholder: {
 		fontSize: 20,
 		lineHeight: 28,
-		color: colors.grey['3'],
+		color: colors.grey["3"],
 		fontFamily: fonts.regularBold,
 	},
 });

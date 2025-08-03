@@ -1,18 +1,18 @@
+import type { List, Task, TaskDto } from "@app/models";
 import {
+	type CallEffect,
 	call,
-	CallEffect,
+	type PutEffect,
 	put,
-	PutEffect,
+	type SelectEffect,
 	select,
-	SelectEffect,
 	takeLatest,
-} from 'redux-saga/effects';
-import { List, Task, TaskDto } from '@app/models';
-import { ReduxAction, RootState } from '../store';
-import { AddListPayload } from './list.types';
-import * as actions from './lists.actions';
-import c from './lists.constants';
-import * as queries from './lists.queries';
+} from "redux-saga/effects";
+import type { ReduxAction, RootState } from "../store";
+import type { AddListPayload } from "./list.types";
+import * as actions from "./lists.actions";
+import c from "./lists.constants";
+import * as queries from "./lists.queries";
 
 const getUserId = (state: RootState): string => state.auth.user.id;
 
@@ -26,7 +26,9 @@ function* fetchListsEffect(): Generator<
 		yield put(actions.fetchAllLists.success(lists));
 	} catch (e) {
 		console.error(e);
-		yield put(actions.fetchAllLists.failure((e as { message: string }).message));
+		yield put(
+			actions.fetchAllLists.failure((e as { message: string }).message),
+		);
 	}
 }
 
@@ -42,7 +44,9 @@ function* fetchListEffect({
 		yield put(actions.fetchSingleList.success(list));
 	} catch (e) {
 		console.error(e);
-		yield put(actions.fetchAllLists.failure((e as { message: string }).message));
+		yield put(
+			actions.fetchAllLists.failure((e as { message: string }).message),
+		);
 	}
 }
 
@@ -102,7 +106,7 @@ function* addListTaskEffect({
 			queries.addTaskToList,
 			payload.listId,
 			payload.task,
-			userId as string
+			userId as string,
 		);
 		yield put(actions.addListTask.success(updatedData as List));
 	} catch (e) {
@@ -122,12 +126,14 @@ function* removeListTaskEffect({
 		const list = yield call(
 			queries.removeListTask,
 			payload.listId,
-			payload.taskId
+			payload.taskId,
 		);
 		yield put(actions.removeListTask.success(list));
 	} catch (e) {
 		console.error(e);
-		yield put(actions.removeListTask.failure((e as { message: string }).message));
+		yield put(
+			actions.removeListTask.failure((e as { message: string }).message),
+		);
 	}
 }
 
@@ -147,13 +153,13 @@ function* toggleTaskCompletionEffect({
 			queries.toggleTaskCompletion,
 			payload.listId,
 			payload.taskId,
-			userId as string
+			userId as string,
 		);
 		yield put(actions.toggleTaskCompletion.success(list as List));
 	} catch (e) {
 		console.error(e);
 		yield put(
-			actions.toggleTaskCompletion.failure((e as { message: string }).message)
+			actions.toggleTaskCompletion.failure((e as { message: string }).message),
 		);
 	}
 }
@@ -169,13 +175,13 @@ function* changeTaskListIndexEffect({
 		const list = yield call(
 			queries.changeTaskOrder,
 			payload.listId,
-			payload.taskOrder
+			payload.taskOrder,
 		);
 		yield put(actions.changeTaskListIndex.success(list));
-	} catch (e: any) {
+	} catch (e: unknown) {
 		console.error(e);
 		yield put(
-			actions.changeTaskListIndex.failure((e as { message: string }).message)
+			actions.changeTaskListIndex.failure((e as { message: string }).message),
 		);
 	}
 }

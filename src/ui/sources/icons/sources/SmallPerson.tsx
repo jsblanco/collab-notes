@@ -1,6 +1,5 @@
-import * as React from 'react';
-import Svg from 'react-native-svg';
-import { SvgPropsType } from '..';
+import Svg from "react-native-svg";
+import type { SvgPropsType } from "..";
 
 export const SmallPerson = ({ size, color, style }: SvgPropsType) => {
 	const width = size ?? 17;
@@ -12,7 +11,8 @@ export const SmallPerson = ({ size, color, style }: SvgPropsType) => {
 			width={width}
 			height={height}
 			fill={color}
-			viewBox="0 0 17 17">
+			viewBox="0 0 17 17"
+		>
 			<path
 				xmlns="http://www.w3.org/2000/svg"
 				d="M8.5 8.5C10.8472 8.5 12.75 6.59721 12.75 4.25C12.75 1.90279 10.8472 0 8.5 0C6.15279 0 4.25 1.90279 4.25 4.25C4.25 6.59721 6.15279 8.5 8.5 8.5ZM11.3333 4.25C11.3333 5.81481 10.0648 7.08333 8.5 7.08333C6.93519 7.08333 5.66667 5.81481 5.66667 4.25C5.66667 2.68519 6.93519 1.41667 8.5 1.41667C10.0648 1.41667 11.3333 2.68519 11.3333 4.25Z"

@@ -1,9 +1,16 @@
-import { ImagePickerAsset } from 'expo-image-picker';
-import { DbList, List, Periodicity, Task, TaskDto, User } from '@app/models';
-import { DbImage } from '@app/models/DbImage.models';
-import { IconNames } from '@app/ui';
-import { DummyLists, DummyTasks, DummyUsers } from '../../../data/DummyData';
-import { fetchUserData } from '../auth/auth.queries';
+import {
+	type DbList,
+	type List,
+	Periodicity,
+	type Task,
+	type TaskDto,
+	type User,
+} from "@app/models";
+import type { DbImage } from "@app/models/DbImage.models";
+import type { IconNames } from "@app/ui";
+import type { ImagePickerAsset } from "expo-image-picker";
+import { DummyLists, DummyTasks, DummyUsers } from "../../../data/DummyData";
+import { fetchUserData } from "../auth/auth.queries";
 
 export const fetchLists = (): List[] => {
 	const preparedLists: List[] = [];
@@ -15,7 +22,7 @@ export const fetchLists = (): List[] => {
 
 export const fetchList = (listId: string): List => {
 	const list = DummyLists.get(listId);
-	if (!list) throw new Error('No such list exists');
+	if (!list) throw new Error("No such list exists");
 
 	return populateListData(list);
 };
@@ -30,10 +37,10 @@ export const addList = (payload: {
 }): List => {
 	const { title, description, icon, users, userId, id } = payload;
 	const originalList = id ? DummyLists.get(id) : null;
-	if (id && !originalList) throw new Error('Could not find list to update');
+	if (id && !originalList) throw new Error("Could not find list to update");
 
 	const list: DbList = {
-		id: new Date().getTime().toString(),
+		id: Date.now().toString(),
 		tasks: new Set<string>(),
 		...originalList,
 		icon,
@@ -57,19 +64,19 @@ export const addList = (payload: {
 				description:
 					"This list is empty. Start adding tasks to it to help you with your day to day! When you're done, delete me or update me for any task you like.",
 			},
-			userId
+			userId,
 		);
 
 	return populateListData(list);
 };
 
-export const deleteList = (listId: string, userId: string): void => {
+export const deleteList = (listId: string): void => {
 	DummyLists.delete(listId);
 };
 
 const populateListData = (list: DbList): List => {
 	const dbList = DummyLists.get(list.id);
-	if (!dbList) throw Error('No such list exists');
+	if (!dbList) throw Error("No such list exists");
 
 	const tasks: Task[] = [];
 
@@ -93,7 +100,8 @@ const populateListData = (list: DbList): List => {
 					? completedTasks.push(task)
 					: automaticallyToggleAsPending(task, pendingTasks);
 			case Periodicity.WEEKLY:
-				return getWeekNumber(now) === getWeekNumber(task.history[0].timestamp) &&
+				return getWeekNumber(now) ===
+					getWeekNumber(task.history[0].timestamp) &&
 					now.getFullYear() === task.history[0].timestamp.getFullYear()
 					? completedTasks.push(task)
 					: automaticallyToggleAsPending(task, pendingTasks);
@@ -102,7 +110,7 @@ const populateListData = (list: DbList): List => {
 					now.getFullYear() === task.history[0].timestamp.getFullYear()
 					? completedTasks.push(task)
 					: automaticallyToggleAsPending(task, pendingTasks);
-			case Periodicity.MANUAL:
+			// case Periodicity.MANUAL:
 			default:
 				return completedTasks.push(task);
 		}
@@ -149,12 +157,12 @@ const getWeekNumber = (date: Date) => {
 export const addTaskToList = (
 	listId: string,
 	task: TaskDto,
-	userId: string
+	userId: string,
 ): List => {
 	const list = fetchList(listId);
 
 	const history = [...task.history];
-	if (task.id === '')
+	if (task.id === "")
 		history.unshift({
 			userId,
 			completed: !!task.isCompleted,
@@ -164,16 +172,18 @@ export const addTaskToList = (
 	const dbTask = {
 		...task,
 		images: [...task.images],
-		id: task.id ?? new Date().getTime().toString(),
+		id: task.id ?? Date.now().toString(),
 		history,
 	};
 
 	const dbList = DummyLists.get(listId);
-	if (!dbList) throw new Error('List not found');
+	if (!dbList) throw new Error("List not found");
 
 	dbList.tasks.add(dbTask.id);
 
-	const oldTaskDbIndex = DummyTasks.findIndex((dbTask) => dbTask.id === task.id);
+	const oldTaskDbIndex = DummyTasks.findIndex(
+		(dbTask) => dbTask.id === task.id,
+	);
 	if (oldTaskDbIndex >= 0) DummyTasks.splice(oldTaskDbIndex, 1);
 	DummyTasks.push(dbTask);
 
@@ -182,7 +192,7 @@ export const addTaskToList = (
 		: list.pendingTasks;
 
 	const oldTaskListIndex = listTaskArray.findIndex(
-		(dbTask) => dbTask.id === task.id
+		(dbTask) => dbTask.id === task.id,
 	);
 
 	oldTaskListIndex < 0
@@ -196,7 +206,8 @@ export const removeListTask = (listId: string, taskId: string): List => {
 	const list = fetchList(listId);
 	const tasks = [...list.completedTasks, ...list.pendingTasks];
 	let taskIndex = tasks.findIndex((task) => task.id === taskId);
-	if (taskIndex === -1) throw new Error('Task does not belong to selected list');
+	if (taskIndex === -1)
+		throw new Error("Task does not belong to selected list");
 
 	tasks.splice(taskIndex, 1);
 	list.completedTasks = tasks.filter((task) => task.isCompleted);
@@ -212,13 +223,14 @@ export const removeListTask = (listId: string, taskId: string): List => {
 export const toggleTaskCompletion = (
 	listId: string,
 	taskId: string,
-	userId: string
+	userId: string,
 ): List => {
 	const list = fetchList(listId);
 
 	const tasks = [...list.pendingTasks, ...list.completedTasks];
 	let taskIndex = tasks.findIndex((task) => task.id === taskId);
-	if (taskIndex === -1) throw new Error('Task does not belong to selected list');
+	if (taskIndex === -1)
+		throw new Error("Task does not belong to selected list");
 	const toggleDate = new Date();
 
 	const updatedtask = {
@@ -236,14 +248,14 @@ export const toggleTaskCompletion = (
 							completed: !tasks[taskIndex].isCompleted,
 						},
 						...tasks[taskIndex].history,
-				  ],
+					],
 	};
 
 	tasks.splice(taskIndex, 1);
 	list.pendingTasks = tasks.filter((task) => !task.isCompleted);
 	list.completedTasks = tasks.filter((task) => task.isCompleted);
 	(updatedtask.isCompleted ? list.completedTasks : list.pendingTasks).push(
-		updatedtask
+		updatedtask,
 	);
 	taskIndex = DummyTasks.findIndex((task) => task.id === taskId);
 	DummyTasks[taskIndex] = updatedtask;
@@ -254,7 +266,7 @@ export const toggleTaskCompletion = (
 export const changeTaskOrder = (listId: string, taskOrder: string[]): List => {
 	const list = fetchList(listId);
 	const dbList = DummyLists.get(listId);
-	if (!dbList || !list) throw new Error('List not found');
+	if (!dbList || !list) throw new Error("List not found");
 
 	const isCompleted = !!DummyTasks.find((task) => task.id === taskOrder[0])
 		?.isCompleted;
@@ -264,9 +276,7 @@ export const changeTaskOrder = (listId: string, taskOrder: string[]): List => {
 		newtasks[i] = DummyTasks.find((task) => task.id === taskOrder[i]);
 	}
 
-	isCompleted
-		? (list.completedTasks = newtasks as Task[])
-		: (list.pendingTasks = newtasks as Task[]);
+	list[isCompleted ? "completedTasks" : "pendingTasks"] = newtasks as Task[];
 
 	dbList.tasks = new Set([
 		...list.pendingTasks.map((e) => e.id),
@@ -277,7 +287,7 @@ export const changeTaskOrder = (listId: string, taskOrder: string[]): List => {
 };
 
 export const uploadImage = (image: ImagePickerAsset): DbImage => {
-	if (!image) throw Error('Could not upload your image');
+	if (!image) throw Error("Could not upload your image");
 
 	return {
 		id: image.uri,

@@ -1,20 +1,19 @@
-import { Reducer } from 'react';
-import { DbImage } from '@app/models/DbImage.models';
-import { Periodicity } from '@app/models';
+import type { Periodicity } from "@app/models";
+import type { DbImage } from "@app/models/DbImage.models";
+import type { Reducer } from "react";
+
+type TaskFormValues = {
+	title: string;
+	description: string;
+	periodicity: Periodicity;
+	images: DbImage[];
+};
+
+export type TaskFormKeys = keyof TaskFormValues;
 
 type ReducerStateType = {
-	inputValues: {
-		title: string;
-		description: string;
-		periodicity: Periodicity;
-		images: DbImage[];
-	};
-	inputValidities: {
-		title: boolean;
-		description: boolean;
-		periodicity: boolean;
-		images: boolean;
-	};
+	inputValues: TaskFormValues;
+	inputValidities: { [K in TaskFormKeys]: boolean };
 	formIsValid: boolean;
 };
 
@@ -25,28 +24,30 @@ type ActionsType =
 	  }
 	| {
 			type: Actions.FORM_UPDATE;
-			value?: string;
 			isValid?: boolean;
-			input: string;
+			input: "title" | "description" | "periodicity";
+			value: string;
 	  }
 	| {
 			type: Actions.FORM_ARRAY_UPDATE;
-			value?: DbImage[];
+			value: DbImage[];
 			isValid?: boolean;
-			input: string;
+			input: "images";
 	  };
 
 export enum Actions {
-	FORM_UPDATE = 'FORM_UPDATE',
-	FORM_ARRAY_UPDATE = 'FORM_ARRAY_UPDATE',
-	FORM_RESET = 'FORM_RESET',
+	FORM_UPDATE = "FORM_UPDATE",
+	FORM_ARRAY_UPDATE = "FORM_ARRAY_UPDATE",
+	FORM_RESET = "FORM_RESET",
 }
 
 export const formReducer: Reducer<ReducerStateType, ActionsType> = (
 	state,
-	a
+	a,
 ) => {
-	let updatedValues, updatedValidities;
+	let updatedValues: TaskFormValues;
+	let updatedValidities: ReducerStateType["inputValidities"];
+
 	let updatedFormIsValid = true;
 	switch (a.type) {
 		case Actions.FORM_UPDATE:
@@ -60,8 +61,10 @@ export const formReducer: Reducer<ReducerStateType, ActionsType> = (
 				...state.inputValidities,
 				[a.input]: a.isValid,
 			};
-			for (let key in updatedValidities) {
-				updatedFormIsValid = !!(updatedFormIsValid && updatedValidities[key]);
+			for (const key in updatedValidities) {
+				updatedFormIsValid =
+					updatedFormIsValid &&
+					updatedValidities[key as keyof ReducerStateType["inputValidities"]];
 			}
 			return {
 				...state,

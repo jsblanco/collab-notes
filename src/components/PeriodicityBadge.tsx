@@ -1,24 +1,23 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { Periodicity } from '@app/models';
-import { colors, fonts, IconNames, shadow, Tooltip } from '@app/ui';
+import { Periodicity } from "@app/models";
+import { colors, fonts, IconNames, shadow, Tooltip } from "@app/ui";
+import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet, Text, View } from "react-native";
 
-// TODO - Rework into some more inctuitive iconography
+// TODO - Rework into some more intuitive iconography
 
 const periodicityIcons = {
-	[Periodicity.DAILY]: 'D',
-	[Periodicity.WEEKLY]: '7',
-	[Periodicity.MONTHLY]: '30',
+	[Periodicity.DAILY]: "D",
+	[Periodicity.WEEKLY]: "7",
+	[Periodicity.MONTHLY]: "30",
 };
 
 const periodicityTooltip = {
-	[Periodicity.DAILY]: 'This task is automatically marked as pending every day',
+	[Periodicity.DAILY]: "This task is automatically marked as pending every day",
 	[Periodicity.WEEKLY]:
-		'This task is automatically marked as pending every week',
+		"This task is automatically marked as pending every week",
 	[Periodicity.MONTHLY]:
-		'This task is automatically marked as pending every month',
-	[Periodicity.MANUAL]: 'This task will not be automatically marked as pending',
+		"This task is automatically marked as pending every month",
+	[Periodicity.MANUAL]: "This task will not be automatically marked as pending",
 };
 
 const PeriodicityBadge = ({
@@ -44,7 +43,8 @@ const PeriodicityBadge = ({
 		<Tooltip
 			borderRadius={20}
 			message={periodicityTooltip[periodicity]}
-			alignLeft={alignLeft}>
+			alignLeft={alignLeft}
+		>
 			{badge}
 		</Tooltip>
 	) : (
@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
 		width: 40,
 		height: 40,
 		borderRadius: 20,
-		alignItems: 'center',
-		justifyContent: 'center',
+		alignItems: "center",
+		justifyContent: "center",
 		zIndex: 2,
 		...shadow,
 	},

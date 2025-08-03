@@ -1,32 +1,36 @@
-import React, { useCallback, useEffect } from 'react';
-import { Alert, StatusBar, StyleSheet, View } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
-import { useDispatch, useSelector } from 'react-redux';
-import { StackScreenProps } from '@react-navigation/stack';
-import CompletionBadge from '@app/components/CompletionBadge';
-import EditDeleteMenu from '@app/components/EditDeleteMenu';
-import ImageGallery from '@app/components/ImageGallery';
-import PeriodicityBadge from '@app/components/PeriodicityBadge';
-import TaskHistoryEntry from '@app/components/TaskHistoryEntry';
-import { List, TaskToggleEvent } from '@app/models';
+import CompletionBadge from "@app/components/CompletionBadge";
+import EditDeleteMenu from "@app/components/EditDeleteMenu";
+import ImageGallery from "@app/components/ImageGallery";
+import PeriodicityBadge from "@app/components/PeriodicityBadge";
+import TaskHistoryEntry from "@app/components/TaskHistoryEntry";
+import type { List, TaskToggleEvent } from "@app/models";
+import { getDrawerListLink } from "@app/router/drawer/DrawerNavigation.types";
 import {
-	getDrawerListLink,
-	ListStackProps,
+	type ListStackProps,
 	ListStackRoutes,
-} from '@app/router/NavigationTypes';
-import { removeListTask, RootState, toggleTaskCompletion } from '@app/store';
+} from "@app/router/stacks/ListStack.types";
+import {
+	type RootState,
+	removeListTask,
+	toggleTaskCompletion,
+} from "@app/store";
 import {
 	Button,
 	Card,
-	colors,
 	Container,
+	colors,
 	DescriptionField,
 	H1,
 	H3,
 	Row,
 	shadow,
 	Text,
-} from '@app/ui';
+} from "@app/ui";
+import type { StackScreenProps } from "@react-navigation/stack";
+import { useCallback, useEffect } from "react";
+import { Alert, StatusBar, StyleSheet, View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import { useDispatch, useSelector } from "react-redux";
 
 type Props = StackScreenProps<ListStackProps, ListStackRoutes.TaskDetails>;
 
@@ -34,21 +38,18 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 	const { listId, taskId } = route.params;
 	const dispatch = useDispatch();
 	const list: List | undefined = useSelector((state: RootState) =>
-		state.lists.lists.find((list) => list.id === listId)
+		state.lists.lists.find((list) => list.id === listId),
 	);
 
-	if (!list)
-		return (
-			<Container>
-				<H1>Error</H1>
-			</Container>
-		);
-
-	const task = [...list.pendingTasks, ...list.completedTasks].find(
-		(task) => task.id === taskId
-	);
+	const task = list
+		? [...list.pendingTasks, ...list.completedTasks].find(
+				(task) => task.id === taskId,
+			)
+		: undefined;
 
 	const renderTaskHistoryItem = ({ item }: { item: TaskToggleEvent }) => {
+		if (!list) return null;
+
 		const index = list.users.findIndex((user) => user.id === item.userId);
 		return (
 			<TaskHistoryEntry
@@ -62,21 +63,21 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 	const onToggleTask = useCallback(() => {
 		if (!task) return;
 		dispatch(toggleTaskCompletion.request(task.listId, task.id));
-	}, [task]);
+	}, [task, dispatch]);
 
 	const onDelete = useCallback(() => {
 		if (!task) return;
 		Alert.alert(
 			`Delete task "${task.title}"`,
-			'Are you sure you want to delete this task from this list for all users?\nThis cannot be undone.',
+			"Are you sure you want to delete this task from this list for all users?\nThis cannot be undone.",
 			[
 				{
-					text: 'Cancel',
+					text: "Cancel",
 					onPress: () => {},
-					style: 'cancel',
+					style: "cancel",
 				},
 				{
-					text: 'Delete',
+					text: "Delete",
 					onPress: () => {
 						//@ts-ignore
 						navigation.navigate(getDrawerListLink(task.listId), {
@@ -87,48 +88,47 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 						});
 						dispatch(removeListTask.request(task.listId, task.id));
 					},
-					style: 'destructive',
+					style: "destructive",
 				},
-			]
+			],
 		);
-	}, [task]);
+	}, [task, dispatch, navigation.navigate]);
 
 	const onEdit = useCallback(() => {
 		if (!task) return;
 		//@ts-ignore
 		navigation.navigate(ListStackRoutes.TaskForm, {
 			listId: task.listId,
-			listTitle: list.title,
+			listTitle: list?.title ?? "Unknown list",
 			taskId: task.id,
 		});
-	}, [navigation]);
+	}, [navigation, list, task]);
 
 	useEffect(
 		() =>
 			navigation.setOptions({
-				title: list.title ?? 'Missing task',
+				title: list?.title ?? "Missing task",
 				headerTintColor: colors.grey[1],
 				headerTitleStyle: {
 					color: colors.grey[1],
 				},
 				headerStyle: {
-					backgroundColor: task?.isCompleted ? colors.completed : colors.pending,
+					backgroundColor: task?.isCompleted
+						? colors.completed
+						: colors.pending,
 				},
 				headerRight: () => (
-					<EditDeleteMenu label={'task'} onDelete={onDelete} onEdit={onEdit} />
+					<EditDeleteMenu label={"task"} onDelete={onDelete} onEdit={onEdit} />
 				),
 			}),
-		[task]
+		[task, list, navigation.setOptions, onDelete, onEdit],
 	);
 
-	if (!task)
-		return (
-			<Container>
-				<H1>Error</H1>
-			</Container>
-		);
-
-	return (
+	return !list || !task ? (
+		<Container>
+			<H1>Error</H1>
+		</Container>
+	) : (
 		<Container>
 			<StatusBar
 				backgroundColor={task?.isCompleted ? colors.completed : colors.pending}
@@ -149,16 +149,27 @@ const TaskDetailsScreen = ({ route, navigation }: Props): JSX.Element => {
 							<DescriptionField style={styles.section}>
 								<Text>{task.description}</Text>
 								<Row alignItems="center">
-									<CompletionBadge completed={!!task.isCompleted} tooltip alignLeft />
+									<CompletionBadge
+										completed={!!task.isCompleted}
+										tooltip
+										alignLeft
+									/>
 									<View style={{ paddingLeft: 10 }}>
-										<PeriodicityBadge periodicity={task.periodicity} tooltip alignLeft />
+										<PeriodicityBadge
+											periodicity={task.periodicity}
+											tooltip
+											alignLeft
+										/>
 									</View>
 								</Row>
 							</DescriptionField>
 							{task.images.length > 0 && <ImageGallery images={task.images} />}
 							<View style={[styles.section]}>
 								{task.isCompleted ? (
-									<Button buttonStyle={styles.yellowText} onPress={onToggleTask}>
+									<Button
+										buttonStyle={styles.yellowText}
+										onPress={onToggleTask}
+									>
 										Mark as pending
 									</Button>
 								) : (
@@ -183,14 +194,14 @@ export default TaskDetailsScreen;
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
-		width: '100%',
+		width: "100%",
 		paddingTop: 10,
 	},
 	contentContainer: {
 		paddingBottom: 50,
 	},
 	title: {
-		textAlign: 'center',
+		textAlign: "center",
 		marginBottom: 0,
 		paddingTop: 10,
 	},
@@ -205,16 +216,16 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.pending,
 	},
 	completionToggleSection: {
-		alignItems: 'center',
+		alignItems: "center",
 	},
 	historyHeader: {
-		backgroundColor: 'white',
+		backgroundColor: "white",
 		borderTopRightRadius: 15,
 		borderTopLeftRadius: 15,
 		paddingTop: 10,
 		marginHorizontal: 10,
 		parginBottom: -1,
-		borderColor: 'white',
+		borderColor: "white",
 		borderBottomWidth: 1,
 		...shadow,
 	},
@@ -224,7 +235,7 @@ const styles = StyleSheet.create({
 	historyFooter: {
 		padding: 10,
 		marginHorizontal: 10,
-		backgroundColor: 'white',
+		backgroundColor: "white",
 		borderBottomRightRadius: 15,
 		borderBottomLeftRadius: 15,
 		...shadow,

@@ -1,22 +1,24 @@
-import { enableScreens } from 'react-native-screens';
-import AppLoading from 'expo-app-loading';
-import { Provider } from 'react-redux';
-import React, { useState } from 'react';
-import { RootNavigation } from './src/router/RootNavigation';
-import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-import { connectActionSheet } from '@expo/react-native-action-sheet';
-import { store } from './src/store/store';
-import * as Font from 'expo-font';
-import { colors, fonts } from './src/ui';
-import { StatusBar } from 'react-native';
+import {
+	ActionSheetProvider,
+	connectActionSheet,
+} from "@expo/react-native-action-sheet";
+import AppLoading from "expo-app-loading";
+import * as Font from "expo-font";
+import { useState } from "react";
+import { StatusBar } from "react-native";
+import { enableScreens } from "react-native-screens";
+import { Provider } from "react-redux";
+import { RootNavigation } from "./src/router/RootNavigation";
+import { store } from "./src/store/store";
+import { colors, fonts } from "./src/ui";
 
 enableScreens();
 const fetchFonts = () =>
 	Font.loadAsync({
-		[fonts.regular]: require('./src/assets/fonts/Poppins-Regular.ttf'),
-		[fonts.regularBold]: require('./src/assets/fonts/Poppins-SemiBold.ttf'),
-		[fonts.regularBlack]: require('./src/assets/fonts/Poppins-Black.ttf'),
-		[fonts.regularThin]: require('./src/assets/fonts/Poppins-Thin.ttf'),
+		[fonts.regular]: require("./src/assets/fonts/Poppins-Regular.ttf"),
+		[fonts.regularBold]: require("./src/assets/fonts/Poppins-SemiBold.ttf"),
+		[fonts.regularBlack]: require("./src/assets/fonts/Poppins-Black.ttf"),
+		[fonts.regularThin]: require("./src/assets/fonts/Poppins-Thin.ttf"),
 	});
 
 const App = () => {
@@ -32,7 +34,7 @@ const App = () => {
 	}
 	return (
 		<Provider store={store}>
-			<StatusBar backgroundColor={colors.background} barStyle='dark-content' />
+			<StatusBar backgroundColor={colors.background} barStyle="dark-content" />
 			<RootNavigation />
 		</Provider>
 	);

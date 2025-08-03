@@ -1,29 +1,29 @@
-import React, {
-	ReactNode,
-	useCallback,
-	useEffect,
-	useReducer,
-	useState,
-} from 'react';
-import { Dimensions, FlatList, Image, StyleSheet, View } from 'react-native';
-import { useActionSheet } from '@expo/react-native-action-sheet';
-import { Ionicons } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker';
-import { DbImage } from '@app/models/DbImage.models';
-import { uploadImage } from '@app/store/lists/lists.queries';
+import type { DbImage } from "@app/models/DbImage.models";
+import { uploadImage } from "@app/store/lists/lists.queries";
 import {
 	CloseButton,
 	colors,
-	Error,
+	ErrorMessage,
 	IconNames,
 	OSButton,
 	shadow,
 	Text,
-} from '@app/ui';
+} from "@app/ui";
+import { useActionSheet } from "@expo/react-native-action-sheet";
+import { Ionicons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
+import {
+	type ReactNode,
+	useCallback,
+	useEffect,
+	useReducer,
+	useState,
+} from "react";
+import { Dimensions, FlatList, Image, StyleSheet, View } from "react-native";
 import {
 	ImageSelectorActions,
 	imageSelectorReducer,
-} from './ImageSelector.reducer';
+} from "./ImageSelector.reducer";
 
 type ImageSelectorPropsType = {
 	label: string | ReactNode;
@@ -36,38 +36,46 @@ type ImageSelectorPropsType = {
 };
 
 export enum ImageSources {
-	CAMERA = 'launchCameraAsync',
-	GALLERY = 'launchImageLibraryAsync',
+	CAMERA = "launchCameraAsync",
+	GALLERY = "launchImageLibraryAsync",
 }
 
 const ImageSelector = (props: ImageSelectorPropsType) => {
-	const { label, inputHandler, inputName, value, isValid, maxAmount, required } =
-		props;
+	const {
+		label,
+		inputHandler,
+		inputName,
+		value,
+		isValid,
+		maxAmount,
+		required,
+	} = props;
 	const { showActionSheetWithOptions } = useActionSheet();
-	const [error, setError] = useState('');
+	const [error, setError] = useState("");
 	const [state, dispatch] = useReducer(imageSelectorReducer, {
 		value: value ? value : [],
 		isValid: required ? isValid : true,
 		isTouched: false,
 	});
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <needed>
 	useEffect(() => {
 		inputHandler(inputName, state.value, state.isValid);
-	}, [inputHandler, state, value]);
+	}, [inputHandler, state, value, inputName]);
 
 	useEffect(() => {
 		if (state.value.length > 0 && value.length === 0) {
 			dispatch({ type: ImageSelectorActions.FORM_RESET });
 		}
-	}, [value]);
+	}, [value, state.value]);
 
 	const getImageHandler = useCallback(
-		async (origin: 'launchCameraAsync' | 'launchImageLibraryAsync') => {
-			setError('');
+		async (origin: "launchCameraAsync" | "launchImageLibraryAsync") => {
+			setError("");
 			if (
 				origin === ImageSources.CAMERA &&
-				(!ImagePicker.getCameraPermissionsAsync() ||
-					!ImagePicker.requestCameraPermissionsAsync())
+				(!(await ImagePicker.getCameraPermissionsAsync()) ||
+					!(await ImagePicker.requestCameraPermissionsAsync()))
 			)
 				return;
 
@@ -79,7 +87,7 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 			if (result.canceled) return;
 
 			const uploadedImage = uploadImage(result.assets[0]);
-			if (!uploadedImage) return setError('Could not upload your image');
+			if (!uploadedImage) return setError("Could not upload your image");
 
 			dispatch({
 				type: ImageSelectorActions.ADD_PICTURE,
@@ -87,16 +95,26 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 				isValid: true,
 			});
 		},
-		[ImagePicker, dispatch]
+		[],
 	);
 
 	const chooseImageOrigin = useCallback(() => {
 		showActionSheetWithOptions(
 			{
-				options: ['Camera', 'Gallery', 'Cancel'],
+				options: ["Camera", "Gallery", "Cancel"],
 				icons: [
-					<Ionicons name={IconNames.camera} color={colors.black} size={20} />,
-					<Ionicons name={IconNames.images} color={colors.black} size={20} />,
+					<Ionicons
+						key={IconNames.camera}
+						name={IconNames.camera}
+						color={colors.black}
+						size={20}
+					/>,
+					<Ionicons
+						key={IconNames.images}
+						name={IconNames.images}
+						color={colors.black}
+						size={20}
+					/>,
 				],
 				cancelButtonIndex: 2,
 			},
@@ -107,9 +125,20 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 					case 1:
 						return getImageHandler(ImageSources.GALLERY);
 				}
-			}
+			},
 		);
 	}, [showActionSheetWithOptions, getImageHandler]);
+
+	const removePicture = useCallback(
+		(id: string) => {
+			dispatch({
+				type: ImageSelectorActions.REMOVE_PICTURE,
+				value: id,
+				isValid: required ? state.value.length > 1 : true,
+			});
+		},
+		[required, state.value.length],
+	);
 
 	const renderItem = useCallback(
 		({ item }: { item: DbImage }) => (
@@ -118,16 +147,8 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 				removePicture={removePicture.bind(this, item.id)}
 			/>
 		),
-		[]
+		[removePicture],
 	);
-
-	const removePicture = (id: string) => {
-		dispatch({
-			type: ImageSelectorActions.REMOVE_PICTURE,
-			value: id,
-			isValid: required ? state.value.length > 1 : true,
-		});
-	};
 
 	return (
 		<>
@@ -139,21 +160,23 @@ const ImageSelector = (props: ImageSelectorPropsType) => {
 				keyExtractor={(value) => value.id}
 				showsHorizontalScrollIndicator={false}
 				ListHeaderComponent={
-					<>
-						{value.length < maxAmount && (
-							<View style={shadow}>
-								<OSButton style={styles.imagePreview} onPress={chooseImageOrigin}>
-									<Ionicons name={IconNames.image} color={colors.grey[3]} size={26} />
-									<Text noPadding style={styles.imagePreviewTitle}>
-										{label}
-									</Text>
-								</OSButton>
-							</View>
-						)}
-					</>
+					value.length < maxAmount ? (
+						<View style={shadow}>
+							<OSButton style={styles.imagePreview} onPress={chooseImageOrigin}>
+								<Ionicons
+									name={IconNames.image}
+									color={colors.grey[3]}
+									size={26}
+								/>
+								<Text noPadding style={styles.imagePreviewTitle}>
+									{label}
+								</Text>
+							</OSButton>
+						</View>
+					) : null
 				}
 			/>
-			{!!error && <Error>{error}</Error>}
+			{!!error && <ErrorMessage>{error}</ErrorMessage>}
 		</>
 	);
 };
@@ -188,21 +211,21 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		marginHorizontal: 5,
 		marginVertical: 10,
-		overflow: 'hidden',
-		alignItems: 'center',
-		position: 'relative',
-		justifyContent: 'center',
-		backgroundColor: 'white',
-		width: Dimensions.get('window').width * ((0.192 / 3) * 4),
-		height: Dimensions.get('window').width * ((0.192 / 3) * 4),
+		overflow: "hidden",
+		alignItems: "center",
+		position: "relative",
+		justifyContent: "center",
+		backgroundColor: "white",
+		width: Dimensions.get("window").width * ((0.192 / 3) * 4),
+		height: Dimensions.get("window").width * ((0.192 / 3) * 4),
 	},
 	imagePreviewTitle: {
 		padding: 5,
-		textAlign: 'center',
+		textAlign: "center",
 		color: colors.grey[3],
 	},
 	image: {
-		width: '100%',
-		height: '100%',
+		width: "100%",
+		height: "100%",
 	},
 });

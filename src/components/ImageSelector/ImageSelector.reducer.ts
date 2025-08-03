@@ -1,10 +1,10 @@
-import { Reducer } from 'react';
-import { DbImage } from '@app/models/DbImage.models';
+import type { DbImage } from "@app/models/DbImage.models";
+import type { Reducer } from "react";
 
 export enum ImageSelectorActions {
-	ADD_PICTURE = 'ADD_PICTURE',
-	REMOVE_PICTURE = 'REMOVE_PICTURE',
-	FORM_RESET = 'FORM_RESET',
+	ADD_PICTURE = "ADD_PICTURE",
+	REMOVE_PICTURE = "REMOVE_PICTURE",
+	FORM_RESET = "FORM_RESET",
 }
 type StateType = { value: DbImage[]; isValid: boolean; isTouched: boolean };
 type ActionType =
@@ -24,9 +24,10 @@ type ActionType =
 
 export const imageSelectorReducer: Reducer<StateType, ActionType> = (
 	state,
-	a
+	a,
 ) => {
-	let updatedValues, updatedValidities;
+	let updatedValues: DbImage[];
+
 	switch (a.type) {
 		case ImageSelectorActions.ADD_PICTURE:
 			updatedValues = [a.value, ...state.value];

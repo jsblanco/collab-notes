@@ -1,4 +1,4 @@
-import { IconNames } from '@app/ui';
+import { IconNames } from "@app/ui";
 
 export const ListIconOptions: IconNames[] = [
 	IconNames.man,

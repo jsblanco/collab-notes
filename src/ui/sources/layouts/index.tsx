@@ -1,37 +1,38 @@
-import React, { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from "react";
 import {
-	FlexAlignType,
+	type FlexAlignType,
 	Platform,
 	Modal as ReactModal,
+	type StyleProp,
 	TouchableOpacity,
 	View,
-	ViewStyle,
-} from 'react-native';
-import { CloseButton } from '../inputs';
-import styles from './Layout.styles';
+	type ViewStyle,
+} from "react-native";
+import { CloseButton } from "../inputs";
+import styles from "./Layout.styles";
 
 type FlexProps = {
 	alignItems?: FlexAlignType;
 	justifyContent?:
-		| 'center'
-		| 'flex-start'
-		| 'flex-end'
-		| 'space-between'
-		| 'space-around'
-		| 'space-evenly';
+		| "center"
+		| "flex-start"
+		| "flex-end"
+		| "space-between"
+		| "space-around"
+		| "space-evenly";
 };
 
 type ContainerType = PropsWithChildren<
 	{
-		pointerEvents?: 'auto' | 'none' | 'box-none';
-		style?: ViewStyle;
+		pointerEvents?: "auto" | "none" | "box-none";
+		style?: StyleProp<ViewStyle>;
 	} & FlexProps
 >;
 
 type RowType = PropsWithChildren<
 	{
-		pointerEvents?: 'auto' | 'none' | 'box-none';
-		style?: ViewStyle;
+		pointerEvents?: "auto" | "none" | "box-none";
+		style?: StyleProp<ViewStyle>;
 	} & FlexProps
 >;
 
@@ -39,9 +40,9 @@ export const Card = ({
 	children,
 	style,
 }: PropsWithChildren<{
-	style?: ViewStyle;
+	style?: StyleProp<ViewStyle>;
 }>) => {
-	return <View style={{ ...styles.card, ...style }}>{children}</View>;
+	return <View style={[styles.card, style]}>{children}</View>;
 };
 
 export const Modal = ({
@@ -51,7 +52,7 @@ export const Modal = ({
 	style,
 }: PropsWithChildren<{
 	visible: boolean;
-	style?: ViewStyle;
+	style?: StyleProp<ViewStyle>;
 	onRequestClose: () => void;
 }>) => {
 	return (
@@ -60,8 +61,9 @@ export const Modal = ({
 			animationType="slide"
 			onRequestClose={onRequestClose}
 			presentationStyle="pageSheet"
-			style={[styles.modalView, style]}>
-			{Platform.OS === 'android' && (
+			style={[styles.modalView, style]}
+		>
+			{Platform.OS === "android" && (
 				<CloseButton
 					top={20}
 					size={32}
@@ -91,7 +93,7 @@ export const DraggableHeader = () => {
 
 export const InlineBlock = ({ children }: PropsWithChildren) => {
 	return (
-		<View style={{ flexDirection: 'row' }}>
+		<View style={{ flexDirection: "row" }}>
 			<View style={styles.inlineBlock} />
 			{children}
 			<View style={styles.inlineBlock} />
@@ -104,19 +106,13 @@ export const Row = ({
 	justifyContent,
 	alignItems,
 	style,
-	pointerEvents = 'auto',
+	pointerEvents = "auto",
 }: RowType) => {
 	return (
 		<View
 			pointerEvents={pointerEvents}
-			style={{
-				...styles.row,
-				...style,
-				...{
-					justifyContent,
-					alignItems,
-				},
-			}}>
+			style={[styles.row, { justifyContent, alignItems }, style]}
+		>
 			{children}
 		</View>
 	);
@@ -126,7 +122,7 @@ export const DescriptionField = ({
 	style,
 	children,
 }: PropsWithChildren<{ style?: ViewStyle }>) => (
-	<View style={{ ...styles.description, ...style }}>{children}</View>
+	<View style={[styles.description, style]}>{children}</View>
 );
 
 export const Container = ({
@@ -134,19 +130,13 @@ export const Container = ({
 	justifyContent,
 	alignItems,
 	style,
-	pointerEvents = 'auto',
+	pointerEvents = "auto",
 }: ContainerType) => {
 	return (
 		<View
 			pointerEvents={pointerEvents}
-			style={{
-				...styles.container,
-				...style,
-				...{
-					justifyContent,
-					alignItems,
-				},
-			}}>
+			style={[styles.container, style, { justifyContent, alignItems }]}
+		>
 			{children}
 		</View>
 	);

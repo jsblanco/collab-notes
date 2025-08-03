@@ -1,0 +1,325 @@
+ at src/components/CompletionBadge.tsx:36:5 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━
+  i Template literals are preferred over string concatenation.
+
+    34 │                        borderRadius={10}
+    35 │                        message={
+  > 36 │                                "This task is " + (completed ? "completed" : "pending completion")
+       │                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    37 │                        }
+    38 │                        alignLeft={alignLeft}
+
+  i Unsafe fix: Use a template literal.
+
+    34 34 │                     borderRadius={10}
+    35 35 │                     message={
+    36    │ - → → → → "This·task·is·"·+·(completed·?·"completed"·:·"pending·completion")
+       36 │ + → → → → `This·task·is·${completed·?·"completed"·:·"pending·completion"}`
+    37 37 │                     }
+    38 38 │                     alignLeft={alignLeft}
+
+ at src/components/ImageSelector/ImageSelector.tsx:163:6 lint/complexity/noUselessFragments  FIXABLE  ━━━━━━━━━━
+  i This fragment is unnecessary.
+
+    161 │                               showsHorizontalScrollIndicator={false}
+    162 │                               ListHeaderComponent={
+  > 163 │                                       <>
+        │                                       ^^
+  > 164 │                                               {value.length < maxAmount && (
+         ...
+  > 180 │                                               )}
+  > 181 │                                       </>
+        │                                       ^^^
+    182 │                               }
+    183 │                       />
+
+  i A fragment is redundant if it contains only one child, or if it is the child of a html element, and is not a keyed fragment.
+
+  i Unsafe fix: Remove the Fragment
+
+    160 160 │                                   keyExtractor={(value) => value.id}
+    161 161 │                                   showsHorizontalScrollIndicator={false}
+    162     │ - → → → → ListHeaderComponent={
+    163     │ - → → → → → <>
+    164     │ - → → → → → → {value.length·<·maxAmount·&&·(
+        162 │ + → → → → ListHeaderComponent={value.length·<·maxAmount·&&·(
+    165 163 │                                                           <View style={shadow}>
+    166 164 │                                                                  <OSButton
+    ······· │
+    178 176 │                                                                  </OSButton>
+    179 177 │                                                           </View>
+    180     │ - → → → → → → )}
+    181     │ - → → → → → </>
+    182     │ - → → → → }
+        178 │ + → → → → → → )}
+    183 179 │                           />
+    184 180 │                           {!!error && <ErrorMessage>{error}</ErrorMessage>}
+
+ at src/components/FormControl/FormControl.tsx:2:8 lint/correctness/noUnusedImports  FIXABLE  ━━━━━━━━━━
+  ! These imports are unused.
+
+    1 │ import { colors, ErrorMessage, fonts, InfoTooltip, Label, Row } from "@app/ui";
+  > 2 │ import React, { useEffect, useReducer, useState } from "react";
+      │        ^^^^^
+    3 │ import { StyleSheet, TextInput, View } from "react-native";
+    4 │ import { formControlReducer } from "./FormControl.reducer";
+
+  i Unused imports might be the result of an incomplete refactoring.
+
+  i Unsafe fix: Remove the unused imports.
+
+    2 │ import·React,·{·useEffect,·useReducer,·useState·}·from·"react";
+      │        -------
+ at src/components/ImageSelector/ImageSelector.tsx:82:25 lint/performance/noDynamicNamespaceImportAccess ━━━━━━━━━━
+  ! Avoid accessing namespace imports dynamically, it can prevent efficient tree shaking and increase bundle size.
+
+    80 │                                return;
+    81 │
+  > 82 │                        const result = await ImagePicker[origin]({
+       │                                             ^^^^^^^^^^^^^^^^^^^
+    83 │                                allowsEditing: true,
+    84 │                                aspect: [1, 1],
+
+  i Prefer static property access or use named imports instead.
+
+ at src/components/ImageSelector/ImageSelector.tsx:15:8 lint/correctness/noUnusedImports  FIXABLE  ━━━━━━━━━━
+  ! These imports are unused.
+
+    13 │ import { Ionicons } from "@expo/vector-icons";
+    14 │ import * as ImagePicker from "expo-image-picker";
+  > 15 │ import React, {
+       │        ^^^^^
+    16 │        type ReactNode,
+    17 │        useCallback,
+
+  i Unused imports might be the result of an incomplete refactoring.
+
+  i Unsafe fix: Remove the unused imports.
+
+    15 │ import·React,·{
+       │        -------
+ at src/components/RadioInput/RadioInput.tsx:2:8 lint/correctness/noUnusedImports  FIXABLE  ━━━━━━━━━━
+  ! These imports are unused.
+
+    1 │ import { colors, InfoTooltip, Label, Row, Text } from "@app/ui";
+  > 2 │ import React, { useEffect, useReducer } from "react";
+      │        ^^^^^
+    3 │ import { Pressable, StyleSheet, View } from "react-native";
+    4 │ import { RadioInputActions, RadioInputReducer } from "./RadioInput.reducer";
+
+  i Unused imports might be the result of an incomplete refactoring.
+
+  i Unsafe fix: Remove the unused imports.
+
+    2 │ import·React,·{·useEffect,·useReducer·}·from·"react";
+      │        -------
+ at src/components/TaskItem.tsx:31:39 lint/suspicious/noExplicitAny ━━━━━━━━━━━━
+  ! Unexpected any. Specify a different type.
+
+    29 │        task: Task;
+    30 │        drag: () => void;
+  > 31 │        itemRefs: React.MutableRefObject<Map<any, any>>;
+       │                                             ^^^
+    32 │ };
+    33 │
+
+  i any disables many type checking rules. Its use should be avoided.
+
+ at src/components/TaskItem.tsx:31:44 lint/suspicious/noExplicitAny ━━━━━━━━━━━━
+  ! Unexpected any. Specify a different type.
+
+    29 │        task: Task;
+    30 │        drag: () => void;
+  > 31 │        itemRefs: React.MutableRefObject<Map<any, any>>;
+       │                                                  ^^^
+    32 │ };
+    33 │
+
+  i any disables many type checking rules. Its use should be avoided.
+
+ at src/components/UserSelector/UserSelector.tsx:15:13 lint/correctness/noUnusedImports  FIXABLE  ━━━━━━━━━━
+  ! This import is unused.
+
+    13 │ } from "@app/ui";
+    14 │ import { Ionicons } from "@expo/vector-icons";
+  > 15 │ import * as ImagePicker from "expo-image-picker";
+       │             ^^^^^^^^^^^
+    16 │ import React, {
+    17 │        type ReactNode,
+
+  i Unused imports might be the result of an incomplete refactoring.
+
+  i Unsafe fix: Remove the unused imports.
+
+     13  13 │   } from "@app/ui";
+     14  14 │   import { Ionicons } from "@expo/vector-icons";
+     15     │ - import·*·as·ImagePicker·from·"expo-image-picker";
+     16  15 │   import React, {
+     17  16 │           type ReactNode,
+
+ at src/components/UserSelector/UserSelector.tsx:16:8 lint/correctness/noUnusedImports  FIXABLE  ━━━━━━━━━━
+  ! These imports are unused.
+
+    14 │ import { Ionicons } from "@expo/vector-icons";
+    15 │ import * as ImagePicker from "expo-image-picker";
+  > 16 │ import React, {
+       │        ^^^^^
+    17 │        type ReactNode,
+    18 │        useCallback,
+
+  i Unused imports might be the result of an incomplete refactoring.
+
+  i Unsafe fix: Remove the unused imports.
+
+    16 │ import·React,·{
+       │        -------
+ at src/components/UserSelector/UserSelector.tsx:54:16 lint/correctness/noUnusedVariables  FIXABLE  ━━━━━━━━━━
+  ! This variable setError is unused.
+
+    52 │                inputHandler,
+    53 │        } = props;
+  > 54 │        const [error, setError] = useState("");
+       │                      ^^^^^^^^
+    55 │        const [modalVisible, setModalVisible] = useState(false);
+    56 │        const [state, dispatch] = useReducer(imageSelectorReducer, {
+
+  i Unused variables are often the result of an incomplete refactoring, typos, or other sources of bugs.
+
+  i Unsafe fix: If this is intentional, prepend setError with an underscore.
+
+     52  52 │                   inputHandler,
+     53  53 │           } = props;
+     54     │ - → const·[error,·setError]·=·useState("");
+         54 │ + → const·[error,·_setError]·=·useState("");
+     55  55 │           const [modalVisible, setModalVisible] = useState(false);
+     56  56 │           const [state, dispatch] = useReducer(imageSelectorReducer, {
+
+ at src/router/stacks/ListStack.tsx:20:38 lint/suspicious/noExplicitAny ━━━━━━━━━━
+  ! Unexpected any. Specify a different type.
+
+    18 │ const Stack = createStackNavigator<ListStackProps>();
+    19 │
+  > 20 │ export function ListStack({ route }: any) {
+       │                                      ^^^
+    21 │        return (
+    22 │                <Stack.Navigator
+
+  i any disables many type checking rules. Its use should be avoided.
+
+ at src/screens/Lists/ListFormScreen/ListFormScreen.tsx:27:8 lint/correctness/noUnusedImports  FIXABLE  ━━━━━━━━━━
+  ! These imports are unused.
+
+    25 │ import { Ionicons } from "@expo/vector-icons";
+    26 │ import type { StackScreenProps } from "@react-navigation/stack";
+  > 27 │ import React, { useCallback, useEffect, useReducer, useState } from "react";
+       │        ^^^^^
+    28 │ import { StyleSheet } from "react-native";
+    29 │ import { FlatList } from "react-native-gesture-handler";
+
+  i Unused imports might be the result of an incomplete refactoring.
+
+  i Unsafe fix: Remove the unused imports.
+
+    27 │ import·React,·{·useCallback,·useEffect,·useReducer,·useState·}·from·"react";
+       │        -------
+ at src/store/auth/auth.actions.ts:17:19 lint/suspicious/noExplicitAny ━━━━━━━━━━
+  ! Unexpected any. Specify a different type.
+
+    15 │                };
+    16 │        },
+  > 17 │        failure: (error: any) => {
+       │                         ^^^
+    18 │                return {
+    19 │                        type: constants.SIGNUP_FAILURE,
+
+  i any disables many type checking rules. Its use should be avoided.
+
+ at src/store/auth/auth.actions.ts:38:19 lint/suspicious/noExplicitAny ━━━━━━━━━━
+  ! Unexpected any. Specify a different type.
+
+    36 │                };
+    37 │        },
+  > 38 │        failure: (error: any) => {
+       │                         ^^^
+    39 │                return {
+    40 │                        type: constants.LOGIN_FAILURE,
+
+  i any disables many type checking rules. Its use should be avoided.
+
+ at src/store/auth/auth.actions.ts:64:19 lint/suspicious/noExplicitAny ━━━━━━━━━━
+  ! Unexpected any. Specify a different type.
+
+    62 │                };
+    63 │        },
+  > 64 │        failure: (error: any) => {
+       │                         ^^^
+    65 │                return {
+    66 │                        type: constants.LOGOUT_FAILURE,
+
+  i any disables many type checking rules. Its use should be avoided.
+
+ at src/store/auth/auth.queries.ts:3:8 lint/correctness/noUnusedImports  FIXABLE  ━━━━━━━━━━
+  ! This import is unused.
+
+    1 │ import type { User } from "@app/models";
+    2 │ import { DummyUsers } from "data/DummyData";
+  > 3 │ import { axiosInstance } from "../api/axios";
+      │        ^^^^^^^^^^^^^^^^^
+    4 │
+    5 │ export const fetchUserData = (userId: string): User => {
+
+  i Unused imports might be the result of an incomplete refactoring.
+
+  i Unsafe fix: Remove the unused imports.
+
+     1  1 │   import type { User } from "@app/models";
+     2  2 │   import { DummyUsers } from "data/DummyData";
+     3    │ - import·{·axiosInstance·}·from·"../api/axios";
+     4  3 │
+     5  4 │   export const fetchUserData = (userId: string): User => {
+
+ at src/store/auth/auth.reducers.ts:22:46 lint/suspicious/noExplicitAny ━━━━━━━━━━
+  ! Unexpected any. Specify a different type.
+
+    20 │ const authReducer = (
+    21 │        state: StateType = initialState,
+  > 22 │        { type, payload }: { type: string; payload: any },
+       │                                                    ^^^
+    23 │ ) => {
+    24 │        switch (type) {
+
+  i any disables many type checking rules. Its use should be avoided.
+
+ at src/screens/Lists/ListFormScreen/ListFormScreen.reducer.ts:49:6 lint/suspicious/noImplicitAnyLet ━━━━━━━━━━
+  × This variable implicitly has the any type.
+
+    47 │        a,
+    48 │ ) => {
+  > 49 │        let updatedValues, updatedValidities;
+       │            ^^^^^^^^^^^^^
+    50 │        let updatedFormIsValid = true;
+    51 │        switch (a.type) {
+
+  i Variable declarations without type annotation and initialization implicitly have the any type. Declare a type or initialize the variable with some value.
+
+ at src/screens/Lists/TaskFormScreen/TaskFormScreen.reducer.ts:49:6 lint/suspicious/noImplicitAnyLet ━━━━━━━━━━
+  × This variable implicitly has the any type.
+
+    47 │        a,
+    48 │ ) => {
+  > 49 │        let updatedValues, updatedValidities;
+       │            ^^^^^^^^^^^^^
+    50 │        let updatedFormIsValid = true;
+    51 │        switch (a.type) {
+
+  i Variable declarations without type annotation and initialization implicitly have the any type. Declare a type or initialize the variable with some value.
+
+Skipped 70 suggested fixes.
+If you wish to apply the suggested (unsafe) fixes, use the command biome check --write --unsafe
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 92.
+Checked 97 files in 27ms. Fixed 10 files.
+Found 38 errors.
+Found 71 warnings.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  × Some errors were emitted while applying fixes.
+

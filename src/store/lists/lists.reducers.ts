@@ -1,17 +1,17 @@
-import { Reducer } from 'redux';
-import { List } from '@app/models';
-import { ListActionsType, StateType } from './list.types';
-import constants from './lists.constants';
+import type { List } from "@app/models";
+import type { Reducer } from "redux";
+import type { ListActionsType, StateType } from "./list.types";
+import constants from "./lists.constants";
 
 const initialState: StateType = {
 	lists: [],
-	error: '',
+	error: "",
 	loading: false,
 };
 
 const listsReducer: Reducer<StateType, ListActionsType> = (
 	state: StateType = initialState,
-	{ type, payload }
+	{ type, payload },
 ) => {
 	let listIndex: number = -1;
 	let updatedLists: List[] = [];
@@ -31,9 +31,8 @@ const listsReducer: Reducer<StateType, ListActionsType> = (
 		case constants.ADD_LIST_SUCCESS:
 			listIndex = state.lists.findIndex((list) => list.id === payload.id);
 			updatedLists = [...state.lists];
-			listIndex > -1
-				? (updatedLists[listIndex] = payload)
-				: updatedLists.push(payload);
+			if (listIndex > -1) updatedLists[listIndex] = payload;
+			else updatedLists.push(payload);
 
 			return {
 				...state,
@@ -63,7 +62,7 @@ const listsReducer: Reducer<StateType, ListActionsType> = (
 		case constants.MODIFY_LIST_REQUEST:
 			return {
 				...state,
-				error: '',
+				error: "",
 				loading: true,
 			};
 		case constants.CHANGE_TASK_ORDER_FAILURE:

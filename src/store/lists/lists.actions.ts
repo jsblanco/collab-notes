@@ -1,6 +1,6 @@
-import { List, TaskDto } from '@app/models';
-import { AddListPayload } from './list.types';
-import constants from './lists.constants';
+import type { List, TaskDto } from "@app/models";
+import type { AddListPayload } from "./list.types";
+import constants from "./lists.constants";
 
 export const fetchSingleList = {
 	request: (listId: string) => {
@@ -15,7 +15,7 @@ export const fetchSingleList = {
 			payload: list,
 		};
 	},
-	failure: (e: any) => {
+	failure: (e: unknown) => {
 		return {
 			type: constants.FETCH_SINGLE_LIST_FAILURE,
 			payload: e,
@@ -35,7 +35,7 @@ export const fetchAllLists = {
 			payload: lists,
 		};
 	},
-	failure: (e: any) => {
+	failure: (e: unknown) => {
 		return {
 			type: constants.FETCH_ALL_LISTS_FAILURE,
 			payload: e,
@@ -55,7 +55,7 @@ export const modifyList = {
 			payload: updatedList,
 		};
 	},
-	failure: (e: any) => {
+	failure: (e: unknown) => {
 		return {
 			type: constants.MODIFY_LIST_FAILURE,
 			payload: e,
@@ -76,7 +76,7 @@ export const addList = {
 			payload,
 		};
 	},
-	failure: (e: any) => {
+	failure: (e: unknown) => {
 		return {
 			type: constants.ADD_LIST_FAILURE,
 			payload: e,
@@ -97,7 +97,7 @@ export const deleteList = {
 			payload: listId,
 		};
 	},
-	failure: (e: any) => {
+	failure: (e: unknown) => {
 		return {
 			type: constants.DELETE_LIST_FAILURE,
 			payload: e,
@@ -118,7 +118,7 @@ export const addListTask = {
 			payload,
 		};
 	},
-	failure: (e: any) => {
+	failure: (e: unknown) => {
 		return {
 			type: constants.ADD_TASK_FAILURE,
 			payload: e,
@@ -139,7 +139,7 @@ export const removeListTask = {
 			payload,
 		};
 	},
-	failure: (e: any) => {
+	failure: (e: unknown) => {
 		return {
 			type: constants.REMOVE_TASK_FAILURE,
 			payload: e,
@@ -160,7 +160,7 @@ export const toggleTaskCompletion = {
 			payload: list,
 		};
 	},
-	failure: (e: any) => {
+	failure: (e: unknown) => {
 		return {
 			type: constants.TOGGLE_TASK_COMPL_FAILURE,
 			payload: e,
@@ -181,7 +181,7 @@ export const changeTaskListIndex = {
 			payload: list,
 		};
 	},
-	failure: (e: any) => {
+	failure: (e: unknown) => {
 		return {
 			type: constants.CHANGE_TASK_ORDER_FAILURE,
 			payload: e,

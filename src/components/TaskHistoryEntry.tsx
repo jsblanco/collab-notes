@@ -1,8 +1,8 @@
-import { StyleSheet, View } from 'react-native';
-import UserAvatar from '@app/components/Avatars/UserAvatar';
-import { TaskToggleEvent, User } from '@app/models';
-import { B, colors, fonts, Row, shadow, Text } from '@app/ui';
-import AppAvatar from './Avatars/AppAvatar';
+import UserAvatar from "@app/components/Avatars/UserAvatar";
+import type { TaskToggleEvent, User } from "@app/models";
+import { B, colors, fonts, Row, shadow, Text } from "@app/ui";
+import { StyleSheet, View } from "react-native";
+import AppAvatar from "./Avatars/AppAvatar";
 
 const TaskHistoryEntry = ({
 	toggleEvent,
@@ -13,7 +13,7 @@ const TaskHistoryEntry = ({
 	user?: User;
 	index: number;
 }) => {
-	const userName = user?.name.split(' ')[0] ?? 'Periodically';
+	const userName = user?.name.split(" ")[0] ?? "Periodically";
 
 	return (
 		<View style={styles.entry}>
@@ -21,7 +21,7 @@ const TaskHistoryEntry = ({
 				{user ? <UserAvatar user={user} i={index} /> : <AppAvatar />}
 				<View style={styles.textView}>
 					<Text noPadding>
-						<B noPadding>{userName}</B> marked this task as{' '}
+						<B noPadding>{userName}</B> marked this task as{" "}
 						{toggleEvent.completed ? (
 							<Text noPadding style={styles.completed}>
 								completed
@@ -33,13 +33,13 @@ const TaskHistoryEntry = ({
 						)}
 					</Text>
 					<Text noPadding style={styles.timestamp}>
-						{new Date(toggleEvent.timestamp).toLocaleDateString('en-GB', {
-							weekday: 'long',
-							month: 'long',
-							year: 'numeric',
-							day: 'numeric',
-							hour: '2-digit',
-							minute: '2-digit',
+						{new Date(toggleEvent.timestamp).toLocaleDateString("en-GB", {
+							weekday: "long",
+							month: "long",
+							year: "numeric",
+							day: "numeric",
+							hour: "2-digit",
+							minute: "2-digit",
 						})}
 					</Text>
 				</View>
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
 		paddingLeft: 10,
 		paddingRight: 30,
 		marginHorizontal: 10,
-		backgroundColor: 'white',
+		backgroundColor: "white",
 		flex: 1,
 		...shadow,
 	},

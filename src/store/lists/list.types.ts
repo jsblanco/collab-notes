@@ -1,7 +1,6 @@
-import { Task } from 'redux-saga';
-import { List, User } from '@app/models';
-import { IconNames } from '@app/ui';
-import constants from './lists.constants';
+import type { List, User } from "@app/models";
+import type { IconNames } from "@app/ui";
+import type constants from "./lists.constants";
 
 export interface AddListPayload {
 	title: string;

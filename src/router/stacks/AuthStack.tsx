@@ -1,12 +1,14 @@
-import React from 'react';
+import {
+	type AuthStackProps,
+	AuthStackRoutes,
+} from "@app/router/stacks/AuthStack.types";
+import AuthScreen from "@app/screens/Auth/AuthScreen";
+import StartupScreen from "@app/screens/Auth/StartupScreen";
 import {
 	CardStyleInterpolators,
 	createStackNavigator,
-} from '@react-navigation/stack';
-import AuthScreen from '@app/screens/Auth/AuthScreen';
-import StartupScreen from '@app/screens/Auth/StartupScreen';
-import { AuthStackProps, AuthStackRoutes } from '../NavigationTypes';
-import styles from '../styles/stack.styles';
+} from "@react-navigation/stack";
+import styles from "../styles/stack.styles";
 
 const Stack = createStackNavigator<AuthStackProps>();
 
@@ -18,13 +20,14 @@ export function AuthStack() {
 			screenOptions={{
 				...styles,
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-			}}>
+			}}
+		>
 			<Stack.Screen name={AuthStackRoutes.Startup} component={StartupScreen} />
 			<Stack.Screen
 				name={AuthStackRoutes.AuthsHome}
 				component={AuthScreen}
 				options={{
-					headerTitle: 'Welcome!',
+					headerTitle: "Welcome!",
 					//     headerLeft: () => (
 					//     <HeaderButtons HeaderButtonComponent={HeaderButton}>
 					//     <Item title={'Menu'} iconName={'ios-menu'}

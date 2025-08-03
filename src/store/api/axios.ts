@@ -1,11 +1,11 @@
-import axios from 'axios';
+import axios from "axios";
 
-const baseUrl = 'xxxxxxxxx';
+const baseUrl = "xxxxxxxxx";
 
 export const axiosInstance = axios.create({
 	baseURL: baseUrl,
 	// @ts-ignore
-	'Content-Type': 'application/json',
+	"Content-Type": "application/json",
 });
 
 axiosInstance.interceptors.response.use(
@@ -14,10 +14,10 @@ axiosInstance.interceptors.response.use(
 	},
 	(error) => {
 		return Promise.reject(error);
-	}
+	},
 );
 
-declare module 'axios' {
+declare module "axios" {
 	export interface AxiosRequestConfig {
 		title?: string;
 	}

@@ -1,57 +1,58 @@
-import React, { PropsWithChildren, ReactNode, useState } from 'react';
+import { Ionicons } from "@expo/vector-icons";
+import { type PropsWithChildren, type ReactNode, useState } from "react";
 import {
 	Platform,
 	Pressable,
 	Switch as ReactSwitch,
-	StyleProp,
+	type StyleProp,
 	TextInput,
-	TextStyle,
+	type TextStyle,
 	TouchableNativeFeedback,
+	type TouchableNativeFeedbackProps,
 	TouchableOpacity,
+	type TouchableOpacityProps,
 	TouchableWithoutFeedback,
 	View,
-	ViewStyle,
-} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { IconNames } from '../constants';
-import { colors, shadow } from '../constants/constants';
-import { SvgPropsType } from '../icons';
-import { B, Text } from '../text';
-import styles from './Inputs.styles';
+	type ViewStyle,
+} from "react-native";
+import { colors, IconNames } from "../constants";
+import type { SvgPropsType } from "../icons";
+import { B, Text } from "../text";
+import styles from "./Inputs.styles";
 
 type SwitchPairing = {
 	label: string;
 	state: boolean;
 	icon?: ReactNode;
-	textStyles?: StyleSheet;
-	viewStyles?: StyleSheet;
+	textStyles?: StyleProp<ViewStyle>;
+	viewStyles?: StyleProp<TextStyle>;
 	onChange: (e: boolean) => void;
 };
 type ButtonPropsType = PropsWithChildren<{
 	fullWidth?: boolean;
 	disabled?: boolean;
-	position?: ViewStyle;
-	textStyle?: TextStyle;
-	buttonStyle?: ViewStyle;
-	onPress: (...args: any[]) => any | void;
+	position?: StyleProp<ViewStyle>;
+	textStyle?: StyleProp<TextStyle>;
+	buttonStyle?: StyleProp<ViewStyle>;
+	onPress: () => void;
 }>;
 type ActionButtonType = {
 	size: number;
 	label: string;
 	Icon: (props: SvgPropsType) => JSX.Element;
-	style?: TextStyle;
-	onPress: (...args: any[]) => any;
+	style?: StyleProp<TextStyle>;
+	onPress: () => void;
 };
 type RoundButtonPropsType = PropsWithChildren<{
 	size?: number;
-	style?: ViewStyle;
-	onPress: (...args: any[]) => any;
-	onLongPress?: (...args: any[]) => any;
+	style?: StyleProp<ViewStyle>;
+	onPress: () => void;
+	onLongPress?: () => void;
 }>;
 type HeaderButtonPropsType = PropsWithChildren<{
-	onPress: (...args: any[]) => any;
+	onPress: () => void;
 	size?: number;
-	style?: ViewStyle;
+	style?: StyleProp<ViewStyle>;
 	leftButton?: boolean;
 }>;
 type CloseButtonProps = {
@@ -61,16 +62,19 @@ type CloseButtonProps = {
 	size?: number;
 };
 
-export const OSButton: any = (
-	props: PropsWithChildren<{
-		style: StyleProp<ViewStyle>;
-		borderRadius?: number;
-	}>
+export const OSButton = (
+	props: PropsWithChildren<
+		{
+			style?: StyleProp<ViewStyle>;
+			borderRadius?: number;
+		} & TouchableNativeFeedbackProps &
+			TouchableOpacityProps
+	>,
 ) => {
 	const { style, borderRadius, ...other } = props;
 
-	return Platform.OS === 'android' && Platform.Version >= 21 ? (
-		<View style={{ borderRadius, overflow: 'hidden' }}>
+	return Platform.OS === "android" && Platform.Version >= 21 ? (
+		<View style={[{ borderRadius, overflow: "hidden" }, style]}>
 			<TouchableNativeFeedback {...other}>
 				<View style={props.style}>{props.children}</View>
 			</TouchableNativeFeedback>
@@ -91,12 +95,12 @@ export const Switch = ({
 	onChange,
 }: SwitchPairing) => {
 	return (
-		<View style={{ ...styles.filterPairing, ...viewStyles }}>
-			<Text style={{ ...styles.filterName, ...textStyles }}>
+		<View style={[styles.filterPairing, viewStyles]}>
+			<Text style={[styles.filterName, textStyles]}>
 				{!!icon && (
 					<Text style={{ marginRight: 20 }}>
 						{icon}
-						{'     '}
+						{"     "}
 					</Text>
 				)}
 				{label}
@@ -104,7 +108,7 @@ export const Switch = ({
 			<ReactSwitch
 				value={state}
 				onValueChange={(newValue) => onChange(newValue)}
-				trackColor={{ true: colors.accent + 60, false: '#d2d2d2' }}
+				trackColor={{ true: colors.accent + 60, false: "#d2d2d2" }}
 				thumbColor={colors.accent}
 			/>
 		</View>
@@ -118,7 +122,7 @@ export const HeaderButton = ({
 	style,
 	leftButton,
 }: HeaderButtonPropsType) => (
-	<View style={leftButton ? { marginLeft: 10 } : { marginRight: 10 }}>
+	<View style={{ [leftButton ? "marginLeft" : "marginRight"]: 10 }}>
 		<RoundButton onPress={onPress} style={style} size={size}>
 			{children}
 		</RoundButton>
@@ -135,12 +139,7 @@ export const Button = ({
 	disabled,
 }: ButtonPropsType) => {
 	return (
-		<View
-			style={{
-				...styles.buttonContainer,
-				...position,
-				...(fullWidth && { flex: 1 }),
-			}}>
+		<View style={[styles.buttonContainer, position, fullWidth && { flex: 1 }]}>
 			<OSButton
 				activeOpacity={0.6}
 				onPress={onPress}
@@ -149,8 +148,9 @@ export const Button = ({
 					styles.buttonView,
 					buttonStyle,
 					!!disabled && styles.disabledButton,
-				]}>
-				<Text style={{ ...styles.buttonText, ...textStyle }}>{children}</Text>
+				]}
+			>
+				<Text style={[styles.buttonText, textStyle]}>{children}</Text>
 			</OSButton>
 		</View>
 	);
@@ -165,24 +165,19 @@ export const FloatingButton = ({
 	children,
 }: ButtonPropsType) => {
 	return (
-		<View
-			style={{
-				...styles.floatingButtonContainerDefaultPosition,
-				...position,
-			}}>
+		<View style={[styles.floatingButtonContainerDefaultPosition, position]}>
 			<View style={styles.floatingButtonContainer}>
 				<OSButton
 					activeOpacity={0.6}
 					onPress={onPress}
 					disabled={disabled}
-					style={{
-						...styles.floatingButtonView,
-						...(disabled && styles.disabledButton),
-						...buttonStyle,
-					}}>
-					<Text style={{ ...styles.floatingButtonText, ...textStyle }}>
-						{children}
-					</Text>
+					style={[
+						styles.floatingButtonView,
+						disabled && styles.disabledButton,
+						buttonStyle,
+					]}
+				>
+					<Text style={[styles.floatingButtonText, textStyle]}>{children}</Text>
 				</OSButton>
 			</View>
 		</View>
@@ -195,8 +190,8 @@ export const ActionButton = ({
 	size,
 	label,
 }: ActionButtonType) => {
-	const [textColor, setTextColor] = useState('#333');
-	const [buttonColor, setButtonColor] = useState(colors.grey['5']);
+	const [textColor, setTextColor] = useState("#333");
+	const [buttonColor, setButtonColor] = useState(colors.grey["5"]);
 
 	const onPressIn = () => {
 		setTextColor(colors.white);
@@ -205,18 +200,20 @@ export const ActionButton = ({
 	};
 
 	const onPressOut = () => {
-		setTextColor('#333');
-		setButtonColor(colors.grey['5']);
+		setTextColor("#333");
+		setButtonColor(colors.grey["5"]);
 	};
 
 	return (
 		<View>
 			<View
-				style={[styles.roundButtonContainer, { backgroundColor: buttonColor }]}>
+				style={[styles.roundButtonContainer, { backgroundColor: buttonColor }]}
+			>
 				<TouchableWithoutFeedback
 					onPressIn={onPressIn}
 					onPressOut={onPressOut}
-					style={[styles.roundButtonContent, { height: size, width: size }]}>
+					style={[styles.roundButtonContent, { height: size, width: size }]}
+				>
 					<Icon size={size / 2.2} color={textColor} />
 				</TouchableWithoutFeedback>
 			</View>
@@ -240,12 +237,10 @@ export const RoundButton = ({
 				onLongPress={onLongPress}
 				style={[
 					styles.roundButtonContent,
-					{
-						...style,
-						height: size ?? 'auto',
-						width: size ?? 'auto',
-					},
-				]}>
+					style,
+					{ height: size ?? "auto", width: size ?? "auto" },
+				]}
+			>
 				{children}
 			</OSButton>
 		</View>
@@ -253,7 +248,7 @@ export const RoundButton = ({
 };
 
 interface InputProps {
-	style?: StyleSheet;
+	style?: StyleProp<ViewStyle>;
 	placeholder: string;
 	onSubmitEditing: (e: string) => void;
 }
@@ -262,7 +257,7 @@ export const Input = (props: InputProps) => (
 	<TextInput
 		{...props}
 		disableFullscreenUI={true}
-		style={{ ...styles.input, ...props.style }}
+		style={[styles.input, props.style]}
 		placeholder={props.placeholder}
 		onSubmitEditing={(event) => props.onSubmitEditing(event.nativeEvent.text)}
 	/>
@@ -277,7 +272,8 @@ export const CloseButton = ({
 	<FloatingButton
 		buttonStyle={styles.closeButton}
 		onPress={onRequestClose}
-		position={{ top, right }}>
+		position={{ top, right }}
+	>
 		<Ionicons size={size} color={colors.grey[3]} name={IconNames.close} />
 	</FloatingButton>
 );
@@ -308,7 +304,11 @@ export const Tooltip = ({
 			{visible && message && (
 				<Pressable
 					onPress={toggleTooltip}
-					style={[styles.tooltipBody, alignLeft && { right: undefined, left: 0 }]}>
+					style={[
+						styles.tooltipBody,
+						alignLeft && { right: undefined, left: 0 },
+					]}
+				>
 					<Text noPadding style={styles.tooltipText}>
 						{message}
 					</Text>

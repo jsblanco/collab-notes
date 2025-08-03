@@ -1,2 +1,2 @@
-export * from './constants'
-export * from './iconNames'
+export * from "./constants";
+export * from "./iconNames";

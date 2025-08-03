@@ -1,7 +1,7 @@
-import { useCallback } from 'react';
-import { useActionSheet } from '@expo/react-native-action-sheet';
-import { Ionicons } from '@expo/vector-icons';
-import { colors, IconNames, OSButton, Row } from '@app/ui';
+import { colors, IconNames, OSButton } from "@app/ui";
+import { useActionSheet } from "@expo/react-native-action-sheet";
+import { Ionicons } from "@expo/vector-icons";
+import { useCallback } from "react";
 
 interface Props {
 	label: string;
@@ -14,11 +14,21 @@ const EditDeleteMenu = ({ label, onDelete, onEdit }: Props) => {
 	const showListOptions = useCallback(() => {
 		showActionSheetWithOptions(
 			{
-				options: [`Edit ${label}`, `Delete ${label}`, 'Cancel'],
+				options: [`Edit ${label}`, `Delete ${label}`, "Cancel"],
 				destructiveButtonIndex: 1,
 				icons: [
-					<Ionicons name={IconNames.create} color={colors.black} size={20} />,
-					<Ionicons name={IconNames.trashBin} color={colors.black} size={20} />,
+					<Ionicons
+						key={1}
+						name={IconNames.create}
+						color={colors.black}
+						size={20}
+					/>,
+					<Ionicons
+						key={2}
+						name={IconNames.trashBin}
+						color={colors.black}
+						size={20}
+					/>,
 				],
 				cancelButtonIndex: 2,
 			},
@@ -31,9 +41,9 @@ const EditDeleteMenu = ({ label, onDelete, onEdit }: Props) => {
 						onDelete();
 						return;
 				}
-			}
+			},
 		);
-	}, [showActionSheetWithOptions]);
+	}, [showActionSheetWithOptions, label, onDelete, onEdit]);
 
 	return (
 		<OSButton onPress={showListOptions}>

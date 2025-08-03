@@ -1,4 +1,4 @@
-import { DbImage } from './DbImage.models';
+import type { DbImage } from "./DbImage.models";
 
 export interface Task extends TaskDto {
 	id: string;
@@ -22,8 +22,8 @@ export interface TaskDto {
 }
 
 export enum Periodicity {
-	MANUAL = '-1',
-	DAILY = '1',
-	WEEKLY = '7',
-	MONTHLY = '30',
+	MANUAL = "-1",
+	DAILY = "1",
+	WEEKLY = "7",
+	MONTHLY = "30",
 }

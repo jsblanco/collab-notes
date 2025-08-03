@@ -1,4 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import type { DbImage } from "@app/models/DbImage.models";
+import { colors, IconNames, Row, shadow } from "@app/ui";
+import { Ionicons } from "@expo/vector-icons";
+import { useCallback, useEffect, useState } from "react";
 import {
 	Animated,
 	Dimensions,
@@ -7,12 +10,9 @@ import {
 	LayoutAnimation,
 	StyleSheet,
 	View,
-	ViewToken,
-} from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
-import { Ionicons } from '@expo/vector-icons';
-import { DbImage } from '@app/models/DbImage.models';
-import { colors, IconNames, Row, shadow } from '@app/ui';
+	type ViewToken,
+} from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 
 const ImageGallery = ({ images }: { images: DbImage[] }) => {
 	const renderItem = useCallback(
@@ -26,15 +26,15 @@ const ImageGallery = ({ images }: { images: DbImage[] }) => {
 				</View>
 			</View>
 		),
-		[]
+		[],
 	);
 
 	const [index, setIndex] = useState(0);
 	const onViewableItemsChanged = useCallback(
 		({ changed }: { changed: ViewToken[] }) => {
-			typeof changed[0].index === 'number' && setIndex(changed[0].index);
+			typeof changed[0].index === "number" && setIndex(changed[0].index);
 		},
-		[]
+		[],
 	);
 
 	return (
@@ -56,12 +56,13 @@ const ImageGallery = ({ images }: { images: DbImage[] }) => {
 				}}
 			/>
 			{images.length > 1 && (
-				<Row style={styles.indicatorsRow} justifyContent={'center'}>
-					{images.map((_, i) => (
+				<Row style={styles.indicatorsRow} justifyContent={"center"}>
+					{images.map((img, i) => (
 						<Indicator
-							key={i}
+							key={img.id}
 							isOpen={
-								i === index || (i === images.length - 1 && index >= images.length)
+								i === index ||
+								(i === images.length - 1 && index >= images.length)
 							}
 						/>
 					))}
@@ -84,7 +85,7 @@ const Indicator = ({ isOpen }: { isOpen: boolean }) => {
 			easing: Easing.bounce,
 			useNativeDriver: false,
 		}).start();
-	}, [isOpen]);
+	}, [isOpen, animatedWidth]);
 
 	return <Animated.View style={[styles.indicator, { width: animatedWidth }]} />;
 };
@@ -96,25 +97,25 @@ const styles = StyleSheet.create({
 		zIndex: 2,
 	},
 	imagePlaceholder: {
-		position: 'absolute',
+		position: "absolute",
 		top: 0,
 		left: 0,
 		right: 0,
 		bottom: 0,
-		justifyContent: 'center',
-		alignItems: 'center',
+		justifyContent: "center",
+		alignItems: "center",
 		zIndex: 1,
 	},
 	imageContainer: {
 		flex: 1,
 		backgroundColor: colors.white,
 		borderRadius: 15,
-		position: 'relative',
+		position: "relative",
 		...shadow,
 	},
 	gallerySlide: {
 		height: 350,
-		width: Dimensions.get('window').width - 20,
+		width: Dimensions.get("window").width - 20,
 		paddingLeft: 30,
 	},
 	galleryContainer: {
@@ -127,13 +128,13 @@ const styles = StyleSheet.create({
 		width: 10,
 		borderRadius: 5,
 		backgroundColor: colors.accent,
-		transition: '0.5s, transform 0,5s',
+		transition: "0.5s, transform 0,5s",
 	},
 	currentIndicator: {
 		width: 25,
 	},
 	indicatorsRow: {
-		flexWrap: 'wrap',
+		flexWrap: "wrap",
 		paddingHorizontal: 20,
 	},
 });

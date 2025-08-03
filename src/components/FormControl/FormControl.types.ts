@@ -1,38 +1,38 @@
 export type AutoComplete =
-	| 'cc-csc'
-	| 'cc-exp'
-	| 'cc-exp-month'
-	| 'cc-exp-year'
-	| 'cc-number'
-	| 'email'
-	| 'name'
-	| 'password'
-	| 'postal-code'
-	| 'street-address'
-	| 'tel'
-	| 'username'
-	| 'off'
+	| "cc-csc"
+	| "cc-exp"
+	| "cc-exp-month"
+	| "cc-exp-year"
+	| "cc-number"
+	| "email"
+	| "name"
+	| "password"
+	| "postal-code"
+	| "street-address"
+	| "tel"
+	| "username"
+	| "off"
 	| undefined;
 export type KeyfolderType =
-	| 'default'
-	| 'email-address'
-	| 'numeric'
-	| 'phone-pad'
-	| 'number-pad'
-	| 'decimal-pad'
-	| 'visible-password'
-	| 'ascii-capable'
-	| 'numbers-and-punctuation'
-	| 'url'
-	| 'name-phone-pad'
-	| 'twitter'
-	| 'web-search'
+	| "default"
+	| "email-address"
+	| "numeric"
+	| "phone-pad"
+	| "number-pad"
+	| "decimal-pad"
+	| "visible-password"
+	| "ascii-capable"
+	| "numbers-and-punctuation"
+	| "url"
+	| "name-phone-pad"
+	| "twitter"
+	| "web-search"
 	| undefined;
 export type AutoCapitalizeType =
-	| 'sentences'
-	| 'none'
-	| 'words'
-	| 'characters'
+	| "sentences"
+	| "none"
+	| "words"
+	| "characters"
 	| undefined;
 export type FormControlType = {
 	value: string;
@@ -65,9 +65,9 @@ export type FormControlStateType = {
 	isTouched: boolean;
 };
 export enum FormControlActions {
-	INPUT_CHANGE = 'INPUT_CHANGE',
-	IS_TOUCHED = 'IS_TOUCHED',
-	FORM_RESET = 'FORM_RESET',
+	INPUT_CHANGE = "INPUT_CHANGE",
+	IS_TOUCHED = "IS_TOUCHED",
+	FORM_RESET = "FORM_RESET",
 }
 export type FormControlAction =
 	| {

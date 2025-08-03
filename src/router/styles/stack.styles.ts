@@ -1,4 +1,4 @@
-import { colors, fonts, shadow } from '../../ui';
+import { colors, fonts, shadow } from "../../ui";
 
 const styles = {
 	headerStyle: {
@@ -8,9 +8,9 @@ const styles = {
 	headerTintColor: colors.white,
 	headerTitleStyle: {
 		color: colors.white,
-		fontWeight: '900',
+		fontWeight: "900",
 		fontFamily: fonts.regularBold,
-		alignSelf: 'center',
+		alignSelf: "center",
 	},
 	headerBackTitleStyle: {
 		fontFamily: fonts.regular,
