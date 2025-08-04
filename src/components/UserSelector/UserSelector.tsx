@@ -66,11 +66,12 @@ const UserSelector = (props: UserSelectorPropsType) => {
 		inputHandler(inputName, state.value, state.isValid);
 	}, [inputHandler, state.value, state.isValid, inputName]);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <needed to ensure form completion>
 	useEffect(() => {
 		if (state.value.length > 0 && value.length === 0) {
 			dispatch({ type: ImageSelectorActions.FORM_RESET });
 		}
-	}, [value, state.value]);
+	}, [value]);
 
 	const onAddUser = useCallback(
 		(user: User) =>
@@ -147,6 +148,7 @@ const UserSelector = (props: UserSelectorPropsType) => {
 				// horizontal
 				numColumns={3}
 				style={styles.flatlist}
+				contentContainerStyle={styles.listContent}
 				columnWrapperStyle={styles.columnWrapper}
 				renderItem={renderSelectedUserAvatars}
 				keyExtractor={(value) => (value as User).id ?? "picker"}
@@ -185,10 +187,12 @@ const styles = StyleSheet.create({
 	flatlist: {
 		width: "100%",
 	},
+	listContent: {
+		margin: 8,
+		gap: 16,
+	},
 	columnWrapper: {
-		gap: 25,
-		paddingVertical: 5,
-		paddingHorizontal: 20,
+		gap: 16,
 	},
 	label: {
 		paddingTop: 20,

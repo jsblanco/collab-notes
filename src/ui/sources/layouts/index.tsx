@@ -32,6 +32,7 @@ type ContainerType = PropsWithChildren<
 
 type RowType = PropsWithChildren<
 	{
+		gap?: number;
 		pointerEvents?: "auto" | "none" | "box-none";
 		style?: StyleProp<ViewStyle>;
 	} & FlexProps
@@ -110,13 +111,14 @@ export const Row = ({
 	children,
 	justifyContent,
 	alignItems,
+	gap,
 	style,
 	pointerEvents = "auto",
 }: RowType) => {
 	return (
 		<View
 			pointerEvents={pointerEvents}
-			style={[styles.row, { justifyContent, alignItems }, style]}
+			style={[styles.row, { justifyContent, alignItems, gap }, style]}
 		>
 			{children}
 		</View>

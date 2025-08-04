@@ -84,10 +84,11 @@ const FormControl = (props: FormControlType) => {
 		inputHandler(inputName, state.value, state.isValid);
 	}, [inputHandler, state, value, error, inputName]);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <needed to ensure form completion>
 	useEffect(() => {
 		if (state.value !== "" && value === "")
 			dispatch({ type: FormControlActions.FORM_RESET });
-	}, [value, state.value]);
+	}, [value]);
 
 	return (
 		<View style={styles.formControl}>

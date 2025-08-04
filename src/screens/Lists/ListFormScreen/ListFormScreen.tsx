@@ -25,7 +25,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import type { StackScreenProps } from "@react-navigation/stack";
 import { useCallback, useEffect, useReducer, useState } from "react";
-import { StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 import { ListIconOptions } from "./ListFormScreen.icons";
@@ -113,12 +113,10 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 
 	const renderIcons = ({ item }: { item: IconNames }) => (
 		<OSButton
-			style={{
-				...styles.iconOptions,
-				...(formState.inputValues.icon === item && {
-					backgroundColor: colors.primary,
-				}),
-			}}
+			style={[
+				styles.iconOptions,
+				formState.inputValues.icon === item && styles.chosenIcon,
+			]}
 			onPress={() => {
 				inputHandler("icon", item, true);
 				setIconModalVisible(!iconModalVisible);
@@ -126,19 +124,19 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 		>
 			<Ionicons
 				name={item}
+				size={32}
 				color={
 					formState.inputValues.icon === item ? colors.white : colors.black
 				}
-				size={32}
 			/>
 		</OSButton>
 	);
 
 	return (
-		<Container style={styles.screen}>
+		<ScrollView style={styles.screen} showsVerticalScrollIndicator={false}>
 			<Card>
-				<Row alignItems={"flex-start"}>
-					<Label style={styles.iconLabel}>Icon</Label>
+				<Row justifyContent={"flex-start"} alignItems={"flex-start"} gap={24}>
+					<Label>Icon</Label>
 					<OSButton
 						style={styles.iconOptions}
 						onPress={() => setIconModalVisible(!iconModalVisible)}
@@ -191,18 +189,18 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 					numColumns={4}
 					data={ListIconOptions}
 					renderItem={renderIcons}
+					columnWrapperStyle={styles.iconGap}
 					keyExtractor={(item) => item}
-					contentContainerStyle={styles.iconsList}
-					ListHeaderComponent={
-						<H2 style={{ marginBottom: 30 }}>Choose an icon for your list</H2>
-					}
+					showsVerticalScrollIndicator={false}
+					contentContainerStyle={[styles.iconsList, styles.iconGap]}
+					ListHeaderComponent={<H2>Choose an icon for your list</H2>}
 				/>
 			</Modal>
-
+			{/*TODO - Fix button position*/}
 			<FloatingButton disabled={!formState.formIsValid} onPress={onSubmit}>
 				{list ? "Update list" : "Create new list"}
 			</FloatingButton>
-		</Container>
+		</ScrollView>
 	);
 };
 
@@ -213,17 +211,22 @@ const styles = StyleSheet.create({
 		flex: 1,
 		card: 10,
 		width: "100%",
+		padding: 16,
 		position: "relative",
 		backgroundColor: "#e2e2e2",
+		paddingBottom: 120,
+	},
+	iconGap: {
+		gap: 16,
 	},
 	iconsList: {
 		alignItems: "center",
-		paddingVertical: 50,
+		paddingVertical: 30,
 	},
 	iconOptions: {
 		padding: 10,
 		card: 10,
-		borderRadius: 5,
+		borderRadius: 25,
 		borderWidth: 1,
 		borderColor: colors.grey[4],
 		backgroundColor: colors.white,
@@ -236,10 +239,7 @@ const styles = StyleSheet.create({
 		shadowRadius: 4,
 		elevation: 10,
 	},
-	iconLabel: {
-		paddingTop: 15,
-		marginRight: 30,
-	},
+
 	chosenIcon: {
 		backgroundColor: colors.primary,
 		borderColor: colors.primary,

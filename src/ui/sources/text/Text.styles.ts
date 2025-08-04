@@ -44,7 +44,6 @@ export default StyleSheet.create({
 		paddingBottom: 4,
 		paddingHorizontal: 8,
 		color: colors.danger,
-		backgroundColor: "#DD363608",
 		fontFamily: fonts.regularBold,
 	},
 	Placeholder: {
