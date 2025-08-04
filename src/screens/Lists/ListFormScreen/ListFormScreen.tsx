@@ -12,7 +12,6 @@ import type {
 import { addList, type RootState } from "@app/store";
 import {
 	Card,
-	Container,
 	colors,
 	FloatingButton,
 	H2,
@@ -25,7 +24,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import type { StackScreenProps } from "@react-navigation/stack";
 import { useCallback, useEffect, useReducer, useState } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 import { ListIconOptions } from "./ListFormScreen.icons";
@@ -133,74 +132,78 @@ const ListFormScreen = ({ route, navigation }: Props): JSX.Element => {
 	);
 
 	return (
-		<ScrollView style={styles.screen} showsVerticalScrollIndicator={false}>
-			<Card>
-				<Row justifyContent={"flex-start"} alignItems={"flex-start"} gap={24}>
-					<Label>Icon</Label>
-					<OSButton
-						style={styles.iconOptions}
-						onPress={() => setIconModalVisible(!iconModalVisible)}
-					>
-						<Ionicons
-							name={formState.inputValues.icon}
-							color={"#000"}
-							size={32}
-						/>
-					</OSButton>
-				</Row>
-				<FormControl
-					label={"Name"}
-					value={formState.inputValues.title}
-					isValid={formState.inputValidities.title}
-					inputName={"title"}
-					placeholder={"List name"}
-					inputHandler={inputHandler}
-					minLength={3}
-					maxLength={30}
-					required
-				/>
-				<FormControl
-					label={"Description"}
-					inputName={"description"}
-					placeholder={"List description"}
-					value={formState.inputValues.description}
-					isValid={formState.inputValidities.description}
-					inputHandler={inputHandler}
-					numberOfLines={4}
-					maxLength={300}
-					multiline
-				/>
-				<UserSelector
-					label={"Friends"}
-					maxAmount={10}
-					inputName={"users"}
-					value={formState.inputValues.users}
-					isValid={formState.inputValidities.users}
-					userList={user.friends}
-					inputHandler={userInputHandler}
-					modalLabel={"Add friends to this list"}
-				/>
-			</Card>
-			<Modal
-				visible={iconModalVisible}
-				onRequestClose={setIconModalVisible.bind(null, !iconModalVisible)}
+		<View style={styles.screen}>
+			<ScrollView
+				style={styles.scrollView}
+				showsVerticalScrollIndicator={false}
 			>
-				<FlatList
-					numColumns={4}
-					data={ListIconOptions}
-					renderItem={renderIcons}
-					columnWrapperStyle={styles.iconGap}
-					keyExtractor={(item) => item}
-					showsVerticalScrollIndicator={false}
-					contentContainerStyle={[styles.iconsList, styles.iconGap]}
-					ListHeaderComponent={<H2>Choose an icon for your list</H2>}
-				/>
-			</Modal>
-			{/*TODO - Fix button position*/}
+				<Card style={styles.form}>
+					<Row justifyContent={"flex-start"} alignItems={"flex-start"} gap={24}>
+						<Label>Icon</Label>
+						<OSButton
+							style={styles.iconOptions}
+							onPress={() => setIconModalVisible(!iconModalVisible)}
+						>
+							<Ionicons
+								name={formState.inputValues.icon}
+								color={"#000"}
+								size={32}
+							/>
+						</OSButton>
+					</Row>
+					<FormControl
+						label={"Name"}
+						value={formState.inputValues.title}
+						isValid={formState.inputValidities.title}
+						inputName={"title"}
+						placeholder={"List name"}
+						inputHandler={inputHandler}
+						minLength={3}
+						maxLength={30}
+						required
+					/>
+					<FormControl
+						label={"Description"}
+						inputName={"description"}
+						placeholder={"List description"}
+						value={formState.inputValues.description}
+						isValid={formState.inputValidities.description}
+						inputHandler={inputHandler}
+						numberOfLines={4}
+						maxLength={300}
+						multiline
+					/>
+					<UserSelector
+						label={"Friends"}
+						maxAmount={10}
+						inputName={"users"}
+						value={formState.inputValues.users}
+						isValid={formState.inputValidities.users}
+						userList={user.friends}
+						inputHandler={userInputHandler}
+						modalLabel={"Add friends to this list"}
+					/>
+				</Card>
+				<Modal
+					visible={iconModalVisible}
+					onRequestClose={setIconModalVisible.bind(null, !iconModalVisible)}
+				>
+					<FlatList
+						numColumns={4}
+						data={ListIconOptions}
+						renderItem={renderIcons}
+						columnWrapperStyle={styles.iconGap}
+						keyExtractor={(item) => item}
+						showsVerticalScrollIndicator={false}
+						contentContainerStyle={[styles.iconsList, styles.iconGap]}
+						ListHeaderComponent={<H2>Choose an icon for your list</H2>}
+					/>
+				</Modal>
+			</ScrollView>
 			<FloatingButton disabled={!formState.formIsValid} onPress={onSubmit}>
 				{list ? "Update list" : "Create new list"}
 			</FloatingButton>
-		</ScrollView>
+		</View>
 	);
 };
 
@@ -209,11 +212,17 @@ export default ListFormScreen;
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
+		position: "relative",
+		backgroundColor: "#e2e2e2",
+	},
+	form: {
+		marginBottom: 140,
+	},
+	scrollView: {
+		flex: 1,
 		card: 10,
 		width: "100%",
 		padding: 16,
-		position: "relative",
-		backgroundColor: "#e2e2e2",
 		paddingBottom: 120,
 	},
 	iconGap: {
